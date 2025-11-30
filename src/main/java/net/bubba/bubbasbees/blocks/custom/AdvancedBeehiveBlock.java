@@ -1,0 +1,168 @@
+package net.bubba.bubbasbees.blocks.custom;
+
+
+import net.bubba.bubbasbees.blockentities.AdvancedBeehiveBlockEntity;
+import net.bubba.bubbasbees.registries.ModBlockEntities;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BeehiveBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.common.ToolActions;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class AdvancedBeehiveBlock extends BeehiveBlock {
+
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+
+    public AdvancedBeehiveBlock(BlockBehaviour.Properties properties){
+        super(properties);
+        this.registerDefaultState(this.
+                stateDefinition.any().setValue(HONEY_LEVEL, 0).setValue(FACING, Direction.NORTH));
+    }
+
+    @Override
+    public @NotNull InteractionResult use(BlockState state, Level level, BlockPos pos, Player player,
+                                          InteractionHand hand, BlockHitResult result) {
+        ItemStack held_Item = player.getItemInHand(hand);
+        int i = (Integer) state.getValue(HONEY_LEVEL);
+        boolean flag = false;
+        if (i>=5){
+            Item item = held_Item.getItem();
+            if (held_Item.canPerformAction(ToolActions.SHEARS_HARVEST)) {
+                level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BEEHIVE_SHEAR, SoundSource.NEUTRAL, 1.0F, 1.0F);
+                dropModHoneycomb(level, pos);
+                held_Item.hurtAndBreak(1, player, (p_49571_) -> {
+                    p_49571_.broadcastBreakEvent(hand);
+                });
+                flag = true;
+                level.gameEvent(player, GameEvent.SHEAR, pos);
+            } else if (held_Item.is(Items.GLASS_BOTTLE)) {
+                held_Item.shrink(1);
+                level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BOTTLE_FILL, SoundSource.NEUTRAL, 1.0F, 1.0F);
+                if (held_Item.isEmpty()) {
+                    player.setItemInHand(hand, new ItemStack(Items.HONEY_BOTTLE, 1));
+                } else if (!player.getInventory().add(1, new ItemStack(Items.HONEY_BOTTLE))) {
+                    player.drop(new ItemStack(Items.HONEY_BOTTLE), false);
+                }
+                flag = true;
+                level.gameEvent(player, GameEvent.FLUID_PICKUP, pos);
+            }
+
+            if (!level.isClientSide() && flag) {
+                player.awardStat(Stats.ITEM_USED.get(item));
+            }
+        }
+
+        if (flag) {
+            if (!CampfireBlock.isSmokeyPos(level, pos) && !player.isCreative()) {
+                if (this.hiveContainsBees(level, pos)) {
+                    this.angerNearbyBees(level, pos);
+                }
+
+                this.releaseBeesAndResetHoneyLevel(level, state, pos, player, BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY);
+            } else {
+                this.resetHoneyLevel(level, state, pos);
+            }
+
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        } else {
+            return super.use(state, level, pos, player, hand, result);
+        }
+    }
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        Direction direction = context.getPlayer() != null &&
+                context.getPlayer().isShiftKeyDown() ?
+                context.getHorizontalDirection() : context.getHorizontalDirection().getOpposite();
+        return this.defaultBlockState().setValue(FACING, direction);
+    }
+
+    private boolean hiveContainsBees(Level level, BlockPos pos) {
+        BlockEntity blockentity = level.getBlockEntity(pos);
+        if (blockentity instanceof BeehiveBlockEntity beehiveblockentity) {
+            return !beehiveblockentity.isEmpty();
+        } else {
+            return false;
+        }
+    }
+    private void angerNearbyBees(Level level, BlockPos pos) {
+        List<Bee> list = level.getEntitiesOfClass(Bee.class, (new AABB(pos)).inflate(8.0, 6.0, 8.0));
+        if (!list.isEmpty()) {
+            List<Player> list1 = level.getEntitiesOfClass(Player.class, (new AABB(pos)).inflate(8.0, 6.0, 8.0));
+            if (list1.isEmpty()) {
+                return;
+            }
+
+            int i = list1.size();
+            Iterator var6 = list.iterator();
+
+            while (var6.hasNext()) {
+                Bee bee = (Bee) var6.next();
+                if (bee.getTarget() == null) {
+                    bee.setTarget((LivingEntity) list1.get(level.random.nextInt(i)));
+                }
+            }
+        }
+
+    }
+    public void dropModHoneycomb(Level level, BlockPos pos) {
+        if (level.getBlockEntity(pos) instanceof AdvancedBeehiveBlockEntity hive) {
+            ArrayList<ItemStack> combList = hive.getHoneycombList();
+            for (ItemStack comb : combList){
+                popResource(level,pos,comb);
+            }
+            combList.clear();
+        }
+    }
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> blockStateBuilder) {
+        blockStateBuilder.add(new Property[]{HONEY_LEVEL, FACING});
+    }
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new AdvancedBeehiveBlockEntity(pos, state);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+            @NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> blockEntityType) {
+        return level.isClientSide ? null : createTickerHelper(
+                blockEntityType, ModBlockEntities.ADVANCED_BEEHIVE.get(), AdvancedBeehiveBlockEntity::serverSideTick);
+    }
+}
+
+

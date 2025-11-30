@@ -1,0 +1,24 @@
+modLoader="javafml"
+loaderVersion="[41,)"
+license="GNU GPLv3"
+
+[[mods]]
+modId="bubbasbees"
+version="1.1"
+displayName="BubbasBees"
+credits="Huge credit to Team Resourceful for inspiration"
+displayURL=""
+authors="bubba_bert"
+logoFile="logo.png"
+description='''Adds Bees, Duh'''
+
+[[dependencies.bubbasbees]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.19,]"
+    ordering="NONE"
+    side="BOTH"
+
+
+
+

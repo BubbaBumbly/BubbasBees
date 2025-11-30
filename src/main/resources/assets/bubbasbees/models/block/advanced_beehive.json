@@ -1,0 +1,10 @@
+{
+  "parent": "bubbasbees:block/orientable_with_bottom",
+  "textures": {
+    "bottom": "bubbasbees:block/advanced_beehive_end",
+    "front": "bubbasbees:block/advanced_beehive_front",
+    "particle": "bubbasbees:block/advanced_beehive_side",
+    "side": "bubbasbees:block/advanced_beehive_side",
+    "top": "bubbasbees:block/advanced_beehive_end"
+  }
+}
