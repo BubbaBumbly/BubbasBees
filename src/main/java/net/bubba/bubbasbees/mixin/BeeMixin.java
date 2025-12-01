@@ -5,6 +5,7 @@ import net.bubba.bubbasbees.entity.custom.BubbasBee;
 import net.bubba.bubbasbees.registries.ModEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -70,10 +71,16 @@ public abstract class BeeMixin extends Animal {
             BlockPos hivePos = this.getHivePos();
             String typeStr = this.getType().toString();
             System.out.println("Type: " + typeStr);
-        if (hivePos != null && !level.isClientSide){
-                System.out.println("HivePos: " + hivePos.toString());
-            } else if (!level.isClientSide){
-                System.out.println("No HivePos\n");
+            if (hivePos != null && !level.isClientSide){
+                    System.out.println("HivePos: " + hivePos.toString());
+                } else if (!level.isClientSide){
+                    System.out.println("No HivePos");
+                }
+            if (this.getType().is(EntityTypeTags.BEEHIVE_INHABITORS)) {
+                System.out.println("I am beehive inhabitor");
+
+            } else {
+                System.out.println("Somehow I am not beehive inhabitor");
             }
         }
         if (itemstack.is(Items.NETHER_STAR) && this.getType() != ModEntityTypes.BUBBAS_BEE.get()) {

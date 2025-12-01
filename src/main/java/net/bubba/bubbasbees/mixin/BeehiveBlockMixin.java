@@ -4,6 +4,7 @@ import net.bubba.bubbasbees.blockentities.AdvancedBeehiveBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -22,6 +23,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(BeehiveBlock.class)
@@ -44,12 +46,23 @@ public abstract class BeehiveBlockMixin extends BaseEntityBlock {
             boolean hasSpace = beehiveBlockEntity.isFull();
             int occupantCount = beehiveBlockEntity.getOccupantCount();
             int honeyLevel = state.getValue(HONEY_LEVEL);
+            List<BeehiveBlockEntity.BeeData> beesInHive = ((BeehiveEntityAccessor) beehiveBlockEntity).getStored();
             System.out.println("This is a: " + blockEntity.toString());
             System.out.println("Hive Empty?: " + String.valueOf(hiveEmpty));
             System.out.println("Has Space?: " + String.valueOf(!hasSpace));
             System.out.println("Occupant Count: " + occupantCount);
             System.out.println("Honey Level: " + honeyLevel);
+            System.out.println();
             cir.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide));
+            if (!beesInHive.isEmpty()) {
+                for (BeehiveBlockEntity.BeeData bee : beesInHive){
+                    System.out.println("Bee: " + bee);
+                    System.out.println("BeeTicksInHive: " + ((BeehiveBeeDataAccessor) bee).getTicksInHive());
+                    System.out.println("BeeMinOccTicks: " + ((BeehiveBeeDataAccessor) bee).getMinOccupationTicks());
+                }
+            } else {
+                System.out.println("No bees STORED in Hive :(");
+            }
         }
         if (blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity &&
                 held_Item.is(Items.STICK) && !level.isClientSide()) {

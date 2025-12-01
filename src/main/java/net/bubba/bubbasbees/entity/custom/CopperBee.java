@@ -28,7 +28,7 @@ import software.bernie.geckolib3.util.GeckoLibUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CopperBee extends BubbasBee{
+public class CopperBee extends BubbasBee {
 
     public CopperBee(EntityType<? extends Bee> bubbasBeeEntityType, Level level) {
         super(bubbasBeeEntityType, level);
@@ -84,7 +84,4 @@ public class CopperBee extends BubbasBee{
     public boolean isFlowerValid(@NotNull BlockPos blockPos) {
         return this.level.isLoaded(blockPos) && ListUtils.withinBlockList(validFlowerList, this.level.getBlockState(blockPos).getBlock());
     }
-
-    /// You already know, you have to make the bee see the copper blocks in its goal as well. need a
-    /// VALID_POLLINATION_BLOCKS Mixin class! --> OR just to override it somehow in the Copper Bee
 }

@@ -165,7 +165,6 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
             nbt.putBoolean("NoGravity", true);
             Direction direction = state.getValue(BeehiveBlock.FACING);
             BlockPos relative = hive.worldPosition.relative(direction);
-
             if (hive.level == null) return false;
             if (!hive.level.getBlockState(relative).getCollisionShape(hive.level, relative).isEmpty() && beehiveState != BeeReleaseStatus.EMERGENCY) {
                 return false;

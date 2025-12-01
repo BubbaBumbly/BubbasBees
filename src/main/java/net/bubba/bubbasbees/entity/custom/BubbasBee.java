@@ -88,7 +88,6 @@ public class BubbasBee extends Bee implements IAnimatable {
         System.out.println("isFlowerValidInvoke --> within BubbasBee Class --> " + "iscopper?: " + output);
         return this.level.getBlockState(blockPos).is(Blocks.COPPER_BLOCK);
     }
-
     ///New DataStruct for BubbasBee
     /*public static class ModBeeData {
         public ArrayList<Item> honeycombItems;

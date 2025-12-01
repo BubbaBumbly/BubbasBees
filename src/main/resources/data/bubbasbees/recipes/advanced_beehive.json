@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#$#",
+    "#*#",
+    "#$#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:honeycomb"
+    },
+    "$": {
+      "item": "minecraft:honey_block"
+    },
+    "*": {
+      "item": "minecraft:beehive"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:advanced_beehive"
+  }
+}
