@@ -7,7 +7,6 @@
   "mixins": [
     "BeeEnterHiveGoalMixin",
     "BeeEntityAccessor",
-    "BeeGoToHiveGoalInvoker",
     "BeehiveBeeDataAccessor",
     "BeehiveBlockMixin",
     "BeehiveEntityAccessor",

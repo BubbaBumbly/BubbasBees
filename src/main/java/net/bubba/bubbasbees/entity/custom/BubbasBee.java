@@ -30,6 +30,7 @@ public class BubbasBee extends Bee implements IAnimatable {
 
     public ArrayList<Block> validFlowerList;
     public ItemStack validHoneycombOutput;
+    public String variant = "none";
 
     public BubbasBee(EntityType<? extends Bee> bubbasBeeEntityType, Level level) {
         super(bubbasBeeEntityType, level);
@@ -38,6 +39,8 @@ public class BubbasBee extends Bee implements IAnimatable {
     public @NotNull EntityType<? extends Bee> getType(){
         return ModEntityTypes.BUBBAS_BEE.get();
     }
+
+    public String getVariant () {return this.variant;}
 
     public ItemStack getHoneycombOutput (){
         return this.validHoneycombOutput;

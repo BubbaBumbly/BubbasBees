@@ -27,7 +27,6 @@ public abstract class BeeEnterHiveGoalMixin {
             "Lnet/minecraft/world/level/Level;getBlockEntity(Lnet/minecraft/core/BlockPos;)" +
                     "Lnet/minecraft/world/level/block/entity/BlockEntity;"), cancellable = true)
     public void canBeeUse(CallbackInfoReturnable<Boolean> callback) {
-        //BlockEntity blockentity = Bee.this.level.getBlockEntity(Bee.this.hivePos);
         BlockEntity blockEntity = this$0.level.getBlockEntity(this$0.getHivePos());
         if ((blockEntity instanceof AdvancedBeehiveBlockEntity advanced_hive)) {
             if (!advanced_hive.isFull()) {
@@ -38,11 +37,12 @@ public abstract class BeeEnterHiveGoalMixin {
             }
         }
     }
-    @Inject(method = "start", at = @At(value = "TAIL"))
+
+    /*@Inject(method = "start", at = @At(value = "TAIL"))
     public void onStart(CallbackInfo ci) {
         BlockEntity blockEntity = this$0.level.getBlockEntity(this$0.getHivePos());
         if (blockEntity instanceof AdvancedBeehiveBlockEntity holder) {
 
         }
-    }
+    }*/
 }

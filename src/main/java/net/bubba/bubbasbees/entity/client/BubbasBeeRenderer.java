@@ -14,6 +14,8 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
+import java.util.Objects;
+
 public class BubbasBeeRenderer extends GeoEntityRenderer<BubbasBee> {
     public BubbasBeeRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new BeeModel());
@@ -22,7 +24,7 @@ public class BubbasBeeRenderer extends GeoEntityRenderer<BubbasBee> {
 
     @Override
     public ResourceLocation getTextureLocation(BubbasBee instance) {
-        if (instance instanceof CopperBee copperBee) {
+        if (Objects.equals(instance.getVariant(), "copper")) {
             return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/copper_bee.png");
         } else {
             return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/diamond_bee.png");

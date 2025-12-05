@@ -8,11 +8,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Bee;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -29,16 +26,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CopperBee extends BubbasBee {
-
     public CopperBee(EntityType<? extends Bee> bubbasBeeEntityType, Level level) {
         super(bubbasBeeEntityType, level);
         this.validFlowerList = new ArrayList<>(List.of(Blocks.COPPER_BLOCK, Blocks.WEATHERED_COPPER,
                 Blocks.EXPOSED_COPPER, Blocks.OXIDIZED_COPPER, Blocks.WAXED_COPPER_BLOCK, Blocks.WAXED_EXPOSED_COPPER,
                 Blocks.WAXED_WEATHERED_COPPER, Blocks.WAXED_OXIDIZED_COPPER));
         this.validHoneycombOutput = (ModItems.COPPER_HONEYCOMB.get().getDefaultInstance());
+        this.variant = "copper";
     }
-    @Override
-    public @NotNull EntityType<? extends Bee> getType() {
+    public @NotNull EntityType<? extends Bee> getType(){
         return ModEntityTypes.COPPER_BEE.get();
     }
     ///Geckolib below

@@ -2,7 +2,9 @@ package net.bubba.bubbasbees.mixin;
 
 import net.bubba.bubbasbees.blockentities.AdvancedBeehiveBlockEntity;
 import net.bubba.bubbasbees.entity.custom.BubbasBee;
+import net.bubba.bubbasbees.entity.custom.CopperBee;
 import net.bubba.bubbasbees.registries.ModEntityTypes;
+import net.bubba.bubbasbees.registries.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.EntityTypeTags;
@@ -76,19 +78,13 @@ public abstract class BeeMixin extends Animal {
                 } else if (!level.isClientSide){
                     System.out.println("No HivePos");
                 }
-            if (this.getType().is(EntityTypeTags.BEEHIVE_INHABITORS)) {
-                System.out.println("I am beehive inhabitor");
-
-            } else {
-                System.out.println("Somehow I am not beehive inhabitor");
-            }
         }
-        if (itemstack.is(Items.NETHER_STAR) && this.getType() != ModEntityTypes.BUBBAS_BEE.get()) {
+        if (itemstack.is(ModItems.COPPER_STAR.get()) && this.getType() != ModEntityTypes.BUBBAS_BEE.get()) {
             if (!player.getAbilities().instabuild) {
                 itemstack.shrink(1);
             }
             if (!this.level.isClientSide) {
-                this.bubbasBees$beeConversion(player);
+                this.bubbasBees$beeConversion(player, itemstack);
             }
 
             return InteractionResult.SUCCESS;
@@ -97,17 +93,14 @@ public abstract class BeeMixin extends Animal {
         }
     }
     @Unique
-    public void bubbasBees$beeConversion(Player player) {
+    public void bubbasBees$beeConversion(Player player, ItemStack itemStack) {
         if (!this.level.isClientSide) {
-            Bee newbie = new BubbasBee(ModEntityTypes.BUBBAS_BEE.get(), this.level);
+            Bee newbie = new CopperBee(ModEntityTypes.COPPER_BEE.get(), this.level);
             newbie.moveTo(this.getX(), this.getY(), this.getZ(),
                     this.random.nextFloat() * 180.0F, this.random.nextFloat()* 180.F);
             this.level.addFreshEntity(newbie);
             this.remove(RemovalReason.DISCARDED);
-            System.out.println("ConversionInvoke!");
-        }
-        else {
-            player.sendSystemMessage(Component.literal("REEE"));
+            //System.out.println("ConversionInvoke!");
         }
     }
     @Inject(at = @At("HEAD"), method = "doesHiveHaveSpace", cancellable = true)
@@ -133,9 +126,9 @@ public abstract class BeeMixin extends Animal {
     /// Goal editing section
     @Inject(method = "registerGoals", at = @At("HEAD"))
     protected void registerGoalsMixin (CallbackInfo ci) {
-        if (this.getType() != ModEntityTypes.BUBBAS_BEE.get()) {
+        if (this.getType() == EntityType.BEE) {
             this.goalSelector.addGoal(3, new TemptGoal(
-                    this, 1.25D, Ingredient.of(Items.NETHER_STAR), false));
+                    this, 1.25D, Ingredient.of(ModItems.COPPER_STAR.get()), false));
         }
     }
     /// End goal editing section

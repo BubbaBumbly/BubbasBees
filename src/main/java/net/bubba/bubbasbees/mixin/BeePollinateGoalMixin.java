@@ -57,22 +57,6 @@ public class BeePollinateGoalMixin {
             bubbasBees$CopperAgingMech(bee);
         }
     }
-    /*@Inject(method = "canBeeUse", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/entity/animal/Bee;" +
-            "access$1600(Lnet/minecraft/world/entity/animal/Bee;)Lnet/minecraft/world/entity/ai/navigation/PathNavigation;", shift = At.Shift.AFTER))
-    public void canBeeUse(CallbackInfoReturnable<Boolean> callback) {
-        if (this$0 instanceof BubbasBee bee){
-
-        }
-    }*/
-    /*@Inject(method = "canBeeUse", at = @At(value = "RETURN", ordinal = 3))
-        public void canBeeUse(CallbackInfoReturnable<Boolean> callback) {
-        if (this$0 instanceof BubbasBee bee){
-            System.out.println("canBeeUse within BeePollinateGoal mixin invoke!");
-            bee.navigation.moveTo((double)bee.savedFlowerPos.getX() + 5,
-                    (double)bee.savedFlowerPos.getY() + 5, (double)bee.savedFlowerPos.getZ() + 5,
-                    1.2000000476837158);
-        }
-    }*/
     @Inject(method = "setWantedPos", at = @At("TAIL"))
     public void setWantedPos (CallbackInfo callbackInfo) {
         if (this$0 instanceof BubbasBee bee) {

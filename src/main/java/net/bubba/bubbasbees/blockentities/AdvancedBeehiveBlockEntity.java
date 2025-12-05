@@ -73,12 +73,11 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         for (Iterator<BeeData> iterator = bees.iterator(); iterator.hasNext(); increaseTicksInHive(beeData, 1)) {
             beeData = iterator.next();
             if (((BeehiveBeeDataAccessor) beeData).getTicksInHive() > ((BeehiveBeeDataAccessor) beeData).getMinOccupationTicks()) {
-                System.out.println("Ticks spent in hive: " + ((BeehiveBeeDataAccessor) beeData).getTicksInHive());
                 BeeReleaseStatus status = ((BeehiveBeeDataAccessor) beeData).getEntityData().getBoolean("HasNectar")
                         ? BeeReleaseStatus.HONEY_DELIVERED : BeeReleaseStatus.BEE_RELEASED;
-                System.out.println("Ready to release!");
                 if(releaseBee(hive, state, beeData, null, status)){
                     iterator.remove();
+                    System.out.println("Ticks spent in hive: " + ((BeehiveBeeDataAccessor) beeData).getTicksInHive());
                 }
             }
         }

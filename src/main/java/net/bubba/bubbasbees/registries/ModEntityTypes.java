@@ -18,7 +18,7 @@ public class ModEntityTypes {
     public static final RegistryObject<EntityType<BubbasBee>> BUBBAS_BEE =
             ENTITY_TYPES.register("bubbas_bee",
                     () -> EntityType.Builder.of(BubbasBee::new, MobCategory.CREATURE)
-                            .sized(0.4f, 1.5f)
+                            .sized(0.5f, 0.5f)
                             .build(new ResourceLocation(BubbasBees.MOD_ID, "bubbas_bee").toString()));
 
     /// SubClassers of Bubba's Bee:
@@ -26,7 +26,7 @@ public class ModEntityTypes {
     public static final RegistryObject<EntityType<CopperBee>> COPPER_BEE =
             ENTITY_TYPES.register("copper_bee",
                     () -> EntityType.Builder.of(CopperBee::new, MobCategory.CREATURE)
-                            .sized(0.4f, 1.5f)
+                            .sized(0.5f, 0.5f)
                             .build(new ResourceLocation(BubbasBees.MOD_ID, "copper_bee").toString()));
     ///
 
