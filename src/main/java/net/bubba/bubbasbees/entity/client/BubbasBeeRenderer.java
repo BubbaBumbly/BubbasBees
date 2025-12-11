@@ -24,10 +24,21 @@ public class BubbasBeeRenderer extends GeoEntityRenderer<BubbasBee> {
 
     @Override
     public ResourceLocation getTextureLocation(BubbasBee instance) {
-        if (Objects.equals(instance.getVariant(), "copper")) {
-            return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/copper_bee.png");
-        } else {
-            return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/diamond_bee.png");
+        switch (instance.getVariant()) {
+            case "copper":
+                if (instance.isAngry()){
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/copper_bee_angry.png");
+                } else {
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/copper_bee.png");
+                }
+            case "none":
+                if (instance.isAngry()){
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/diamond_bee_angry.png");
+                } else {
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/diamond_bee.png");
+                }
+            default:
+                return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/diamond_bee_angry.png");
         }
     }
 

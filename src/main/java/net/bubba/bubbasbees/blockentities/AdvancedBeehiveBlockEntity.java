@@ -5,6 +5,7 @@ import net.bubba.bubbasbees.entity.custom.BubbasBee;
 import net.bubba.bubbasbees.mixin.BeehiveBeeDataAccessor;
 import net.bubba.bubbasbees.mixin.BeehiveEntityAccessor;
 import net.bubba.bubbasbees.registries.ModBlockEntities;
+import net.bubba.bubbasbees.util.MathUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -15,10 +16,7 @@ import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -43,6 +41,8 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     private BlockPos savedFlowerPos;
     private BlockEntityType<?> tileEntityType;
     private ArrayList<ItemStack> honeycombList = Lists.newArrayList();
+    protected boolean isSmoked = false;
+    protected int ticksSmoked = -1;
 
     public AdvancedBeehiveBlockEntity(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state) {
         super(pos, state);
@@ -62,12 +62,19 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
 
 
     public static void serverSideTick(Level level, BlockPos pos, BlockState state, AdvancedBeehiveBlockEntity hive) {
+        if (hive.isSmoked) {
+            if (MathUtils.inRangeInclusive(0,600, hive.ticksSmoked)) {
+                hive.ticksSmoked++;
+            } else {
+                hive.isSmoked = false;
+                hive.ticksSmoked = -1;
+            }
+        }
         tickOccupants(hive, state, hive.getBees());
         DebugPackets.sendHiveInfo(level, pos, state, hive);
     }
 
-    /// this function ticks over every bee within the hive. Every gametick, this is what happens
-    /// to the bees within the hive.
+    /// this function ticks over every bee within the hive.
     private static void tickOccupants(AdvancedBeehiveBlockEntity hive, BlockState state, List<BeeData> bees) {
         BeehiveBlockEntity.BeeData beeData;
         for (Iterator<BeeData> iterator = bees.iterator(); iterator.hasNext(); increaseTicksInHive(beeData, 1)) {
@@ -86,13 +93,14 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     @Override
     public void load(@NotNull CompoundTag nbt) {
         super.load(nbt);
-        if (nbt.contains("ModBeehiveCombList")) honeycombList = getHoneycombs(nbt);
+        if (nbt.contains("ModBeehiveCombList")) this.honeycombList = getHoneycombs(nbt);
+        if (nbt.contains("Smoked")) this.isSmoked = nbt.getBoolean("Smoked");
     }
     @Override
     protected void saveAdditional(@NotNull CompoundTag tag) {
         super.saveAdditional(tag);
-        //tag.put("ModBeehiveCombList", writeCombList());
         if (!honeycombList.isEmpty()) tag.put("ModBeehiveCombList", writeCombList());
+        tag.putBoolean("Smoked", isSmoked);
     }
     public ArrayList<ItemStack> getHoneycombs(CompoundTag nbt) {
         return nbt.getList("ModBeehiveCombList", Tag.TAG_COMPOUND)
@@ -106,6 +114,11 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         for (ItemStack honeycomb : honeycombList) nbtTagList.add(honeycomb.save(new CompoundTag()));
         return nbtTagList;
     }
+    public void setCombList (ArrayList<ItemStack> combList) {
+        this.honeycombList.clear();
+        this.honeycombList = combList;
+    }
+
     /// End Loading/Saving
     private boolean hasSavedFlowerPos() {
         return this.savedFlowerPos != null;
@@ -153,7 +166,8 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
             hive.level.setBlockAndUpdate(hive.worldPosition, hive.getBlockState().setValue(BeehiveBlock.HONEY_LEVEL, honeyLevel));
         }
     }
-
+    /// Various releasing bee methods
+    // Release one bee after enough ticks in hive
     private static boolean releaseBee(AdvancedBeehiveBlockEntity hive, @NotNull BlockState state, @NotNull BeehiveBlockEntity.BeeData tileBee, @Nullable List<Entity> entities, @NotNull BeeReleaseStatus beehiveState) {
         if (shouldStayInHive(hive.level, beehiveState)) {
             return false;
@@ -198,6 +212,29 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     private static void increaseTicksInHive(BeeData beeData, int amount) {
         ((BeehiveBeeDataAccessor) beeData).setTicksInHive(((BeehiveBeeDataAccessor) beeData).getTicksInHive() + amount);
     }
+    // Release all bees and they're pissed
+    @Override
+    public void emptyAllLivingFromHive(@Nullable Player player, @NotNull BlockState state, @NotNull BeeReleaseStatus status) {
+        if (player == null) return;
+        this.releaseAllBees(state, status)
+                .stream()
+                .filter(e -> e.position().distanceToSqr(player.position()) <= 16.0D)
+                .forEach(entity -> {
+                    if (!this.isSedated()) {
+                        if (entity instanceof Mob mob) {
+                            mob.setTarget(player);
+                        }
+                    }
+                });
+    }
+    // Release all bees regularly
+    private List<Entity> releaseAllBees(BlockState state, BeeReleaseStatus status) {
+        List<Entity> list = com.google.common.collect.Lists.newArrayList();
+        getBees().removeIf(beeData -> releaseBee(this, state, beeData, list, status));
+        return list;
+    }
+    /// End release section
+
     public List<BeeData> getBees() {
         return ((BeehiveEntityAccessor) this).getStored();
     }
@@ -212,5 +249,20 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
 
     private AdvancedBeehiveBlock getBlock() {
         return (AdvancedBeehiveBlock) this.getBlockState().getBlock();
+    }
+
+    /// Smoker implementation
+    public void smokeHive() {
+        this.isSmoked = true;
+        ticksSmoked = ticksSmoked == -1 ? 0 : ticksSmoked;
+    }
+
+    public int getTicksSmoked() {
+        return ticksSmoked;
+    }
+
+    @Override
+    public boolean isSedated() {
+        return isSmoked || super.isSedated();
     }
 }

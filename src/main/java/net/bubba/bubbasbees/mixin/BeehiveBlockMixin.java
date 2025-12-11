@@ -68,6 +68,8 @@ public abstract class BeehiveBlockMixin extends BaseEntityBlock {
                 held_Item.is(Items.STICK) && !level.isClientSide()) {
             boolean hiveEmpty = advancedBeehiveBlockEntity.isEmpty();
             boolean hasSpace = advancedBeehiveBlockEntity.isFull();
+            boolean isSmoked = advancedBeehiveBlockEntity.isSedated();
+            int smokedTicks = advancedBeehiveBlockEntity.getTicksSmoked();
             int occupantCount = advancedBeehiveBlockEntity.getOccupantCount();
             int honeyLevel = state.getValue(HONEY_LEVEL);
             List<BeehiveBlockEntity.BeeData> beeList = advancedBeehiveBlockEntity.getBees();
@@ -76,6 +78,11 @@ public abstract class BeehiveBlockMixin extends BaseEntityBlock {
             System.out.println("Has Space?: " + String.valueOf(hasSpace));
             System.out.println("Occupant Count: " + occupantCount);
             System.out.println("Honey Level: " + honeyLevel);
+            if (isSmoked){
+                System.out.println("Ticks smoked: " + smokedTicks);
+            } else {
+                System.out.println("Hive not smoked");
+            }
             if (!advancedBeehiveBlockEntity.getHoneycombList().isEmpty()){
                 System.out.println(advancedBeehiveBlockEntity.getHoneycombList());
             }

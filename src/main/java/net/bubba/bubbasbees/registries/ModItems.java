@@ -4,6 +4,7 @@ import net.bubba.bubbasbees.BubbasBees;
 import net.bubba.bubbasbees.item.ModCreativeModeTab;
 import net.bubba.bubbasbees.item.custom.CopperHoneycombItem;
 import net.bubba.bubbasbees.item.custom.CopperStarItem;
+import net.bubba.bubbasbees.item.custom.SmokerItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -20,6 +21,8 @@ public class ModItems {
             () -> new CopperHoneycombItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
     public static final RegistryObject<Item> COPPER_STAR = ITEMS.register("copper_star",
             () -> new CopperStarItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
+    public static final RegistryObject<Item> SMOKER = ITEMS.register("smoker",
+            () -> new SmokerItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
 
     ///Eggs
     public static final RegistryObject<Item> COPPER_BEE_SPAWN_EGG = ITEMS.register("copper_bee_spawn_egg",

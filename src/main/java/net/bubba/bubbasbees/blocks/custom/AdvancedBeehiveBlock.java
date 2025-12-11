@@ -5,10 +5,12 @@ import net.bubba.bubbasbees.blockentities.AdvancedBeehiveBlockEntity;
 import net.bubba.bubbasbees.registries.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -89,9 +91,11 @@ public class AdvancedBeehiveBlock extends BeehiveBlock {
         if (flag) {
             if (!CampfireBlock.isSmokeyPos(level, pos) && !player.isCreative()) {
                 if (this.hiveContainsBees(level, pos)) {
+                    if (level.getBlockEntity(pos) instanceof AdvancedBeehiveBlockEntity hive){
+                        hive.emptyAllLivingFromHive(player,state, BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY);
+                    }
                     this.angerNearbyBees(level, pos);
                 }
-
                 this.releaseBeesAndResetHoneyLevel(level, state, pos, player, BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY);
             } else {
                 this.resetHoneyLevel(level, state, pos);
@@ -108,6 +112,32 @@ public class AdvancedBeehiveBlock extends BeehiveBlock {
                 context.getPlayer().isShiftKeyDown() ?
                 context.getHorizontalDirection() : context.getHorizontalDirection().getOpposite();
         return this.defaultBlockState().setValue(FACING, direction);
+    }
+    @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state,
+                            LivingEntity placer, ItemStack stack) {
+        if (!level.isClientSide) {
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+            if (blockEntity instanceof AdvancedBeehiveBlockEntity hive) {
+                // 1. Read NBT from the placed item
+                CompoundTag tag = stack.getTagElement("BlockEntityTag");
+                if (tag != null) {
+                    // 2. Copy whatever you care about
+                    if (tag.contains("ModBeehiveCombList")) {
+                        ListTag combListTag = tag.getList("ModBeehiveCombList", Tag.TAG_COMPOUND);
+                        ArrayList<ItemStack> combList = new ArrayList<>();
+                        // Convert each CompoundTag in combListTag back to ItemStack
+                        for (Tag entry : combListTag) {
+                            CompoundTag itemTag = (CompoundTag) entry;
+                            ItemStack comb = ItemStack.of(itemTag);
+                            combList.add(comb);
+                        }
+                        hive.setCombList(combList);
+                    }
+                    hive.setChanged();
+                }
+            }
+        }
     }
 
     private boolean hiveContainsBees(Level level, BlockPos pos) {
@@ -156,7 +186,7 @@ public class AdvancedBeehiveBlock extends BeehiveBlock {
         return new AdvancedBeehiveBlockEntity(pos, state);
     }
 
-    @Nullable
+        @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
             @NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> blockEntityType) {

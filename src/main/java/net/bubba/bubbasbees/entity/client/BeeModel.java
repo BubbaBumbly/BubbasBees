@@ -16,11 +16,32 @@ public class BeeModel extends AnimatedGeoModel<BubbasBee> {
 
     @Override
     public ResourceLocation getTextureResource(BubbasBee instance) {
+        switch (instance.getVariant()) {
+            case "copper":
+                if (instance.isAngry()){
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/copper_bee_angry.png");
+                } else {
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/copper_bee.png");
+                }
+            case "none":
+                if (instance.isAngry()){
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/diamond_bee_angry.png");
+                } else {
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/diamond_bee.png");
+                }
+            default:
+                return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/diamond_bee_angry.png");
+        }
+        /*
         if (Objects.equals(instance.getVariant(), "copper"))  {
-            return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/copper_bee.png");
+            if (instance.isAngry()){
+                return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/copper_bee_angry.png");
+            } else {
+                return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/copper_bee.png");
+            }
         } else {
             return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/diamond_bee.png");
-        }
+        } */
     }
 
     @Override
