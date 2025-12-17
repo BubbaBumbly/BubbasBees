@@ -10,7 +10,7 @@
       "item": "minecraft:copper_block"
     },
     "*": {
-      "item": "minecraft:nether_star"
+      "item": "bubbasbees:bubba_star"
     }
   },
   "result": {

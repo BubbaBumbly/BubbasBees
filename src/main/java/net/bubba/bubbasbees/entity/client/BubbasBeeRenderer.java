@@ -31,6 +31,12 @@ public class BubbasBeeRenderer extends GeoEntityRenderer<BubbasBee> {
                 } else {
                     return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/copper_bee.png");
                 }
+            case "sand":
+                if (instance.isAngry()){
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/sandy_bee_angry.png");
+                } else {
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/sandy_bee.png");
+                }
             case "none":
                 if (instance.isAngry()){
                     return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/diamond_bee_angry.png");

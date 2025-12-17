@@ -10,8 +10,12 @@ import java.util.Objects;
 
 public class BeeModel extends AnimatedGeoModel<BubbasBee> {
     @Override
-    public ResourceLocation getModelResource(BubbasBee object) {
-        return new ResourceLocation(BubbasBees.MOD_ID, "geo/ore.geo.json");
+    public ResourceLocation getModelResource(BubbasBee instance) {
+        if (Objects.equals(instance.getVariant(), "sand")){
+            return new ResourceLocation(BubbasBees.MOD_ID, "geo/base.geo.json");
+        } else {
+            return new ResourceLocation(BubbasBees.MOD_ID, "geo/ore.geo.json");
+        }
     }
 
     @Override
@@ -23,6 +27,12 @@ public class BeeModel extends AnimatedGeoModel<BubbasBee> {
                 } else {
                     return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/copper_bee.png");
                 }
+            case "sand":
+                if (instance.isAngry()){
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/sandy_bee_angry.png");
+                } else {
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/sandy_bee.png");
+                }
             case "none":
                 if (instance.isAngry()){
                     return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/diamond_bee_angry.png");
@@ -32,16 +42,6 @@ public class BeeModel extends AnimatedGeoModel<BubbasBee> {
             default:
                 return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/diamond_bee_angry.png");
         }
-        /*
-        if (Objects.equals(instance.getVariant(), "copper"))  {
-            if (instance.isAngry()){
-                return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/copper_bee_angry.png");
-            } else {
-                return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/copper_bee.png");
-            }
-        } else {
-            return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/diamond_bee.png");
-        } */
     }
 
     @Override

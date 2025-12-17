@@ -1,6 +1,8 @@
 package net.bubba.bubbasbees.entity.custom;
 
 import net.bubba.bubbasbees.registries.ModEntityTypes;
+import net.bubba.bubbasbees.registries.ModItems;
+import net.bubba.bubbasbees.util.ListUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.*;
@@ -31,6 +33,7 @@ public class BubbasBee extends Bee implements IAnimatable {
     public ArrayList<Block> validFlowerList;
     public ItemStack validHoneycombOutput;
     public String variant = "none";
+    public Item conversionItem;
 
     public BubbasBee(EntityType<? extends Bee> bubbasBeeEntityType, Level level) {
         super(bubbasBeeEntityType, level);
@@ -82,25 +85,11 @@ public class BubbasBee extends Bee implements IAnimatable {
     }
 
     public boolean isFood(ItemStack p_27895_) {
-        return p_27895_.is(ItemTags.ANVIL);
+        return false;
     }
 
     @Override
     public boolean isFlowerValid(@NotNull BlockPos blockPos) {
-        boolean output = this.level.getBlockState(blockPos).is(Blocks.COPPER_BLOCK);
-        System.out.println("isFlowerValidInvoke --> within BubbasBee Class --> " + "iscopper?: " + output);
-        return this.level.getBlockState(blockPos).is(Blocks.COPPER_BLOCK);
+        return this.level.isLoaded(blockPos) && ListUtils.withinBlockList(validFlowerList, this.level.getBlockState(blockPos).getBlock());
     }
-    ///New DataStruct for BubbasBee
-    /*public static class ModBeeData {
-        public ArrayList<Item> honeycombItems;
-        public ArrayList<Block> validFlowerBlocks;
-
-        public ModBeeData(ArrayList<Item> items, ArrayList<Block> blocks) {
-            this.honeycombItems = new ArrayList<Item>();
-            honeycombItems.addAll(items);
-            this.validFlowerBlocks = new ArrayList<Block>();
-            validFlowerBlocks.addAll(blocks);
-        }
-    }*/
 }

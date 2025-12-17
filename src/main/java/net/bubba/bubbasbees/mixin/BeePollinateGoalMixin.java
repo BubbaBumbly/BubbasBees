@@ -39,7 +39,7 @@ public class BeePollinateGoalMixin {
 
     @Unique
     public void bubbasBees$BeePollinateGoalMixinActivate() {
-        if (this.this$0 instanceof CopperBee bubbasBee){
+        if (this.this$0 instanceof BubbasBee bubbasBee){
             this.VALID_POLLINATION_BLOCKS = (state) -> {
                 if (state.hasProperty(BlockStateProperties.WATERLOGGED) && (Boolean) state.getValue(BlockStateProperties.WATERLOGGED)) {
                     return false;

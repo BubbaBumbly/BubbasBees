@@ -49,6 +49,7 @@ public class BubbasBees {
         public static void onClientSetup(FMLClientSetupEvent event) {
             EntityRenderers.register(ModEntityTypes.BUBBAS_BEE.get(), BubbasBeeRenderer::new);
             EntityRenderers.register(ModEntityTypes.COPPER_BEE.get(), BubbasBeeRenderer::new);
+            EntityRenderers.register(ModEntityTypes.SANDY_BEE.get(), BubbasBeeRenderer::new);
         }
     }
 }

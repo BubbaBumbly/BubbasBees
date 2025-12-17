@@ -79,7 +79,8 @@ public abstract class BeeMixin extends Animal {
                     System.out.println("No HivePos");
                 }
         }
-        if (itemstack.is(ModItems.COPPER_STAR.get()) && this.getType() != ModEntityTypes.BUBBAS_BEE.get()) {
+        //FIX THIS
+        if (itemstack.is(ModItems.COPPER_CONVERSION_GEM.get()) && this.getType() != ModEntityTypes.BUBBAS_BEE.get()) {
             if (!player.getAbilities().instabuild) {
                 itemstack.shrink(1);
             }
@@ -128,7 +129,7 @@ public abstract class BeeMixin extends Animal {
     protected void registerGoalsMixin (CallbackInfo ci) {
         if (this.getType() == EntityType.BEE) {
             this.goalSelector.addGoal(3, new TemptGoal(
-                    this, 1.25D, Ingredient.of(ModItems.COPPER_STAR.get()), false));
+                    this, 1.25D, Ingredient.of(ModItems.COPPER_CONVERSION_GEM.get()), false));
         }
     }
     /// End goal editing section

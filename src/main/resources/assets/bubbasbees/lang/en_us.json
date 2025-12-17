@@ -2,9 +2,17 @@
   "block.bubbasbees.advanced_beehive": "Advanced Beehive",
 
   "itemGroup.bubbasbeestab": "BubbasBees",
+
   "item.bubbasbees.copper_bee_spawn_egg": "Copper Bee Spawn Egg",
+  "item.bubbasbees.sandy_bee_spawn_egg": "Sandy Bee Spawn Egg",
+
   "item.bubbasbees.copper_honeycomb": "Copper Honeycomb",
-  "item.bubbasbees.copper_star": "Copper Star",
+  "item.bubbasbees.sandy_honeycomb": "Sandy Honeycomb",
+
+  "item.bubbasbees.bubba_star": "Bubba Star",
+  "item.bubbasbees.copper_conversion_gem": "Copper Conversion Gem",
+  "item.bubbasbees.sandy_conversion_gem": "Sandy Conversion Gem",
+
   "item.bubbasbees.smoker": "Smoker"
 
 

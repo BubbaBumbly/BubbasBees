@@ -2,8 +2,8 @@ package net.bubba.bubbasbees.item.custom;
 
 import net.minecraft.world.item.Item;
 
-public class CopperStarItem extends Item {
-    public CopperStarItem (Properties properties) {
+public class CopperConversionGemItem extends Item {
+    public CopperConversionGemItem(Properties properties) {
         super(properties);
     }
 }

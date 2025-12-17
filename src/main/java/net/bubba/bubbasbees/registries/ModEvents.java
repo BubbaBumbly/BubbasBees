@@ -16,6 +16,7 @@ public class ModEvents {
             public static void entityAttributeEvent(EntityAttributeCreationEvent event) {
                 event.put(ModEntityTypes.BUBBAS_BEE.get(), BubbasBee.setAttributes());
                 event.put(ModEntityTypes.COPPER_BEE.get(), CopperBee.setAttributes());
+                event.put(ModEntityTypes.SANDY_BEE.get(), CopperBee.setAttributes());
             }
         }
     }

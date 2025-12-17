@@ -3,6 +3,7 @@ package net.bubba.bubbasbees.registries;
 import net.bubba.bubbasbees.BubbasBees;
 import net.bubba.bubbasbees.entity.custom.CopperBee;
 import net.bubba.bubbasbees.entity.custom.BubbasBee;
+import net.bubba.bubbasbees.entity.custom.SandyBee;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -28,6 +29,12 @@ public class ModEntityTypes {
                     () -> EntityType.Builder.of(CopperBee::new, MobCategory.CREATURE)
                             .sized(0.5f, 0.5f)
                             .build(new ResourceLocation(BubbasBees.MOD_ID, "copper_bee").toString()));
+    public static final RegistryObject<EntityType<SandyBee>> SANDY_BEE =
+            ENTITY_TYPES.register("sandy_bee",
+                    () -> EntityType.Builder.of(SandyBee::new, MobCategory.CREATURE)
+                            .sized(0.5f, 0.5f)
+                            .build(new ResourceLocation(BubbasBees.MOD_ID, "sandy_bee").toString()));
+
     ///
 
     /// End SubClassers of Bubba's Bee.

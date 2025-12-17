@@ -2,13 +2,10 @@ package net.bubba.bubbasbees.entity.custom;
 
 import net.bubba.bubbasbees.registries.ModEntityTypes;
 import net.bubba.bubbasbees.registries.ModItems;
-import net.bubba.bubbasbees.util.ListUtils;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Bee;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +30,7 @@ public class CopperBee extends BubbasBee {
                 Blocks.WAXED_WEATHERED_COPPER, Blocks.WAXED_OXIDIZED_COPPER));
         this.validHoneycombOutput = (ModItems.COPPER_HONEYCOMB.get().getDefaultInstance());
         this.variant = "copper";
+        this.conversionItem = ModItems.COPPER_CONVERSION_GEM.get();
     }
     public @NotNull EntityType<? extends Bee> getType(){
         return ModEntityTypes.COPPER_BEE.get();
@@ -71,13 +69,5 @@ public class CopperBee extends BubbasBee {
                 .add(Attributes.MOVEMENT_SPEED, (double)0.3F)
                 .add(Attributes.ATTACK_DAMAGE, 2.0D)
                 .add(Attributes.FOLLOW_RANGE, 48.0D).build();
-    }
-    @Override
-    public boolean isFood(ItemStack p_27895_) {
-        return false;
-    }
-    @Override
-    public boolean isFlowerValid(@NotNull BlockPos blockPos) {
-        return this.level.isLoaded(blockPos) && ListUtils.withinBlockList(validFlowerList, this.level.getBlockState(blockPos).getBlock());
     }
 }
