@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "#  ",
+    "#  "
+  ],
+  "key": {
+    "#": {
+      "item": "bubbasbees:stone_honeycomb"
+    }
+  },
+  "result": {
+    "item": "minecraft:granite",
+    "count": 16
+  }
+}

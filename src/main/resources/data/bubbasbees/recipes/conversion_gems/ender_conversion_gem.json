@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#*#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:shulker_box"
+    },
+    "*": {
+      "item": "bubbasbees:bubba_star"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:ender_conversion_gem"
+  }
+}

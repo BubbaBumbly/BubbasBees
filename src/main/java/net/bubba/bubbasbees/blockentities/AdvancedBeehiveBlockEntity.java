@@ -137,10 +137,12 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
                     if (bee.hasSavedFlowerPos() && (!this.hasSavedFlowerPos() || this.level.random.nextBoolean())) {
                         this.savedFlowerPos = bee.getSavedFlowerPos();
                     }
-                    if (entity instanceof BubbasBee bubbasBee){
-                        if (!(honeycombList.size() >= 8)) honeycombList.add(bubbasBee.getHoneycombOutput());
-                    } else {
-                        if (!(honeycombList.size() >= 8)) honeycombList.add(Items.HONEYCOMB.getDefaultInstance());
+                    if (bee.hasNectar()){
+                        if (bee instanceof BubbasBee bubbasBee){
+                            if (!(honeycombList.size() >= 8)) honeycombList.add(bubbasBee.getHoneycombOutput());
+                        } else {
+                            if (!(honeycombList.size() >= 8)) honeycombList.add(Items.HONEYCOMB.getDefaultInstance());
+                        }
                     }
                 }
 

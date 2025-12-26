@@ -1,10 +1,11 @@
 package net.bubba.bubbasbees.mixin;
 
 import net.bubba.bubbasbees.blockentities.AdvancedBeehiveBlockEntity;
-import net.bubba.bubbasbees.entity.custom.BubbasBee;
-import net.bubba.bubbasbees.entity.custom.CopperBee;
+import net.bubba.bubbasbees.entity.custom.*;
 import net.bubba.bubbasbees.registries.ModEntityTypes;
 import net.bubba.bubbasbees.registries.ModItems;
+import net.bubba.bubbasbees.util.ListUtils;
+import net.bubba.bubbasbees.util.ModConstants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.EntityTypeTags;
@@ -79,8 +80,7 @@ public abstract class BeeMixin extends Animal {
                     System.out.println("No HivePos");
                 }
         }
-        //FIX THIS
-        if (itemstack.is(ModItems.COPPER_CONVERSION_GEM.get()) && this.getType() != ModEntityTypes.BUBBAS_BEE.get()) {
+        if (ListUtils.withinItemList(ModConstants.CONVERSION_ITEMS, itemstack.getItem()) && this.getType() == EntityType.BEE) {
             if (!player.getAbilities().instabuild) {
                 itemstack.shrink(1);
             }
@@ -96,14 +96,41 @@ public abstract class BeeMixin extends Animal {
     @Unique
     public void bubbasBees$beeConversion(Player player, ItemStack itemStack) {
         if (!this.level.isClientSide) {
-            Bee newbie = new CopperBee(ModEntityTypes.COPPER_BEE.get(), this.level);
-            newbie.moveTo(this.getX(), this.getY(), this.getZ(),
-                    this.random.nextFloat() * 180.0F, this.random.nextFloat()* 180.F);
-            this.level.addFreshEntity(newbie);
-            this.remove(RemovalReason.DISCARDED);
-            //System.out.println("ConversionInvoke!");
+            if (itemStack.is(ModItems.COPPER_CONVERSION_GEM.get())){
+                Bee newbie = new CopperBee(ModEntityTypes.COPPER_BEE.get(), this.level);
+                bubbasBees$spawnThat(newbie);
+            } else if (itemStack.is(ModItems.SANDY_CONVERSION_GEM.get())){
+                Bee newbie = new SandyBee(ModEntityTypes.SANDY_BEE.get(), this.level);
+                bubbasBees$spawnThat(newbie);
+            } else if (itemStack.is(ModItems.ENDER_CONVERSION_GEM.get())){
+                Bee newbie = new EnderBee(ModEntityTypes.ENDER_BEE.get(), this.level);
+                bubbasBees$spawnThat(newbie);
+            } else if (itemStack.is(ModItems.GOLD_CONVERSION_GEM.get())){
+                Bee newbie = new GoldBee(ModEntityTypes.GOLD_BEE.get(), this.level);
+                bubbasBees$spawnThat(newbie);
+            } else if (itemStack.is(ModItems.IRON_CONVERSION_GEM.get())){
+                Bee newbie = new IronBee(ModEntityTypes.IRON_BEE.get(), this.level);
+                bubbasBees$spawnThat(newbie);
+            } else if (itemStack.is(ModItems.NATURE_CONVERSION_GEM.get())){
+                Bee newbie = new NatureBee(ModEntityTypes.NATURE_BEE.get(), this.level);
+                bubbasBees$spawnThat(newbie);
+            } else if (itemStack.is(ModItems.REDSTONE_CONVERSION_GEM.get())){
+                Bee newbie = new RedstoneBee(ModEntityTypes.REDSTONE_BEE.get(), this.level);
+                bubbasBees$spawnThat(newbie);
+            } else if (itemStack.is(ModItems.STONE_CONVERSION_GEM.get())){
+                Bee newbie = new StoneBee(ModEntityTypes.STONE_BEE.get(), this.level);
+                bubbasBees$spawnThat(newbie);
+            }
         }
     }
+    @Unique
+    public void bubbasBees$spawnThat (Bee newbie){
+        newbie.moveTo(this.getX(), this.getY(), this.getZ(),
+                this.random.nextFloat() * 180.0F, this.random.nextFloat()* 180.F);
+        this.level.addFreshEntity(newbie);
+        this.remove(RemovalReason.DISCARDED);
+    }
+
     @Inject(at = @At("HEAD"), method = "doesHiveHaveSpace", cancellable = true)
     private void doesHiveHaveSpace(BlockPos pos, CallbackInfoReturnable<Boolean> callback) {
         BlockEntity blockEntity = this.level.getBlockEntity(pos);
@@ -130,6 +157,8 @@ public abstract class BeeMixin extends Animal {
         if (this.getType() == EntityType.BEE) {
             this.goalSelector.addGoal(3, new TemptGoal(
                     this, 1.25D, Ingredient.of(ModItems.COPPER_CONVERSION_GEM.get()), false));
+            this.goalSelector.addGoal(3, new TemptGoal(
+                    this, 1.25D, Ingredient.of(ModItems.SANDY_CONVERSION_GEM.get()), false));
         }
     }
     /// End goal editing section

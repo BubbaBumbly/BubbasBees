@@ -5,13 +5,32 @@
 
   "item.bubbasbees.copper_bee_spawn_egg": "Copper Bee Spawn Egg",
   "item.bubbasbees.sandy_bee_spawn_egg": "Sandy Bee Spawn Egg",
+  "item.bubbasbees.gold_bee_spawn_egg": "Gold Bee Spawn Egg",
+  "item.bubbasbees.iron_bee_spawn_egg": "Iron Bee Spawn Egg",
+  "item.bubbasbees.nature_bee_spawn_egg": "Nature Bee Spawn Egg",
+  "item.bubbasbees.redstone_bee_spawn_egg": "Redstone Bee Spawn Egg",
+  "item.bubbasbees.ender_bee_spawn_egg": "Ender Bee Spawn Egg",
+  "item.bubbasbees.stone_bee_spawn_egg": "Stone Bee Spawn Egg",
+
 
   "item.bubbasbees.copper_honeycomb": "Copper Honeycomb",
   "item.bubbasbees.sandy_honeycomb": "Sandy Honeycomb",
+  "item.bubbasbees.gold_honeycomb": "Gold Honeycomb",
+  "item.bubbasbees.iron_honeycomb": "Iron Honeycomb",
+  "item.bubbasbees.nature_honeycomb": "Nature Honeycomb",
+  "item.bubbasbees.redstone_honeycomb": "Redstone Honeycomb",
+  "item.bubbasbees.ender_honeycomb": "Ender Honeycomb",
+  "item.bubbasbees.stone_honeycomb": "Stone Honeycomb",
 
   "item.bubbasbees.bubba_star": "Bubba Star",
   "item.bubbasbees.copper_conversion_gem": "Copper Conversion Gem",
   "item.bubbasbees.sandy_conversion_gem": "Sandy Conversion Gem",
+  "item.bubbasbees.gold_conversion_gem": "Gold Conversion Gem",
+  "item.bubbasbees.iron_conversion_gem": "Iron Conversion Gem",
+  "item.bubbasbees.nature_conversion_gem": "Nature Conversion Gem",
+  "item.bubbasbees.redstone_conversion_gem": "Redstone Conversion Gem",
+  "item.bubbasbees.ender_conversion_gem": "Ender Conversion Gem",
+  "item.bubbasbees.stone_conversion_gem": "Stone Conversion Gem",
 
   "item.bubbasbees.smoker": "Smoker"
 

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "# #",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "bubbasbees:iron_honeycomb"
+    }
+  },
+  "result": {
+    "item": "minecraft:raw_iron",
+    "count": 3
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#*#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:copper_block"
+    },
+    "*": {
+      "item": "bubbasbees:bubba_star"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:copper_conversion_gem"
+  }
+}

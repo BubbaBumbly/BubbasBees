@@ -37,6 +37,42 @@ public class BubbasBeeRenderer extends GeoEntityRenderer<BubbasBee> {
                 } else {
                     return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/sandy_bee.png");
                 }
+            case "gold":
+                if (instance.isAngry()){
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/gold_bee_angry.png");
+                } else {
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/gold_bee.png");
+                }
+            case "iron":
+                if (instance.isAngry()){
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/iron_bee_angry.png");
+                } else {
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/iron_bee.png");
+                }
+            case "nature":
+                if (instance.isAngry()){
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/nature_bee_angry.png");
+                } else {
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/nature_bee.png");
+                }
+            case "redstone":
+                if (instance.isAngry()){
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/redstone_bee_angry.png");
+                } else {
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/redstone_bee.png");
+                }
+            case "ender":
+                if (instance.isAngry()){
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/ender_bee_angry.png");
+                } else {
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/ender_bee.png");
+                }
+            case "stone":
+                if (instance.isAngry()){
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/stone_bee_angry.png");
+                } else {
+                    return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/stone_bee.png");
+                }
             case "none":
                 if (instance.isAngry()){
                     return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/diamond_bee_angry.png");

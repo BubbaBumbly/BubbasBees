@@ -50,6 +50,12 @@ public class BubbasBees {
             EntityRenderers.register(ModEntityTypes.BUBBAS_BEE.get(), BubbasBeeRenderer::new);
             EntityRenderers.register(ModEntityTypes.COPPER_BEE.get(), BubbasBeeRenderer::new);
             EntityRenderers.register(ModEntityTypes.SANDY_BEE.get(), BubbasBeeRenderer::new);
+            EntityRenderers.register(ModEntityTypes.REDSTONE_BEE.get(), BubbasBeeRenderer::new);
+            EntityRenderers.register(ModEntityTypes.GOLD_BEE.get(), BubbasBeeRenderer::new);
+            EntityRenderers.register(ModEntityTypes.IRON_BEE.get(), BubbasBeeRenderer::new);
+            EntityRenderers.register(ModEntityTypes.NATURE_BEE.get(), BubbasBeeRenderer::new);
+            EntityRenderers.register(ModEntityTypes.ENDER_BEE.get(), BubbasBeeRenderer::new);
+            EntityRenderers.register(ModEntityTypes.STONE_BEE.get(), BubbasBeeRenderer::new);
         }
     }
 }

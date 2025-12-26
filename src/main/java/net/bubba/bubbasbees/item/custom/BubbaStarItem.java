@@ -11,6 +11,6 @@ public class BubbaStarItem extends Item {
 
     @Override
     public ItemStack getCraftingRemainingItem(ItemStack stack) {
-        return new ItemStack(this);  // Returns self
+        return new ItemStack(this);  // Should return self
     }
 }

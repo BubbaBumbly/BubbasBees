@@ -3,6 +3,7 @@ package net.bubba.bubbasbees.registries;
 import net.bubba.bubbasbees.BubbasBees;
 import net.bubba.bubbasbees.entity.custom.BubbasBee;
 import net.bubba.bubbasbees.entity.custom.CopperBee;
+import net.bubba.bubbasbees.entity.custom.SandyBee;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -16,7 +17,15 @@ public class ModEvents {
             public static void entityAttributeEvent(EntityAttributeCreationEvent event) {
                 event.put(ModEntityTypes.BUBBAS_BEE.get(), BubbasBee.setAttributes());
                 event.put(ModEntityTypes.COPPER_BEE.get(), CopperBee.setAttributes());
-                event.put(ModEntityTypes.SANDY_BEE.get(), CopperBee.setAttributes());
+                event.put(ModEntityTypes.SANDY_BEE.get(), SandyBee.setAttributes());
+                event.put(ModEntityTypes.REDSTONE_BEE.get(), SandyBee.setAttributes());
+                event.put(ModEntityTypes.GOLD_BEE.get(), SandyBee.setAttributes());
+                event.put(ModEntityTypes.IRON_BEE.get(), SandyBee.setAttributes());
+                event.put(ModEntityTypes.NATURE_BEE.get(), SandyBee.setAttributes());
+                event.put(ModEntityTypes.ENDER_BEE.get(), SandyBee.setAttributes());
+                event.put(ModEntityTypes.STONE_BEE.get(), SandyBee.setAttributes());
+
+
             }
         }
     }
