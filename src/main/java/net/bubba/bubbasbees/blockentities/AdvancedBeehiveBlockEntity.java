@@ -200,12 +200,11 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
                     if (getHoneyLevel(state) < 5) {
                         recalculateHoneyLevel(hive,state);
                     }
-                    if (entities != null) entities.add(entity);
                 }
                 hive.level.playSound(null, hive.worldPosition.getX(), hive.worldPosition.getY(), hive.worldPosition.getZ(), SoundEvents.BEEHIVE_EXIT, SoundSource.BLOCKS, 1.0F, 1.0F);
                 return hive.level.addFreshEntity(entity);
             }
-            return true;
+            return false;
         }
     }
     public static boolean shouldStayInHive(Level level, BeeReleaseStatus beehiveState) {

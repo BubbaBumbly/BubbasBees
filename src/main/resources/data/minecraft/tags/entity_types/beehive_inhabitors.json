@@ -2,6 +2,12 @@
   "replace": false,
   "values": [
     "bubbasbees:bubbas_bee",
-    "bubbasbees:copper_bee"
+    "bubbasbees:copper_bee",
+    "bubbasbees:gold_bee",
+    "bubbasbees:iron_bee",
+    "bubbasbees:redstone_bee",
+    "bubbasbees:nature_bee",
+    "bubbasbees:ender_bee",
+    "bubbasbees:stone_bee"
   ]
 }
