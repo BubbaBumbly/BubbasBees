@@ -1,9 +1,13 @@
 package net.bubba.bubbasbees;
 
 import com.mojang.logging.LogUtils;
+import net.bubba.bubbasbees.dispenser.GlassBottleDispenseItemBehavior;
+import net.bubba.bubbasbees.dispenser.ShearsDispenseItemBehavior;
 import net.bubba.bubbasbees.registries.*;
 import net.bubba.bubbasbees.entity.client.BubbasBeeRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -40,6 +44,8 @@ public class BubbasBees {
         event.enqueueWork(() -> {
             ModPOIs.registerPOIs();
         });
+        DispenserBlock.registerBehavior(Items.SHEARS.asItem(), new ShearsDispenseItemBehavior());
+        DispenserBlock.registerBehavior(Items.GLASS_BOTTLE.asItem(), new GlassBottleDispenseItemBehavior());
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent

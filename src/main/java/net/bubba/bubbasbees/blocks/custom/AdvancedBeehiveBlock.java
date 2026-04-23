@@ -11,6 +11,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.datafix.fixes.BlockStateData;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -141,6 +142,8 @@ public class AdvancedBeehiveBlock extends BeehiveBlock {
     }
 
     private boolean hiveContainsBees(Level level, BlockPos pos) {
+        BlockState blockState = level.getBlockState(pos);
+        DirectionProperty direction = FACING;
         BlockEntity blockentity = level.getBlockEntity(pos);
         if (blockentity instanceof BeehiveBlockEntity beehiveblockentity) {
             return !beehiveblockentity.isEmpty();
@@ -171,8 +174,10 @@ public class AdvancedBeehiveBlock extends BeehiveBlock {
     public void dropModHoneycomb(Level level, BlockPos pos) {
         if (level.getBlockEntity(pos) instanceof AdvancedBeehiveBlockEntity hive) {
             ArrayList<ItemStack> combList = hive.getHoneycombList();
+            BlockState blockState = level.getBlockState(pos);
+            Direction direction = blockState.getValue(FACING);
             for (ItemStack comb : combList){
-                popResource(level,pos,comb);
+                popResourceFromFace(level,pos,direction,comb);
             }
             combList.clear();
         }

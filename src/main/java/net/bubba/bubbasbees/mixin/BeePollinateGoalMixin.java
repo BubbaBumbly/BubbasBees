@@ -5,6 +5,10 @@ import net.bubba.bubbasbees.entity.custom.BubbasBee;
 import net.bubba.bubbasbees.entity.custom.CopperBee;
 import net.bubba.bubbasbees.util.ListUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -67,12 +71,28 @@ public class BeePollinateGoalMixin {
     public void bubbasBees$CopperAgingMech(BubbasBee bee) {
         BlockPos blockpos = bee.blockPosition().below(1);
         BlockState blockstate = bee.level.getBlockState(blockpos);
+        BlockPos particles_pos = blockpos.above(1);
+        double xpos = particles_pos.getX();
+        double ypos = particles_pos.getY();
+        double zpos = particles_pos.getZ();
         if (blockstate.is(Blocks.COPPER_BLOCK)){
-            bee.level.setBlock(blockpos, Blocks.EXPOSED_COPPER.defaultBlockState(),2);
+            bee.level.setBlockAndUpdate(blockpos, Blocks.EXPOSED_COPPER.defaultBlockState());
+            if (bee.level instanceof ServerLevel serverLevel){
+                serverLevel.sendParticles(ParticleTypes.HAPPY_VILLAGER, xpos + 0.5, ypos + 0.2, zpos + 0.5,
+                        5, 0.2, 0.2, 0.2, 0);
+            }
         } else if (blockstate.is(Blocks.EXPOSED_COPPER)) {
-            bee.level.setBlock(blockpos, Blocks.WEATHERED_COPPER.defaultBlockState(),2);
+            bee.level.setBlockAndUpdate(blockpos, Blocks.WEATHERED_COPPER.defaultBlockState());
+            if (bee.level instanceof ServerLevel serverLevel){
+                serverLevel.sendParticles(ParticleTypes.HAPPY_VILLAGER, xpos + 0.5, ypos + 0.2, zpos + 0.5,
+                        5, 0.2, 0.2, 0.2, 0);
+            }
         } else if (blockstate.is(Blocks.WEATHERED_COPPER)) {
-            bee.level.setBlock(blockpos, Blocks.OXIDIZED_COPPER.defaultBlockState(),2);
+            bee.level.setBlockAndUpdate(blockpos, Blocks.OXIDIZED_COPPER.defaultBlockState());
+            if (bee.level instanceof ServerLevel serverLevel){
+                serverLevel.sendParticles(ParticleTypes.HAPPY_VILLAGER, xpos + 0.5, ypos + 0.2, zpos + 0.5,
+                        5, 0.2, 0.2, 0.2, 0);
+            }
         }
     }
 }

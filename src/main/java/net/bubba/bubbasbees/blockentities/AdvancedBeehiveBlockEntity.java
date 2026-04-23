@@ -59,7 +59,9 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     public ArrayList<ItemStack> getHoneycombList () {
         return this.honeycombList;
     }
-
+    public void clearCombList (){
+        this.honeycombList.clear();
+    }
 
     public static void serverSideTick(Level level, BlockPos pos, BlockState state, AdvancedBeehiveBlockEntity hive) {
         if (hive.isSmoked) {
@@ -77,6 +79,7 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     /// this function ticks over every bee within the hive.
     private static void tickOccupants(AdvancedBeehiveBlockEntity hive, BlockState state, List<BeeData> bees) {
         BeehiveBlockEntity.BeeData beeData;
+        boolean flag = false;
         for (Iterator<BeeData> iterator = bees.iterator(); iterator.hasNext(); increaseTicksInHive(beeData, 1)) {
             beeData = iterator.next();
             if (((BeehiveBeeDataAccessor) beeData).getTicksInHive() > ((BeehiveBeeDataAccessor) beeData).getMinOccupationTicks()) {
@@ -84,9 +87,12 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
                         ? BeeReleaseStatus.HONEY_DELIVERED : BeeReleaseStatus.BEE_RELEASED;
                 if(releaseBee(hive, state, beeData, null, status)){
                     iterator.remove();
-                    System.out.println("Ticks spent in hive: " + ((BeehiveBeeDataAccessor) beeData).getTicksInHive());
+                    flag = true;
                 }
             }
+        }
+        if (flag) {
+            setChanged(hive.level, hive.worldPosition, state);
         }
     }
     /// Begin Loading/Saving
@@ -136,13 +142,6 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
                 if (entity instanceof Bee bee) {
                     if (bee.hasSavedFlowerPos() && (!this.hasSavedFlowerPos() || this.level.random.nextBoolean())) {
                         this.savedFlowerPos = bee.getSavedFlowerPos();
-                    }
-                    if (bee.hasNectar()){
-                        if (bee instanceof BubbasBee bubbasBee){
-                            if (!(honeycombList.size() >= 8)) honeycombList.add(bubbasBee.getHoneycombOutput());
-                        } else {
-                            if (!(honeycombList.size() >= 8)) honeycombList.add(Items.HONEYCOMB.getDefaultInstance());
-                        }
                     }
                 }
 
@@ -196,15 +195,21 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
                 if (beehiveState == BeeReleaseStatus.HONEY_DELIVERED) {
                     if (entity instanceof Bee bee){
                         bee.dropOffNectar();
+                        if (bee instanceof BubbasBee bubbasBee){
+                            if (!(hive.honeycombList.size() >= 8)) hive.honeycombList.add(bubbasBee.getHoneycombOutput());
+                        } else {
+                            if (!(hive.honeycombList.size() >= 8)) hive.honeycombList.add(Items.HONEYCOMB.getDefaultInstance());
+                        }
                     }
                     if (getHoneyLevel(state) < 5) {
                         recalculateHoneyLevel(hive,state);
                     }
                 }
                 hive.level.playSound(null, hive.worldPosition.getX(), hive.worldPosition.getY(), hive.worldPosition.getZ(), SoundEvents.BEEHIVE_EXIT, SoundSource.BLOCKS, 1.0F, 1.0F);
+                hive.level.gameEvent(GameEvent.BLOCK_CHANGE, blockpos, GameEvent.Context.of(entity, hive.level.getBlockState(blockpos)));
                 return hive.level.addFreshEntity(entity);
             }
-            return false;
+            return true;
         }
     }
     public static boolean shouldStayInHive(Level level, BeeReleaseStatus beehiveState) {

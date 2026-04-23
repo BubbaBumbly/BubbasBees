@@ -67,7 +67,7 @@ public abstract class BeeMixin extends Animal {
         this.hivePos = hivePos;
     }
 
-    /// Bee conversion functions below (use nether star to convert Bee to BubbasBee)
+    /// Bee conversion functions below (use conversion gems to convert Bee to BubbasBee)
     public @NotNull InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         if (itemstack.is(Items.STICK)){
@@ -159,10 +159,19 @@ public abstract class BeeMixin extends Animal {
                     this, 1.25D, Ingredient.of(ModItems.COPPER_CONVERSION_GEM.get()), false));
             this.goalSelector.addGoal(3, new TemptGoal(
                     this, 1.25D, Ingredient.of(ModItems.SANDY_CONVERSION_GEM.get()), false));
+            this.goalSelector.addGoal(3, new TemptGoal(
+                    this, 1.25D, Ingredient.of(ModItems.ENDER_CONVERSION_GEM.get()), false));
+            this.goalSelector.addGoal(3, new TemptGoal(
+                    this, 1.25D, Ingredient.of(ModItems.GOLD_CONVERSION_GEM.get()), false));
+            this.goalSelector.addGoal(3, new TemptGoal(
+                    this, 1.25D, Ingredient.of(ModItems.IRON_CONVERSION_GEM.get()), false));
+            this.goalSelector.addGoal(3, new TemptGoal(
+                    this, 1.25D, Ingredient.of(ModItems.NATURE_CONVERSION_GEM.get()), false));
+            this.goalSelector.addGoal(3, new TemptGoal(
+                    this, 1.25D, Ingredient.of(ModItems.REDSTONE_CONVERSION_GEM.get()), false));
+            this.goalSelector.addGoal(3, new TemptGoal(
+                    this, 1.25D, Ingredient.of(ModItems.STONE_CONVERSION_GEM.get()), false));
         }
     }
     /// End goal editing section
-    /// Goal Appropriation section
-
-    /// End Goal Appropriation section
 }

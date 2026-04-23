@@ -30,7 +30,6 @@ public abstract class BeeEnterHiveGoalMixin {
         BlockEntity blockEntity = this$0.level.getBlockEntity(this$0.getHivePos());
         if ((blockEntity instanceof AdvancedBeehiveBlockEntity advanced_hive)) {
             if (!advanced_hive.isFull()) {
-                //System.out.println("canBeeUseInvoke --> inside advanced_hive block!");
                 callback.setReturnValue(true);
             } else {
                 ((BeeEntityAccessor) this$0).setHivePos(null);

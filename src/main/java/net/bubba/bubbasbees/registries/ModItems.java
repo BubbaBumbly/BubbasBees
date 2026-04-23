@@ -17,6 +17,10 @@ public class ModItems {
     /// General
     public static final RegistryObject<Item> SMOKER = ITEMS.register("smoker",
             () -> new SmokerItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
+    public static final RegistryObject<Item> BUBBA_STAR = ITEMS.register("bubba_star",
+            () -> new BubbaStarItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
+    public static final RegistryObject<Item> LESSER_BUBBA_STAR = ITEMS.register("lesser_bubba_star",
+            () -> new LesserBubbaStarItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
     /// Combs
     public static final RegistryObject<Item> COPPER_HONEYCOMB = ITEMS.register("copper_honeycomb",
             () -> new CopperHoneycombItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
@@ -62,8 +66,6 @@ public class ModItems {
                     new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
 
     /// Conversion Items
-    public static final RegistryObject<Item> BUBBA_STAR = ITEMS.register("bubba_star",
-            () -> new BubbaStarItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
     public static final RegistryObject<Item> COPPER_CONVERSION_GEM = ITEMS.register("copper_conversion_gem",
             () -> new CopperConversionGemItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
     public static final RegistryObject<Item> SANDY_CONVERSION_GEM = ITEMS.register("sandy_conversion_gem",
