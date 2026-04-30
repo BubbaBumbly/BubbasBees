@@ -89,7 +89,6 @@ public class BubbasBeeRenderer extends GeoEntityRenderer<BubbasBee> {
                                     @Nullable MultiBufferSource renderTypeBuffer,
                                     @Nullable VertexConsumer vertexBuilder, int packedLightIn,
                                     ResourceLocation textureLocation) {
-        stack.scale(0.8f, 0.8f, 0.8f);
         return super.getRenderType(animatable, partialTicks, stack,
                 renderTypeBuffer, vertexBuilder, packedLightIn, textureLocation);
     }

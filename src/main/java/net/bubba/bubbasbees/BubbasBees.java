@@ -3,9 +3,11 @@ package net.bubba.bubbasbees;
 import com.mojang.logging.LogUtils;
 import net.bubba.bubbasbees.dispenser.GlassBottleDispenseItemBehavior;
 import net.bubba.bubbasbees.dispenser.ShearsDispenseItemBehavior;
+import net.bubba.bubbasbees.item.custom.BeeJarItem;
 import net.bubba.bubbasbees.registries.*;
 import net.bubba.bubbasbees.entity.client.BubbasBeeRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,7 +20,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
 
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod(BubbasBees.MOD_ID)
 public class BubbasBees {
     public static final String MOD_ID = "bubbasbees";
@@ -48,11 +49,17 @@ public class BubbasBees {
         DispenserBlock.registerBehavior(Items.GLASS_BOTTLE.asItem(), new GlassBottleDispenseItemBehavior());
     }
 
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
+            event.enqueueWork(() -> {
+                net.minecraft.client.renderer.item.ItemProperties.register(
+                        ModItems.BEE_JAR.get(),
+                        new ResourceLocation(BubbasBees.MOD_ID, "filled"),
+                        (stack, level, entity, seed) -> BeeJarItem.getFillState(stack)
+                );
+            });
             EntityRenderers.register(ModEntityTypes.BUBBAS_BEE.get(), BubbasBeeRenderer::new);
             EntityRenderers.register(ModEntityTypes.COPPER_BEE.get(), BubbasBeeRenderer::new);
             EntityRenderers.register(ModEntityTypes.SANDY_BEE.get(), BubbasBeeRenderer::new);

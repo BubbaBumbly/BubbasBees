@@ -33,7 +33,24 @@
   "item.bubbasbees.ender_conversion_gem": "Ender Conversion Gem",
   "item.bubbasbees.stone_conversion_gem": "Stone Conversion Gem",
 
-  "item.bubbasbees.smoker": "Smoker"
+  "item.bubbasbees.smoker": "Smoker",
+
+  "entity.bubbasbees.bubbas_bee": "Bubbas Bee",
+  "entity.bubbasbees.copper_bee": "Copper Bee",
+  "entity.bubbasbees.sandy_bee": "Sandy Bee",
+  "entity.bubbasbees.redstone_bee": "Redstone Bee",
+  "entity.bubbasbees.gold_bee": "Gold Bee",
+  "entity.bubbasbees.iron_bee": "Iron Bee",
+  "entity.bubbasbees.nature_bee": "Nature Bee",
+  "entity.bubbasbees.ender_bee": "Ender Bee",
+  "entity.bubbasbees.stone_bee": "Stone Bee",
+
+  "item.bubbasbees.bee_jar": "Bee Jar",
+  "item.bubbasbees.bee_jar.filled": "Filled Bee Jar",
+  "item.bubbasbees.bee_jar.filled_custom": "%s Jar",
+  "item.bubbasbees.bee_jar.pollinated": "Has Pollinated: %s",
+  "item.bubbasbees.bee_jar.yes": "Yes",
+  "item.bubbasbees.bee_jar.no": "No"
 
 
 }

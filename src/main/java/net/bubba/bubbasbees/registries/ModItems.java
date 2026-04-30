@@ -65,6 +65,10 @@ public class ModItems {
             () -> new ForgeSpawnEggItem(ModEntityTypes.STONE_BEE, 0x4e4a4f, 0x8b858c,
                     new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
 
+    /// Jars
+    public static final RegistryObject<Item> BEE_JAR = ITEMS.register("bee_jar",
+            () -> new BeeJarItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB).stacksTo(16)));
+
     /// Conversion Items
     public static final RegistryObject<Item> COPPER_CONVERSION_GEM = ITEMS.register("copper_conversion_gem",
             () -> new CopperConversionGemItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
