@@ -1,0 +1,62 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "bubbasbees:item/bee_jar"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "bubbasbees:filled": 1.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 2.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_copper"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 3.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_ender"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 4.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_gold"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 5.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_iron"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 6.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_nature"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 7.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_redstone"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 8.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_sandy"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 9.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_stone"
+    }
+  ]
+}
