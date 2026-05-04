@@ -121,13 +121,13 @@ dependencies {
 }
 
 jar {
-    archiveName = "BubbasBees-1.19-${version}.${extension}"
+    archiveName = "BubbasBees-1.19---1.0.7.${extension}"
 
     manifest {
         attributes([
                 "Specification-Title"     : "bubbasbees",
                 "Specification-Vendor"    : "examplemodsareus",
-                "Specification-Version"   : "2", // We are version 1 of ourselves
+                "Specification-Version"   : "1.0.7", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.jar.archiveVersion,
                 "Implementation-Vendor"   : "examplemodsareus",

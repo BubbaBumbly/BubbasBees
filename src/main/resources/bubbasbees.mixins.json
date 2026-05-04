@@ -10,8 +10,7 @@
     "BeehiveBeeDataAccessor",
     "BeehiveBlockMixin",
     "BeehiveEntityAccessor",
-    "BeeMixin",
-    "BeePollinateGoalMixin"
+    "BeeMixin"
   ],
   "injectors": {
     "defaultRequire": 1

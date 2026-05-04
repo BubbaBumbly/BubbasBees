@@ -1,5 +1,7 @@
 package net.bubba.bubbasbees.entity.custom;
 
+import net.bubba.bubbasbees.entity.goals.ModBeePollinateGoal;
+import net.bubba.bubbasbees.mixin.BeeEntityAccessor;
 import net.bubba.bubbasbees.registries.ModEntityTypes;
 import net.bubba.bubbasbees.registries.ModItems;
 import net.bubba.bubbasbees.util.ListUtils;
@@ -48,6 +50,19 @@ public class BubbasBee extends Bee implements IAnimatable {
     public ItemStack getHoneycombOutput (){
         return this.validHoneycombOutput;
     }
+
+    @Override
+    protected void registerGoals() {
+        super.registerGoals();
+        Bee.BeePollinateGoal oldGoal = ((BeeEntityAccessor)this).getBeePollinateGoal();
+        if (oldGoal != null) {
+            this.goalSelector.removeGoal(oldGoal);
+            ModBeePollinateGoal modGoal = new ModBeePollinateGoal(this);
+            this.goalSelector.addGoal(4, modGoal);
+            ((BeeEntityAccessor)this).setBeePollinateGoal(modGoal);
+        }
+    }
+
     ///Start Geckolib
     private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
 

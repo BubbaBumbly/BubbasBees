@@ -14,4 +14,10 @@ public interface BeeEntityAccessor {
     @Accessor
     int getStayOutOfHiveCountdown();
 
+    @Accessor("beePollinateGoal")
+    Bee.BeePollinateGoal getBeePollinateGoal();
+
+    @Accessor("beePollinateGoal")
+    void setBeePollinateGoal(Bee.BeePollinateGoal goal);
+
 }
