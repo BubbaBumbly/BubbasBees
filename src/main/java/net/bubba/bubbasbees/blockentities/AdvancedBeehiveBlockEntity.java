@@ -101,12 +101,14 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         super.load(nbt);
         if (nbt.contains("ModBeehiveCombList")) this.honeycombList = getHoneycombs(nbt);
         if (nbt.contains("Smoked")) this.isSmoked = nbt.getBoolean("Smoked");
+        this.ticksSmoked = nbt.getInt("TicksSmoked");
     }
     @Override
     protected void saveAdditional(@NotNull CompoundTag tag) {
         super.saveAdditional(tag);
         if (!honeycombList.isEmpty()) tag.put("ModBeehiveCombList", writeCombList());
         tag.putBoolean("Smoked", isSmoked);
+        tag.putInt("TicksSmoked", ticksSmoked);
     }
     public ArrayList<ItemStack> getHoneycombs(CompoundTag nbt) {
         return nbt.getList("ModBeehiveCombList", Tag.TAG_COMPOUND)
@@ -131,13 +133,12 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     }
     @Override
     public void addOccupantWithPresetTicks(Entity entity, boolean flag, int ticksInHive) {
-        boolean newFlag = false;
         if (this.getOccupantCount() < 5) {
             entity.stopRiding();
             entity.ejectPassengers();
             CompoundTag compoundtag = new CompoundTag();
             entity.save(compoundtag);
-            this.storeBee(compoundtag, ticksInHive, newFlag);
+            this.storeBee(compoundtag, ticksInHive, flag);
             if (this.level != null) {
                 if (entity instanceof Bee bee) {
                     if (bee.hasSavedFlowerPos() && (!this.hasSavedFlowerPos() || this.level.random.nextBoolean())) {
@@ -152,17 +153,15 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
 
             entity.discard();
             super.setChanged();
+            if (this.level != null) {
+                recalculateHoneyLevel(this, this.getBlockState());
+            }
         }
     }
 
     private static void recalculateHoneyLevel(AdvancedBeehiveBlockEntity hive, BlockState state) {
-        int honeyLevel = getHoneyLevel(state);
         float combsInHive = hive.honeycombList.size();
-        double stateConverter;
-        if (honeyLevel < 5){
-            stateConverter = 0.625 * combsInHive;
-            honeyLevel = Mth.floor(stateConverter);
-        }
+        int honeyLevel = Mth.clamp(Mth.floor(0.625 * combsInHive), 0, 5);
         if (hive.level != null) {
             hive.level.setBlockAndUpdate(hive.worldPosition, hive.getBlockState().setValue(BeehiveBlock.HONEY_LEVEL, honeyLevel));
         }
@@ -260,7 +259,7 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     /// Smoker implementation
     public void smokeHive() {
         this.isSmoked = true;
-        ticksSmoked = ticksSmoked == -1 ? 0 : ticksSmoked;
+        ticksSmoked = 0;
     }
 
     public int getTicksSmoked() {

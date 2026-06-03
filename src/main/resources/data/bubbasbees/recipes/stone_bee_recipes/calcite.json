@@ -1,17 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "#  ",
-    " # ",
-    "  #"
+    "###",
+    "#$#",
+    "###"
   ],
   "key": {
     "#": {
       "item": "bubbasbees:stone_honeycomb"
+    },
+    "$": {
+      "item": "minecraft:calcite"
     }
   },
   "result": {
     "item": "minecraft:calcite",
-    "count": 16
+    "count": 32
   }
 }

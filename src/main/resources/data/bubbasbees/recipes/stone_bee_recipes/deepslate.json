@@ -1,17 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "   ",
-    "   ",
+    "###",
+    "#$#",
     "###"
   ],
   "key": {
     "#": {
       "item": "bubbasbees:stone_honeycomb"
+    },
+    "$": {
+      "item": "minecraft:deepslate"
     }
   },
   "result": {
     "item": "minecraft:deepslate",
-    "count": 16
+    "count": 32
   }
 }

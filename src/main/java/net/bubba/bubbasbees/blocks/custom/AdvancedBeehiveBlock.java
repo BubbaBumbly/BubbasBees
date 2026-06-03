@@ -24,7 +24,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -90,9 +89,11 @@ public class AdvancedBeehiveBlock extends BeehiveBlock {
         }
 
         if (flag) {
-            if (!CampfireBlock.isSmokeyPos(level, pos) && !player.isCreative()) {
+            BlockEntity be = level.getBlockEntity(pos);
+            boolean isSedated = be instanceof AdvancedBeehiveBlockEntity hive && hive.isSedated();
+            if (!isSedated && !player.isCreative()) {
                 if (this.hiveContainsBees(level, pos)) {
-                    if (level.getBlockEntity(pos) instanceof AdvancedBeehiveBlockEntity hive){
+                    if (be instanceof AdvancedBeehiveBlockEntity hive){
                         hive.emptyAllLivingFromHive(player,state, BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY);
                     }
                     this.angerNearbyBees(level, pos);

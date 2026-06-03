@@ -19,6 +19,11 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
 
     private final BubbasBee bubbasBee;
     private int nextSearchTick = 0;
+    private boolean rolledThisCycle = false;
+    private boolean exploring = false;
+    private int exploreTimer = 0;
+    private boolean seekingNewFlower = false;
+    private boolean reachedFlower = false;
 
     public ModBeePollinateGoal(BubbasBee bee) {
         bee.super();
@@ -65,19 +70,95 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         if (bubbasBee.hasNectar()) return false;
         if (bubbasBee.level.isRaining()) return false;
 
-        Optional<BlockPos> optional = this.findNearbyFlower();
-        if (optional.isPresent()) {
-            bubbasBee.savedFlowerPos = optional.get();
-            bubbasBee.getNavigation().moveTo(
-                    (double)bubbasBee.savedFlowerPos.getX() + 0.5D,
-                    (double)bubbasBee.savedFlowerPos.getY() + 0.5D,
-                    (double)bubbasBee.savedFlowerPos.getZ() + 0.5D,
-                    (double)1.2F);
-            this.nextSearchTick = bubbasBee.tickCount;
+        if (bubbasBee.savedFlowerPos != null && bubbasBee.isFlowerValid(bubbasBee.savedFlowerPos)
+                && bubbasBee.level.getBlockState(bubbasBee.savedFlowerPos.above()).isAir()) {
+            navigateToPos(bubbasBee.savedFlowerPos);
             return true;
         }
-        this.nextSearchTick = bubbasBee.tickCount + Mth.nextInt(bubbasBee.level.getRandom(), 20, 60);
+
+        if (!rolledThisCycle) {
+            rolledThisCycle = true;
+            if (bubbasBee.getRandom().nextFloat() < 0.2F) {
+                exploring = true;
+                exploreTimer = 20;
+            }
+        }
+
+        if (exploring) {
+            if (exploreTimer > 0) {
+                exploreTimer--;
+                return false;
+            }
+            exploring = false;
+            seekingNewFlower = true;
+        }
+
+        if (seekingNewFlower) {
+            Optional<BlockPos> newFlower = findFlowerExcludingHistory();
+            if (newFlower.isPresent()) {
+                bubbasBee.savedFlowerPos = newFlower.get();
+                navigateToPos(bubbasBee.savedFlowerPos);
+                seekingNewFlower = false;
+                return true;
+            }
+            seekingNewFlower = false;
+        }
+
+        Optional<BlockPos> flower = findNearbyFlower();
+        if (flower.isPresent()) {
+            bubbasBee.savedFlowerPos = flower.get();
+            navigateToPos(bubbasBee.savedFlowerPos);
+            return true;
+        }
+
+        this.nextSearchTick = bubbasBee.tickCount + Mth.nextInt(bubbasBee.getRandom(), 20, 60);
         return false;
+    }
+
+    private void navigateToPos(BlockPos pos) {
+        bubbasBee.getNavigation().moveTo(
+                (double)pos.getX() + 0.5D,
+                (double)pos.getY() + 0.5D,
+                (double)pos.getZ() + 0.5D,
+                (double)1.2F);
+    }
+
+    private boolean isOverFlower() {
+        return bubbasBee.savedFlowerPos != null
+                && bubbasBee.distanceToSqr(
+                        bubbasBee.savedFlowerPos.getX(),
+                        bubbasBee.savedFlowerPos.getY(),
+                        bubbasBee.savedFlowerPos.getZ()) <= 4.0;
+    }
+
+    private Optional<BlockPos> findFlowerExcludingHistory() {
+        BlockPos beePos = bubbasBee.blockPosition();
+        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+        double radius = 5.0D;
+
+        for (int i = 0; (double)i <= radius; i = i > 0 ? -i : 1 - i) {
+            for (int j = 0; (double)j < radius; ++j) {
+                for (int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {
+                    for (int l = k < j && k > -j ? j : 0; l <= j; l = l > 0 ? -l : 1 - l) {
+                        mutablePos.setWithOffset(beePos, k, i - 1, l);
+                        if (beePos.closerThan(mutablePos, radius)
+                                && this.VALID_POLLINATION_BLOCKS.test(bubbasBee.level.getBlockState(mutablePos))
+                                && bubbasBee.level.getBlockState(mutablePos.above()).isAir()) {
+                            return Optional.of(mutablePos);
+                        }
+                    }
+                }
+            }
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (isOverFlower()) {
+            reachedFlower = true;
+        }
     }
 
     @Override
@@ -85,7 +166,10 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         if (!this.isPollinating()) return false;
         if (!bubbasBee.hasSavedFlowerPos()) return false;
         if (bubbasBee.level.isRaining()) return false;
-        if (this.hasPollinatedLongEnough()) return bubbasBee.level.getRandom().nextFloat() < 0.2F;
+        if (this.hasPollinatedLongEnough()) {
+            if (isOverFlower()) return true;
+            return bubbasBee.level.getRandom().nextFloat() < 0.2F;
+        }
         if (bubbasBee.tickCount % 20 == 0 && !bubbasBee.isFlowerValid(bubbasBee.savedFlowerPos)) {
             bubbasBee.savedFlowerPos = null;
             return false;
@@ -106,7 +190,14 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     @Override
     public void stop() {
         super.stop();
-        this.nextSearchTick = bubbasBee.tickCount + 200;
+
+        exploring = true;
+        exploreTimer = 20;
+        rolledThisCycle = true;
+        seekingNewFlower = false;
+        reachedFlower = false;
+        this.nextSearchTick = bubbasBee.tickCount;
+
         if (bubbasBee instanceof CopperBee copperBee) {
             this.copperAging(copperBee);
         }

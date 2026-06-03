@@ -12,12 +12,15 @@ public class AbstractAdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
 
     /*
     List of shit to accomplish
-    1. Make dispencers work ::DONE
-    2. Make Bubba's star recipe / dependents ::DONE
-    3. Create new advanced hive texture ::DONE
-    4. Create a guide for the mod, maybe use Patchouli?
-    5. Create bee jar item
+    1. Create a guide for the mod, maybe use Patchouli?
+    2. Github duhhh
+    3. recipe fixes
+    4. quark recipes?
+    5. Test bee AI, see if reducing explore timer to very small value stops exploration or if something else
+    is in charge of the bees flying everywhere when they come out of the hive. also check the bee history lists to
+    see if they are being populated.
 
-    recipe idea for bubba's star: --> staged recipe? echo shard x4, nether star x5, netherite x1,
+
+
      */
 }

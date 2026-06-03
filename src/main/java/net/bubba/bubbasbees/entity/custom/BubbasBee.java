@@ -7,12 +7,16 @@ import net.bubba.bubbasbees.registries.ModItems;
 import net.bubba.bubbasbees.util.ListUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -49,6 +53,24 @@ public class BubbasBee extends Bee implements IAnimatable {
 
     public ItemStack getHoneycombOutput (){
         return this.validHoneycombOutput;
+    }
+
+    @Override
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+        ItemStack itemstack = player.getItemInHand(hand);
+        if (itemstack.is(Items.STICK) && !this.level.isClientSide) {
+            System.out.println("=== BubbasBee Debug: " + this.getName().getString() + " ===");
+            System.out.println("  Variant: " + variant);
+            System.out.println("  Tick: " + tickCount);
+            System.out.println("  HasNectar: " + hasNectar());
+            System.out.println("  SavedFlowerPos: " + (savedFlowerPos != null ? savedFlowerPos.toShortString() : "null"));
+            System.out.println("  ValidFlowerList: " + (validFlowerList == null ? "null!" : validFlowerList.size() + " blocks"));
+            System.out.println("  Has hive: " + hasHive());
+            System.out.println("  HivePos: " + (getHivePos() != null ? getHivePos().toShortString() : "null"));
+            System.out.println("======================================");
+            return InteractionResult.SUCCESS;
+        }
+        return super.mobInteract(player, hand);
     }
 
     @Override

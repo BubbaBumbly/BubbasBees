@@ -1,17 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " # ",
-    " # ",
-    " # "
+    "###",
+    "#$#",
+    "###"
   ],
   "key": {
     "#": {
       "item": "bubbasbees:stone_honeycomb"
+    },
+    "$": {
+      "item": "minecraft:diorite"
     }
   },
   "result": {
     "item": "minecraft:diorite",
-    "count": 16
+    "count": 32
   }
 }

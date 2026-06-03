@@ -81,11 +81,11 @@ public abstract class BeeMixin extends Animal {
                 }
         }
         if (ListUtils.withinItemList(ModConstants.CONVERSION_ITEMS, itemstack.getItem()) && this.getType() == EntityType.BEE) {
-            if (!player.getAbilities().instabuild) {
-                itemstack.shrink(1);
-            }
             if (!this.level.isClientSide) {
                 this.bubbasBees$beeConversion(player, itemstack);
+            }
+            if (!player.getAbilities().instabuild) {
+                itemstack.shrink(1);
             }
 
             return InteractionResult.SUCCESS;

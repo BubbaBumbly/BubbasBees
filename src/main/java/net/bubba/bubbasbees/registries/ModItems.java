@@ -83,7 +83,7 @@ public class ModItems {
     public static final RegistryObject<Item> NATURE_CONVERSION_GEM = ITEMS.register("nature_conversion_gem",
             () -> new NatureConversionGemItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
     public static final RegistryObject<Item> ENDER_CONVERSION_GEM = ITEMS.register("ender_conversion_gem",
-            () -> new EnderHoneycombItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
+            () -> new EnderConversionGemItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
     public static final RegistryObject<Item> STONE_CONVERSION_GEM = ITEMS.register("stone_conversion_gem",
             () -> new StoneConversionGemItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
 

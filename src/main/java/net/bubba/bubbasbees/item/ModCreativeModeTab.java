@@ -11,9 +11,10 @@ public class ModCreativeModeTab {
         public @NotNull ItemStack makeIcon() {
             return new ItemStack(ModBlocks.ADVANCED_BEEHIVE.get());
         }
-        //@Override
-        //public ItemStack makeIcon() {
-        //    return new ItemStack(ModItems.ZIRCON.get());
-        //}
+
+        @Override
+        public boolean hasSearchBar() {
+            return false;
+        }
     };
 }
