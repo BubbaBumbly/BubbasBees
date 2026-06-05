@@ -116,6 +116,9 @@ public class BeeJarItem extends Item {
                         beeData.remove("Pos");
                         beeData.remove("Motion");
                         beeData.remove("Rotation");
+                        beeData.remove("HivePos");
+                        beeData.remove("BubbasHomeAnchor");
+                        beeData.remove("FlowerPos");
                         entity.load(beeData);
                         entity.setPos(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5);
 

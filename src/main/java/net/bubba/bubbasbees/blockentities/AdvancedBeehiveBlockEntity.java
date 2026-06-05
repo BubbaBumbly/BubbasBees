@@ -82,8 +82,9 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         boolean flag = false;
         for (Iterator<BeeData> iterator = bees.iterator(); iterator.hasNext(); increaseTicksInHive(beeData, 1)) {
             beeData = iterator.next();
-            if (((BeehiveBeeDataAccessor) beeData).getTicksInHive() > ((BeehiveBeeDataAccessor) beeData).getMinOccupationTicks()) {
-                BeeReleaseStatus status = ((BeehiveBeeDataAccessor) beeData).getEntityData().getBoolean("HasNectar")
+            boolean hasNectar = ((BeehiveBeeDataAccessor) beeData).getEntityData().getBoolean("HasNectar");
+            if (((BeehiveBeeDataAccessor) beeData).getTicksInHive() > (hasNectar ? 1200 : 600)) {
+                BeeReleaseStatus status = hasNectar
                         ? BeeReleaseStatus.HONEY_DELIVERED : BeeReleaseStatus.BEE_RELEASED;
                 if(releaseBee(hive, state, beeData, null, status)){
                     iterator.remove();
@@ -175,6 +176,7 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
             CompoundTag nbt = ((BeehiveBeeDataAccessor) tileBee).getEntityData();
             BeehiveEntityAccessor.callRemoveIgnoredBeeTags(nbt);
             nbt.put("HivePos", NbtUtils.writeBlockPos(hive.getBlockPos()));
+            nbt.put("BubbasHomeAnchor", NbtUtils.writeBlockPos(hive.getBlockPos()));
             nbt.putBoolean("NoGravity", true);
             Direction direction = state.getValue(BeehiveBlock.FACING);
             BlockPos relative = hive.worldPosition.relative(direction);

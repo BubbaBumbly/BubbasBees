@@ -125,8 +125,17 @@ public abstract class BeeMixin extends Animal {
     }
     @Unique
     public void bubbasBees$spawnThat (Bee newbie){
+        BlockPos oldHive = this.getHivePos();
         newbie.moveTo(this.getX(), this.getY(), this.getZ(),
                 this.random.nextFloat() * 180.0F, this.random.nextFloat()* 180.F);
+        if (oldHive != null) {
+            ((BeeEntityAccessor)newbie).setHivePos(oldHive);
+        }
+        if (newbie instanceof BubbasBee bubba) {
+            if (oldHive != null) {
+                bubba.setHomeAnchorPos(oldHive);
+            }
+        }
         this.level.addFreshEntity(newbie);
         this.remove(RemovalReason.DISCARDED);
     }

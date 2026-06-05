@@ -1,11 +1,14 @@
 package net.bubba.bubbasbees.entity.custom;
 
+import net.bubba.bubbasbees.entity.goals.BeeAnchorHomingGoal;
 import net.bubba.bubbasbees.entity.goals.ModBeePollinateGoal;
 import net.bubba.bubbasbees.mixin.BeeEntityAccessor;
 import net.bubba.bubbasbees.registries.ModEntityTypes;
 import net.bubba.bubbasbees.registries.ModItems;
 import net.bubba.bubbasbees.util.ListUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -40,9 +43,18 @@ public class BubbasBee extends Bee implements IAnimatable {
     public ItemStack validHoneycombOutput;
     public String variant = "none";
     public Item conversionItem;
+    public BlockPos homeAnchorPos;
 
     public BubbasBee(EntityType<? extends Bee> bubbasBeeEntityType, Level level) {
         super(bubbasBeeEntityType, level);
+    }
+
+    public BlockPos getHomeAnchorPos() {
+        return homeAnchorPos;
+    }
+
+    public void setHomeAnchorPos(BlockPos pos) {
+        this.homeAnchorPos = pos;
     }
 
     public @NotNull EntityType<? extends Bee> getType(){
@@ -67,6 +79,7 @@ public class BubbasBee extends Bee implements IAnimatable {
             System.out.println("  ValidFlowerList: " + (validFlowerList == null ? "null!" : validFlowerList.size() + " blocks"));
             System.out.println("  Has hive: " + hasHive());
             System.out.println("  HivePos: " + (getHivePos() != null ? getHivePos().toShortString() : "null"));
+            System.out.println("  HomeAnchor: " + (homeAnchorPos != null ? homeAnchorPos.toShortString() : "null"));
             System.out.println("======================================");
             return InteractionResult.SUCCESS;
         }
@@ -74,8 +87,28 @@ public class BubbasBee extends Bee implements IAnimatable {
     }
 
     @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        if (homeAnchorPos != null) {
+            tag.put("BubbasHomeAnchor", NbtUtils.writeBlockPos(homeAnchorPos));
+        }
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        if (tag.contains("BubbasHomeAnchor")) {
+            homeAnchorPos = NbtUtils.readBlockPos(tag.getCompound("BubbasHomeAnchor"));
+        } else {
+            BlockPos hive = this.getHivePos();
+            homeAnchorPos = hive != null ? hive : this.blockPosition();
+        }
+    }
+
+    @Override
     protected void registerGoals() {
         super.registerGoals();
+        this.goalSelector.addGoal(3, new BeeAnchorHomingGoal(this));
         Bee.BeePollinateGoal oldGoal = ((BeeEntityAccessor)this).getBeePollinateGoal();
         if (oldGoal != null) {
             this.goalSelector.removeGoal(oldGoal);
