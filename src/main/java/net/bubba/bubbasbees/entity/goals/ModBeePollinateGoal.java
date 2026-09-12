@@ -43,8 +43,7 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     private static final double DESCENT_SPEED = 0.7D;
     private static final double DESCENT_RADIUS = 0.75D;
     private static final int LINE_OF_SIGHT_INTERVAL = 10;
-    private static final double HOVER_SETTLE_RANGE = 0.25D;
-    private static final double HOVER_VERTICAL_DAMPING = 0.4D;
+    private static final double HOVER_BOB_LIFT = 0.05D;
 
     public ModBeePollinateGoal(BubbasBee bee) {
         bee.super();
@@ -240,10 +239,9 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         }
         if (this.hoverPos == null) this.hoverPos = target;
         Vec3 wanted = this.hoverPos.add(0.0D, WANTED_POS_LIFT, 0.0D);
-        // Hovering just above a solid block: bleed off vertical speed so the bee settles instead of bouncing
-        if (Math.abs(wanted.y - bubbasBee.getY()) < HOVER_SETTLE_RANGE) {
-            Vec3 motion = bubbasBee.getDeltaMovement();
-            bubbasBee.setDeltaMovement(motion.x, motion.y * HOVER_VERTICAL_DAMPING, motion.z);
+        // Hovering just above a solid block: a small lift each time the feet touch keeps a gentle bob
+        if (bubbasBee.isOnGround()) {
+            bubbasBee.setDeltaMovement(bubbasBee.getDeltaMovement().add(0.0D, HOVER_BOB_LIFT, 0.0D));
         }
         boolean arrived = bubbasBee.position().distanceTo(wanted) <= 0.1D;
         boolean updateWantedPos = true;

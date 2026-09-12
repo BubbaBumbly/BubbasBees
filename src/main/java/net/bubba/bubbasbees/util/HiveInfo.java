@@ -103,10 +103,10 @@ public final class HiveInfo {
         return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/" + texture + ".png");
     }
 
-    /** Countdown text for a stored bee: m:ss until release, or "waiting" when held past its time. */
+    /** Countdown text for a stored bee: m:ss until release, or "ready" when due but held in by night or rain. */
     public static Component timerText(HiveOccupant occupant, long gameTime) {
         long remaining = occupant.remainingTicks(gameTime);
-        if (remaining <= 0L) return Component.translatable("gui.bubbasbees.hive_info.waiting");
+        if (remaining <= 0L) return Component.translatable("gui.bubbasbees.hive_info.ready");
         long seconds = (remaining + 19L) / 20L;
         return Component.literal(String.format("%d:%02d", seconds / 60L, seconds % 60L));
     }
