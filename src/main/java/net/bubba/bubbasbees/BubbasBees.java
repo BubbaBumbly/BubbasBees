@@ -1,6 +1,9 @@
 package net.bubba.bubbasbees;
 
 import com.mojang.logging.LogUtils;
+import net.bubba.bubbasbees.client.BeeListTooltip;
+import net.bubba.bubbasbees.client.ClientBeeListTooltip;
+import net.bubba.bubbasbees.client.HiveInfoOverlay;
 import net.bubba.bubbasbees.dispenser.GlassBottleDispenseItemBehavior;
 import net.bubba.bubbasbees.dispenser.ShearsDispenseItemBehavior;
 import net.bubba.bubbasbees.item.custom.BeeJarItem;
@@ -10,6 +13,8 @@ import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraftforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -69,6 +74,16 @@ public class BubbasBees {
             EntityRenderers.register(ModEntityTypes.NATURE_BEE.get(), BubbasBeeRenderer::new);
             EntityRenderers.register(ModEntityTypes.ENDER_BEE.get(), BubbasBeeRenderer::new);
             EntityRenderers.register(ModEntityTypes.STONE_BEE.get(), BubbasBeeRenderer::new);
+        }
+
+        @SubscribeEvent
+        public static void onRegisterOverlays(RegisterGuiOverlaysEvent event) {
+            event.registerAboveAll(HiveInfoOverlay.ID, new HiveInfoOverlay());
+        }
+
+        @SubscribeEvent
+        public static void onRegisterTooltipFactories(RegisterClientTooltipComponentFactoriesEvent event) {
+            event.register(BeeListTooltip.class, ClientBeeListTooltip::new);
         }
     }
 }

@@ -73,6 +73,7 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
             }
         }
         tickOccupants(hive, state, hive.getBees());
+        ((HiveOccupantView) hive).bubbasBees$syncOccupantsIfChanged();
         DebugPackets.sendHiveInfo(level, pos, state, hive);
     }
 

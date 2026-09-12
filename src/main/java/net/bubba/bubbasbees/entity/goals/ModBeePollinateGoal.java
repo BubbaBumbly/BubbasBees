@@ -2,15 +2,18 @@ package net.bubba.bubbasbees.entity.goals;
 
 import net.bubba.bubbasbees.entity.custom.BubbasBee;
 import net.bubba.bubbasbees.entity.custom.CopperBee;
+import net.bubba.bubbasbees.mixin.BeePollinateGoalAccessor;
 import net.bubba.bubbasbees.util.ListUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -24,6 +27,10 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     private int exploreTimer = 0;
     private boolean seekingNewFlower = false;
     private boolean reachedFlower = false;
+    private BlockPos lastPollinatedPos = null;
+    private static final int MAX_POLLINATING_TICKS = 600;
+    private static final double SOLID_HOVER_HEIGHT = 0.5D;
+    private static final double FLOWER_HOVER_HEIGHT = 0.6D;
 
     public ModBeePollinateGoal(BubbasBee bee) {
         bee.super();
@@ -115,12 +122,25 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         return false;
     }
 
+    // Ore-style flowers are solid, so the bee must fly to the air block above them, not into them
+    private boolean isSolidFlower(BlockPos pos) {
+        return !bubbasBee.level.getBlockState(pos).getCollisionShape(bubbasBee.level, pos).isEmpty();
+    }
+
+    private Vec3 hoverTarget(BlockPos flower) {
+        if (isSolidFlower(flower)) {
+            return Vec3.atBottomCenterOf(flower.above()).add(0.0D, SOLID_HOVER_HEIGHT, 0.0D);
+        }
+        return Vec3.atBottomCenterOf(flower).add(0.0D, FLOWER_HOVER_HEIGHT, 0.0D);
+    }
+
     private void navigateToPos(BlockPos pos) {
-        bubbasBee.getNavigation().moveTo(
-                (double)pos.getX() + 0.5D,
-                (double)pos.getY() + 0.5D,
-                (double)pos.getZ() + 0.5D,
-                (double)1.2F);
+        Vec3 target = hoverTarget(pos);
+        bubbasBee.getNavigation().moveTo(target.x, target.y, target.z, (double)1.2F);
+    }
+
+    private float randomOffset() {
+        return (bubbasBee.getRandom().nextFloat() * 2.0F - 1.0F) * 0.33333334F;
     }
 
     private boolean isOverFlower() {
@@ -153,11 +173,46 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         return Optional.empty();
     }
 
+    // Mirrors Bee.BeePollinateGoal.tick but hovers above solid flower blocks instead of inside them
     @Override
     public void tick() {
-        super.tick();
-        if (isOverFlower()) {
+        BeePollinateGoalAccessor counters = (BeePollinateGoalAccessor) this;
+        counters.setPollinatingTicks(counters.getPollinatingTicks() + 1);
+        if (counters.getPollinatingTicks() > MAX_POLLINATING_TICKS) {
+            bubbasBee.savedFlowerPos = null;
+            return;
+        }
+        if (bubbasBee.savedFlowerPos == null) return;
+        Vec3 target = hoverTarget(bubbasBee.savedFlowerPos);
+        // A flying bee that touched down walks slowly; lift it back into the air
+        if (bubbasBee.isOnGround()) {
+            bubbasBee.setDeltaMovement(bubbasBee.getDeltaMovement().add(0.0D, 0.08D, 0.0D));
+        }
+        if (target.distanceTo(bubbasBee.position()) > 1.0D) {
+            this.hoverPos = target;
+            this.setWantedPos();
+            return;
+        }
+        if (this.hoverPos == null) this.hoverPos = target;
+        boolean arrived = bubbasBee.position().distanceTo(this.hoverPos) <= 0.1D;
+        boolean updateWantedPos = true;
+        if (arrived) {
             reachedFlower = true;
+            lastPollinatedPos = bubbasBee.savedFlowerPos;
+            if (bubbasBee.getRandom().nextInt(25) == 0) {
+                this.hoverPos = new Vec3(target.x + randomOffset(), target.y, target.z + randomOffset());
+                bubbasBee.getNavigation().stop();
+            } else {
+                updateWantedPos = false;
+            }
+            bubbasBee.getLookControl().setLookAt(target.x, target.y, target.z);
+        }
+        if (updateWantedPos) this.setWantedPos();
+        counters.setSuccessfulPollinatingTicks(counters.getSuccessfulPollinatingTicks() + 1);
+        if (bubbasBee.getRandom().nextFloat() < 0.05F
+                && counters.getSuccessfulPollinatingTicks() > counters.getLastSoundPlayedTick() + 60) {
+            counters.setLastSoundPlayedTick(counters.getSuccessfulPollinatingTicks());
+            bubbasBee.playSound(SoundEvents.BEE_POLLINATE, 1.0F, 1.0F);
         }
     }
 
@@ -184,11 +239,14 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     @Override
     public void setWantedPos() {
         bubbasBee.getMoveControl().setWantedPosition(
-                this.hoverPos.x(), this.hoverPos.y() + 0.5, this.hoverPos.z(), 0.3499999940395355D);
+                this.hoverPos.x(), this.hoverPos.y(), this.hoverPos.z(), 0.3499999940395355D);
     }
 
     @Override
     public void stop() {
+        // Read before super.stop() resets the goal; only a completed pollination ages copper
+        boolean pollinated = this.hasPollinatedLongEnough();
+        BlockPos flower = lastPollinatedPos != null ? lastPollinatedPos : bubbasBee.savedFlowerPos;
         super.stop();
 
         exploring = true;
@@ -196,15 +254,16 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         rolledThisCycle = true;
         seekingNewFlower = false;
         reachedFlower = false;
+        lastPollinatedPos = null;
         this.nextSearchTick = bubbasBee.tickCount;
 
-        if (bubbasBee instanceof CopperBee copperBee) {
-            this.copperAging(copperBee);
+        if (pollinated && bubbasBee instanceof CopperBee copperBee) {
+            this.copperAging(copperBee, flower);
         }
     }
 
-    private void copperAging(BubbasBee bee) {
-        BlockPos blockpos = bee.blockPosition().below(1);
+    private void copperAging(BubbasBee bee, BlockPos flower) {
+        BlockPos blockpos = flower != null ? flower : bee.blockPosition().below(1);
         BlockState blockstate = bee.level.getBlockState(blockpos);
         BlockPos particlesPos = blockpos.above(1);
         double xpos = particlesPos.getX();

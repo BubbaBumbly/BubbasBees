@@ -50,7 +50,10 @@
   "item.bubbasbees.bee_jar.filled_custom": "%s Jar",
   "item.bubbasbees.bee_jar.pollinated": "Has Pollinated: %s",
   "item.bubbasbees.bee_jar.yes": "Yes",
-  "item.bubbasbees.bee_jar.no": "No"
+  "item.bubbasbees.bee_jar.no": "No",
 
+  "gui.bubbasbees.hive_info.honey": "Honey: %s/%s",
+  "gui.bubbasbees.hive_info.bees": "Bees: %s/%s",
+  "gui.bubbasbees.hive_info.empty": "No bees inside"
 
 }
