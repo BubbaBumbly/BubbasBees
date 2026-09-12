@@ -1,18 +1,14 @@
 package net.bubba.bubbasbees.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.bubba.bubbasbees.blockentities.HiveOccupant;
 import net.bubba.bubbasbees.util.HiveInfo;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.resources.ResourceLocation;
 
 /** Renders each stored bee as a face icon followed by its name inside an item tooltip. */
 public class ClientBeeListTooltip implements ClientTooltipComponent {
-    private static final int ICON = 14;
-    private static final int ROW = 16;
-    private static final int GAP = 4;
-
     private final BeeListTooltip data;
 
     public ClientBeeListTooltip(BeeListTooltip data) {
@@ -21,14 +17,14 @@ public class ClientBeeListTooltip implements ClientTooltipComponent {
 
     @Override
     public int getHeight() {
-        return data.bees().size() * ROW;
+        return data.bees().size() * HiveInfoOverlay.ROW;
     }
 
     @Override
     public int getWidth(Font font) {
         int width = 0;
-        for (ResourceLocation bee : data.bees()) {
-            width = Math.max(width, ICON + GAP + font.width(HiveInfo.beeName(bee)));
+        for (HiveOccupant bee : data.bees()) {
+            width = Math.max(width, HiveInfoOverlay.ICON + HiveInfoOverlay.GAP + font.width(HiveInfo.beeName(bee.id())));
         }
         return width;
     }
@@ -36,9 +32,9 @@ public class ClientBeeListTooltip implements ClientTooltipComponent {
     @Override
     public void renderImage(Font font, int x, int y, PoseStack poseStack, ItemRenderer itemRenderer, int blitOffset) {
         int rowY = y;
-        for (ResourceLocation bee : data.bees()) {
-            HiveInfoOverlay.drawBeeRow(poseStack, font, bee, x, rowY);
-            rowY += ROW;
+        for (HiveOccupant bee : data.bees()) {
+            HiveInfoOverlay.drawBeeRow(poseStack, font, bee.id(), x, rowY);
+            rowY += HiveInfoOverlay.ROW;
         }
     }
 }

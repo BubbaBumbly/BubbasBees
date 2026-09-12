@@ -12,7 +12,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
@@ -28,9 +30,19 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     private boolean seekingNewFlower = false;
     private boolean reachedFlower = false;
     private BlockPos lastPollinatedPos = null;
+    private int lineOfSightCheckTick = Integer.MIN_VALUE;
+    private boolean hasLineOfSight = false;
     private static final int MAX_POLLINATING_TICKS = 600;
-    private static final double SOLID_HOVER_HEIGHT = 0.5D;
-    private static final double FLOWER_HOVER_HEIGHT = 0.6D;
+    // Vanilla hover point: 0.6 above the flower's bottom; setWantedPos lifts the wanted position another 0.5
+    private static final double HOVER_HEIGHT = 0.6D;
+    private static final double WANTED_POS_LIFT = 0.5D;
+    private static final double NEAR_DISTANCE = 1.0D;
+    // Straight-line approach: cruise one block over the flower's top at full flying speed, then drop onto it
+    private static final double CRUISE_HEIGHT = 1.0D;
+    private static final double CRUISE_SPEED = 1.5D;
+    private static final double DESCENT_SPEED = 0.7D;
+    private static final double DESCENT_RADIUS = 0.75D;
+    private static final int LINE_OF_SIGHT_INTERVAL = 10;
 
     public ModBeePollinateGoal(BubbasBee bee) {
         bee.super();
@@ -122,21 +134,51 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         return false;
     }
 
-    // Ore-style flowers are solid, so the bee must fly to the air block above them, not into them
     private boolean isSolidFlower(BlockPos pos) {
         return !bubbasBee.level.getBlockState(pos).getCollisionShape(bubbasBee.level, pos).isEmpty();
     }
 
     private Vec3 hoverTarget(BlockPos flower) {
-        if (isSolidFlower(flower)) {
-            return Vec3.atBottomCenterOf(flower.above()).add(0.0D, SOLID_HOVER_HEIGHT, 0.0D);
-        }
-        return Vec3.atBottomCenterOf(flower).add(0.0D, FLOWER_HOVER_HEIGHT, 0.0D);
+        return Vec3.atBottomCenterOf(flower).add(0.0D, HOVER_HEIGHT, 0.0D);
     }
 
+    private double flowerTopY(BlockPos flower) {
+        return isSolidFlower(flower) ? flower.getY() + 1.0D : flower.getY();
+    }
+
+    // Path nodes for solid flowers must end in the air block above; a node inside the block is unreachable
     private void navigateToPos(BlockPos pos) {
-        Vec3 target = hoverTarget(pos);
-        bubbasBee.getNavigation().moveTo(target.x, target.y, target.z, (double)1.2F);
+        double y = isSolidFlower(pos) ? pos.getY() + 1.5D : pos.getY() + 0.5D;
+        bubbasBee.getNavigation().moveTo((double)pos.getX() + 0.5D, y, (double)pos.getZ() + 0.5D, (double)1.2F);
+    }
+
+    private boolean canSeePoint(Vec3 point) {
+        ClipContext context = new ClipContext(bubbasBee.getEyePosition(), point,
+                ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, bubbasBee);
+        return bubbasBee.level.clip(context).getType() == HitResult.Type.MISS;
+    }
+
+    // Far from the flower: fly straight at it when nothing is in the way, since path nodes hug the terrain
+    // and a bee following them touches the ground and drops to walking speed
+    private void approach(BlockPos flower, Vec3 target) {
+        double cruiseY = flowerTopY(flower) + CRUISE_HEIGHT;
+        if (bubbasBee.tickCount - lineOfSightCheckTick >= LINE_OF_SIGHT_INTERVAL) {
+            lineOfSightCheckTick = bubbasBee.tickCount;
+            hasLineOfSight = canSeePoint(new Vec3(target.x, cruiseY + 0.3D, target.z));
+        }
+        if (hasLineOfSight) {
+            bubbasBee.getNavigation().stop();
+            double dx = target.x - bubbasBee.getX();
+            double dz = target.z - bubbasBee.getZ();
+            if (Math.sqrt(dx * dx + dz * dz) > DESCENT_RADIUS) {
+                bubbasBee.getMoveControl().setWantedPosition(target.x, cruiseY, target.z, CRUISE_SPEED);
+            } else {
+                bubbasBee.getMoveControl().setWantedPosition(target.x, target.y + WANTED_POS_LIFT, target.z, DESCENT_SPEED);
+            }
+        } else {
+            if (bubbasBee.getNavigation().isDone()) navigateToPos(flower);
+            this.setWantedPos();
+        }
     }
 
     private float randomOffset() {
@@ -173,7 +215,7 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         return Optional.empty();
     }
 
-    // Mirrors Bee.BeePollinateGoal.tick but hovers above solid flower blocks instead of inside them
+    // Mirrors Bee.BeePollinateGoal.tick with a faster approach; hover point and speeds near the flower are vanilla
     @Override
     public void tick() {
         BeePollinateGoalAccessor counters = (BeePollinateGoalAccessor) this;
@@ -182,23 +224,23 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
             bubbasBee.savedFlowerPos = null;
             return;
         }
-        if (bubbasBee.savedFlowerPos == null) return;
-        Vec3 target = hoverTarget(bubbasBee.savedFlowerPos);
+        BlockPos flower = bubbasBee.savedFlowerPos;
+        if (flower == null) return;
+        Vec3 target = hoverTarget(flower);
         // A flying bee that touched down walks slowly; lift it back into the air
         if (bubbasBee.isOnGround()) {
             bubbasBee.setDeltaMovement(bubbasBee.getDeltaMovement().add(0.0D, 0.08D, 0.0D));
         }
-        if (target.distanceTo(bubbasBee.position()) > 1.0D) {
+        if (target.distanceTo(bubbasBee.position()) > NEAR_DISTANCE) {
             this.hoverPos = target;
-            this.setWantedPos();
+            approach(flower, target);
             return;
         }
         if (this.hoverPos == null) this.hoverPos = target;
-        boolean arrived = bubbasBee.position().distanceTo(this.hoverPos) <= 0.1D;
+        Vec3 wanted = this.hoverPos.add(0.0D, WANTED_POS_LIFT, 0.0D);
+        boolean arrived = bubbasBee.position().distanceTo(wanted) <= 0.1D;
         boolean updateWantedPos = true;
         if (arrived) {
-            reachedFlower = true;
-            lastPollinatedPos = bubbasBee.savedFlowerPos;
             if (bubbasBee.getRandom().nextInt(25) == 0) {
                 this.hoverPos = new Vec3(target.x + randomOffset(), target.y, target.z + randomOffset());
                 bubbasBee.getNavigation().stop();
@@ -208,6 +250,8 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
             bubbasBee.getLookControl().setLookAt(target.x, target.y, target.z);
         }
         if (updateWantedPos) this.setWantedPos();
+        reachedFlower = true;
+        lastPollinatedPos = flower;
         counters.setSuccessfulPollinatingTicks(counters.getSuccessfulPollinatingTicks() + 1);
         if (bubbasBee.getRandom().nextFloat() < 0.05F
                 && counters.getSuccessfulPollinatingTicks() > counters.getLastSoundPlayedTick() + 60) {
@@ -239,7 +283,7 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     @Override
     public void setWantedPos() {
         bubbasBee.getMoveControl().setWantedPosition(
-                this.hoverPos.x(), this.hoverPos.y(), this.hoverPos.z(), 0.3499999940395355D);
+                this.hoverPos.x(), this.hoverPos.y() + WANTED_POS_LIFT, this.hoverPos.z(), 0.3499999940395355D);
     }
 
     @Override
@@ -255,6 +299,8 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         seekingNewFlower = false;
         reachedFlower = false;
         lastPollinatedPos = null;
+        hasLineOfSight = false;
+        lineOfSightCheckTick = Integer.MIN_VALUE;
         this.nextSearchTick = bubbasBee.tickCount;
 
         if (pollinated && bubbasBee instanceof CopperBee copperBee) {

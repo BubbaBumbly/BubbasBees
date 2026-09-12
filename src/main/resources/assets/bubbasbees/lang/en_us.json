@@ -53,6 +53,8 @@
   "item.bubbasbees.bee_jar.no": "No",
 
   "gui.bubbasbees.hive_info.honey": "Honey: %s/%s",
+  "gui.bubbasbees.hive_info.header": "%s  Honey %s/%s  Bees %s/%s",
+  "gui.bubbasbees.hive_info.waiting": "waiting",
   "gui.bubbasbees.hive_info.bees": "Bees: %s/%s",
   "gui.bubbasbees.hive_info.empty": "No bees inside"
 

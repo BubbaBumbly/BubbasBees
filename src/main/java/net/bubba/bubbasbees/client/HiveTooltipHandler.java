@@ -2,9 +2,9 @@ package net.bubba.bubbasbees.client;
 
 import com.mojang.datafixers.util.Either;
 import net.bubba.bubbasbees.BubbasBees;
+import net.bubba.bubbasbees.blockentities.HiveOccupant;
 import net.bubba.bubbasbees.util.HiveInfo;
 import net.minecraft.network.chat.FormattedText;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +24,7 @@ public class HiveTooltipHandler {
         ItemStack stack = event.getItemStack();
         if (!HiveInfo.isHiveItem(stack)) return;
 
-        List<ResourceLocation> bees = HiveInfo.occupants(stack);
+        List<HiveOccupant> bees = HiveInfo.occupants(stack);
         int max = HiveInfo.maxOccupants(((BlockItem) stack.getItem()).getBlock());
         List<Either<FormattedText, TooltipComponent>> elements = event.getTooltipElements();
         int insertAt = Math.min(1, elements.size());

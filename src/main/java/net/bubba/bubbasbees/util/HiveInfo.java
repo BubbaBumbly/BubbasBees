@@ -1,7 +1,7 @@
 package net.bubba.bubbasbees.util;
 
 import net.bubba.bubbasbees.BubbasBees;
-import net.bubba.bubbasbees.blockentities.AdvancedBeehiveBlockEntity;
+import net.bubba.bubbasbees.blockentities.HiveOccupant;
 import net.bubba.bubbasbees.blockentities.HiveOccupantView;
 import net.bubba.bubbasbees.blocks.custom.AdvancedBeehiveBlock;
 import net.minecraft.nbt.CompoundTag;
@@ -52,26 +52,26 @@ public final class HiveInfo {
         return state.hasProperty(BeehiveBlock.HONEY_LEVEL) ? state.getValue(BeehiveBlock.HONEY_LEVEL) : 0;
     }
 
-    /** Occupant entity ids from a client-side hive block entity, or an empty list. */
-    public static List<ResourceLocation> occupants(@Nullable BlockEntity blockEntity) {
+    /** Occupants of a client-side hive block entity, or an empty list. */
+    public static List<HiveOccupant> occupants(@Nullable BlockEntity blockEntity) {
         if (blockEntity instanceof HiveOccupantView view) {
             return view.bubbasBees$getClientOccupants();
         }
         return List.of();
     }
 
-    /** Occupant entity ids stored in a picked-up hive item's BlockEntityTag. */
-    public static List<ResourceLocation> occupants(ItemStack stack) {
-        List<ResourceLocation> ids = new ArrayList<>();
+    /** Occupants stored in a picked-up hive item's BlockEntityTag (no release timers). */
+    public static List<HiveOccupant> occupants(ItemStack stack) {
+        List<HiveOccupant> occupants = new ArrayList<>();
         CompoundTag blockEntityTag = stack.getTagElement("BlockEntityTag");
-        if (blockEntityTag == null) return ids;
+        if (blockEntityTag == null) return occupants;
         ListTag bees = blockEntityTag.getList("Bees", Tag.TAG_COMPOUND);
         for (int i = 0; i < bees.size(); i++) {
             CompoundTag entityData = bees.getCompound(i).getCompound("EntityData");
             ResourceLocation id = ResourceLocation.tryParse(entityData.getString("id"));
-            if (id != null) ids.add(id);
+            if (id != null) occupants.add(new HiveOccupant(id));
         }
-        return ids;
+        return occupants;
     }
 
     /** Honey level copied into a hive item's BlockStateTag, or 0 if absent. */
@@ -103,6 +103,18 @@ public final class HiveInfo {
         return new ResourceLocation(BubbasBees.MOD_ID, "textures/entity/" + texture + ".png");
     }
 
+    /** Countdown text for a stored bee: m:ss until release, or "waiting" when held past its time. */
+    public static Component timerText(HiveOccupant occupant, long gameTime) {
+        long remaining = occupant.remainingTicks(gameTime);
+        if (remaining <= 0L) return Component.translatable("gui.bubbasbees.hive_info.waiting");
+        long seconds = (remaining + 19L) / 20L;
+        return Component.literal(String.format("%d:%02d", seconds / 60L, seconds % 60L));
+    }
+
+    public static Component headerText(Component hiveName, int honey, int beeCount, int maxBees) {
+        return Component.translatable("gui.bubbasbees.hive_info.header", hiveName, honey, MAX_HONEY, beeCount, maxBees);
+    }
+
     public static Component honeyText(int honey) {
         return Component.translatable("gui.bubbasbees.hive_info.honey", honey, MAX_HONEY);
     }
@@ -113,10 +125,5 @@ public final class HiveInfo {
 
     public static Component emptyText() {
         return Component.translatable("gui.bubbasbees.hive_info.empty");
-    }
-
-    /** True when this hive is the mod's advanced hive (5 slots) rather than a vanilla one. */
-    public static boolean isAdvanced(@Nullable BlockEntity blockEntity) {
-        return blockEntity instanceof AdvancedBeehiveBlockEntity;
     }
 }
