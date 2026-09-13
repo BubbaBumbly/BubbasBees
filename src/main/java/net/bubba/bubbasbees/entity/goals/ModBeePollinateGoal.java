@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
@@ -34,7 +35,14 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     private BlockPos lastPollinatedPos = null;
     private int lineOfSightCheckTick = Integer.MIN_VALUE;
     private boolean hasLineOfSight = false;
-    private static final int MAX_POLLINATING_TICKS = 600;
+    // Give up after this many consecutive ticks away from the flower; every counted pollination tick resets it,
+    // so approach time never eats into a pollination that has begun
+    private static final int MAX_TICKS_WITHOUT_POLLINATING = 300;
+    private int ticksWithoutPollinating = 0;
+    private boolean timedOut = false;
+    // Hovering drives the move control directly, so the bee's pathfinder is paused only then (see BubbasBee)
+    private boolean hoveringAtFlower = false;
+    private int nextRepathTick = 0;
     // Vanilla hover point: 0.6 above the flower's bottom; setWantedPos lifts the wanted position another 0.5
     private static final double HOVER_HEIGHT = 0.6D;
     private static final double WANTED_POS_LIFT = 0.5D;
@@ -53,9 +61,21 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     // Chance to forget the flower after a successful trip so bees spread out over time
     private static final float FORGET_FLOWER_CHANCE = 0.25F;
     private int requiredPollinationTicks = BASE_POLLINATION_TICKS;
-    // Small lift each time the hovering bee touches the block keeps a gentle bob (0.5 from 1.20.6 on, where
-    // vanilla damps vertical velocity much harder)
-    private static final double HOVER_BOB_LIFT = 0.05D;
+    // Small lift each time the hovering bee touches the block (~0.4-block bob). Vanilla before 1.20.5 damps a flying
+    // animal's vertical velocity by 0.98/tick (~0.91 from 1.20.5), so 1.20.6 and newer use 0.13 for the same bob
+    private static final double HOVER_BOB_LIFT = 0.107D;
+    // Approach: keep this much air under the bee so it does not scrape the ground and slow to walking speed.
+    // Full clearance beyond CLEARANCE_FADE_START blocks (horizontal) from the flower, none within CLEARANCE_FADE_END
+    private static final double APPROACH_GROUND_CLEARANCE = 0.5D;
+    private static final double CLEARANCE_FADE_START = 2.5D;
+    private static final double CLEARANCE_FADE_END = DESCENT_RADIUS;
+    private static final double CLEARANCE_MAX_CLIMB = 0.1D;
+    // Approach look-ahead for walls the eye-level line-of-sight ray passes over but the body does not
+    private static final double OBSTACLE_LOOKAHEAD = 1.5D;
+    private static final int MAX_OBSTACLE_CLIMB = 4;
+    private static final double OBSTACLE_CLEARANCE = 0.3D;
+    private static final double OBSTACLE_CLIMB_SPEED = 0.15D;
+    private double obstacleClimbY = Double.NaN;
 
     public ModBeePollinateGoal(BubbasBee bee) {
         bee.super();
@@ -179,25 +199,102 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         return bubbasBee.level.clip(context).getType() == HitResult.Type.MISS;
     }
 
+    // Lifts the bee whenever the surface straight below is closer than the (faded) clearance. Sets a minimum upward
+    // speed instead of adding to it, so repeated ticks cannot stack into a launch
+    private void keepGroundClearance(Vec3 target) {
+        double dx = target.x - bubbasBee.getX();
+        double dz = target.z - bubbasBee.getZ();
+        double fade = Mth.clamp((Math.sqrt(dx * dx + dz * dz) - CLEARANCE_FADE_END)
+                / (CLEARANCE_FADE_START - CLEARANCE_FADE_END), 0.0D, 1.0D);
+        double wantedClearance = APPROACH_GROUND_CLEARANCE * fade;
+        if (wantedClearance <= 0.0D) return;
+        Vec3 feet = bubbasBee.position();
+        HitResult below = bubbasBee.level.clip(new ClipContext(feet.add(0.0D, 0.25D, 0.0D),
+                feet.subtract(0.0D, wantedClearance, 0.0D), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, bubbasBee));
+        if (below.getType() == HitResult.Type.MISS) return;
+        liftToward(wantedClearance - (feet.y - below.getLocation().y), CLEARANCE_MAX_CLIMB);
+    }
+
+    // Raises the upward speed to at least half the remaining height (capped); returns whether it had to
+    private boolean liftToward(double deficit, double maxClimb) {
+        if (deficit <= 0.0D) return false;
+        Vec3 motion = bubbasBee.getDeltaMovement();
+        double climb = Math.min(maxClimb, deficit * 0.5D);
+        if (motion.y >= climb) return false;
+        bubbasBee.setDeltaMovement(motion.x, climb, motion.z);
+        return true;
+    }
+
+    // Casts two short rays toward the flower at foot and head height. On a hit, climbs to the lowest free block
+    // above the blocking column (up to MAX_OBSTACLE_CLIMB); anything taller is left to the pathfinder
+    private void checkObstacleAhead(BlockPos flower, double dx, double dz, double horizontalDistance) {
+        if (horizontalDistance <= OBSTACLE_LOOKAHEAD) {
+            obstacleClimbY = Double.NaN;
+            return;
+        }
+        Vec3 ahead = new Vec3(dx / horizontalDistance * OBSTACLE_LOOKAHEAD, 0.0D, dz / horizontalDistance * OBSTACLE_LOOKAHEAD);
+        BlockHitResult hit = null;
+        for (double height : new double[]{0.1D, bubbasBee.getBbHeight() - 0.1D}) {
+            Vec3 from = bubbasBee.position().add(0.0D, height, 0.0D);
+            BlockHitResult ray = bubbasBee.level.clip(new ClipContext(from, from.add(ahead),
+                    ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, bubbasBee));
+            if (ray.getType() == HitResult.Type.BLOCK && !ray.getBlockPos().equals(flower)) {
+                hit = ray;
+                break;
+            }
+        }
+        if (hit == null) {
+            obstacleClimbY = Double.NaN;
+            return;
+        }
+        for (int up = 1; up <= MAX_OBSTACLE_CLIMB; up++) {
+            BlockPos above = hit.getBlockPos().above(up);
+            if (bubbasBee.level.getBlockState(above).getCollisionShape(bubbasBee.level, above).isEmpty()) {
+                obstacleClimbY = above.getY() + OBSTACLE_CLEARANCE;
+                return;
+            }
+        }
+        hasLineOfSight = false;
+        obstacleClimbY = Double.NaN;
+    }
+
     // Far from the flower: fly straight at it when nothing is in the way, since path nodes hug the terrain
     // and a bee following them touches the ground and drops to walking speed
     private void approach(BlockPos flower, Vec3 target) {
+        keepGroundClearance(target);
         double cruiseY = flowerTopY(flower) + CRUISE_HEIGHT;
+        double dx = target.x - bubbasBee.getX();
+        double dz = target.z - bubbasBee.getZ();
+        double horizontalDistance = Math.sqrt(dx * dx + dz * dz);
         if (bubbasBee.tickCount - lineOfSightCheckTick >= LINE_OF_SIGHT_INTERVAL) {
             lineOfSightCheckTick = bubbasBee.tickCount;
             hasLineOfSight = canSeePoint(new Vec3(target.x, cruiseY + 0.3D, target.z));
+            // The line-of-sight ray leaves from the eyes, so a low wall can pass under it and still stop the body
+            if (hasLineOfSight) checkObstacleAhead(flower, dx, dz, horizontalDistance);
+        } else if (hasLineOfSight && bubbasBee.horizontalCollision && Double.isNaN(obstacleClimbY)) {
+            checkObstacleAhead(flower, dx, dz, horizontalDistance);
         }
         if (hasLineOfSight) {
             bubbasBee.getNavigation().stop();
-            double dx = target.x - bubbasBee.getX();
-            double dz = target.z - bubbasBee.getZ();
-            if (Math.sqrt(dx * dx + dz * dz) > DESCENT_RADIUS) {
-                bubbasBee.getMoveControl().setWantedPosition(target.x, cruiseY, target.z, CRUISE_SPEED);
+            if (horizontalDistance > DESCENT_RADIUS) {
+                double flyY = cruiseY;
+                if (!Double.isNaN(obstacleClimbY)) {
+                    flyY = Math.max(cruiseY, obstacleClimbY);
+                    liftToward(obstacleClimbY - bubbasBee.getY(), OBSTACLE_CLIMB_SPEED);
+                }
+                bubbasBee.getMoveControl().setWantedPosition(target.x, flyY, target.z, CRUISE_SPEED);
             } else {
+                obstacleClimbY = Double.NaN;
                 bubbasBee.getMoveControl().setWantedPosition(target.x, target.y + WANTED_POS_LIFT, target.z, DESCENT_SPEED);
             }
         } else {
-            if (bubbasBee.getNavigation().isDone()) navigateToPos(flower);
+            obstacleClimbY = Double.NaN;
+            // The pathfinder overrides this wanted position while it has a path; an unreachable flower would
+            // otherwise trigger a fresh path search every tick
+            if (bubbasBee.getNavigation().isDone() && bubbasBee.tickCount >= nextRepathTick) {
+                nextRepathTick = bubbasBee.tickCount + LINE_OF_SIGHT_INTERVAL;
+                navigateToPos(flower);
+            }
             this.setWantedPos();
         }
     }
@@ -214,8 +311,10 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     @Override
     public void tick() {
         BeePollinateGoalAccessor counters = (BeePollinateGoalAccessor) this;
+        hoveringAtFlower = false;
         counters.setPollinatingTicks(counters.getPollinatingTicks() + 1);
-        if (counters.getPollinatingTicks() > MAX_POLLINATING_TICKS) {
+        if (++ticksWithoutPollinating > MAX_TICKS_WITHOUT_POLLINATING) {
+            timedOut = true;
             bubbasBee.savedFlowerPos = null;
             return;
         }
@@ -231,6 +330,7 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
             approach(flower, target);
             return;
         }
+        hoveringAtFlower = true;
         if (this.hoverPos == null) this.hoverPos = target;
         Vec3 wanted = this.hoverPos.add(0.0D, WANTED_POS_LIFT, 0.0D);
         // Hovering just above a solid block: a small lift each time the feet touch keeps a gentle bob
@@ -252,6 +352,7 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         reachedFlower = true;
         lastPollinatedPos = flower;
         counters.setSuccessfulPollinatingTicks(counters.getSuccessfulPollinatingTicks() + 1);
+        ticksWithoutPollinating = 0;
         if (bubbasBee.getRandom().nextFloat() < 0.05F
                 && counters.getSuccessfulPollinatingTicks() > counters.getLastSoundPlayedTick() + 60) {
             counters.setLastSoundPlayedTick(counters.getSuccessfulPollinatingTicks());
@@ -281,6 +382,11 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     @Override
     public void start() {
         super.start();
+        ticksWithoutPollinating = 0;
+        timedOut = false;
+        hoveringAtFlower = false;
+        nextRepathTick = 0;
+        obstacleClimbY = Double.NaN;
         requiredPollinationTicks = BASE_POLLINATION_TICKS
                 + bubbasBee.getRandom().nextInt(POLLINATION_VARIANCE * 2 + 1) - POLLINATION_VARIANCE;
     }
@@ -289,6 +395,10 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     @Override
     public boolean hasPollinatedLongEnough() {
         return ((BeePollinateGoalAccessor) this).getSuccessfulPollinatingTicks() > requiredPollinationTicks;
+    }
+
+    public boolean isHoveringAtFlower() {
+        return this.isPollinating() && hoveringAtFlower;
     }
 
     @Override
@@ -312,6 +422,8 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         lastPollinatedPos = null;
         hasLineOfSight = false;
         lineOfSightCheckTick = Integer.MIN_VALUE;
+        obstacleClimbY = Double.NaN;
+        hoveringAtFlower = false;
         this.nextSearchTick = bubbasBee.tickCount;
 
         if (pollinated && bubbasBee instanceof CopperBee copperBee) {

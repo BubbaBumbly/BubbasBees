@@ -17,6 +17,8 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -123,6 +125,34 @@ public class BubbasBee extends Bee implements IAnimatable {
             this.goalSelector.addGoal(4, modGoal);
             ((BeeEntityAccessor)this).setBeePollinateGoal(modGoal);
         }
+    }
+
+    // Vanilla's bee navigation pauses for the whole pollinate goal because its hover drives the move control
+    // directly. ModBeePollinateGoal also approaches from farther away and needs the pathfinder when a wall blocks
+    // the straight line, so pause only while it is hovering over the flower
+    @Override
+    protected @NotNull PathNavigation createNavigation(@NotNull Level level) {
+        FlyingPathNavigation navigation = new FlyingPathNavigation(this, level) {
+            @Override
+            public boolean isStableDestination(@NotNull BlockPos pos) {
+                return !this.level.getBlockState(pos.below()).isAir();
+            }
+
+            @Override
+            public void tick() {
+                Bee.BeePollinateGoal goal = ((BeeEntityAccessor) BubbasBee.this).getBeePollinateGoal();
+                boolean paused = goal instanceof ModBeePollinateGoal modGoal
+                        ? modGoal.isHoveringAtFlower()
+                        : goal != null && goal.isPollinating();
+                if (!paused) {
+                    super.tick();
+                }
+            }
+        };
+        navigation.setCanOpenDoors(false);
+        navigation.setCanFloat(false);
+        navigation.setCanPassDoors(true);
+        return navigation;
     }
 
     ///Start Geckolib
