@@ -61,9 +61,16 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     // Chance to forget the flower after a successful trip so bees spread out over time
     private static final float FORGET_FLOWER_CHANCE = 0.25F;
     private int requiredPollinationTicks = BASE_POLLINATION_TICKS;
-    // Small lift each time the hovering bee touches the block (~0.4-block bob). Vanilla before 1.20.5 damps a flying
-    // animal's vertical velocity by 0.98/tick (~0.91 from 1.20.5), so 1.20.6 and newer use 0.13 for the same bob
-    private static final double HOVER_BOB_LIFT = 0.107D;
+    // Small lift each time the hovering bee touches the block (~0.4-block bob); same value as 1.20.6+ because tick()
+    // emulates the newer vertical damping
+    private static final double HOVER_BOB_LIFT = 0.13D;
+    // Vanilla before 1.20.5 damps every mob's vertical velocity by 0.98/tick. 1.20.5+ damps a flying animal's like its
+    // horizontal velocity: 0.91 in the air, block friction (0.6 for most blocks) x 0.91 on the ground. With 0.98 every
+    // lift and climb below coasts ~5x farther, so the goal re-damps to the newer values and keeps the 1.21.1 tuning
+    private static final double OLD_VERTICAL_DAMPING = 0.98D;
+    private static final double AIR_DAMPING = 0.91D;
+    private static final double GROUND_DAMPING = 0.6D * 0.91D;
+    private boolean wasOnGround = false;
     // Approach: keep this much air under the bee so it does not scrape the ground and slow to walking speed.
     // Full clearance beyond CLEARANCE_FADE_START blocks (horizontal) from the flower, none within CLEARANCE_FADE_END
     private static final double APPROACH_GROUND_CLEARANCE = 0.5D;
@@ -312,6 +319,11 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     public void tick() {
         BeePollinateGoalAccessor counters = (BeePollinateGoalAccessor) this;
         hoveringAtFlower = false;
+        // Last tick's travel damped vertical velocity by 0.98; swap in the 1.20.5+ factor for that tick's ground state
+        Vec3 motion = bubbasBee.getDeltaMovement();
+        double damping = wasOnGround ? GROUND_DAMPING : AIR_DAMPING;
+        bubbasBee.setDeltaMovement(motion.x, motion.y * damping / OLD_VERTICAL_DAMPING, motion.z);
+        wasOnGround = bubbasBee.isOnGround();
         counters.setPollinatingTicks(counters.getPollinatingTicks() + 1);
         if (++ticksWithoutPollinating > MAX_TICKS_WITHOUT_POLLINATING) {
             timedOut = true;
@@ -386,6 +398,7 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         timedOut = false;
         hoveringAtFlower = false;
         nextRepathTick = 0;
+        wasOnGround = false;
         obstacleClimbY = Double.NaN;
         requiredPollinationTicks = BASE_POLLINATION_TICKS
                 + bubbasBee.getRandom().nextInt(POLLINATION_VARIANCE * 2 + 1) - POLLINATION_VARIANCE;
