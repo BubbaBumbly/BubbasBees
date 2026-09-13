@@ -58,7 +58,9 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
             int stayTicks = advanced
                     ? (entityData.getBoolean("HasNectar") ? ADVANCED_STAY_TICKS_WITH_NECTAR : ADVANCED_STAY_TICKS)
                     : data.getMinOccupationTicks();
-            long due = now + Math.max(0, stayTicks - data.getTicksInHive());
+            int remaining = stayTicks - data.getTicksInHive();
+            // An overdue bee (held in by night or rain) gets a fixed marker, not a due time that moves every tick
+            long due = remaining > 0 ? now + remaining : HiveOccupant.READY;
             list.add(new HiveOccupant(id, due));
         }
         return list;

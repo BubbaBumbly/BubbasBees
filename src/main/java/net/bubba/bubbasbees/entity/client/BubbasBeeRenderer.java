@@ -22,6 +22,17 @@ public class BubbasBeeRenderer extends GeoEntityRenderer<BubbasBee> {
         this.shadowRadius = 0.2f;
     }
 
+    // GeckoLib 3 does not scale babies itself; halve the model like vanilla's baby bee
+    @Override
+    public float getWidthScale(BubbasBee bee) {
+        return bee.isBaby() ? 0.5F * super.getWidthScale(bee) : super.getWidthScale(bee);
+    }
+
+    @Override
+    public float getHeightScale(BubbasBee bee) {
+        return bee.isBaby() ? 0.5F * super.getHeightScale(bee) : super.getHeightScale(bee);
+    }
+
     @Override
     public ResourceLocation getTextureLocation(BubbasBee instance) {
         switch (instance.getVariant()) {

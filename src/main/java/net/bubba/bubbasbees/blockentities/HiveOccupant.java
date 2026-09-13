@@ -8,6 +8,8 @@ import net.minecraft.resources.ResourceLocation;
  */
 public record HiveOccupant(ResourceLocation id, long dueGameTime) {
     public static final long NO_TIMER = -1L;
+    /** The bee is past its stay and only waiting on night or rain to end; fixed so the sync does not churn. */
+    public static final long READY = -2L;
 
     public HiveOccupant(ResourceLocation id) {
         this(id, NO_TIMER);
@@ -17,8 +19,13 @@ public record HiveOccupant(ResourceLocation id, long dueGameTime) {
         return dueGameTime != NO_TIMER;
     }
 
-    /** Ticks until release at the given game time; 0 when overdue (kept inside by night or rain). */
+    public boolean isReady() {
+        return dueGameTime == READY;
+    }
+
+    /** Ticks until release at the given game time; 0 when ready (kept inside by night or rain). */
     public long remainingTicks(long gameTime) {
-        return hasTimer() ? Math.max(0L, dueGameTime - gameTime) : 0L;
+        if (!hasTimer() || isReady()) return 0L;
+        return Math.max(0L, dueGameTime - gameTime);
     }
 }

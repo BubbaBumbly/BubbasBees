@@ -7,6 +7,7 @@ import net.bubba.bubbasbees.registries.ModEntityTypes;
 import net.bubba.bubbasbees.registries.ModItems;
 import net.bubba.bubbasbees.util.ListUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.tags.ItemTags;
@@ -84,6 +85,12 @@ public class BubbasBee extends Bee implements IAnimatable {
             return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);
+    }
+
+    // Spawn eggs and breeding produce a baby of this bee's own type instead of a vanilla bee
+    @Override
+    public Bee getBreedOffspring(@NotNull ServerLevel level, @NotNull AgeableMob other) {
+        return this.getType().create(level);
     }
 
     @Override

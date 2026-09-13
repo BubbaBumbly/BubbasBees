@@ -17,6 +17,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -43,6 +45,16 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     private static final double DESCENT_SPEED = 0.7D;
     private static final double DESCENT_RADIUS = 0.75D;
     private static final int LINE_OF_SIGHT_INTERVAL = 10;
+    // Pollination length varies per trip so bees sharing a hive do not enter and leave in lockstep
+    private static final int BASE_POLLINATION_TICKS = 400;
+    private static final int POLLINATION_VARIANCE = 25;
+    // Positions still examined after the first flower is found before choosing among the hits
+    private static final int EXTRA_SCAN_AFTER_FIRST_HIT = 15;
+    // Chance to forget the flower after a successful trip so bees spread out over time
+    private static final float FORGET_FLOWER_CHANCE = 0.25F;
+    private int requiredPollinationTicks = BASE_POLLINATION_TICKS;
+    // Small lift each time the hovering bee touches the block keeps a gentle bob (0.5 from 1.20.6 on, where
+    // vanilla damps vertical velocity much harder)
     private static final double HOVER_BOB_LIFT = 0.05D;
 
     public ModBeePollinateGoal(BubbasBee bee) {
@@ -61,34 +73,42 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         };
     }
 
+    // Scan the usual spiral, but after the first flower keep looking for a few more positions and pick one of
+    // the hits at random, so bees released together do not all converge on the same block
     @Override
     public Optional<BlockPos> findNearbyFlower() {
         BlockPos beePos = bubbasBee.blockPosition();
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
         double radius = 5.0D;
+        List<BlockPos> candidates = new ArrayList<>();
+        int positionsAfterFirstHit = 0;
 
         for (int i = 0; (double)i <= radius; i = i > 0 ? -i : 1 - i) {
             for (int j = 0; (double)j < radius; ++j) {
                 for (int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {
                     for (int l = k < j && k > -j ? j : 0; l <= j; l = l > 0 ? -l : 1 - l) {
                         mutablePos.setWithOffset(beePos, k, i - 1, l);
+                        if (!candidates.isEmpty() && ++positionsAfterFirstHit > EXTRA_SCAN_AFTER_FIRST_HIT) {
+                            return Optional.of(candidates.get(bubbasBee.getRandom().nextInt(candidates.size())));
+                        }
                         if (beePos.closerThan(mutablePos, radius)
                                 && this.VALID_POLLINATION_BLOCKS.test(bubbasBee.level.getBlockState(mutablePos))
                                 && bubbasBee.level.getBlockState(mutablePos.above()).isAir()) {
-                            return Optional.of(mutablePos);
+                            candidates.add(mutablePos.immutable());
                         }
                     }
                 }
             }
         }
-        return Optional.empty();
+        if (candidates.isEmpty()) return Optional.empty();
+        return Optional.of(candidates.get(bubbasBee.getRandom().nextInt(candidates.size())));
     }
 
     @Override
     public boolean canBeeUse() {
         if (bubbasBee.tickCount < this.nextSearchTick) return false;
         if (bubbasBee.hasNectar()) return false;
-        if (bubbasBee.level.isRaining()) return false;
+        if (bubbasBee.level.isRaining() || bubbasBee.level.isNight()) return false;
 
         if (bubbasBee.savedFlowerPos != null && bubbasBee.isFlowerValid(bubbasBee.savedFlowerPos)
                 && bubbasBee.level.getBlockState(bubbasBee.savedFlowerPos.above()).isAir()) {
@@ -186,34 +206,8 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         return (bubbasBee.getRandom().nextFloat() * 2.0F - 1.0F) * 0.33333334F;
     }
 
-    private boolean isOverFlower() {
-        return bubbasBee.savedFlowerPos != null
-                && bubbasBee.distanceToSqr(
-                        bubbasBee.savedFlowerPos.getX(),
-                        bubbasBee.savedFlowerPos.getY(),
-                        bubbasBee.savedFlowerPos.getZ()) <= 4.0;
-    }
-
     private Optional<BlockPos> findFlowerExcludingHistory() {
-        BlockPos beePos = bubbasBee.blockPosition();
-        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
-        double radius = 5.0D;
-
-        for (int i = 0; (double)i <= radius; i = i > 0 ? -i : 1 - i) {
-            for (int j = 0; (double)j < radius; ++j) {
-                for (int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {
-                    for (int l = k < j && k > -j ? j : 0; l <= j; l = l > 0 ? -l : 1 - l) {
-                        mutablePos.setWithOffset(beePos, k, i - 1, l);
-                        if (beePos.closerThan(mutablePos, radius)
-                                && this.VALID_POLLINATION_BLOCKS.test(bubbasBee.level.getBlockState(mutablePos))
-                                && bubbasBee.level.getBlockState(mutablePos.above()).isAir()) {
-                            return Optional.of(mutablePos);
-                        }
-                    }
-                }
-            }
-        }
-        return Optional.empty();
+        return findNearbyFlower();
     }
 
     // Mirrors Bee.BeePollinateGoal.tick with a faster approach; hover point and speeds near the flower are vanilla
@@ -271,7 +265,6 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         if (!bubbasBee.hasSavedFlowerPos()) return false;
         if (bubbasBee.level.isRaining()) return false;
         if (this.hasPollinatedLongEnough()) {
-            if (isOverFlower()) return true;
             return bubbasBee.level.getRandom().nextFloat() < 0.2F;
         }
         if (bubbasBee.tickCount % 20 == 0 && !bubbasBee.isFlowerValid(bubbasBee.savedFlowerPos)) {
@@ -283,6 +276,19 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void start() {
+        super.start();
+        requiredPollinationTicks = BASE_POLLINATION_TICKS
+                + bubbasBee.getRandom().nextInt(POLLINATION_VARIANCE * 2 + 1) - POLLINATION_VARIANCE;
+    }
+
+    // Vanilla compares against a fixed 400; this run's rolled value decides when nectar is granted in stop()
+    @Override
+    public boolean hasPollinatedLongEnough() {
+        return ((BeePollinateGoalAccessor) this).getSuccessfulPollinatingTicks() > requiredPollinationTicks;
     }
 
     @Override
@@ -310,6 +316,9 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
 
         if (pollinated && bubbasBee instanceof CopperBee copperBee) {
             this.copperAging(copperBee, flower);
+        }
+        if (pollinated && bubbasBee.getRandom().nextFloat() < FORGET_FLOWER_CHANCE) {
+            bubbasBee.savedFlowerPos = null;
         }
     }
 
