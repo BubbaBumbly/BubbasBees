@@ -2,6 +2,7 @@ package net.bubba.bubbasbees.registries;
 
 import net.bubba.bubbasbees.BubbasBees;
 import net.bubba.bubbasbees.blockentities.AdvancedBeehiveBlockEntity;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -16,7 +17,7 @@ public class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<AdvancedBeehiveBlockEntity>> ADVANCED_BEEHIVE =
             BLOCK_ENTITIES.register("advanced_beehive", () ->
                     BlockEntityType.Builder.of(AdvancedBeehiveBlockEntity::new,
-                            ModBlocks.ADVANCED_BEEHIVE.get()).build(null));
+                            ModBlocks.HIVES.stream().map(RegistryObject::get).toArray(Block[]::new)).build(null));
 
 
 

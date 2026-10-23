@@ -1,0 +1,30 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "biomesoplenty"
+    }
+  ],
+  "type": "bubbasbees:hive_conversion",
+  "group": "bubbasbees:advanced_beehive",
+  "pattern": [
+    "PHP"
+  ],
+  "key": {
+    "P": {
+      "item": "biomesoplenty:mahogany_planks"
+    },
+    "H": {
+      "type": "forge:difference",
+      "base": {
+        "tag": "bubbasbees:plain_hives"
+      },
+      "subtracted": {
+        "item": "bubbasbees:biomesoplenty_mahogany_advanced_beehive"
+      }
+    }
+  },
+  "result": {
+    "item": "bubbasbees:biomesoplenty_mahogany_advanced_beehive"
+  }
+}

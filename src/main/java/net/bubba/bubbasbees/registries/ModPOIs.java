@@ -17,8 +17,9 @@ public class ModPOIs {
             DeferredRegister.create(ForgeRegistries.POI_TYPES, BubbasBees.MOD_ID);
 
     public static final RegistryObject<PoiType> ADVANCED_BEEHIVE_POI = POI_TYPES.register("advanced_beehive_poi",
-            () -> new PoiType(ImmutableSet.copyOf(ModBlocks.ADVANCED_BEEHIVE.get().getStateDefinition().getPossibleStates()),
-                    1, 1));
+            () -> new PoiType(ModBlocks.HIVES.stream()
+                    .flatMap(hive -> hive.get().getStateDefinition().getPossibleStates().stream())
+                    .collect(ImmutableSet.toImmutableSet()), 1, 1));
 
     public static void registerPOIs() {
         try {

@@ -39,6 +39,7 @@ public class BubbasBees {
         ModBlockEntities.register(modEventBus);
         ModEntityTypes.register(modEventBus);
         ModPOIs.register(modEventBus);
+        ModRecipes.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
         GeckoLib.initialize();

@@ -36,7 +36,6 @@
                       "op": "replace"
                     }
                   ]
-
                 },
                 {
                   "function": "minecraft:copy_nbt",

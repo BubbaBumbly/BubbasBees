@@ -1,8 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
+  "group": "bubbasbees:advanced_beehive",
   "pattern": [
     "#$#",
-    "#*#",
+    "PHP",
     "#$#"
   ],
   "key": {
@@ -12,8 +13,17 @@
     "$": {
       "item": "minecraft:honey_block"
     },
-    "*": {
+    "H": {
       "item": "minecraft:beehive"
+    },
+    "P": {
+      "type": "forge:difference",
+      "base": {
+        "tag": "minecraft:planks"
+      },
+      "subtracted": {
+        "tag": "bubbasbees:hive_planks"
+      }
     }
   },
   "result": {

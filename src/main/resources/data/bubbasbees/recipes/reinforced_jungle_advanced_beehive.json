@@ -1,0 +1,20 @@
+{
+  "type": "bubbasbees:hive_conversion",
+  "group": "bubbasbees:advanced_beehive",
+  "pattern": [
+    "NNN",
+    "NHN",
+    "NNN"
+  ],
+  "key": {
+    "N": {
+      "item": "minecraft:iron_nugget"
+    },
+    "H": {
+      "item": "bubbasbees:jungle_advanced_beehive"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:reinforced_jungle_advanced_beehive"
+  }
+}
