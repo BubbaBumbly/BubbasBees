@@ -29,11 +29,8 @@ public class HiveTooltipHandler {
         List<Either<FormattedText, TooltipComponent>> elements = event.getTooltipElements();
         int insertAt = Math.min(1, elements.size());
 
-        elements.add(insertAt++, Either.left(HiveInfo.honeyText(HiveInfo.honeyLevel(stack))));
-        if (bees.isEmpty()) {
-            elements.add(insertAt, Either.left(HiveInfo.emptyText()));
-        } else {
-            elements.add(insertAt++, Either.left(HiveInfo.beesText(bees.size(), max)));
+        elements.add(insertAt++, Either.left(HiveInfo.summaryText(HiveInfo.honeyLevel(stack), bees.size(), max)));
+        if (!bees.isEmpty()) {
             elements.add(insertAt, Either.right(new BeeListTooltip(bees)));
         }
     }

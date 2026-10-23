@@ -115,15 +115,13 @@ public final class HiveInfo {
         return Component.translatable("gui.bubbasbees.hive_info.header", hiveName, honey, MAX_HONEY, beeCount, maxBees);
     }
 
-    public static Component honeyText(int honey) {
-        return Component.translatable("gui.bubbasbees.hive_info.honey", honey, MAX_HONEY);
+    /** Item tooltip line: honey and bee count together. */
+    public static Component summaryText(int honey, int beeCount, int maxBees) {
+        return Component.translatable("gui.bubbasbees.hive_info.summary", honey, MAX_HONEY, beeCount, maxBees);
     }
 
-    public static Component beesText(int count, int max) {
-        return Component.translatable("gui.bubbasbees.hive_info.bees", count, max);
-    }
-
-    public static Component emptyText() {
-        return Component.translatable("gui.bubbasbees.hive_info.empty");
+    /** How many bees of one type a hive item holds, e.g. "x2". */
+    public static Component countText(int count) {
+        return Component.translatable("gui.bubbasbees.hive_info.count", count);
     }
 }

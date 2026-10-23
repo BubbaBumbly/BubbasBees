@@ -5,6 +5,6 @@ import net.minecraft.world.inventory.tooltip.TooltipComponent;
 
 import java.util.List;
 
-/** Tooltip data: the bees stored in a hive item, one icon row per bee. */
+/** Tooltip data: the bees stored in a hive item (drawn one row per bee type). */
 public record BeeListTooltip(List<HiveOccupant> bees) implements TooltipComponent {
 }

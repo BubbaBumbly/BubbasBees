@@ -109,6 +109,11 @@ repositories {
         name = 'GeckoLib'
         url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
     }
+    maven {
+        name = 'Modrinth'
+        url 'https://api.modrinth.com/maven'
+        content { includeGroup 'maven.modrinth' }
+    }
 }
 dependencies {
     minecraft 'net.minecraftforge:forge:1.19.2-43.2.0'
@@ -116,6 +121,8 @@ dependencies {
     jarJar('software.bernie.geckolib:geckolib-forge-1.19:3.1.40') {
         jarJar.ranged(it, "[3.1.40,)")
     }
+    // Jade 8.9.2 (Forge 1.19.x), compile only: the hive panel merges into Jade's tooltip when Jade is installed
+    compileOnly fg.deobf('maven.modrinth:jade:kp0HjPre')
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.5.0"))
     implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.5.0")) {

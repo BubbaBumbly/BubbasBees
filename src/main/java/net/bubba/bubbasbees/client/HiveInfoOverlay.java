@@ -15,27 +15,32 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import net.minecraftforge.fml.ModList;
 
 import java.util.List;
 
-/** Compact top-of-screen panel: hive name, honey, and one row per stored bee with a release countdown. */
+/**
+ * Compact top-of-screen panel: hive name, honey, and one row per stored bee with a release countdown.
+ * Hidden while Jade is installed: Jade draws its own panel in the same spot and gets the bee rows from jade.HiveBeesProvider.
+ */
 public class HiveInfoOverlay implements IGuiOverlay {
     public static final String ID = "hive_info";
-    static final int ICON = 9;
+    public static final int ICON = 9;
     static final int ROW = 10;
-    static final int GAP = 3;
+    public static final int GAP = 3;
     private static final int PAD = 3;
     private static final int TOP = 4;
-    private static final int TIMER_GAP = 8;
+    public static final int TIMER_GAP = 8;
     private static final int BACKGROUND = 0x90000000;
     private static final int TEXT = 0xFFFFFF;
     private static final int HEADER_COLOR = 0xFFC83C;
     private static final int TIMER_COLOR = 0xAAAAAA;
+    private static final boolean JADE_LOADED = ModList.get().isLoaded("jade");
 
     @Override
     public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int screenWidth, int screenHeight) {
         Minecraft minecraft = gui.getMinecraft();
-        if (minecraft.options.hideGui || minecraft.level == null || minecraft.screen != null) return;
+        if (JADE_LOADED || minecraft.options.hideGui || minecraft.level == null || minecraft.screen != null) return;
         HitResult hit = minecraft.hitResult;
         if (!(hit instanceof BlockHitResult blockHit) || hit.getType() != HitResult.Type.BLOCK) return;
         BlockState state = minecraft.level.getBlockState(blockHit.getBlockPos());
@@ -73,15 +78,18 @@ public class HiveInfoOverlay implements IGuiOverlay {
     }
 
     static void drawBeeRow(PoseStack poseStack, Font font, ResourceLocation bee, int x, int y) {
-        ResourceLocation texture = HiveInfo.iconTexture(bee);
-        if (texture != null) {
-            RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            RenderSystem.setShaderTexture(0, texture);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.enableBlend();
-            GuiComponent.blit(poseStack, x, y, ICON, ICON, HiveInfo.FACE_U, HiveInfo.FACE_V,
-                    HiveInfo.FACE_SIZE, HiveInfo.FACE_SIZE, HiveInfo.TEXTURE_SIZE, HiveInfo.TEXTURE_SIZE);
-        }
+        drawBeeIcon(poseStack, bee, x, y);
         font.draw(poseStack, HiveInfo.beeName(bee), x + ICON + GAP, y + 1, TEXT);
+    }
+
+    public static void drawBeeIcon(PoseStack poseStack, ResourceLocation bee, int x, int y) {
+        ResourceLocation texture = HiveInfo.iconTexture(bee);
+        if (texture == null) return;
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, texture);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.enableBlend();
+        GuiComponent.blit(poseStack, x, y, ICON, ICON, HiveInfo.FACE_U, HiveInfo.FACE_V,
+                HiveInfo.FACE_SIZE, HiveInfo.FACE_SIZE, HiveInfo.TEXTURE_SIZE, HiveInfo.TEXTURE_SIZE);
     }
 }
