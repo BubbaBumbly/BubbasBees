@@ -7,16 +7,16 @@
   ],
   "key": {
     "#": {
-      "item": "minecraft:iron_ingot"
+      "item": "minecraft:copper_ingot"
     },
     "$": {
-      "item": "minecraft:iron_nugget"
+      "item": "minecraft:copper_ingot"
     },
     "*": {
       "item": "minecraft:leather"
     }
   },
   "result": {
-    "item": "bubbasbees:smoker"
+    "item": "bubbasbees:copper_smoker"
   }
 }

@@ -15,8 +15,11 @@ public class ModItems {
             DeferredRegister.create(ForgeRegistries.ITEMS, BubbasBees.MOD_ID);
 
     /// General
+    public static final RegistryObject<Item> COPPER_SMOKER = ITEMS.register("copper_smoker",
+            () -> new SmokerItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB), SmokerItem.COPPER_SMOKE_TICKS));
+    /** The iron smoker keeps the original id, so smokers already in worlds stay. */
     public static final RegistryObject<Item> SMOKER = ITEMS.register("smoker",
-            () -> new SmokerItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
+            () -> new SmokerItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB), SmokerItem.IRON_SMOKE_TICKS));
     public static final RegistryObject<Item> BUBBA_STAR = ITEMS.register("bubba_star",
             () -> new BubbaStarItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
     public static final RegistryObject<Item> LESSER_BUBBA_STAR = ITEMS.register("lesser_bubba_star",

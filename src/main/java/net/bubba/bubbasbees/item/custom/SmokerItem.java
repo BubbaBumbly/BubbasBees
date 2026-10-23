@@ -14,9 +14,14 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.NotNull;
 
 public class SmokerItem extends Item {
+    public static final int COPPER_SMOKE_TICKS = 300;
+    public static final int IRON_SMOKE_TICKS = 600;
+    private final int smokeTicks;
 
-    public SmokerItem(Properties properties) {
+    /** smokeTicks: how long a hive stays smoked (bees calm) after one use. */
+    public SmokerItem(Properties properties, int smokeTicks) {
         super(properties.durability(500));
+        this.smokeTicks = smokeTicks;
     }
 
     @Override
@@ -24,7 +29,7 @@ public class SmokerItem extends Item {
         if (!context.getLevel().isClientSide && context.getItemInHand().getDamageValue() < context.getItemInHand().getMaxDamage()) {
             BlockEntity blockEntity = context.getLevel().getBlockEntity(context.getClickedPos());
             if (blockEntity instanceof AdvancedBeehiveBlockEntity hive) {
-                hive.smokeHive();
+                hive.smokeHive(smokeTicks);
                 context.getItemInHand().hurtAndBreak(1, context.getPlayer(), player -> player.broadcastBreakEvent(context.getHand()));
                 if (context.getLevel() instanceof ServerLevel serverLevel) {
                     BlockPos pos = context.getClickedPos();

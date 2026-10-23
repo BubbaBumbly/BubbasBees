@@ -1,5 +1,6 @@
 package net.bubba.bubbasbees.blockentities;
 
+import net.bubba.bubbasbees.item.custom.SmokerItem;
 import net.bubba.bubbasbees.blocks.custom.AdvancedBeehiveBlock;
 import net.bubba.bubbasbees.entity.custom.BubbasBee;
 import net.bubba.bubbasbees.mixin.BeehiveBeeDataAccessor;
@@ -43,6 +44,8 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     private ArrayList<ItemStack> honeycombList = Lists.newArrayList();
     protected boolean isSmoked = false;
     protected int ticksSmoked = -1;
+    /** How long the current smoke lasts; set by the smoker that was used (copper 15 s, iron 30 s). */
+    protected int smokeDuration = SmokerItem.IRON_SMOKE_TICKS;
 
     public AdvancedBeehiveBlockEntity(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state) {
         super(pos, state);
@@ -65,7 +68,7 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
 
     public static void serverSideTick(Level level, BlockPos pos, BlockState state, AdvancedBeehiveBlockEntity hive) {
         if (hive.isSmoked) {
-            if (MathUtils.inRangeInclusive(0,600, hive.ticksSmoked)) {
+            if (MathUtils.inRangeInclusive(0, hive.smokeDuration, hive.ticksSmoked)) {
                 hive.ticksSmoked++;
             } else {
                 hive.isSmoked = false;
@@ -104,6 +107,7 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         if (nbt.contains("ModBeehiveCombList")) this.honeycombList = getHoneycombs(nbt);
         if (nbt.contains("Smoked")) this.isSmoked = nbt.getBoolean("Smoked");
         this.ticksSmoked = nbt.getInt("TicksSmoked");
+        this.smokeDuration = nbt.contains("SmokeDuration") ? nbt.getInt("SmokeDuration") : SmokerItem.IRON_SMOKE_TICKS;
     }
     @Override
     protected void saveAdditional(@NotNull CompoundTag tag) {
@@ -111,6 +115,7 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         if (!honeycombList.isEmpty()) tag.put("ModBeehiveCombList", writeCombList());
         tag.putBoolean("Smoked", isSmoked);
         tag.putInt("TicksSmoked", ticksSmoked);
+        tag.putInt("SmokeDuration", smokeDuration);
     }
     public ArrayList<ItemStack> getHoneycombs(CompoundTag nbt) {
         return nbt.getList("ModBeehiveCombList", Tag.TAG_COMPOUND)
@@ -260,9 +265,10 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     }
 
     /// Smoker implementation
-    public void smokeHive() {
+    public void smokeHive(int durationTicks) {
         this.isSmoked = true;
         ticksSmoked = 0;
+        smokeDuration = durationTicks;
     }
 
     public int getTicksSmoked() {
