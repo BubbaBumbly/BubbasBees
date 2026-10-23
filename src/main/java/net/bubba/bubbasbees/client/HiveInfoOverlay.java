@@ -10,6 +10,7 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -20,7 +21,7 @@ import net.minecraftforge.fml.ModList;
 import java.util.List;
 
 /**
- * Compact top-of-screen panel: hive name, honey, and one row per stored bee with a release countdown.
+ * Compact top-of-screen panel: hive name, honey, smoke countdown, and one row per stored bee with a release countdown.
  * Hidden while Jade is installed: Jade draws its own panel in the same spot and gets the bee rows from jade.HiveBeesProvider.
  */
 public class HiveInfoOverlay implements IGuiOverlay {
@@ -35,6 +36,8 @@ public class HiveInfoOverlay implements IGuiOverlay {
     private static final int TEXT = 0xFFFFFF;
     private static final int HEADER_COLOR = 0xFFC83C;
     private static final int TIMER_COLOR = 0xAAAAAA;
+    private static final int SMOKE_COLOR = 0xC8C8C8;
+    private static final int SMOKE_ENDING_COLOR = 0xFF8040;
     private static final boolean JADE_LOADED = ModList.get().isLoaded("jade");
 
     @Override
@@ -48,7 +51,10 @@ public class HiveInfoOverlay implements IGuiOverlay {
 
         Font font = gui.getFont();
         long gameTime = minecraft.level.getGameTime();
-        List<HiveOccupant> bees = HiveInfo.occupants(minecraft.level.getBlockEntity(blockHit.getBlockPos()));
+        BlockEntity blockEntity = minecraft.level.getBlockEntity(blockHit.getBlockPos());
+        List<HiveOccupant> bees = HiveInfo.occupants(blockEntity);
+        long smoke = HiveInfo.smokeRemaining(blockEntity, gameTime);
+        Component smokeLine = smoke > 0L ? HiveInfo.smokeText(smoke) : null;
         Component header = HiveInfo.headerText(state.getBlock().getName(), HiveInfo.honeyLevel(state),
                 bees.size(), HiveInfo.maxOccupants(state.getBlock()));
 
@@ -59,8 +65,10 @@ public class HiveInfoOverlay implements IGuiOverlay {
             timerWidth = Math.max(timerWidth, font.width(HiveInfo.timerText(bee, gameTime)));
         }
         int rowWidth = bees.isEmpty() ? 0 : ICON + GAP + nameWidth + TIMER_GAP + timerWidth;
-        int width = Math.max(font.width(header), rowWidth) + PAD * 2;
-        int height = PAD + font.lineHeight + 1 + bees.size() * ROW + PAD;
+        int smokeWidth = smokeLine == null ? 0 : font.width(smokeLine);
+        int width = Math.max(Math.max(font.width(header), smokeWidth), rowWidth) + PAD * 2;
+        int smokeHeight = smokeLine == null ? 0 : font.lineHeight + 1;
+        int height = PAD + font.lineHeight + 1 + smokeHeight + bees.size() * ROW + PAD;
         int left = (screenWidth - width) / 2;
         int right = left + width - PAD;
         int y = TOP;
@@ -69,6 +77,11 @@ public class HiveInfoOverlay implements IGuiOverlay {
         y += PAD;
         GuiComponent.drawCenteredString(poseStack, font, header, screenWidth / 2, y, HEADER_COLOR);
         y += font.lineHeight + 1;
+        if (smokeLine != null) {
+            GuiComponent.drawCenteredString(poseStack, font, smokeLine, screenWidth / 2, y,
+                    HiveInfo.smokeEnding(smoke) ? SMOKE_ENDING_COLOR : SMOKE_COLOR);
+            y += font.lineHeight + 1;
+        }
         for (HiveOccupant bee : bees) {
             drawBeeRow(poseStack, font, bee.id(), left + PAD, y);
             Component timer = HiveInfo.timerText(bee, gameTime);

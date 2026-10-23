@@ -17,7 +17,7 @@ import snownee.jade.api.ui.IElementHelper;
 
 import java.util.List;
 
-/** One Jade tooltip line per stored bee: face icon, name and release countdown, like HiveInfoOverlay's rows. */
+/** Smoke countdown, then one Jade tooltip line per stored bee (face icon, name, release countdown), like HiveInfoOverlay. */
 public enum HiveBeesProvider implements IBlockComponentProvider {
     INSTANCE;
 
@@ -26,11 +26,14 @@ public enum HiveBeesProvider implements IBlockComponentProvider {
     @Override
     public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
         if (!HiveInfo.isHive(accessor.getBlockState())) return;
-        List<HiveOccupant> bees = HiveInfo.occupants(accessor.getBlockEntity());
-        if (bees.isEmpty()) return;
-
         IElementHelper helper = tooltip.getElementHelper();
         long gameTime = Minecraft.getInstance().level == null ? 0L : Minecraft.getInstance().level.getGameTime();
+        long smoke = HiveInfo.smokeRemaining(accessor.getBlockEntity(), gameTime);
+        if (smoke > 0L) {
+            tooltip.add(helper.text(HiveInfo.smokeText(smoke).copy()
+                    .withStyle(HiveInfo.smokeEnding(smoke) ? ChatFormatting.GOLD : ChatFormatting.GRAY)));
+        }
+        List<HiveOccupant> bees = HiveInfo.occupants(accessor.getBlockEntity());
         for (HiveOccupant bee : bees) {
             tooltip.add(new BeeIconElement(bee.id()));
             tooltip.append(helper.text(HiveInfo.beeName(bee.id())));

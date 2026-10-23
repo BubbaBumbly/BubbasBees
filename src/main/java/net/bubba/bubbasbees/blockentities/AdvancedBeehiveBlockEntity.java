@@ -271,6 +271,11 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         smokeDuration = durationTicks;
     }
 
+    /** Game time the smoke wears off, or HiveOccupantView.NOT_SMOKED; constant while the smoke lasts. */
+    public long smokeEndGameTime(long gameTime) {
+        return isSmoked ? gameTime + Math.max(0, smokeDuration - ticksSmoked) : HiveOccupantView.NOT_SMOKED;
+    }
+
     public int getTicksSmoked() {
         return ticksSmoked;
     }

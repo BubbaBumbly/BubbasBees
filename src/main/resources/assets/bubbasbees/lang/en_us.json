@@ -103,5 +103,6 @@
   "gui.bubbasbees.hive_info.header": "%s  Honey %s/%s  Bees %s/%s",
   "gui.bubbasbees.hive_info.ready": "ready",
   "gui.bubbasbees.hive_info.count": "x%s",
+  "gui.bubbasbees.hive_info.smoked": "Smoked %s",
   "config.jade.plugin_bubbasbees.hive_bees": "Bees in hive"
 }

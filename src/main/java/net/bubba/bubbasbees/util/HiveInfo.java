@@ -27,6 +27,7 @@ public final class HiveInfo {
     public static final int VANILLA_MAX_OCCUPANTS = 3;
     public static final int ADVANCED_MAX_OCCUPANTS = 5;
     public static final int MAX_HONEY = 5;
+    private static final long SMOKE_WARNING_TICKS = 100L;
     // Face of the 7x7x10 bee body in the 64x64 entity texture (box UV north face)
     public static final int FACE_U = 10;
     public static final int FACE_V = 10;
@@ -107,8 +108,29 @@ public final class HiveInfo {
     public static Component timerText(HiveOccupant occupant, long gameTime) {
         long remaining = occupant.remainingTicks(gameTime);
         if (remaining <= 0L) return Component.translatable("gui.bubbasbees.hive_info.ready");
-        long seconds = (remaining + 19L) / 20L;
-        return Component.literal(String.format("%d:%02d", seconds / 60L, seconds % 60L));
+        return Component.literal(clock(remaining));
+    }
+
+    /** Ticks left on a hive's smoke as synced to the client, 0 when it isn't smoked. */
+    public static long smokeRemaining(@Nullable BlockEntity blockEntity, long gameTime) {
+        if (!(blockEntity instanceof HiveOccupantView view)) return 0L;
+        long end = view.bubbasBees$getClientSmokeEnd();
+        return end == HiveOccupantView.NOT_SMOKED ? 0L : Math.max(0L, end - gameTime);
+    }
+
+    /** "Smoked m:ss" for the hive HUD and Jade. */
+    public static Component smokeText(long remainingTicks) {
+        return Component.translatable("gui.bubbasbees.hive_info.smoked", clock(remainingTicks));
+    }
+
+    /** Smoke about to wear off: the HUD and Jade switch the line to a warning colour. */
+    public static boolean smokeEnding(long remainingTicks) {
+        return remainingTicks <= SMOKE_WARNING_TICKS;
+    }
+
+    private static String clock(long ticks) {
+        long seconds = (ticks + 19L) / 20L;
+        return String.format("%d:%02d", seconds / 60L, seconds % 60L);
     }
 
     public static Component headerText(Component hiveName, int honey, int beeCount, int maxBees) {

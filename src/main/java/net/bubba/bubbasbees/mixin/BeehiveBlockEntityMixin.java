@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Syncs the stored bees (type + release time) to the client so the hive info HUD can show them. */
+/** Syncs the stored bees (type + release time) and the smoke timer to the client for the hive info HUD. */
 @Mixin(BeehiveBlockEntity.class)
 public abstract class BeehiveBlockEntityMixin extends BlockEntity implements HiveOccupantView {
 
@@ -38,6 +38,7 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
     @Unique private static final int ADVANCED_STAY_TICKS = 600;
     @Unique private static final int ADVANCED_STAY_TICKS_WITH_NECTAR = 1200;
     @Unique private final List<HiveOccupant> bubbasBees$clientOccupants = new ArrayList<>();
+    @Unique private long bubbasBees$clientSmokeEnd = NOT_SMOKED;
     @Unique private String bubbasBees$lastSyncedSignature = null;
 
     protected BeehiveBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -66,9 +67,16 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
         return list;
     }
 
+    // Only the advanced hive has a timed smoke; a campfire under a vanilla hive is not timed
     @Unique
-    private static String bubbasBees$signature(List<HiveOccupant> occupants) {
-        StringBuilder builder = new StringBuilder();
+    private long bubbasBees$serverSmokeEnd() {
+        if (!((Object) this instanceof AdvancedBeehiveBlockEntity hive) || this.level == null) return NOT_SMOKED;
+        return hive.smokeEndGameTime(this.level.getGameTime());
+    }
+
+    @Unique
+    private static String bubbasBees$signature(List<HiveOccupant> occupants, long smokeEnd) {
+        StringBuilder builder = new StringBuilder("smoke@").append(smokeEnd).append(';');
         for (HiveOccupant occupant : occupants) {
             builder.append(occupant.id()).append('@').append(occupant.dueGameTime()).append(';');
         }
@@ -81,10 +89,15 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
     }
 
     @Override
+    public long bubbasBees$getClientSmokeEnd() {
+        return this.bubbasBees$clientSmokeEnd;
+    }
+
+    @Override
     public void bubbasBees$syncOccupantsIfChanged() {
         Level level = this.level;
         if (level == null || level.isClientSide) return;
-        String signature = bubbasBees$signature(bubbasBees$serverOccupants());
+        String signature = bubbasBees$signature(bubbasBees$serverOccupants(), bubbasBees$serverSmokeEnd());
         if (!signature.equals(this.bubbasBees$lastSyncedSignature)) {
             this.bubbasBees$lastSyncedSignature = signature;
             BlockState state = this.getBlockState();
@@ -98,7 +111,7 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
         ((HiveOccupantView) hive).bubbasBees$syncOccupantsIfChanged();
     }
 
-    // Merged overrides of BlockEntity: only ids and release times travel to the client, never full bee NBT
+    // Merged overrides of BlockEntity: only ids, release times and the smoke end travel to the client, never full bee NBT
     @Override
     public CompoundTag getUpdateTag() {
         CompoundTag tag = new CompoundTag();
@@ -110,6 +123,7 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
             list.add(entry);
         }
         tag.put(OCCUPANTS_TAG, list);
+        tag.putLong(SMOKE_END_TAG, bubbasBees$serverSmokeEnd());
         return tag;
     }
 
@@ -128,6 +142,7 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
     @Override
     public void handleUpdateTag(CompoundTag tag) {
         if (!tag.contains(OCCUPANTS_TAG, Tag.TAG_LIST)) return;
+        this.bubbasBees$clientSmokeEnd = tag.contains(SMOKE_END_TAG) ? tag.getLong(SMOKE_END_TAG) : NOT_SMOKED;
         this.bubbasBees$clientOccupants.clear();
         ListTag list = tag.getList(OCCUPANTS_TAG, Tag.TAG_COMPOUND);
         for (int i = 0; i < list.size(); i++) {
