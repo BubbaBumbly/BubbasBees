@@ -10,6 +10,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -48,8 +51,30 @@ public class BubbasBee extends Bee implements IAnimatable {
     public Item conversionItem;
     public BlockPos homeAnchorPos;
 
+    // Ore bees come in a stone and a deepslate look; each bee rolls its own when it's created and
+    // keeps it in its save data (through hives and reloads). Synced so the client picks the texture.
+    private static final EntityDataAccessor<Boolean> DEEPSLATE =
+            SynchedEntityData.defineId(BubbasBee.class, EntityDataSerializers.BOOLEAN);
+
     public BubbasBee(EntityType<? extends Bee> bubbasBeeEntityType, Level level) {
         super(bubbasBeeEntityType, level);
+        if (!level.isClientSide) {
+            setDeepslate(this.random.nextBoolean());
+        }
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DEEPSLATE, false);
+    }
+
+    public boolean isDeepslate() {
+        return this.entityData.get(DEEPSLATE);
+    }
+
+    public void setDeepslate(boolean deepslate) {
+        this.entityData.set(DEEPSLATE, deepslate);
     }
 
     public BlockPos getHomeAnchorPos() {
@@ -101,6 +126,7 @@ public class BubbasBee extends Bee implements IAnimatable {
         if (homeAnchorPos != null) {
             tag.put("BubbasHomeAnchor", NbtUtils.writeBlockPos(homeAnchorPos));
         }
+        tag.putBoolean("BubbasDeepslate", isDeepslate());
     }
 
     @Override
@@ -111,6 +137,9 @@ public class BubbasBee extends Bee implements IAnimatable {
         } else {
             BlockPos hive = this.getHivePos();
             homeAnchorPos = hive != null ? hive : this.blockPosition();
+        }
+        if (tag.contains("BubbasDeepslate")) {
+            setDeepslate(tag.getBoolean("BubbasDeepslate"));
         }
     }
 
