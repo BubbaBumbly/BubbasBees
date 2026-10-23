@@ -125,13 +125,13 @@ dependencies {
 
 jar {
 
-    archiveName = "BubbasBees-1.19---1.1.1-nogecko.${extension}"
+    archiveName = "BubbasBees-1.19---1.2.0-nogecko.${extension}"
 
     manifest {
         attributes([
                 "Specification-Title"     : "bubbasbees",
                 "Specification-Vendor"    : "examplemodsareus",
-                "Specification-Version"   : "1.1.1",
+                "Specification-Version"   : "1.2.0",
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.jar.archiveVersion,
                 "Implementation-Vendor"   : "examplemodsareus",
@@ -145,7 +145,7 @@ jar.finalizedBy('jarJar')
 jar.finalizedBy('reobfJarJar')
 /// Full Version with Dependencies
 tasks.named('jarJar', Jar) {
-    archiveName = "BubbasBees-1.19---1.1.1.${extension}"
+    archiveName = "BubbasBees-1.19---1.2.0.${extension}"
 }
 
 publishing {
