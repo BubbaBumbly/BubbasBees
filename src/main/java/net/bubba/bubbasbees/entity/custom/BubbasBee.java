@@ -1,6 +1,8 @@
 package net.bubba.bubbasbees.entity.custom;
 
+import net.bubba.bubbasbees.blockentities.AdvancedBeehiveBlockEntity;
 import net.bubba.bubbasbees.entity.goals.BeeAnchorHomingGoal;
+import net.bubba.bubbasbees.entity.goals.BeeDaftWanderGoal;
 import net.bubba.bubbasbees.entity.goals.ModBeePollinateGoal;
 import net.bubba.bubbasbees.mixin.BeeEntityAccessor;
 import net.bubba.bubbasbees.registries.ModEntityTypes;
@@ -50,6 +52,10 @@ public class BubbasBee extends Bee implements IAnimatable {
     public String variant = "none";
     public Item conversionItem;
     public BlockPos homeAnchorPos;
+    // Work mode of the bee's hive (see AdvancedBeehiveBlockEntity); kept for bees that are away from it or have none
+    private boolean busy = false;
+    private int nextModeCheckTick = 0;
+    private static final int MODE_CHECK_INTERVAL = 20;
 
     // Ore bees come in a stone and a deepslate look; each bee rolls its own when it's created and
     // keeps it in its save data (through hives and reloads). Synced so the client picks the texture.
@@ -89,6 +95,19 @@ public class BubbasBee extends Bee implements IAnimatable {
         return ModEntityTypes.BUBBAS_BEE.get();
     }
 
+    /** Follows the hive's mode within a second of it being switched, also for bees already out flying. */
+    public boolean isBusy() {
+        if (this.tickCount >= nextModeCheckTick) {
+            nextModeCheckTick = this.tickCount + MODE_CHECK_INTERVAL;
+            BlockPos hive = this.getHivePos();
+            if (hive != null && this.level.isLoaded(hive)
+                    && this.level.getBlockEntity(hive) instanceof AdvancedBeehiveBlockEntity advancedHive) {
+                busy = advancedHive.isBusy();
+            }
+        }
+        return busy;
+    }
+
     public String getVariant () {return this.variant;}
 
     public ItemStack getHoneycombOutput (){
@@ -108,6 +127,11 @@ public class BubbasBee extends Bee implements IAnimatable {
             System.out.println("  Has hive: " + hasHive());
             System.out.println("  HivePos: " + (getHivePos() != null ? getHivePos().toShortString() : "null"));
             System.out.println("  HomeAnchor: " + (homeAnchorPos != null ? homeAnchorPos.toShortString() : "null"));
+            System.out.println("  Mode: " + (isBusy() ? "busy" : "calm"));
+            if (((BeeEntityAccessor)this).getBeePollinateGoal() instanceof ModBeePollinateGoal goal) {
+                System.out.println("  Departure: " + (goal.getDeparture() != null ? goal.getDeparture() : "none (busy or not rolled yet)")
+                        + (goal.isDawdling() ? ", still wandering" : ""));
+            }
             System.out.println("======================================");
             return InteractionResult.SUCCESS;
         }
@@ -127,6 +151,7 @@ public class BubbasBee extends Bee implements IAnimatable {
             tag.put("BubbasHomeAnchor", NbtUtils.writeBlockPos(homeAnchorPos));
         }
         tag.putBoolean("BubbasDeepslate", isDeepslate());
+        tag.putBoolean(AdvancedBeehiveBlockEntity.BUSY_TAG, busy);
     }
 
     @Override
@@ -141,6 +166,7 @@ public class BubbasBee extends Bee implements IAnimatable {
         if (tag.contains("BubbasDeepslate")) {
             setDeepslate(tag.getBoolean("BubbasDeepslate"));
         }
+        busy = tag.getBoolean(AdvancedBeehiveBlockEntity.BUSY_TAG);
     }
 
     @Override
@@ -153,6 +179,8 @@ public class BubbasBee extends Bee implements IAnimatable {
             ModBeePollinateGoal modGoal = new ModBeePollinateGoal(this);
             this.goalSelector.addGoal(4, modGoal);
             ((BeeEntityAccessor)this).setBeePollinateGoal(modGoal);
+            // Outranks vanilla's wander (8) so a dawdling bee hops slowly without pausing
+            this.goalSelector.addGoal(7, new BeeDaftWanderGoal(this));
         }
     }
 

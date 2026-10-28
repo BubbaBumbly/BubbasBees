@@ -73,6 +73,7 @@
   "item.bubbasbees.ender_honeycomb": "Ender Honeycomb",
   "item.bubbasbees.stone_honeycomb": "Stone Honeycomb",
   "item.bubbasbees.bubba_star": "Bubba Star",
+  "item.bubbasbees.bubba_star.hive_mode": "Use on a hive to switch its bees between calm and busy",
   "item.bubbasbees.lesser_bubba_star": "Lesser Bubba Star",
   "item.bubbasbees.copper_conversion_gem": "Copper Conversion Gem",
   "item.bubbasbees.sandy_conversion_gem": "Sandy Conversion Gem",
@@ -104,5 +105,9 @@
   "gui.bubbasbees.hive_info.ready": "ready",
   "gui.bubbasbees.hive_info.count": "x%s",
   "gui.bubbasbees.hive_info.smoked": "Smoked %s",
+  "gui.bubbasbees.hive_info.calm": "Calm bees",
+  "gui.bubbasbees.hive_info.busy": "Busy bees",
+  "message.bubbasbees.hive_mode.calm": "Hive is calm",
+  "message.bubbasbees.hive_mode.busy": "Hive is busy",
   "config.jade.plugin_bubbasbees.hive_bees": "Bees in hive"
 }

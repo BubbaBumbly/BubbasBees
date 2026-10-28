@@ -1,6 +1,7 @@
 package net.bubba.bubbasbees.util;
 
 import net.bubba.bubbasbees.BubbasBees;
+import net.bubba.bubbasbees.blockentities.AdvancedBeehiveBlockEntity;
 import net.bubba.bubbasbees.blockentities.HiveOccupant;
 import net.bubba.bubbasbees.blockentities.HiveOccupantView;
 import net.bubba.bubbasbees.blocks.custom.AdvancedBeehiveBlock;
@@ -32,6 +33,8 @@ public final class HiveInfo {
     public static final int FACE_U = 10;
     public static final int FACE_V = 10;
     public static final int FACE_SIZE = 7;
+    // Face of the mod bees' cloak shell (box UV 0,25), drawn over the body face: the nature bee's moss lives there
+    public static final int CLOAK_FACE_V = 35;
     public static final int TEXTURE_SIZE = 64;
     private static final ResourceLocation VANILLA_BEE_TEXTURE = new ResourceLocation("minecraft", "textures/entity/bee/bee.png");
 
@@ -116,6 +119,14 @@ public final class HiveInfo {
         if (!(blockEntity instanceof HiveOccupantView view)) return 0L;
         long end = view.bubbasBees$getClientSmokeEnd();
         return end == HiveOccupantView.NOT_SMOKED ? 0L : Math.max(0L, end - gameTime);
+    }
+
+    /** "Calm bees" / "Busy bees" for an advanced hive as synced to the client, or null for any other hive. */
+    @Nullable
+    public static Component modeText(@Nullable BlockEntity blockEntity) {
+        if (!(blockEntity instanceof AdvancedBeehiveBlockEntity) || !(blockEntity instanceof HiveOccupantView view)) return null;
+        return Component.translatable(view.bubbasBees$isClientBusy()
+                ? "gui.bubbasbees.hive_info.busy" : "gui.bubbasbees.hive_info.calm");
     }
 
     /** "Smoked m:ss" for the hive HUD and Jade. */

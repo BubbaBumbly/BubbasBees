@@ -2,6 +2,7 @@ package net.bubba.bubbasbees.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.bubba.bubbasbees.BubbasBees;
 import net.bubba.bubbasbees.blockentities.HiveOccupant;
 import net.bubba.bubbasbees.util.HiveInfo;
 import net.minecraft.client.Minecraft;
@@ -21,7 +22,7 @@ import net.minecraftforge.fml.ModList;
 import java.util.List;
 
 /**
- * Compact top-of-screen panel: hive name, honey, smoke countdown, and one row per stored bee with a release countdown.
+ * Compact top-of-screen panel: hive name, honey, calm/busy mode, smoke countdown, and one row per stored bee with a release countdown.
  * Hidden while Jade is installed: Jade draws its own panel in the same spot and gets the bee rows from jade.HiveBeesProvider.
  */
 public class HiveInfoOverlay implements IGuiOverlay {
@@ -55,6 +56,7 @@ public class HiveInfoOverlay implements IGuiOverlay {
         List<HiveOccupant> bees = HiveInfo.occupants(blockEntity);
         long smoke = HiveInfo.smokeRemaining(blockEntity, gameTime);
         Component smokeLine = smoke > 0L ? HiveInfo.smokeText(smoke) : null;
+        Component modeLine = HiveInfo.modeText(blockEntity);
         Component header = HiveInfo.headerText(state.getBlock().getName(), HiveInfo.honeyLevel(state),
                 bees.size(), HiveInfo.maxOccupants(state.getBlock()));
 
@@ -66,9 +68,11 @@ public class HiveInfoOverlay implements IGuiOverlay {
         }
         int rowWidth = bees.isEmpty() ? 0 : ICON + GAP + nameWidth + TIMER_GAP + timerWidth;
         int smokeWidth = smokeLine == null ? 0 : font.width(smokeLine);
-        int width = Math.max(Math.max(font.width(header), smokeWidth), rowWidth) + PAD * 2;
+        int modeWidth = modeLine == null ? 0 : font.width(modeLine);
+        int width = Math.max(Math.max(font.width(header), Math.max(smokeWidth, modeWidth)), rowWidth) + PAD * 2;
         int smokeHeight = smokeLine == null ? 0 : font.lineHeight + 1;
-        int height = PAD + font.lineHeight + 1 + smokeHeight + bees.size() * ROW + PAD;
+        int modeHeight = modeLine == null ? 0 : font.lineHeight + 1;
+        int height = PAD + font.lineHeight + 1 + modeHeight + smokeHeight + bees.size() * ROW + PAD;
         int left = (screenWidth - width) / 2;
         int right = left + width - PAD;
         int y = TOP;
@@ -77,6 +81,10 @@ public class HiveInfoOverlay implements IGuiOverlay {
         y += PAD;
         GuiComponent.drawCenteredString(poseStack, font, header, screenWidth / 2, y, HEADER_COLOR);
         y += font.lineHeight + 1;
+        if (modeLine != null) {
+            GuiComponent.drawCenteredString(poseStack, font, modeLine, screenWidth / 2, y, TIMER_COLOR);
+            y += font.lineHeight + 1;
+        }
         if (smokeLine != null) {
             GuiComponent.drawCenteredString(poseStack, font, smokeLine, screenWidth / 2, y,
                     HiveInfo.smokeEnding(smoke) ? SMOKE_ENDING_COLOR : SMOKE_COLOR);
@@ -104,5 +112,9 @@ public class HiveInfoOverlay implements IGuiOverlay {
         RenderSystem.enableBlend();
         GuiComponent.blit(poseStack, x, y, ICON, ICON, HiveInfo.FACE_U, HiveInfo.FACE_V,
                 HiveInfo.FACE_SIZE, HiveInfo.FACE_SIZE, HiveInfo.TEXTURE_SIZE, HiveInfo.TEXTURE_SIZE);
+        if (bee.getNamespace().equals(BubbasBees.MOD_ID)) {
+            GuiComponent.blit(poseStack, x, y, ICON, ICON, HiveInfo.FACE_U, HiveInfo.CLOAK_FACE_V,
+                    HiveInfo.FACE_SIZE, HiveInfo.FACE_SIZE, HiveInfo.TEXTURE_SIZE, HiveInfo.TEXTURE_SIZE);
+        }
     }
 }

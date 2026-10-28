@@ -29,35 +29,34 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Syncs the stored bees (type + release time) and the smoke timer to the client for the hive info HUD. */
+/** Syncs the stored bees (type + release time), the smoke timer and the work mode to the client for the hive info HUD. */
 @Mixin(BeehiveBlockEntity.class)
 public abstract class BeehiveBlockEntityMixin extends BlockEntity implements HiveOccupantView {
 
     @Shadow @Final private List<BeehiveBlockEntity.BeeData> stored;
 
-    @Unique private static final int ADVANCED_STAY_TICKS = 600;
-    @Unique private static final int ADVANCED_STAY_TICKS_WITH_NECTAR = 1200;
     @Unique private final List<HiveOccupant> bubbasBees$clientOccupants = new ArrayList<>();
     @Unique private long bubbasBees$clientSmokeEnd = NOT_SMOKED;
+    @Unique private boolean bubbasBees$clientBusy = false;
     @Unique private String bubbasBees$lastSyncedSignature = null;
 
     protected BeehiveBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
-    // The advanced hive releases on its own fixed thresholds; vanilla uses each bee's minOccupationTicks
+    // The advanced hive releases on its own thresholds (see stayTicks); vanilla uses each bee's minOccupationTicks
     @Unique
     private List<HiveOccupant> bubbasBees$serverOccupants() {
         long now = this.level == null ? 0L : this.level.getGameTime();
-        boolean advanced = (Object) this instanceof AdvancedBeehiveBlockEntity;
+        AdvancedBeehiveBlockEntity advanced = (Object) this instanceof AdvancedBeehiveBlockEntity hive ? hive : null;
         List<HiveOccupant> list = new ArrayList<>(this.stored.size());
         for (BeehiveBlockEntity.BeeData beeData : this.stored) {
             BeehiveBeeDataAccessor data = (BeehiveBeeDataAccessor) beeData;
             CompoundTag entityData = data.getEntityData();
             ResourceLocation id = ResourceLocation.tryParse(entityData.getString("id"));
             if (id == null) continue;
-            int stayTicks = advanced
-                    ? (entityData.getBoolean("HasNectar") ? ADVANCED_STAY_TICKS_WITH_NECTAR : ADVANCED_STAY_TICKS)
+            int stayTicks = advanced != null
+                    ? advanced.stayTicks(entityData.getBoolean("HasNectar"))
                     : data.getMinOccupationTicks();
             int remaining = stayTicks - data.getTicksInHive();
             // An overdue bee (held in by night or rain) gets a fixed marker, not a due time that moves every tick
@@ -75,8 +74,13 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
     }
 
     @Unique
-    private static String bubbasBees$signature(List<HiveOccupant> occupants, long smokeEnd) {
-        StringBuilder builder = new StringBuilder("smoke@").append(smokeEnd).append(';');
+    private boolean bubbasBees$serverBusy() {
+        return (Object) this instanceof AdvancedBeehiveBlockEntity hive && hive.isBusy();
+    }
+
+    @Unique
+    private static String bubbasBees$signature(List<HiveOccupant> occupants, long smokeEnd, boolean busy) {
+        StringBuilder builder = new StringBuilder("smoke@").append(smokeEnd).append(";busy@").append(busy).append(';');
         for (HiveOccupant occupant : occupants) {
             builder.append(occupant.id()).append('@').append(occupant.dueGameTime()).append(';');
         }
@@ -94,10 +98,15 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
     }
 
     @Override
+    public boolean bubbasBees$isClientBusy() {
+        return this.bubbasBees$clientBusy;
+    }
+
+    @Override
     public void bubbasBees$syncOccupantsIfChanged() {
         Level level = this.level;
         if (level == null || level.isClientSide) return;
-        String signature = bubbasBees$signature(bubbasBees$serverOccupants(), bubbasBees$serverSmokeEnd());
+        String signature = bubbasBees$signature(bubbasBees$serverOccupants(), bubbasBees$serverSmokeEnd(), bubbasBees$serverBusy());
         if (!signature.equals(this.bubbasBees$lastSyncedSignature)) {
             this.bubbasBees$lastSyncedSignature = signature;
             BlockState state = this.getBlockState();
@@ -111,7 +120,7 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
         ((HiveOccupantView) hive).bubbasBees$syncOccupantsIfChanged();
     }
 
-    // Merged overrides of BlockEntity: only ids, release times and the smoke end travel to the client, never full bee NBT
+    // Merged overrides of BlockEntity: only ids, release times, the smoke end and the mode travel to the client, never full bee NBT
     @Override
     public CompoundTag getUpdateTag() {
         CompoundTag tag = new CompoundTag();
@@ -124,6 +133,7 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
         }
         tag.put(OCCUPANTS_TAG, list);
         tag.putLong(SMOKE_END_TAG, bubbasBees$serverSmokeEnd());
+        tag.putBoolean(BUSY_TAG, bubbasBees$serverBusy());
         return tag;
     }
 
@@ -143,6 +153,7 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
     public void handleUpdateTag(CompoundTag tag) {
         if (!tag.contains(OCCUPANTS_TAG, Tag.TAG_LIST)) return;
         this.bubbasBees$clientSmokeEnd = tag.contains(SMOKE_END_TAG) ? tag.getLong(SMOKE_END_TAG) : NOT_SMOKED;
+        this.bubbasBees$clientBusy = tag.getBoolean(BUSY_TAG);
         this.bubbasBees$clientOccupants.clear();
         ListTag list = tag.getList(OCCUPANTS_TAG, Tag.TAG_COMPOUND);
         for (int i = 0; i < list.size(); i++) {

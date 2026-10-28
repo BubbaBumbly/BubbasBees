@@ -3,11 +3,13 @@ package net.bubba.bubbasbees.blocks.custom;
 
 import net.bubba.bubbasbees.blockentities.AdvancedBeehiveBlockEntity;
 import net.bubba.bubbasbees.registries.ModBlockEntities;
+import net.bubba.bubbasbees.registries.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -59,6 +61,16 @@ public class AdvancedBeehiveBlock extends BeehiveBlock {
     public @NotNull InteractionResult use(BlockState state, Level level, BlockPos pos, Player player,
                                           InteractionHand hand, BlockHitResult result) {
         ItemStack held_Item = player.getItemInHand(hand);
+        // A Bubba Star switches the hive between calm (vanilla-like) and busy bees; the star is not used up
+        if (held_Item.is(ModItems.BUBBA_STAR.get())) {
+            if (!level.isClientSide && level.getBlockEntity(pos) instanceof AdvancedBeehiveBlockEntity hive) {
+                hive.toggleBusy();
+                level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 1.0F, hive.isBusy() ? 1.4F : 0.8F);
+                player.displayClientMessage(Component.translatable(
+                        hive.isBusy() ? "message.bubbasbees.hive_mode.busy" : "message.bubbasbees.hive_mode.calm"), true);
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        }
         int i = (Integer) state.getValue(HONEY_LEVEL);
         boolean flag = false;
         if (i>=5){

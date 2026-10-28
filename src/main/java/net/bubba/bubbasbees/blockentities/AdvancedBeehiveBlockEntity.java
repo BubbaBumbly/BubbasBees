@@ -46,6 +46,13 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     protected int ticksSmoked = -1;
     /** How long the current smoke lasts; set by the smoker that was used (copper 15 s, iron 30 s). */
     protected int smokeDuration = SmokerItem.IRON_SMOKE_TICKS;
+    /** Busy hives send out the mod's fast pollinators; calm hives (the default) keep their bees close to vanilla. */
+    protected boolean busy = false;
+    public static final String BUSY_TAG = "BubbasBusy";
+    public static final int STAY_TICKS = 600;
+    public static final int BUSY_STAY_TICKS_WITH_NECTAR = 1200;
+    // Vanilla's MIN_OCCUPATION_TICKS_NECTAR
+    public static final int CALM_STAY_TICKS_WITH_NECTAR = 2400;
 
     public AdvancedBeehiveBlockEntity(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state) {
         super(pos, state);
@@ -87,7 +94,7 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         for (Iterator<BeeData> iterator = bees.iterator(); iterator.hasNext(); increaseTicksInHive(beeData, 1)) {
             beeData = iterator.next();
             boolean hasNectar = ((BeehiveBeeDataAccessor) beeData).getEntityData().getBoolean("HasNectar");
-            if (((BeehiveBeeDataAccessor) beeData).getTicksInHive() > (hasNectar ? 1200 : 600)) {
+            if (((BeehiveBeeDataAccessor) beeData).getTicksInHive() > hive.stayTicks(hasNectar)) {
                 BeeReleaseStatus status = hasNectar
                         ? BeeReleaseStatus.HONEY_DELIVERED : BeeReleaseStatus.BEE_RELEASED;
                 if(releaseBee(hive, state, beeData, null, status)){
@@ -108,6 +115,7 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         if (nbt.contains("Smoked")) this.isSmoked = nbt.getBoolean("Smoked");
         this.ticksSmoked = nbt.getInt("TicksSmoked");
         this.smokeDuration = nbt.contains("SmokeDuration") ? nbt.getInt("SmokeDuration") : SmokerItem.IRON_SMOKE_TICKS;
+        this.busy = nbt.getBoolean(BUSY_TAG);
     }
     @Override
     protected void saveAdditional(@NotNull CompoundTag tag) {
@@ -116,6 +124,7 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         tag.putBoolean("Smoked", isSmoked);
         tag.putInt("TicksSmoked", ticksSmoked);
         tag.putInt("SmokeDuration", smokeDuration);
+        tag.putBoolean(BUSY_TAG, busy);
     }
     public ArrayList<ItemStack> getHoneycombs(CompoundTag nbt) {
         return nbt.getList("ModBeehiveCombList", Tag.TAG_COMPOUND)
@@ -184,6 +193,7 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
             nbt.put("HivePos", NbtUtils.writeBlockPos(hive.getBlockPos()));
             nbt.put("BubbasHomeAnchor", NbtUtils.writeBlockPos(hive.getBlockPos()));
             nbt.putBoolean("NoGravity", true);
+            nbt.putBoolean(BUSY_TAG, hive.busy);
             Direction direction = state.getValue(BeehiveBlock.FACING);
             BlockPos relative = hive.worldPosition.relative(direction);
             if (hive.level == null) return false;
@@ -262,6 +272,21 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
 
     private AdvancedBeehiveBlock getBlock() {
         return (AdvancedBeehiveBlock) this.getBlockState().getBlock();
+    }
+
+    /** How long a bee stays inside before it is released. */
+    public int stayTicks(boolean hasNectar) {
+        if (!hasNectar) return STAY_TICKS;
+        return busy ? BUSY_STAY_TICKS_WITH_NECTAR : CALM_STAY_TICKS_WITH_NECTAR;
+    }
+
+    public boolean isBusy() {
+        return busy;
+    }
+
+    public void toggleBusy() {
+        busy = !busy;
+        setChanged();
     }
 
     /// Smoker implementation

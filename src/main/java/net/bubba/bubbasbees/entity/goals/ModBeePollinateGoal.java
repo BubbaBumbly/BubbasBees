@@ -27,17 +27,43 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
 
     private final BubbasBee bubbasBee;
     private int nextSearchTick = 0;
-    private boolean rolledThisCycle = false;
-    private boolean exploring = false;
-    private int exploreTimer = 0;
-    private boolean seekingNewFlower = false;
     private boolean reachedFlower = false;
     private BlockPos lastPollinatedPos = null;
     private int lineOfSightCheckTick = Integer.MIN_VALUE;
     private boolean hasLineOfSight = false;
+    // How a calm bee starts its outing, rolled once when it comes out of the hive (the goal is recreated with
+    // the bee each time): dawdle a while (25%), head for the remembered flower (35%), or look around briefly
+    // (40%). Daft and Quick end in a full flower scan even when a remembered flower is close
+    public enum Departure { DAFT, REMEMBERS, QUICK }
+    private static final float CALM_DAFT_CHANCE = 0.25F;
+    private static final float CALM_REMEMBERS_CHANCE = 0.35F;
+    private static final int DAFT_WANDER_MIN_TICKS = 100;
+    private static final int DAFT_WANDER_MAX_TICKS = 240;
+    private static final int QUICK_WANDER_MIN_TICKS = 20;
+    private static final int QUICK_WANDER_MAX_TICKS = 40;
+    private boolean departureDecided = false;
+    private Departure departure = null;
+    private int wanderUntilTick = 0;
+    private boolean scanAfterWander = false;
+    // Busy bees head for their remembered flower, but this often scan around it and switch to a neighbour
+    private static final float BUSY_RESCAN_CHANCE = 0.4F;
+    // Before that, busy bees sometimes look for work right outside the hive instead, so they keep close to home.
+    // Any flower in the area is equally likely, which keeps bees doing this from landing on the same one
+    private static final float BUSY_HOME_SEARCH_CHANCE = 0.2F;
+    private static final double HOME_SEARCH_RADIUS = 6.0D;
+    // After a failed trip the bee waits this long before scanning for a new flower
+    private static final int RETRY_SCAN_DELAY = 40;
+    private int scanBlockedUntilTick = 0;
+    // Flowers farther than this from the bee's home are ignored: the homing goal pulls the bee back at 24 blocks,
+    // so a farther flower could never be reached and the bee would shuttle between it and the hive
+    private static final double MAX_FLOWER_DISTANCE_FROM_HOME = 22.0D;
     // Give up after this many consecutive ticks away from the flower; every counted pollination tick resets it,
-    // so approach time never eats into a pollination that has begun
+    // so approach time never eats into a pollination that has begun. Far flowers get their expected flight time
+    // on top for the first approach (slowest straight-line speeds, in blocks per tick)
     private static final int MAX_TICKS_WITHOUT_POLLINATING = 300;
+    private static final double CALM_BLOCKS_PER_TICK = 0.04D;
+    private static final double BUSY_BLOCKS_PER_TICK = 0.1D;
+    private int timeoutTicks = MAX_TICKS_WITHOUT_POLLINATING;
     private int ticksWithoutPollinating = 0;
     private boolean timedOut = false;
     // Hovering drives the move control directly, so the bee's pathfinder is paused only then (see BubbasBee)
@@ -47,17 +73,24 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     private static final double HOVER_HEIGHT = 0.6D;
     private static final double WANTED_POS_LIFT = 0.5D;
     private static final double NEAR_DISTANCE = 1.0D;
-    // Straight-line approach: cruise one block over the flower's top at full flying speed, then drop onto it
+    // Straight-line approach: cruise one block over the flower's top, then drop onto it. Busy bees fly at about
+    // two-thirds of full flying speed (air control saturates from ~1.2 up); calm bees drift at vanilla's hover speed
     private static final double CRUISE_HEIGHT = 1.0D;
-    private static final double CRUISE_SPEED = 1.5D;
-    private static final double DESCENT_SPEED = 0.7D;
+    private static final double BUSY_CRUISE_SPEED = 0.8D;
+    private static final double BUSY_DESCENT_SPEED = 0.7D;
+    private static final double VANILLA_HOVER_SPEED = 0.3499999940395355D;
+    // Pathfinder speed when a wall blocks the straight line; calm uses vanilla's usual travel speed
+    private static final double BUSY_PATH_SPEED = 0.8D;
+    private static final double CALM_PATH_SPEED = 1.0D;
+    // Calm bees only use flowers within vanilla's search radius and wait vanilla's cooldown after a trip;
+    // vanilla's go-to-known-flower goal still brings them back to a remembered flower farther away
+    private static final double FLOWER_SEARCH_RADIUS = 5.0D;
+    private static final int CALM_SEARCH_COOLDOWN = 200;
     private static final double DESCENT_RADIUS = 0.75D;
     private static final int LINE_OF_SIGHT_INTERVAL = 10;
     // Pollination length varies per trip so bees sharing a hive do not enter and leave in lockstep
     private static final int BASE_POLLINATION_TICKS = 400;
     private static final int POLLINATION_VARIANCE = 25;
-    // Positions still examined after the first flower is found before choosing among the hits
-    private static final int EXTRA_SCAN_AFTER_FIRST_HIT = 15;
     // Chance to forget the flower after a successful trip so bees spread out over time
     private static final float FORGET_FLOWER_CHANCE = 0.25F;
     private int requiredPollinationTicks = BASE_POLLINATION_TICKS;
@@ -100,35 +133,97 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         };
     }
 
-    // Scan the usual spiral, but after the first flower keep looking for a few more positions and pick one of
-    // the hits at random, so bees released together do not all converge on the same block
     @Override
     public Optional<BlockPos> findNearbyFlower() {
-        BlockPos beePos = bubbasBee.blockPosition();
-        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
-        double radius = 5.0D;
-        List<BlockPos> candidates = new ArrayList<>();
-        int positionsAfterFirstHit = 0;
+        return findFlowerNear(bubbasBee.blockPosition(), null, FLOWER_SEARCH_RADIUS, true);
+    }
 
-        for (int i = 0; (double)i <= radius; i = i > 0 ? -i : 1 - i) {
-            for (int j = 0; (double)j < radius; ++j) {
-                for (int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {
-                    for (int l = k < j && k > -j ? j : 0; l <= j; l = l > 0 ? -l : 1 - l) {
-                        mutablePos.setWithOffset(beePos, k, i - 1, l);
-                        if (!candidates.isEmpty() && ++positionsAfterFirstHit > EXTRA_SCAN_AFTER_FIRST_HIT) {
-                            return Optional.of(candidates.get(bubbasBee.getRandom().nextInt(candidates.size())));
-                        }
-                        if (beePos.closerThan(mutablePos, radius)
-                                && this.VALID_POLLINATION_BLOCKS.test(bubbasBee.level.getBlockState(mutablePos))
-                                && bubbasBee.level.getBlockState(mutablePos.above()).isAir()) {
-                            candidates.add(mutablePos.immutable());
-                        }
+    // Busy bees' home search: the area in front of the hive's entrance
+    private Optional<BlockPos> findFlowerNearHive() {
+        BlockPos hive = bubbasBee.getHivePos();
+        if (hive == null || !bubbasBee.level.isLoaded(hive)) return Optional.empty();
+        BlockState state = bubbasBee.level.getBlockState(hive);
+        BlockPos front = state.hasProperty(BlockStateProperties.HORIZONTAL_FACING)
+                ? hive.relative(state.getValue(BlockStateProperties.HORIZONTAL_FACING)) : hive;
+        return findFlowerNear(front, null, HOME_SEARCH_RADIUS, false);
+    }
+
+    // Scans the whole sphere around center and picks one of every flower found (nearer ones more likely when
+    // favourNear), so bees spread over a patch instead of all taking its closest block
+    private Optional<BlockPos> findFlowerNear(BlockPos center, BlockPos exclude, double radius, boolean favourNear) {
+        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+        int reach = Mth.ceil(radius) - 1;
+        List<BlockPos> candidates = new ArrayList<>();
+        List<Double> weights = new ArrayList<>();
+        double totalWeight = 0.0D;
+        for (int dx = -reach; dx <= reach; dx++) {
+            for (int dy = -reach; dy <= reach; dy++) {
+                for (int dz = -reach; dz <= reach; dz++) {
+                    mutablePos.setWithOffset(center, dx, dy, dz);
+                    if (!center.closerThan(mutablePos, radius) || mutablePos.equals(exclude)
+                            || !this.VALID_POLLINATION_BLOCKS.test(bubbasBee.level.getBlockState(mutablePos))
+                            || !bubbasBee.level.getBlockState(mutablePos.above()).isAir()
+                            || !isWithinHomeRange(mutablePos)) {
+                        continue;
                     }
+                    double weight = favourNear ? 1.0D / (1.0D + Math.sqrt(dx * dx + dy * dy + dz * dz)) : 1.0D;
+                    candidates.add(mutablePos.immutable());
+                    weights.add(weight);
+                    totalWeight += weight;
                 }
             }
         }
         if (candidates.isEmpty()) return Optional.empty();
-        return Optional.of(candidates.get(bubbasBee.getRandom().nextInt(candidates.size())));
+        double pick = bubbasBee.getRandom().nextDouble() * totalWeight;
+        for (int i = 0; i < candidates.size(); i++) {
+            pick -= weights.get(i);
+            if (pick < 0.0D) return Optional.of(candidates.get(i));
+        }
+        return Optional.of(candidates.get(candidates.size() - 1));
+    }
+
+    private boolean isWithinHomeRange(BlockPos pos) {
+        BlockPos home = bubbasBee.getHomeAnchorPos();
+        return home == null || pos.closerThan(home, MAX_FLOWER_DISTANCE_FROM_HOME);
+    }
+
+    // Remembered flowers past the home range are forgotten, so vanilla's go-to-known-flower goal drops them too
+    private boolean isUsableSavedFlower() {
+        BlockPos saved = bubbasBee.savedFlowerPos;
+        if (saved == null) return false;
+        if (!isWithinHomeRange(saved)) {
+            bubbasBee.savedFlowerPos = null;
+            return false;
+        }
+        return bubbasBee.isFlowerValid(saved) && bubbasBee.level.getBlockState(saved.above()).isAir();
+    }
+
+    // Returns true when the bee heads straight for its remembered flower; otherwise it wanders first
+    private boolean startCalmDeparture() {
+        float roll = bubbasBee.getRandom().nextFloat();
+        if (roll >= CALM_DAFT_CHANCE && roll < CALM_DAFT_CHANCE + CALM_REMEMBERS_CHANCE) {
+            departure = Departure.REMEMBERS;
+            if (isUsableSavedFlower()) {
+                navigateToPos(bubbasBee.savedFlowerPos);
+                return true;
+            }
+        }
+        // Remembers without a usable flower falls back to Quick
+        departure = roll < CALM_DAFT_CHANCE ? Departure.DAFT : Departure.QUICK;
+        wanderUntilTick = bubbasBee.tickCount + (departure == Departure.DAFT
+                ? Mth.nextInt(bubbasBee.getRandom(), DAFT_WANDER_MIN_TICKS, DAFT_WANDER_MAX_TICKS)
+                : Mth.nextInt(bubbasBee.getRandom(), QUICK_WANDER_MIN_TICKS, QUICK_WANDER_MAX_TICKS));
+        scanAfterWander = true;
+        return false;
+    }
+
+    /** True while a calm bee that just left its hive is still wandering instead of working (see BeeDaftWanderGoal). */
+    public boolean isDawdling() {
+        return bubbasBee.tickCount < wanderUntilTick && !bubbasBee.hasNectar();
+    }
+
+    public Departure getDeparture() {
+        return departure;
     }
 
     @Override
@@ -137,40 +232,35 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         if (bubbasBee.hasNectar()) return false;
         if (bubbasBee.level.isRaining() || bubbasBee.level.isNight()) return false;
 
-        if (bubbasBee.savedFlowerPos != null && bubbasBee.isFlowerValid(bubbasBee.savedFlowerPos)
-                && bubbasBee.level.getBlockState(bubbasBee.savedFlowerPos.above()).isAir()) {
+        boolean busy = bubbasBee.isBusy();
+        if (!departureDecided) {
+            departureDecided = true;
+            if (!busy && startCalmDeparture()) return true;
+        }
+        if (bubbasBee.tickCount < wanderUntilTick) return false;
+
+        if (busy && bubbasBee.getRandom().nextFloat() < BUSY_HOME_SEARCH_CHANCE) {
+            Optional<BlockPos> homeFlower = findFlowerNearHive();
+            if (homeFlower.isPresent()) {
+                bubbasBee.savedFlowerPos = homeFlower.get();
+                navigateToPos(bubbasBee.savedFlowerPos);
+                return true;
+            }
+        }
+
+        if (!scanAfterWander && isUsableSavedFlower()
+                && (busy || bubbasBee.savedFlowerPos.closerThan(bubbasBee.blockPosition(), FLOWER_SEARCH_RADIUS))) {
+            if (busy && bubbasBee.getRandom().nextFloat() < BUSY_RESCAN_CHANCE) {
+                BlockPos remembered = bubbasBee.savedFlowerPos;
+                findFlowerNear(remembered, remembered, FLOWER_SEARCH_RADIUS, true)
+                        .ifPresent(flower -> bubbasBee.savedFlowerPos = flower);
+            }
             navigateToPos(bubbasBee.savedFlowerPos);
             return true;
         }
 
-        if (!rolledThisCycle) {
-            rolledThisCycle = true;
-            if (bubbasBee.getRandom().nextFloat() < 0.2F) {
-                exploring = true;
-                exploreTimer = 20;
-            }
-        }
-
-        if (exploring) {
-            if (exploreTimer > 0) {
-                exploreTimer--;
-                return false;
-            }
-            exploring = false;
-            seekingNewFlower = true;
-        }
-
-        if (seekingNewFlower) {
-            Optional<BlockPos> newFlower = findFlowerExcludingHistory();
-            if (newFlower.isPresent()) {
-                bubbasBee.savedFlowerPos = newFlower.get();
-                navigateToPos(bubbasBee.savedFlowerPos);
-                seekingNewFlower = false;
-                return true;
-            }
-            seekingNewFlower = false;
-        }
-
+        if (bubbasBee.tickCount < scanBlockedUntilTick) return false;
+        scanAfterWander = false;
         Optional<BlockPos> flower = findNearbyFlower();
         if (flower.isPresent()) {
             bubbasBee.savedFlowerPos = flower.get();
@@ -197,7 +287,8 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     // Path nodes for solid flowers must end in the air block above; a node inside the block is unreachable
     private void navigateToPos(BlockPos pos) {
         double y = isSolidFlower(pos) ? pos.getY() + 1.5D : pos.getY() + 0.5D;
-        bubbasBee.getNavigation().moveTo((double)pos.getX() + 0.5D, y, (double)pos.getZ() + 0.5D, (double)1.2F);
+        double speed = bubbasBee.isBusy() ? BUSY_PATH_SPEED : CALM_PATH_SPEED;
+        bubbasBee.getNavigation().moveTo((double)pos.getX() + 0.5D, y, (double)pos.getZ() + 0.5D, speed);
     }
 
     private boolean canSeePoint(Vec3 point) {
@@ -289,10 +380,12 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
                     flyY = Math.max(cruiseY, obstacleClimbY);
                     liftToward(obstacleClimbY - bubbasBee.getY(), OBSTACLE_CLIMB_SPEED);
                 }
-                bubbasBee.getMoveControl().setWantedPosition(target.x, flyY, target.z, CRUISE_SPEED);
+                bubbasBee.getMoveControl().setWantedPosition(target.x, flyY, target.z,
+                        bubbasBee.isBusy() ? BUSY_CRUISE_SPEED : VANILLA_HOVER_SPEED);
             } else {
                 obstacleClimbY = Double.NaN;
-                bubbasBee.getMoveControl().setWantedPosition(target.x, target.y + WANTED_POS_LIFT, target.z, DESCENT_SPEED);
+                bubbasBee.getMoveControl().setWantedPosition(target.x, target.y + WANTED_POS_LIFT, target.z,
+                        bubbasBee.isBusy() ? BUSY_DESCENT_SPEED : VANILLA_HOVER_SPEED);
             }
         } else {
             obstacleClimbY = Double.NaN;
@@ -310,11 +403,8 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         return (bubbasBee.getRandom().nextFloat() * 2.0F - 1.0F) * 0.33333334F;
     }
 
-    private Optional<BlockPos> findFlowerExcludingHistory() {
-        return findNearbyFlower();
-    }
-
-    // Mirrors Bee.BeePollinateGoal.tick with a faster approach; hover point and speeds near the flower are vanilla
+    // Mirrors Bee.BeePollinateGoal.tick with a pathfinding approach (faster for busy bees); hover point and speeds
+    // near the flower are vanilla
     @Override
     public void tick() {
         BeePollinateGoalAccessor counters = (BeePollinateGoalAccessor) this;
@@ -325,7 +415,7 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         bubbasBee.setDeltaMovement(motion.x, motion.y * damping / OLD_VERTICAL_DAMPING, motion.z);
         wasOnGround = bubbasBee.isOnGround();
         counters.setPollinatingTicks(counters.getPollinatingTicks() + 1);
-        if (++ticksWithoutPollinating > MAX_TICKS_WITHOUT_POLLINATING) {
+        if (++ticksWithoutPollinating > timeoutTicks) {
             timedOut = true;
             bubbasBee.savedFlowerPos = null;
             return;
@@ -365,6 +455,7 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         lastPollinatedPos = flower;
         counters.setSuccessfulPollinatingTicks(counters.getSuccessfulPollinatingTicks() + 1);
         ticksWithoutPollinating = 0;
+        timeoutTicks = MAX_TICKS_WITHOUT_POLLINATING;
         if (bubbasBee.getRandom().nextFloat() < 0.05F
                 && counters.getSuccessfulPollinatingTicks() > counters.getLastSoundPlayedTick() + 60) {
             counters.setLastSoundPlayedTick(counters.getSuccessfulPollinatingTicks());
@@ -400,6 +491,10 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         nextRepathTick = 0;
         wasOnGround = false;
         obstacleClimbY = Double.NaN;
+        BlockPos flower = bubbasBee.savedFlowerPos;
+        double flightDistance = flower != null ? hoverTarget(flower).distanceTo(bubbasBee.position()) : 0.0D;
+        timeoutTicks = MAX_TICKS_WITHOUT_POLLINATING + Mth.ceil(flightDistance
+                / (bubbasBee.isBusy() ? BUSY_BLOCKS_PER_TICK : CALM_BLOCKS_PER_TICK));
         requiredPollinationTicks = BASE_POLLINATION_TICKS
                 + bubbasBee.getRandom().nextInt(POLLINATION_VARIANCE * 2 + 1) - POLLINATION_VARIANCE;
     }
@@ -417,7 +512,7 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     @Override
     public void setWantedPos() {
         bubbasBee.getMoveControl().setWantedPosition(
-                this.hoverPos.x(), this.hoverPos.y() + WANTED_POS_LIFT, this.hoverPos.z(), 0.3499999940395355D);
+                this.hoverPos.x(), this.hoverPos.y() + WANTED_POS_LIFT, this.hoverPos.z(), VANILLA_HOVER_SPEED);
     }
 
     @Override
@@ -427,17 +522,14 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         BlockPos flower = lastPollinatedPos != null ? lastPollinatedPos : bubbasBee.savedFlowerPos;
         super.stop();
 
-        exploring = true;
-        exploreTimer = 20;
-        rolledThisCycle = true;
-        seekingNewFlower = false;
+        scanBlockedUntilTick = bubbasBee.tickCount + RETRY_SCAN_DELAY;
         reachedFlower = false;
         lastPollinatedPos = null;
         hasLineOfSight = false;
         lineOfSightCheckTick = Integer.MIN_VALUE;
         obstacleClimbY = Double.NaN;
         hoveringAtFlower = false;
-        this.nextSearchTick = bubbasBee.tickCount;
+        this.nextSearchTick = bubbasBee.tickCount + (bubbasBee.isBusy() ? 0 : CALM_SEARCH_COOLDOWN);
 
         if (pollinated && bubbasBee instanceof CopperBee copperBee) {
             this.copperAging(copperBee, flower);
