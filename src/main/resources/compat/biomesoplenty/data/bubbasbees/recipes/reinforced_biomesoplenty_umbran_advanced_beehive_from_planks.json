@@ -1,0 +1,24 @@
+{
+  "type": "bubbasbees:hive_conversion",
+  "group": "bubbasbees:advanced_beehive",
+  "pattern": [
+    "PHP"
+  ],
+  "key": {
+    "P": {
+      "item": "biomesoplenty:umbran_planks"
+    },
+    "H": {
+      "type": "forge:difference",
+      "base": {
+        "tag": "bubbasbees:reinforced_hives"
+      },
+      "subtracted": {
+        "item": "bubbasbees:reinforced_biomesoplenty_umbran_advanced_beehive"
+      }
+    }
+  },
+  "result": {
+    "item": "bubbasbees:reinforced_biomesoplenty_umbran_advanced_beehive"
+  }
+}

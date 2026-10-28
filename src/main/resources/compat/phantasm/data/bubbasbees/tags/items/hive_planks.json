@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "phantasm:ebony_planks",
+      "required": false
+    },
+    {
+      "id": "phantasm:pream_planks",
+      "required": false
+    }
+  ]
+}

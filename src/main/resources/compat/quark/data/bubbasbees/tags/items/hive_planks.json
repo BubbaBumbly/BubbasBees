@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "quark:ancient_planks",
+      "required": false
+    },
+    {
+      "id": "quark:azalea_planks",
+      "required": false
+    },
+    {
+      "id": "quark:bamboo_planks",
+      "required": false
+    },
+    {
+      "id": "quark:blossom_planks",
+      "required": false
+    }
+  ]
+}

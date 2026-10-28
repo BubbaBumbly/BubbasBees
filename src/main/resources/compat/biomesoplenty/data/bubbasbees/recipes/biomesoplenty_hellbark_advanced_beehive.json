@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bubbasbees:advanced_beehive",
+  "pattern": [
+    "#$#",
+    "PHP",
+    "#$#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:honeycomb"
+    },
+    "$": {
+      "item": "minecraft:honey_block"
+    },
+    "H": {
+      "item": "minecraft:beehive"
+    },
+    "P": {
+      "item": "biomesoplenty:hellbark_planks"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:biomesoplenty_hellbark_advanced_beehive"
+  }
+}

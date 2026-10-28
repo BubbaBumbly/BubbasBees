@@ -1,0 +1,24 @@
+{
+  "type": "bubbasbees:hive_conversion",
+  "group": "bubbasbees:advanced_beehive",
+  "pattern": [
+    "PHP"
+  ],
+  "key": {
+    "P": {
+      "item": "windswept:chestnut_planks"
+    },
+    "H": {
+      "type": "forge:difference",
+      "base": {
+        "tag": "bubbasbees:plain_hives"
+      },
+      "subtracted": {
+        "item": "bubbasbees:windswept_chestnut_advanced_beehive"
+      }
+    }
+  },
+  "result": {
+    "item": "bubbasbees:windswept_chestnut_advanced_beehive"
+  }
+}
