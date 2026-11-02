@@ -125,8 +125,9 @@ public final class HiveInfo {
     @Nullable
     public static Component modeText(@Nullable BlockEntity blockEntity) {
         if (!(blockEntity instanceof AdvancedBeehiveBlockEntity) || !(blockEntity instanceof HiveOccupantView view)) return null;
-        return Component.translatable(view.bubbasBees$isClientBusy()
+        Component mode = Component.translatable(view.bubbasBees$isClientBusy()
                 ? "gui.bubbasbees.hive_info.busy" : "gui.bubbasbees.hive_info.calm");
+        return view.bubbasBees$hasClientChute() ? Component.translatable("gui.bubbasbees.hive_info.with_chute", mode) : mode;
     }
 
     /** "Smoked m:ss" for the hive HUD and Jade. */

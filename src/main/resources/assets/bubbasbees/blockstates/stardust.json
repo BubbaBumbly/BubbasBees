@@ -1,0 +1,44 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "bubbasbees:block/stardust_dot"
+      }
+    },
+    {
+      "when": {
+        "east": "side|rod"
+      },
+      "apply": {
+        "model": "bubbasbees:block/stardust_arm"
+      }
+    },
+    {
+      "when": {
+        "south": "side|rod"
+      },
+      "apply": {
+        "model": "bubbasbees:block/stardust_arm",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "west": "side|rod"
+      },
+      "apply": {
+        "model": "bubbasbees:block/stardust_arm",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "north": "side|rod"
+      },
+      "apply": {
+        "model": "bubbasbees:block/stardust_arm",
+        "y": 270
+      }
+    }
+  ]
+}

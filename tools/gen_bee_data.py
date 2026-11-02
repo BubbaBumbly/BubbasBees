@@ -179,7 +179,7 @@ def vanilla_items():
 
 def recipes(snapshot, known):
     root = os.path.join(DATA, "recipes")
-    for d in ("combs", "gems", "stars"):
+    for d in ("combs", "gems", "stars", "blocks"):
         shutil.rmtree(os.path.join(root, d), ignore_errors=True)
     made = []
     for r in snapshot["combs"]:
@@ -375,6 +375,136 @@ def placeholder_items(items):
                 tint(im, col).save(dst)
 
 
+# ------------------------------------------------------------------ step 3 blocks
+PEDESTALS = {  # id: (top, column, base) textures, recipe column (top slab, middle, bottom block)
+    "stone_pedestal": ("minecraft:block/smooth_stone", "minecraft:block/stone_bricks", "minecraft:block/stone",
+                       ("stone_slab", "stone_brick_wall", "stone")),
+    "deepslate_pedestal": ("minecraft:block/polished_deepslate", "minecraft:block/polished_deepslate", "minecraft:block/deepslate",
+                           ("polished_deepslate_slab", "polished_deepslate_wall", "deepslate")),
+    "blackstone_pedestal": ("minecraft:block/polished_blackstone", "minecraft:block/blackstone", "minecraft:block/polished_blackstone",
+                            ("blackstone_slab", "blackstone_wall", "polished_blackstone")),
+    "quartz_pedestal": ("minecraft:block/quartz_block_top", "minecraft:block/quartz_pillar", "minecraft:block/quartz_block_side",
+                        ("quartz_slab", "quartz_pillar", "quartz_block")),
+    "honeycomb_pedestal": ("minecraft:block/honeycomb_block", "minecraft:block/honeycomb_block", "minecraft:block/honeycomb_block",
+                           ("honeycomb", "honeycomb_block", "honeycomb_block")),
+}
+BLOCK_NAMES = {"stone_pedestal": "Stone Pedestal", "deepslate_pedestal": "Deepslate Pedestal",
+               "blackstone_pedestal": "Blackstone Pedestal", "quartz_pedestal": "Quartz Pedestal",
+               "honeycomb_pedestal": "Honeycomb Pedestal", "celestial_altar": "Celestial Altar",
+               "stardust": "Stardust", "partial_lava_cauldron": "Lava Cauldron"}
+
+
+def box(frm, to, tex, faces=("north", "east", "south", "west", "up", "down")):
+    return {"from": frm, "to": to, "faces": {f: {"texture": tex} for f in faces}}
+
+
+def step3_blocks():
+    bs, bm, im = (os.path.join(ASSETS, "blockstates"), os.path.join(ASSETS, "models", "block"),
+                  os.path.join(ASSETS, "models", "item"))
+    loot = os.path.join(DATA, "loot_tables", "blocks")
+    drop = lambda item: {"type": "minecraft:block", "pools": [{"rolls": 1, "entries": [{"type": "minecraft:item", "name": item}],
+                                                                "conditions": [{"condition": "minecraft:survives_explosion"}]}]}
+    # pedestals: one shared shape, textures per material
+    write_json(os.path.join(bm, "pedestal.json"), {"render_type": "minecraft:cutout", "textures": {"particle": "#column"},
+        "elements": [box([2, 0, 2], [14, 3, 14], "#base"), box([4, 3, 4], [12, 11, 12], "#column", ("north", "east", "south", "west")),
+                     box([2, 11, 2], [14, 13, 14], "#top")]})
+    write_json(os.path.join(bm, "celestial_altar.json"), {"render_type": "minecraft:cutout",   # PLACEHOLDER look
+        "textures": {"particle": "minecraft:block/crying_obsidian", "base": "minecraft:block/polished_blackstone",
+                     "trim": "minecraft:block/gold_block", "column": "minecraft:block/crying_obsidian",
+                     "top": "minecraft:block/diamond_block"},
+        "elements": [box([0, 0, 0], [16, 3, 16], "#base"), box([0, 3, 0], [16, 4, 16], "#trim"),
+                     box([3, 4, 3], [13, 13, 13], "#column", ("north", "east", "south", "west")),
+                     box([1, 13, 1], [15, 14, 15], "#trim"), box([1, 14, 1], [15, 16, 15], "#top")]})
+    for pid, (top, col, base, (slab, mid, bottom)) in PEDESTALS.items():
+        write_json(os.path.join(bm, pid + ".json"), {"parent": "bubbasbees:block/pedestal",
+                                                     "textures": {"top": top, "column": col, "base": base}})
+        write_json(os.path.join(DATA, "recipes", "blocks", pid + ".json"),
+                   {"type": "minecraft:crafting_shaped", "pattern": ["S", "M", "B"],
+                    "key": {"S": {"item": "minecraft:" + slab}, "M": {"item": "minecraft:" + mid}, "B": {"item": "minecraft:" + bottom}},
+                    "result": {"item": "bubbasbees:" + pid, "count": 2}})
+    for pid in list(PEDESTALS) + ["celestial_altar"]:
+        write_json(os.path.join(bs, pid + ".json"), {"variants": {"": {"model": "bubbasbees:block/" + pid}}})
+        write_json(os.path.join(im, pid + ".json"), {"parent": "bubbasbees:block/" + pid})
+        write_json(os.path.join(loot, pid + ".json"), drop("bubbasbees:" + pid))
+    write_json(os.path.join(DATA, "recipes", "blocks", "celestial_altar.json"),
+               shaped(["v:crying_obsidian", "v:diamond", "v:crying_obsidian", "v:diamond", "x:honeycomb_pedestal",
+                       "v:diamond", "v:crying_obsidian", "v:diamond", "v:crying_obsidian"], "bubbasbees:celestial_altar"))
+    write_json(os.path.join(DATA, "recipes", "blocks", "comb_chute.json"),
+               shaped(["v:iron_ingot", "v:honeycomb", "v:iron_ingot", "v:honeycomb", "v:hopper", "v:honeycomb",
+                       "v:iron_ingot", "v:honeycomb", "v:iron_ingot"], "bubbasbees:comb_chute"))
+    # stardust: redstone-style dot + arms (art final: BubbasBeesArt/work/stardust/final), pile drawn by a renderer
+    write_json(os.path.join(bm, "stardust_dot.json"), {"render_type": "minecraft:cutout", "ambientocclusion": False,
+        "textures": {"particle": "bubbasbees:block/stardust_dot", "dot": "bubbasbees:block/stardust_dot"},
+        "elements": [{"from": [0, 0.25, 0], "to": [16, 0.25, 16], "shade": False,
+                      "faces": {"up": {"uv": [0, 0, 16, 16], "texture": "#dot"}, "down": {"uv": [0, 16, 16, 0], "texture": "#dot"}}}]})
+    write_json(os.path.join(bm, "stardust_arm.json"), {"render_type": "minecraft:cutout", "ambientocclusion": False,
+        "textures": {"particle": "bubbasbees:block/stardust_dot", "line": "bubbasbees:block/stardust_line"},
+        "elements": [{"from": [8, 0.25, 0], "to": [16, 0.25, 16], "shade": False,
+                      "faces": {"up": {"uv": [8, 0, 16, 16], "texture": "#line"}, "down": {"uv": [8, 16, 16, 0], "texture": "#line"}}}]})
+    parts = [{"apply": {"model": "bubbasbees:block/stardust_dot"}}]
+    for d, y in (("east", 0), ("south", 90), ("west", 180), ("north", 270)):
+        part = {"when": {d: "side|rod"}, "apply": {"model": "bubbasbees:block/stardust_arm"}}
+        if y: part["apply"]["y"] = y
+        parts.append(part)
+    write_json(os.path.join(bs, "stardust.json"), {"multipart": parts})
+    write_json(os.path.join(loot, "stardust.json"), drop("bubbasbees:stardust"))
+    # partial lava cauldron: the vanilla level-1 template with the lava surface at each quarter
+    with zipfile.ZipFile(VANILLA_JAR) as jar:
+        tmpl = json.loads(jar.read("assets/minecraft/models/block/template_cauldron_level1.json"))
+    for lvl in (1, 2, 3):
+        model = json.loads(json.dumps(tmpl))
+        y = 4 + 11 * lvl / 4
+        for el in model["elements"]:
+            if any(f.get("texture") == "#content" for f in el["faces"].values()):
+                el["from"][1] = el["to"][1] = y
+        model["textures"].update({"content": "minecraft:block/lava_still", "particle": "minecraft:block/cauldron_side"})
+        write_json(os.path.join(bm, f"partial_lava_cauldron_level{lvl}.json"), model)
+    write_json(os.path.join(bs, "partial_lava_cauldron.json"),
+               {"variants": {f"level={l}": {"model": f"bubbasbees:block/partial_lava_cauldron_level{l}"} for l in (1, 2, 3)}})
+    write_json(os.path.join(loot, "partial_lava_cauldron.json"), drop("minecraft:cauldron"))
+    write_json(os.path.join(im, "comb_chute.json"), {"parent": "item/generated", "textures": {"layer0": "bubbasbees:item/comb_chute"}})
+    write_json(os.path.join(RES, "data", "minecraft", "tags", "blocks", "mineable", "pickaxe.json"),
+               {"replace": False, "values": ["bubbasbees:" + p for p in ("stone_pedestal", "deepslate_pedestal",
+                "blackstone_pedestal", "quartz_pedestal", "celestial_altar", "partial_lava_cauldron")]})
+    path = os.path.join(ASSETS, "lang", "en_us.json")
+    lang = json.load(open(path))
+    for b, n in BLOCK_NAMES.items():
+        lang[f"block.bubbasbees.{b}"] = n
+    lang.update({"item.bubbasbees.comb_chute": "Comb Chute",
+                 "message.bubbasbees.comb_chute.fitted": "Comb chute fitted: hoppers can pull combs out",
+                 "message.bubbasbees.comb_chute.removed": "Comb chute removed",
+                 "gui.bubbasbees.hive_info.with_chute": "%s · comb chute"})
+    write_json(path, lang)
+
+
+def step3_art(work):
+    """Final stardust art (item + placed dust) and PLACEHOLDER pile textures / comb chute icon."""
+    from PIL import Image
+    import random
+    fin = os.path.join(work, "stardust", "final")
+    items, blocks = os.path.join(ASSETS, "textures", "item"), os.path.join(ASSETS, "textures", "block")
+    os.makedirs(blocks, exist_ok=True)
+    shutil.copyfile(os.path.join(fin, "stardust.png"), os.path.join(items, "stardust.png"))
+    shutil.copyfile(os.path.join(fin, "stardust_dot.png"), os.path.join(blocks, "stardust_dot.png"))
+    shutil.copyfile(os.path.join(fin, "stardust_line.png"), os.path.join(blocks, "stardust_line.png"))
+    # pile colours from pile_pass4.py: tops LP/PU/BM + dimmed star, sides PU/PD/BM/BD + dimmed star
+    LP, PU, PD, BM, BD = (113, 99, 170), (90, 74, 156), (62, 50, 116), (30, 50, 124), (21, 42, 104)
+    STAR, STAR2 = (206, 208, 228), (190, 192, 218)
+    rnd = random.Random(5)
+    for name, cols, wts in (("stardust_pile_top", [LP, PU, BM, STAR], [4, 5, 3, 1]),
+                            ("stardust_pile_side", [PU, PD, BM, BD, STAR2], [4, 3, 3, 2, 1])):
+        im = Image.new("RGBA", (16, 16))
+        for y in range(16):
+            for x in range(16):
+                im.putpixel((x, y), rnd.choices(cols, wts)[0] + (255,))
+        im.save(os.path.join(blocks, name + ".png"))
+    chute = os.path.join(items, "comb_chute.png")
+    if not os.path.exists(chute):
+        with zipfile.ZipFile(VANILLA_JAR) as jar:
+            hopper = Image.open(BytesIO(jar.read("assets/minecraft/textures/item/hopper.png"))).convert("RGBA")
+        tint(hopper, (232, 170, 60)).save(chute)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--art", help="BubbasBeesArt/work: copy final bee/comb art and make placeholders")
@@ -390,8 +520,10 @@ def main():
     names(combs, ids)
     item_models(combs, ids)
     tags(ids)
+    step3_blocks()
     if args.art:
         art(os.path.abspath(args.art), combs, ids)
+        step3_art(os.path.abspath(args.art))
     print(len(ids), "bees,", len(combs), "combs,", len(made), "recipes")
 
 

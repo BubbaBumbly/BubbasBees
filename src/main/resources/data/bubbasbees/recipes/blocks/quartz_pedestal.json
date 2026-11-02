@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S",
+    "M",
+    "B"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:quartz_slab"
+    },
+    "M": {
+      "item": "minecraft:quartz_pillar"
+    },
+    "B": {
+      "item": "minecraft:quartz_block"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:quartz_pedestal",
+    "count": 2
+  }
+}

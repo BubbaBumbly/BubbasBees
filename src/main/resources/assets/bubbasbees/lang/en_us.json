@@ -248,5 +248,17 @@
   "item.bubbasbees.ancient_debris_honeycomb": "Ancient Debris Honeycomb",
   "item.bubbasbees.royal_queen_honeycomb": "Royal Honeycomb",
   "item.bubbasbees.stardust": "Stardust",
-  "item.bubbasbees.royal_jelly": "Royal Jelly"
+  "item.bubbasbees.royal_jelly": "Royal Jelly",
+  "block.bubbasbees.stone_pedestal": "Stone Pedestal",
+  "block.bubbasbees.deepslate_pedestal": "Deepslate Pedestal",
+  "block.bubbasbees.blackstone_pedestal": "Blackstone Pedestal",
+  "block.bubbasbees.quartz_pedestal": "Quartz Pedestal",
+  "block.bubbasbees.honeycomb_pedestal": "Honeycomb Pedestal",
+  "block.bubbasbees.celestial_altar": "Celestial Altar",
+  "block.bubbasbees.stardust": "Stardust",
+  "block.bubbasbees.partial_lava_cauldron": "Lava Cauldron",
+  "item.bubbasbees.comb_chute": "Comb Chute",
+  "message.bubbasbees.comb_chute.fitted": "Comb chute fitted: hoppers can pull combs out",
+  "message.bubbasbees.comb_chute.removed": "Comb chute removed",
+  "gui.bubbasbees.hive_info.with_chute": "%s \u00b7 comb chute"
 }

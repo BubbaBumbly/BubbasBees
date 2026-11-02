@@ -1,0 +1,8 @@
+{
+  "parent": "bubbasbees:block/pedestal",
+  "textures": {
+    "top": "minecraft:block/polished_blackstone",
+    "column": "minecraft:block/blackstone",
+    "base": "minecraft:block/polished_blackstone"
+  }
+}

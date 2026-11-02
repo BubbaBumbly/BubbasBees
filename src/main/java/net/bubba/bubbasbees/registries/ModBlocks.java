@@ -1,5 +1,11 @@
 package net.bubba.bubbasbees.registries;
 
+import net.bubba.bubbasbees.blocks.custom.PartialLavaCauldronBlock;
+import net.bubba.bubbasbees.blocks.custom.PedestalBlock;
+import net.bubba.bubbasbees.blocks.custom.StardustBlock;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
+
 import net.bubba.bubbasbees.BubbasBees;
 import net.bubba.bubbasbees.blocks.HiveWood;
 import net.bubba.bubbasbees.blocks.custom.AdvancedBeehiveBlock;
@@ -48,6 +54,30 @@ public class ModBlocks {
     }
 
 
+
+    /// Pedestals: display blocks (item floats above), and the Celestial Altar at the centre of the rituals
+    public static final RegistryObject<Block> STONE_PEDESTAL = registerPedestal("stone_pedestal", Blocks.STONE_BRICKS, false);
+    public static final RegistryObject<Block> DEEPSLATE_PEDESTAL = registerPedestal("deepslate_pedestal", Blocks.POLISHED_DEEPSLATE, false);
+    public static final RegistryObject<Block> BLACKSTONE_PEDESTAL = registerPedestal("blackstone_pedestal", Blocks.POLISHED_BLACKSTONE, false);
+    public static final RegistryObject<Block> QUARTZ_PEDESTAL = registerPedestal("quartz_pedestal", Blocks.QUARTZ_BLOCK, false);
+    public static final RegistryObject<Block> HONEYCOMB_PEDESTAL = registerPedestal("honeycomb_pedestal", Blocks.HONEYCOMB_BLOCK, false);
+    public static final RegistryObject<Block> CELESTIAL_ALTAR = registerPedestal("celestial_altar", Blocks.CRYING_OBSIDIAN, true);
+    public static final List<RegistryObject<Block>> PEDESTALS = List.of(STONE_PEDESTAL, DEEPSLATE_PEDESTAL,
+            BLACKSTONE_PEDESTAL, QUARTZ_PEDESTAL, HONEYCOMB_PEDESTAL, CELESTIAL_ALTAR);
+
+    /** Stardust laid like redstone dust (its item is ModItems.STARDUST). */
+    public static final RegistryObject<Block> STARDUST = BLOCKS.register("stardust",
+            () -> new StardustBlock(BlockBehaviour.Properties.of(Material.DECORATION).noCollission().instabreak()
+                    .lightLevel(state -> 7).sound(SoundType.AMETHYST_CLUSTER)));
+
+    /** Lava cauldron at 1/4, 2/4, 3/4 (the magma bee fills it); no item, it drops a cauldron. */
+    public static final RegistryObject<Block> PARTIAL_LAVA_CAULDRON = BLOCKS.register("partial_lava_cauldron",
+            () -> new PartialLavaCauldronBlock(BlockBehaviour.Properties.copy(Blocks.CAULDRON).lightLevel(state -> 15)));
+
+    private static RegistryObject<Block> registerPedestal(String name, Block material, boolean altar) {
+        return registerBlock(name, () -> new PedestalBlock(BlockBehaviour.Properties.copy(material).noOcclusion()
+                .lightLevel(state -> altar ? 10 : 0), altar), ModCreativeModeTab.BUBBASBEES_TAB);
+    }
 
     /// End Mod blocks
     private static <T extends Block>RegistryObject<T>

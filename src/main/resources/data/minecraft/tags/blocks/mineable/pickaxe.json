@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "bubbasbees:stone_pedestal",
+    "bubbasbees:deepslate_pedestal",
+    "bubbasbees:blackstone_pedestal",
+    "bubbasbees:quartz_pedestal",
+    "bubbasbees:celestial_altar",
+    "bubbasbees:partial_lava_cauldron"
+  ]
+}

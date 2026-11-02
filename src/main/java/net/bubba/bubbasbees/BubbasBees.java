@@ -55,7 +55,7 @@ public class BubbasBees {
         DispenserBlock.registerBehavior(Items.GLASS_BOTTLE.asItem(), new GlassBottleDispenseItemBehavior());
     }
 
-    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = net.minecraftforge.api.distmarker.Dist.CLIENT)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
@@ -68,6 +68,21 @@ public class BubbasBees {
             });
             EntityRenderers.register(ModEntityTypes.BUBBAS_BEE.get(), BubbasBeeRenderer::new);
             ModEntityTypes.bees().values().forEach(bee -> EntityRenderers.register(bee.get(), BubbasBeeRenderer::new));
+        }
+
+        @SubscribeEvent
+        public static void onRegisterRenderers(net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers event) {
+            event.registerBlockEntityRenderer(ModBlockEntities.PEDESTAL.get(), net.bubba.bubbasbees.client.PedestalRenderer::new);
+            event.registerBlockEntityRenderer(ModBlockEntities.STARDUST.get(), net.bubba.bubbasbees.client.StardustPileRenderer::new);
+        }
+
+        // The stardust pile's textures are drawn by a renderer, not a block model, so add them to the block atlas
+        @SubscribeEvent
+        public static void onTextureStitch(net.minecraftforge.client.event.TextureStitchEvent.Pre event) {
+            if (event.getAtlas().location().equals(net.minecraft.world.inventory.InventoryMenu.BLOCK_ATLAS)) {
+                event.addSprite(net.bubba.bubbasbees.client.StardustPileRenderer.TOP);
+                event.addSprite(net.bubba.bubbasbees.client.StardustPileRenderer.SIDE);
+            }
         }
 
         @SubscribeEvent

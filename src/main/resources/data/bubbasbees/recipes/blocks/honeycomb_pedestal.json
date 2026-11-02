@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S",
+    "M",
+    "B"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:honeycomb"
+    },
+    "M": {
+      "item": "minecraft:honeycomb_block"
+    },
+    "B": {
+      "item": "minecraft:honeycomb_block"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:honeycomb_pedestal",
+    "count": 2
+  }
+}
