@@ -55,7 +55,7 @@ public class BeeJarItem extends Item {
             case "iron_bee" -> 5.0F;
             case "nature_bee" -> 6.0F;
             case "redstone_bee" -> 7.0F;
-            case "sandy_bee" -> 8.0F;
+            case "desert_bee", "sandy_bee" -> 8.0F;   // sandy_bee: the desert bee's id before 2026-11
             case "stone_bee" -> 9.0F;
             default -> 1.0F;
         };

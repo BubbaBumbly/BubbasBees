@@ -56,7 +56,7 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
             ResourceLocation id = ResourceLocation.tryParse(entityData.getString("id"));
             if (id == null) continue;
             int stayTicks = advanced != null
-                    ? advanced.stayTicks(entityData.getBoolean("HasNectar"))
+                    ? advanced.stayTicks(entityData)
                     : data.getMinOccupationTicks();
             int remaining = stayTicks - data.getTicksInHive();
             // An overdue bee (held in by night or rain) gets a fixed marker, not a due time that moves every tick

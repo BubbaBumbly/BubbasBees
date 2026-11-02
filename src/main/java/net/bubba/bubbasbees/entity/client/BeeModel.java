@@ -1,34 +1,25 @@
 package net.bubba.bubbasbees.entity.client;
 
 import net.bubba.bubbasbees.BubbasBees;
+import net.bubba.bubbasbees.bees.BeeSpec;
 import net.bubba.bubbasbees.entity.custom.BubbasBee;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
-import java.util.Set;
 
 public class BeeModel extends AnimatedGeoModel<BubbasBee> {
-    // Variants with a deepslate look (textures/entity/<name>_deepslate_bee.png)
-    private static final Set<String> DEEPSLATE_VARIANTS = Set.of("copper", "gold", "iron", "redstone", "stone", "none");
 
     @Override
     public ResourceLocation getModelResource(BubbasBee instance) {
-        return switch (instance.getVariant()) {
-            case "nature" -> new ResourceLocation(BubbasBees.MOD_ID, "geo/nature.geo.json");   // grass on top
-            case "sand" -> new ResourceLocation(BubbasBees.MOD_ID, "geo/sandy.geo.json");      // cacti on top
-            default -> new ResourceLocation(BubbasBees.MOD_ID, "geo/ore.geo.json");
-        };
+        BeeSpec spec = instance.getSpec();
+        return new ResourceLocation(BubbasBees.MOD_ID, "geo/" + (spec == null ? "ore" : spec.model()) + ".geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(BubbasBee instance) {
-        String variant = instance.getVariant();
-        String name = switch (variant) {
-            case "sand" -> "sandy";
-            case "none" -> "diamond";    // the dev-only Bubbas Bee
-            default -> variant;
-        };
-        if (DEEPSLATE_VARIANTS.contains(variant) && instance.isDeepslate()) {
+        BeeSpec spec = instance.getSpec();
+        String name = spec == null ? "diamond" : spec.id();   // the dev-only Bubbas Bee wears the diamond look
+        if ((spec == null || spec.deepslateLook()) && instance.isDeepslate()) {
             name += "_deepslate";
         }
         return new ResourceLocation(BubbasBees.MOD_ID,

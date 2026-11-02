@@ -1,5 +1,7 @@
 package net.bubba.bubbasbees.blockentities;
 
+import net.bubba.bubbasbees.bees.BeeSpec;
+import net.bubba.bubbasbees.bees.BeeSpecs;
 import net.bubba.bubbasbees.item.custom.SmokerItem;
 import net.bubba.bubbasbees.blocks.custom.AdvancedBeehiveBlock;
 import net.bubba.bubbasbees.entity.custom.BubbasBee;
@@ -14,6 +16,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.protocol.game.DebugPackets;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -93,8 +96,9 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         boolean flag = false;
         for (Iterator<BeeData> iterator = bees.iterator(); iterator.hasNext(); increaseTicksInHive(beeData, 1)) {
             beeData = iterator.next();
-            boolean hasNectar = ((BeehiveBeeDataAccessor) beeData).getEntityData().getBoolean("HasNectar");
-            if (((BeehiveBeeDataAccessor) beeData).getTicksInHive() > hive.stayTicks(hasNectar)) {
+            CompoundTag beeNbt = ((BeehiveBeeDataAccessor) beeData).getEntityData();
+            boolean hasNectar = beeNbt.getBoolean("HasNectar");
+            if (((BeehiveBeeDataAccessor) beeData).getTicksInHive() > hive.stayTicks(beeNbt)) {
                 BeeReleaseStatus status = hasNectar
                         ? BeeReleaseStatus.HONEY_DELIVERED : BeeReleaseStatus.BEE_RELEASED;
                 if(releaseBee(hive, state, beeData, null, status)){
@@ -212,11 +216,11 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
                 if (beehiveState == BeeReleaseStatus.HONEY_DELIVERED) {
                     if (entity instanceof Bee bee){
                         bee.dropOffNectar();
-                        if (bee instanceof BubbasBee bubbasBee){
-                            if (!(hive.honeycombList.size() >= 8)) hive.honeycombList.add(bubbasBee.getHoneycombOutput());
-                        } else {
-                            if (!(hive.honeycombList.size() >= 8)) hive.honeycombList.add(Items.HONEYCOMB.getDefaultInstance());
-                        }
+                        // Mod bees roll their comb table (a failed roll leaves nothing); vanilla bees give honeycomb.
+                        // A full hive (8 combs) loses the roll.
+                        ItemStack comb = bee instanceof BubbasBee bubbasBee
+                                ? bubbasBee.rollComb() : new ItemStack(Items.HONEYCOMB);
+                        if (!comb.isEmpty() && hive.honeycombList.size() < 8) hive.honeycombList.add(comb);
                     }
                     if (getHoneyLevel(state) < 5) {
                         recalculateHoneyLevel(hive,state);
@@ -278,6 +282,13 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     public int stayTicks(boolean hasNectar) {
         if (!hasNectar) return STAY_TICKS;
         return busy ? BUSY_STAY_TICKS_WITH_NECTAR : CALM_STAY_TICKS_WITH_NECTAR;
+    }
+
+    /** Stay for a stored bee: Nether and End bees stay twice as long outside their home dimension. */
+    public int stayTicks(CompoundTag beeNbt) {
+        int ticks = stayTicks(beeNbt.getBoolean("HasNectar"));
+        BeeSpec spec = BeeSpecs.byEntity(ResourceLocation.tryParse(beeNbt.getString("id")));
+        return spec != null && this.level != null && spec.isAwayFromHome(this.level) ? ticks * 2 : ticks;
     }
 
     public boolean isBusy() {

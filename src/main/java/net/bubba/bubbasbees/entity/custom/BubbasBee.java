@@ -1,13 +1,11 @@
 package net.bubba.bubbasbees.entity.custom;
 
+import net.bubba.bubbasbees.bees.BeeSpec;
 import net.bubba.bubbasbees.blockentities.AdvancedBeehiveBlockEntity;
 import net.bubba.bubbasbees.entity.goals.BeeAnchorHomingGoal;
 import net.bubba.bubbasbees.entity.goals.BeeDaftWanderGoal;
 import net.bubba.bubbasbees.entity.goals.ModBeePollinateGoal;
 import net.bubba.bubbasbees.mixin.BeeEntityAccessor;
-import net.bubba.bubbasbees.registries.ModEntityTypes;
-import net.bubba.bubbasbees.registries.ModItems;
-import net.bubba.bubbasbees.util.ListUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.nbt.CompoundTag;
@@ -25,13 +23,12 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Bee;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -42,15 +39,10 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
-import java.util.ArrayList;
 
 
 public class BubbasBee extends Bee implements IAnimatable {
 
-    public ArrayList<Block> validFlowerList;
-    public ItemStack validHoneycombOutput;
-    public String variant = "none";
-    public Item conversionItem;
     public BlockPos homeAnchorPos;
     // Work mode of the bee's hive (see AdvancedBeehiveBlockEntity); kept for bees that are away from it or have none
     private boolean busy = false;
@@ -62,11 +54,33 @@ public class BubbasBee extends Bee implements IAnimatable {
     private static final EntityDataAccessor<Boolean> DEEPSLATE =
             SynchedEntityData.defineId(BubbasBee.class, EntityDataSerializers.BOOLEAN);
 
+    /** The dev-only base bee (diamond look, no spec, makes nothing). */
     public BubbasBee(EntityType<? extends Bee> bubbasBeeEntityType, Level level) {
-        super(bubbasBeeEntityType, level);
-        if (!level.isClientSide) {
+        this(bubbasBeeEntityType, level, null);
+    }
+
+    protected BubbasBee(EntityType<? extends Bee> type, Level level, @Nullable BeeSpec spec) {
+        super(type, level);
+        if (!level.isClientSide && (spec == null || spec.deepslateLook())) {
             setDeepslate(this.random.nextBoolean());
         }
+    }
+
+    /** This bee's roster data; null only for the dev base bee. */
+    public @Nullable BeeSpec getSpec() {
+        return null;
+    }
+
+    /** Whether the bee pollinates this block (its flower tag). */
+    public boolean isFlowerState(BlockState state) {
+        BeeSpec spec = getSpec();
+        return spec != null && state.is(spec.flowerTag());
+    }
+
+    /** The comb this trip leaves in the hive, or EMPTY on a failed roll. */
+    public ItemStack rollComb() {
+        BeeSpec spec = getSpec();
+        return spec == null ? ItemStack.EMPTY : spec.rollComb(this.random);
     }
 
     @Override
@@ -91,10 +105,6 @@ public class BubbasBee extends Bee implements IAnimatable {
         this.homeAnchorPos = pos;
     }
 
-    public @NotNull EntityType<? extends Bee> getType(){
-        return ModEntityTypes.BUBBAS_BEE.get();
-    }
-
     /** Follows the hive's mode within a second of it being switched, also for bees already out flying. */
     public boolean isBusy() {
         if (this.tickCount >= nextModeCheckTick) {
@@ -108,10 +118,9 @@ public class BubbasBee extends Bee implements IAnimatable {
         return busy;
     }
 
-    public String getVariant () {return this.variant;}
-
-    public ItemStack getHoneycombOutput (){
-        return this.validHoneycombOutput;
+    public String getVariant() {
+        BeeSpec spec = getSpec();
+        return spec == null ? "none" : spec.id();
     }
 
     @Override
@@ -119,11 +128,11 @@ public class BubbasBee extends Bee implements IAnimatable {
         ItemStack itemstack = player.getItemInHand(hand);
         if (itemstack.is(Items.STICK) && !this.level.isClientSide) {
             System.out.println("=== BubbasBee Debug: " + this.getName().getString() + " ===");
-            System.out.println("  Variant: " + variant);
+            System.out.println("  Variant: " + getVariant());
             System.out.println("  Tick: " + tickCount);
             System.out.println("  HasNectar: " + hasNectar());
             System.out.println("  SavedFlowerPos: " + (savedFlowerPos != null ? savedFlowerPos.toShortString() : "null"));
-            System.out.println("  ValidFlowerList: " + (validFlowerList == null ? "null!" : validFlowerList.size() + " blocks"));
+            System.out.println("  Flowers: " + (getSpec() == null ? "none" : "#" + getSpec().flowerTag().location()));
             System.out.println("  Has hive: " + hasHive());
             System.out.println("  HivePos: " + (getHivePos() != null ? getHivePos().toShortString() : "null"));
             System.out.println("  HomeAnchor: " + (homeAnchorPos != null ? homeAnchorPos.toShortString() : "null"));
@@ -141,7 +150,7 @@ public class BubbasBee extends Bee implements IAnimatable {
     // Spawn eggs and breeding produce a baby of this bee's own type instead of a vanilla bee
     @Override
     public Bee getBreedOffspring(@NotNull ServerLevel level, @NotNull AgeableMob other) {
-        return this.getType().create(level);
+        return this.getType().create(level) instanceof Bee baby ? baby : null;
     }
 
     @Override
@@ -254,6 +263,6 @@ public class BubbasBee extends Bee implements IAnimatable {
 
     @Override
     public boolean isFlowerValid(@NotNull BlockPos blockPos) {
-        return this.level.isLoaded(blockPos) && ListUtils.withinBlockList(validFlowerList, this.level.getBlockState(blockPos).getBlock());
+        return this.level.isLoaded(blockPos) && isFlowerState(this.level.getBlockState(blockPos));
     }
 }

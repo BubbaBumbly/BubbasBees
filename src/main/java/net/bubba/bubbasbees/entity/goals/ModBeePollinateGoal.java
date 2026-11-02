@@ -1,9 +1,7 @@
 package net.bubba.bubbasbees.entity.goals;
 
 import net.bubba.bubbasbees.entity.custom.BubbasBee;
-import net.bubba.bubbasbees.entity.custom.CopperBee;
 import net.bubba.bubbasbees.mixin.BeePollinateGoalAccessor;
-import net.bubba.bubbasbees.util.ListUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -129,7 +127,7 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
                     && state.getValue(BlockStateProperties.WATERLOGGED)) {
                 return false;
             }
-            return ListUtils.withinBlockList(bubbasBee.validFlowerList, state.getBlock());
+            return bubbasBee.isFlowerState(state);
         };
     }
 
@@ -531,8 +529,9 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         hoveringAtFlower = false;
         this.nextSearchTick = bubbasBee.tickCount + (bubbasBee.isBusy() ? 0 : CALM_SEARCH_COOLDOWN);
 
-        if (pollinated && bubbasBee instanceof CopperBee copperBee) {
-            this.copperAging(copperBee, flower);
+        // The copper bee ages the copper it pollinates
+        if (pollinated && "copper".equals(bubbasBee.getVariant())) {
+            this.copperAging(bubbasBee, flower);
         }
         if (pollinated && bubbasBee.getRandom().nextFloat() < FORGET_FLOWER_CHANCE) {
             bubbasBee.savedFlowerPos = null;

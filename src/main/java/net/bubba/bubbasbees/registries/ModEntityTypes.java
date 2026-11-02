@@ -1,7 +1,10 @@
 package net.bubba.bubbasbees.registries;
 
 import net.bubba.bubbasbees.BubbasBees;
-import net.bubba.bubbasbees.entity.custom.*;
+import net.bubba.bubbasbees.bees.BeeSpec;
+import net.bubba.bubbasbees.bees.BeeSpecs;
+import net.bubba.bubbasbees.entity.custom.BubbasBee;
+import net.bubba.bubbasbees.entity.custom.ModBee;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -10,62 +13,45 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class ModEntityTypes {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, BubbasBees.MOD_ID);
 
+    /** Dev-only base bee (diamond look), not obtainable. */
     public static final RegistryObject<EntityType<BubbasBee>> BUBBAS_BEE =
             ENTITY_TYPES.register("bubbas_bee",
                     () -> EntityType.Builder.of(BubbasBee::new, MobCategory.CREATURE)
                             .sized(0.7f, 0.6f)
                             .build(new ResourceLocation(BubbasBees.MOD_ID, "bubbas_bee").toString()));
 
-    /// SubClassers of Bubba's Bee:
+    /** Every roster bee by spec id ("iron" -> bubbasbees:iron_bee). */
+    private static final Map<String, RegistryObject<EntityType<ModBee>>> BEES = new LinkedHashMap<>();
 
-    public static final RegistryObject<EntityType<CopperBee>> COPPER_BEE =
-            ENTITY_TYPES.register("copper_bee",
-                    () -> EntityType.Builder.of(CopperBee::new, MobCategory.CREATURE)
-                            .sized(0.7f, 0.6f)
-                            .build(new ResourceLocation(BubbasBees.MOD_ID, "copper_bee").toString()));
-    public static final RegistryObject<EntityType<SandyBee>> SANDY_BEE =
-            ENTITY_TYPES.register("sandy_bee",
-                    () -> EntityType.Builder.of(SandyBee::new, MobCategory.CREATURE)
-                            .sized(0.7f, 0.6f)
-                            .build(new ResourceLocation(BubbasBees.MOD_ID, "sandy_bee").toString()));
-    public static final RegistryObject<EntityType<RedstoneBee>> REDSTONE_BEE =
-            ENTITY_TYPES.register("redstone_bee",
-                    () -> EntityType.Builder.of(RedstoneBee::new, MobCategory.CREATURE)
-                            .sized(0.7f, 0.6f)
-                            .build(new ResourceLocation(BubbasBees.MOD_ID, "redstone_bee").toString()));
-    public static final RegistryObject<EntityType<GoldBee>> GOLD_BEE =
-            ENTITY_TYPES.register("gold_bee",
-                    () -> EntityType.Builder.of(GoldBee::new, MobCategory.CREATURE)
-                            .sized(0.7f, 0.6f)
-                            .build(new ResourceLocation(BubbasBees.MOD_ID, "gold_bee").toString()));
-    public static final RegistryObject<EntityType<IronBee>> IRON_BEE =
-            ENTITY_TYPES.register("iron_bee",
-                    () -> EntityType.Builder.of(IronBee::new, MobCategory.CREATURE)
-                            .sized(0.7f, 0.6f)
-                            .build(new ResourceLocation(BubbasBees.MOD_ID, "iron_bee").toString()));
-    public static final RegistryObject<EntityType<NatureBee>> NATURE_BEE =
-            ENTITY_TYPES.register("nature_bee",
-                    () -> EntityType.Builder.of(NatureBee::new, MobCategory.CREATURE)
-                            .sized(0.7f, 0.6f)
-                            .build(new ResourceLocation(BubbasBees.MOD_ID, "nature_bee").toString()));
-    public static final RegistryObject<EntityType<EnderBee>> ENDER_BEE =
-            ENTITY_TYPES.register("ender_bee",
-                    () -> EntityType.Builder.of(EnderBee::new, MobCategory.CREATURE)
-                            .sized(0.7f, 0.6f)
-                            .build(new ResourceLocation(BubbasBees.MOD_ID, "ender_bee").toString()));
-    public static final RegistryObject<EntityType<StoneBee>> STONE_BEE =
-            ENTITY_TYPES.register("stone_bee",
-                    () -> EntityType.Builder.of(StoneBee::new, MobCategory.CREATURE)
-                            .sized(0.7f, 0.6f)
-                            .build(new ResourceLocation(BubbasBees.MOD_ID, "stone_bee").toString()));
+    static {
+        for (BeeSpec spec : BeeSpecs.ALL) {
+            BEES.put(spec.id(), ENTITY_TYPES.register(spec.entityId(), () -> {
+                EntityType.Builder<ModBee> builder = EntityType.Builder
+                        .<ModBee>of((type, level) -> new ModBee(type, level, spec), MobCategory.CREATURE)
+                        .sized(0.7f, 0.6f);
+                if (spec.fireImmune()) builder.fireImmune();
+                return builder.build(spec.entityKey().toString());
+            }));
+        }
+    }
 
-    ///
+    public static RegistryObject<EntityType<ModBee>> bee(String id) {
+        RegistryObject<EntityType<ModBee>> bee = BEES.get(id);
+        if (bee == null) throw new IllegalArgumentException("No bee " + id);
+        return bee;
+    }
 
-    /// End SubClassers of Bubba's Bee.
+    public static Map<String, RegistryObject<EntityType<ModBee>>> bees() {
+        return Collections.unmodifiableMap(BEES);
+    }
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
