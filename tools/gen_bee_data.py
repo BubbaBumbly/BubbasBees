@@ -471,7 +471,7 @@ def step3_blocks():
     for b, n in BLOCK_NAMES.items():
         lang[f"block.bubbasbees.{b}"] = n
     lang.update({"item.bubbasbees.comb_chute": "Comb Chute",
-                 "message.bubbasbees.comb_chute.fitted": "Comb chute fitted: hoppers can pull combs out",
+                 "message.bubbasbees.comb_chute.fitted": "Comb chute fitted: hoppers can pull combs out (sneak + shears takes it off)",
                  "message.bubbasbees.comb_chute.removed": "Comb chute removed",
                  "gui.bubbasbees.hive_info.with_chute": "%s · comb chute"})
     write_json(path, lang)

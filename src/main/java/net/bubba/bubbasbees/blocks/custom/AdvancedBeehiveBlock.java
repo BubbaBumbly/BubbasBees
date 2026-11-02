@@ -71,7 +71,8 @@ public class AdvancedBeehiveBlock extends BeehiveBlock {
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
-        // Comb chute: right-click to fit one; sneak + right-click with an empty hand takes it back out
+        // Comb chute: right-click to fit one; sneak + right-click with shears takes it back out (sneak + empty hand is
+        // Carry On's pick-up gesture in packs that have it)
         if (level.getBlockEntity(pos) instanceof AdvancedBeehiveBlockEntity chuteHive) {
             if (held_Item.is(ModItems.COMB_CHUTE.get()) && !chuteHive.hasCombChute()) {
                 if (!level.isClientSide) {
@@ -82,7 +83,7 @@ public class AdvancedBeehiveBlock extends BeehiveBlock {
                 }
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
-            if (player.isShiftKeyDown() && held_Item.isEmpty() && chuteHive.hasCombChute()) {
+            if (player.isShiftKeyDown() && held_Item.canPerformAction(ToolActions.SHEARS_HARVEST) && chuteHive.hasCombChute()) {
                 if (!level.isClientSide) {
                     chuteHive.setCombChute(false);
                     ItemStack chute = new ItemStack(ModItems.COMB_CHUTE.get());
