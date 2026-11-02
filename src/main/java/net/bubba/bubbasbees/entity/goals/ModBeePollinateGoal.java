@@ -161,7 +161,7 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
                     if (!center.closerThan(mutablePos, radius) || mutablePos.equals(exclude)
                             || !this.VALID_POLLINATION_BLOCKS.test(bubbasBee.level.getBlockState(mutablePos))
                             || !bubbasBee.level.getBlockState(mutablePos.above()).isAir()
-                            || !isWithinHomeRange(mutablePos)) {
+                            || !isWithinHomeRange(mutablePos) || !bubbasBee.canUseFlowerAt(mutablePos)) {
                         continue;
                     }
                     double weight = favourNear ? 1.0D / (1.0D + Math.sqrt(dx * dx + dy * dy + dz * dz)) : 1.0D;
@@ -193,7 +193,8 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
             bubbasBee.savedFlowerPos = null;
             return false;
         }
-        return bubbasBee.isFlowerValid(saved) && bubbasBee.level.getBlockState(saved.above()).isAir();
+        return bubbasBee.isFlowerValid(saved) && bubbasBee.level.getBlockState(saved.above()).isAir()
+                && bubbasBee.canUseFlowerAt(saved);
     }
 
     // Returns true when the bee heads straight for its remembered flower; otherwise it wanders first
@@ -228,7 +229,7 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     public boolean canBeeUse() {
         if (bubbasBee.tickCount < this.nextSearchTick) return false;
         if (bubbasBee.hasNectar()) return false;
-        if (bubbasBee.level.isRaining() || bubbasBee.level.isNight()) return false;
+        if (!bubbasBee.canWorkNow()) return false;
 
         boolean busy = bubbasBee.isBusy();
         if (!departureDecided) {
@@ -465,7 +466,7 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     public boolean canBeeContinueToUse() {
         if (!this.isPollinating()) return false;
         if (!bubbasBee.hasSavedFlowerPos()) return false;
-        if (bubbasBee.level.isRaining()) return false;
+        if (!bubbasBee.canWorkNow()) return false;
         if (this.hasPollinatedLongEnough()) {
             return bubbasBee.level.getRandom().nextFloat() < 0.2F;
         }

@@ -5,6 +5,7 @@ import net.bubba.bubbasbees.bees.BeeSpec;
 import net.bubba.bubbasbees.bees.BeeSpecs;
 import net.bubba.bubbasbees.entity.custom.BubbasBee;
 import net.bubba.bubbasbees.entity.custom.ModBee;
+import net.bubba.bubbasbees.entity.custom.DarkBee;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -27,6 +28,13 @@ public class ModEntityTypes {
                     () -> EntityType.Builder.of(BubbasBee::new, MobCategory.CREATURE)
                             .sized(0.7f, 0.6f)
                             .build(new ResourceLocation(BubbasBees.MOD_ID, "bubbas_bee").toString()));
+
+    /** Night-ritual pest: snuffs candles (not a roster bee: no gem, comb, hive or spawn egg). */
+    public static final RegistryObject<EntityType<DarkBee>> DARK_BEE =
+            ENTITY_TYPES.register("dark_bee",
+                    () -> EntityType.Builder.of(DarkBee::new, MobCategory.MISC)
+                            .sized(0.7f, 0.6f).fireImmune()
+                            .build(new ResourceLocation(BubbasBees.MOD_ID, "dark_bee").toString()));
 
     /** Every roster bee by spec id ("iron" -> bubbasbees:iron_bee). */
     private static final Map<String, RegistryObject<EntityType<ModBee>>> BEES = new LinkedHashMap<>();

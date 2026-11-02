@@ -3,6 +3,7 @@
   "textures": {
     "top": "minecraft:block/smooth_stone",
     "column": "minecraft:block/stone_bricks",
-    "base": "minecraft:block/stone"
+    "base": "minecraft:block/stone",
+    "acc": "minecraft:block/chiseled_stone_bricks"
   }
 }

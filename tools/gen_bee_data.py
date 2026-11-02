@@ -24,6 +24,7 @@ import zipfile
 from io import BytesIO
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ART_WORK = os.path.join(os.path.dirname(ROOT), "BubbasBeesArt", "work")
 RES = os.path.join(ROOT, "src", "main", "resources")
 ASSETS = os.path.join(RES, "assets", "bubbasbees")
 DATA = os.path.join(RES, "data", "bubbasbees")
@@ -376,21 +377,21 @@ def placeholder_items(items):
 
 
 # ------------------------------------------------------------------ step 3 blocks
-PEDESTALS = {  # id: (top, column, base) textures, recipe column (top slab, middle, bottom block)
+PEDESTALS = {  # id: (top, column, base, acc) textures (final art: BubbasBeesArt/work/pedestals/final, shape PB),
+    # recipe column (top slab, middle, bottom block). The honeycomb pedestal was removed (user, 2026-11-02).
     "stone_pedestal": ("minecraft:block/smooth_stone", "minecraft:block/stone_bricks", "minecraft:block/stone",
-                       ("stone_slab", "stone_brick_wall", "stone")),
-    "deepslate_pedestal": ("minecraft:block/polished_deepslate", "minecraft:block/polished_deepslate", "minecraft:block/deepslate",
-                           ("polished_deepslate_slab", "polished_deepslate_wall", "deepslate")),
-    "blackstone_pedestal": ("minecraft:block/polished_blackstone", "minecraft:block/blackstone", "minecraft:block/polished_blackstone",
+                       "minecraft:block/chiseled_stone_bricks", ("stone_slab", "stone_brick_wall", "stone")),
+    "deepslate_pedestal": ("minecraft:block/polished_deepslate", "minecraft:block/deepslate_bricks", "minecraft:block/deepslate",
+                           "minecraft:block/chiseled_deepslate", ("polished_deepslate_slab", "polished_deepslate_wall", "deepslate")),
+    "blackstone_pedestal": ("minecraft:block/polished_blackstone", "minecraft:block/polished_blackstone_bricks",
+                            "minecraft:block/blackstone", "minecraft:block/chiseled_polished_blackstone",
                             ("blackstone_slab", "blackstone_wall", "polished_blackstone")),
     "quartz_pedestal": ("minecraft:block/quartz_block_top", "minecraft:block/quartz_pillar", "minecraft:block/quartz_block_side",
-                        ("quartz_slab", "quartz_pillar", "quartz_block")),
-    "honeycomb_pedestal": ("minecraft:block/honeycomb_block", "minecraft:block/honeycomb_block", "minecraft:block/honeycomb_block",
-                           ("honeycomb", "honeycomb_block", "honeycomb_block")),
+                        "minecraft:block/chiseled_quartz_block", ("quartz_slab", "quartz_pillar", "quartz_block")),
 }
 BLOCK_NAMES = {"stone_pedestal": "Stone Pedestal", "deepslate_pedestal": "Deepslate Pedestal",
                "blackstone_pedestal": "Blackstone Pedestal", "quartz_pedestal": "Quartz Pedestal",
-               "honeycomb_pedestal": "Honeycomb Pedestal", "celestial_altar": "Celestial Altar",
+               "celestial_altar": "Celestial Altar",
                "stardust": "Stardust", "partial_lava_cauldron": "Lava Cauldron"}
 
 
@@ -405,19 +406,12 @@ def step3_blocks():
     drop = lambda item: {"type": "minecraft:block", "pools": [{"rolls": 1, "entries": [{"type": "minecraft:item", "name": item}],
                                                                 "conditions": [{"condition": "minecraft:survives_explosion"}]}]}
     # pedestals: one shared shape, textures per material
-    write_json(os.path.join(bm, "pedestal.json"), {"render_type": "minecraft:cutout", "textures": {"particle": "#column"},
-        "elements": [box([2, 0, 2], [14, 3, 14], "#base"), box([4, 3, 4], [12, 11, 12], "#column", ("north", "east", "south", "west")),
-                     box([2, 11, 2], [14, 13, 14], "#top")]})
-    write_json(os.path.join(bm, "celestial_altar.json"), {"render_type": "minecraft:cutout",   # PLACEHOLDER look
-        "textures": {"particle": "minecraft:block/crying_obsidian", "base": "minecraft:block/polished_blackstone",
-                     "trim": "minecraft:block/gold_block", "column": "minecraft:block/crying_obsidian",
-                     "top": "minecraft:block/diamond_block"},
-        "elements": [box([0, 0, 0], [16, 3, 16], "#base"), box([0, 3, 0], [16, 4, 16], "#trim"),
-                     box([3, 4, 3], [13, 13, 13], "#column", ("north", "east", "south", "west")),
-                     box([1, 13, 1], [15, 14, 15], "#trim"), box([1, 14, 1], [15, 16, 15], "#top")]})
-    for pid, (top, col, base, (slab, mid, bottom)) in PEDESTALS.items():
+    fin = os.path.join(ART_WORK, "pedestals", "final")
+    for model in ("pedestal.json", "celestial_altar.json"):   # final shapes (PB column, AE altar)
+        write_json(os.path.join(bm, model), json.load(open(os.path.join(fin, model))))
+    for pid, (top, col, base, acc, (slab, mid, bottom)) in PEDESTALS.items():
         write_json(os.path.join(bm, pid + ".json"), {"parent": "bubbasbees:block/pedestal",
-                                                     "textures": {"top": top, "column": col, "base": base}})
+                                                     "textures": {"top": top, "column": col, "base": base, "acc": acc}})
         write_json(os.path.join(DATA, "recipes", "blocks", pid + ".json"),
                    {"type": "minecraft:crafting_shaped", "pattern": ["S", "M", "B"],
                     "key": {"S": {"item": "minecraft:" + slab}, "M": {"item": "minecraft:" + mid}, "B": {"item": "minecraft:" + bottom}},
@@ -427,7 +421,7 @@ def step3_blocks():
         write_json(os.path.join(im, pid + ".json"), {"parent": "bubbasbees:block/" + pid})
         write_json(os.path.join(loot, pid + ".json"), drop("bubbasbees:" + pid))
     write_json(os.path.join(DATA, "recipes", "blocks", "celestial_altar.json"),
-               shaped(["v:crying_obsidian", "v:diamond", "v:crying_obsidian", "v:diamond", "x:honeycomb_pedestal",
+               shaped(["v:crying_obsidian", "v:diamond", "v:crying_obsidian", "v:diamond", "x:quartz_pedestal",
                        "v:diamond", "v:crying_obsidian", "v:diamond", "v:crying_obsidian"], "bubbasbees:celestial_altar"))
     write_json(os.path.join(DATA, "recipes", "blocks", "comb_chute.json"),
                shaped(["v:iron_ingot", "v:honeycomb", "v:iron_ingot", "v:honeycomb", "v:hopper", "v:honeycomb",
@@ -478,7 +472,7 @@ def step3_blocks():
 
 
 def step3_art(work):
-    """Final stardust art (item + placed dust) and PLACEHOLDER pile textures / comb chute icon."""
+    """Final stardust art (item + placed dust), final comb chute icon, PLACEHOLDER pile textures."""
     from PIL import Image
     import random
     fin = os.path.join(work, "stardust", "final")
@@ -498,11 +492,125 @@ def step3_art(work):
             for x in range(16):
                 im.putpixel((x, y), rnd.choices(cols, wts)[0] + (255,))
         im.save(os.path.join(blocks, name + ".png"))
-    chute = os.path.join(items, "comb_chute.png")
-    if not os.path.exists(chute):
-        with zipfile.ZipFile(VANILLA_JAR) as jar:
-            hopper = Image.open(BytesIO(jar.read("assets/minecraft/textures/item/hopper.png"))).convert("RGBA")
-        tint(hopper, (232, 170, 60)).save(chute)
+    # comb chute icon: final art (BubbasBeesArt/work/comb_chute/final)
+    shutil.copyfile(os.path.join(work, "comb_chute", "final", "comb_chute.png"), os.path.join(items, "comb_chute.png"))
+
+
+# ------------------------------------------------------------------ step 4: traits, queen, jelly, pink piston
+HOME_BIOMES = {  # bee: biomes where its hive stays 20% shorter (bee cards in finish-spec.md)
+    "forest": ["forest", "birch_forest", "old_growth_birch_forest", "dark_forest"],
+    "desert": ["desert"],
+    "river": ["river"],
+    "meadow": ["meadow", "flower_forest"],
+    "jungle": ["jungle", "bamboo_jungle", "sparse_jungle"],
+    "taiga": ["taiga", "old_growth_pine_taiga", "old_growth_spruce_taiga", "snowy_taiga"],
+    "savanna": ["savanna", "savanna_plateau", "windswept_savanna"],
+    "deep_dark": ["deep_dark"],
+    "lush_caves": ["lush_caves"],
+    "frost": ["snowy_plains", "ice_spikes", "snowy_slopes", "frozen_peaks", "frozen_river", "frozen_ocean",
+              "deep_frozen_ocean"],
+    "swamp": ["swamp", "mangrove_swamp"],
+    "mesa": ["badlands", "eroded_badlands", "wooded_badlands"],
+    "mushroom_fields": ["mushroom_fields"],
+    "sea": ["beach", "snowy_beach", "#minecraft:is_ocean"],
+    "coral": ["warm_ocean"],
+    "prismarine": ["deep_ocean", "deep_cold_ocean", "deep_lukewarm_ocean", "deep_frozen_ocean"],
+    "corrupt_stone": ["nether_wastes", "basalt_deltas"],
+    "soul": ["soul_sand_valley"],
+    "corrupt_nature": ["crimson_forest", "warped_forest"],
+    "magma": ["basalt_deltas", "nether_wastes"],
+    "ender": ["#minecraft:is_end"],
+}
+
+
+def step4_data():
+    bs, bm, im = (os.path.join(ASSETS, "blockstates"), os.path.join(ASSETS, "models", "block"),
+                  os.path.join(ASSETS, "models", "item"))
+    loot = os.path.join(DATA, "loot_tables", "blocks")
+    for bee, biomes in HOME_BIOMES.items():
+        write_json(os.path.join(DATA, "tags", "worldgen", "biome", "home_biomes", bee + ".json"),
+                   {"replace": False, "values": [b if b.startswith("#") else "minecraft:" + b for b in biomes]})
+    drop = lambda item: {"type": "minecraft:block", "pools": [{"rolls": 1, "entries": [{"type": "minecraft:item", "name": item}],
+                                                                "conditions": [{"condition": "minecraft:survives_explosion"}]}]}
+    # royal jelly block: slime-block layout (inner core px 3-13 + translucent outer shell), final art B1
+    faces = lambda uv, tex, cull: {f: dict({"uv": uv, "texture": tex}, **({"cullface": f} if cull else {}))
+                                   for f in ("down", "up", "north", "south", "west", "east")}
+    write_json(os.path.join(bm, "royal_jelly_block.json"), {"parent": "block/block", "render_type": "minecraft:translucent",
+        "textures": {"particle": "bubbasbees:block/royal_jelly_block", "outer": "bubbasbees:block/royal_jelly_block",
+                     "inner": "bubbasbees:block/royal_jelly_block_inner"},
+        "elements": [{"from": [3, 3, 3], "to": [13, 13, 13], "faces": faces([3, 3, 13, 13], "#inner", False)},
+                     {"from": [0, 0, 0], "to": [16, 16, 16], "faces": faces([0, 0, 16, 16], "#outer", True)}]})
+    write_json(os.path.join(bs, "royal_jelly_block.json"), {"variants": {"": {"model": "bubbasbees:block/royal_jelly_block"}}})
+    write_json(os.path.join(im, "royal_jelly_block.json"), {"parent": "bubbasbees:block/royal_jelly_block"})
+    write_json(os.path.join(loot, "royal_jelly_block.json"), drop("bubbasbees:royal_jelly_block"))
+    rec = os.path.join(DATA, "recipes", "blocks")
+    write_json(os.path.join(rec, "royal_jelly_block.json"), shaped(["x:royal_jelly"] * 9, "bubbasbees:royal_jelly_block"))
+    write_json(os.path.join(rec, "royal_jelly_from_block.json"), {"type": "minecraft:crafting_shapeless",
+        "ingredients": [{"item": "bubbasbees:royal_jelly_block"}], "result": {"item": "bubbasbees:royal_jelly", "count": 9}})
+    # pink sticky piston: vanilla sticky piston models with the pink face (final art V1); its own head block
+    with zipfile.ZipFile(VANILLA_JAR) as jar:
+        sticky = json.loads(jar.read("assets/minecraft/blockstates/sticky_piston.json"))
+        head = json.loads(jar.read("assets/minecraft/blockstates/piston_head.json"))
+    for v in sticky["variants"].values():
+        if v["model"] == "minecraft:block/sticky_piston":
+            v["model"] = "bubbasbees:block/pink_sticky_piston"
+    write_json(os.path.join(bs, "pink_sticky_piston.json"), sticky)
+    for key, v in head["variants"].items():   # the pink head is always sticky
+        v["model"] = "bubbasbees:block/pink_piston_head" + ("_short" if "short=true" in key else "")
+    write_json(os.path.join(bs, "pink_piston_head.json"), head)
+    pink = "bubbasbees:block/pink_piston_top_sticky"
+    write_json(os.path.join(bm, "pink_sticky_piston.json"), {"parent": "minecraft:block/template_piston",
+        "textures": {"bottom": "minecraft:block/piston_bottom", "platform": pink, "side": "minecraft:block/piston_side"}})
+    for short in ("", "_short"):
+        write_json(os.path.join(bm, f"pink_piston_head{short}.json"), {"parent": f"minecraft:block/template_piston_head{short}",
+            "textures": {"platform": pink, "side": "minecraft:block/piston_side", "unsticky": "minecraft:block/piston_top"}})
+    write_json(os.path.join(bm, "pink_sticky_piston_inventory.json"), {"parent": "minecraft:block/cube_bottom_top",
+        "textures": {"bottom": "minecraft:block/piston_bottom", "side": "minecraft:block/piston_side", "top": pink}})
+    write_json(os.path.join(im, "pink_sticky_piston.json"), {"parent": "bubbasbees:block/pink_sticky_piston_inventory"})
+    write_json(os.path.join(loot, "pink_sticky_piston.json"), drop("bubbasbees:pink_sticky_piston"))
+    write_json(os.path.join(rec, "pink_sticky_piston.json"), {"type": "minecraft:crafting_shaped", "pattern": ["J", "P"],
+        "key": {"J": {"item": "bubbasbees:royal_jelly"}, "P": {"item": "minecraft:piston"}},
+        "result": {"item": "bubbasbees:pink_sticky_piston"}})
+    write_json(os.path.join(bs, "bee_light.json"), {"variants": {"": {"model": "minecraft:block/air"}}})
+    # royal jelly counts as a slimeball for other mods' recipes
+    write_json(os.path.join(RES, "data", "forge", "tags", "items", "slimeballs.json"),
+               {"replace": False, "values": ["bubbasbees:royal_jelly"]})
+    pick = os.path.join(RES, "data", "minecraft", "tags", "blocks", "mineable", "pickaxe.json")
+    tag = json.load(open(pick))
+    if "bubbasbees:pink_sticky_piston" not in tag["values"]:
+        tag["values"].append("bubbasbees:pink_sticky_piston")
+    write_json(pick, tag)
+    path = os.path.join(ASSETS, "lang", "en_us.json")
+    lang = json.load(open(path))
+    lang.update({"block.bubbasbees.royal_jelly_block": "Royal Jelly Block",
+                 "block.bubbasbees.pink_sticky_piston": "Pink Sticky Piston",
+                 "block.bubbasbees.pink_piston_head": "Pink Piston Head",
+                 "block.bubbasbees.bee_light": "Bee Light",
+                 "entity.bubbasbees.dark_bee": "Dark Bee",
+                 "message.bubbasbees.queen_fallen": "The Royal Queen has fallen"})
+    write_json(path, lang)
+
+
+def step4_art(work):
+    """Final royal jelly art (item, block, pink piston face) and a PLACEHOLDER dark bee (darkened, see-through)."""
+    from PIL import Image
+    fin = os.path.join(work, "royal_jelly", "final")
+    items, blocks = os.path.join(ASSETS, "textures", "item"), os.path.join(ASSETS, "textures", "block")
+    shutil.copyfile(os.path.join(fin, "royal_jelly.png"), os.path.join(items, "royal_jelly.png"))
+    for name in ("royal_jelly_block", "royal_jelly_block_inner", "pink_piston_top_sticky"):
+        shutil.copyfile(os.path.join(fin, name + ".png"), os.path.join(blocks, name + ".png"))
+    ent = os.path.join(ASSETS, "textures", "entity")
+    dark = os.path.join(ent, "dark_bee.png")
+    if not os.path.exists(dark):
+        im = Image.open(os.path.join(ent, "stone_bee.png")).convert("RGBA")
+        px = im.load()
+        for y in range(im.height):
+            for x in range(im.width):
+                r, g, b, a = px[x, y]
+                if a:
+                    lum = (r + g + b) / 3
+                    px[x, y] = (int(20 + lum * 0.10), int(14 + lum * 0.06), int(28 + lum * 0.14), 170)
+        im.save(dark)
 
 
 def main():
@@ -521,9 +629,11 @@ def main():
     item_models(combs, ids)
     tags(ids)
     step3_blocks()
+    step4_data()
     if args.art:
         art(os.path.abspath(args.art), combs, ids)
         step3_art(os.path.abspath(args.art))
+        step4_art(os.path.abspath(args.art))
     print(len(ids), "bees,", len(combs), "combs,", len(made), "recipes")
 
 

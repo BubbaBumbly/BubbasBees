@@ -11,10 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 import static net.bubba.bubbasbees.bees.BeeSpec.Tier.*;
+import static net.bubba.bubbasbees.bees.BeeSpec.Trait.*;
 
 /**
  * The bee roster. Order = creative tab order. Numbers: finish-spec.md "Balance numbers" (busy mode).
- * 41 bees in 1.19.2 (cherry grove joins from 1.20); traits are step 4 of Phase 2.
+ * 41 bees in 1.19.2 (cherry grove joins from 1.20); traits per the bee cards.
  */
 public final class BeeSpecs {
     private BeeSpecs() {}
@@ -28,35 +29,35 @@ public final class BeeSpecs {
             BeeSpec.of("stone", LESSER).deepslateLook().egg(0x4e4a4f, 0x8b858c).build(),
             BeeSpec.of("dirt", LESSER).model("dirt").egg(0x8a6343, 0x302218).build(),
             BeeSpec.of("concrete", LESSER).model("concrete").egg(0x79726e, 0xe8ebec).build(),
-            BeeSpec.of("nature", LESSER).model("nature").egg(0x074a10, 0x0e871e).build(),
+            BeeSpec.of("nature", LESSER).model("nature").traits(GREEN_THUMB).egg(0x074a10, 0x0e871e).build(),
             BeeSpec.of("forest", LESSER).model("forest").egg(0x485725, 0x43371e).build(),
-            BeeSpec.of("desert", LESSER).model("desert").rare("bone", 20).egg(0xd4be8c, 0xb5aa91).build(),
-            BeeSpec.of("river", LESSER).model("river").comb("river", 1).comb("gravel", 1).egg(0xa1a7b1, 0xccd5d3).build(),
+            BeeSpec.of("desert", LESSER).model("desert").rare("bone", 20).traits(BURROWER).egg(0xd4be8c, 0xb5aa91).build(),
+            BeeSpec.of("river", LESSER).model("river").comb("river", 1).comb("gravel", 1).traits(WATER_SAFE).egg(0xa1a7b1, 0xccd5d3).build(),
             BeeSpec.of("meadow", LESSER).model("meadow").egg(0xedd28c, 0x505330).build(),
             BeeSpec.of("jungle", LESSER).model("jungle").egg(0x679130, 0x322712).build(),
             BeeSpec.of("taiga", LESSER).model("taiga").egg(0x7e521e, 0x49663b).build(),
-            BeeSpec.of("savanna", LESSER).model("savanna").egg(0xaba64a, 0x6d3d23).build(),
+            BeeSpec.of("savanna", LESSER).model("savanna").traits(HERDER).egg(0xaba64a, 0x6d3d23).build(),
             // Bubba Star
             BeeSpec.of("amethyst", BUBBA).model("amethyst").rare("budding_amethyst", 150).egg(0x554a65, 0xe3e1e1).build(),
-            BeeSpec.of("obsidian", BUBBA).model("obsidian").egg(0x231437, 0x64388d).build(),
-            BeeSpec.of("glow", BUBBA).model("glow").egg(0x826131, 0xf0e0b0).build(),
-            BeeSpec.of("mesa", BUBBA).model("mesa").egg(0xb66d2e, 0x452f22).build(),
+            BeeSpec.of("obsidian", BUBBA).model("obsidian").traits(BLAST_PROOF).egg(0x231437, 0x64388d).build(),
+            BeeSpec.of("glow", BUBBA).model("glow").traits(GLOW).egg(0x826131, 0xf0e0b0).build(),
+            BeeSpec.of("mesa", BUBBA).model("mesa").traits(BURROWER).egg(0xb66d2e, 0x452f22).build(),
             BeeSpec.of("swamp", BUBBA).model("swamp").egg(0x3f643b, 0x37302a).build(),
-            BeeSpec.of("frost", BUBBA).model("frost").egg(0xeaf2f5, 0xf6fbfe).build(),
+            BeeSpec.of("frost", BUBBA).model("frost").traits(SNOWPROOF).egg(0xeaf2f5, 0xf6fbfe).build(),
             BeeSpec.of("lush_caves", BUBBA).model("lush_caves").egg(0x5c552f, 0x6d7737).build(),
-            BeeSpec.of("deep_dark", BUBBA).model("deep_dark").rare("echo", 60).egg(0x45494d, 0x1b363e).build(),
+            BeeSpec.of("deep_dark", BUBBA).model("deep_dark").rare("echo", 60).traits(SILENT_WINGS).egg(0x45494d, 0x1b363e).build(),
             BeeSpec.of("mushroom_fields", BUBBA).model("mushroom_fields").egg(0x6b6167, 0x8a3534).build(),
-            BeeSpec.of("sea", BUBBA).model("sea").rare("nautilus", 20).egg(0x3b65bb, 0xded8c1).build(),
-            BeeSpec.of("coral", BUBBA).model("coral").egg(0x454890, 0xc4b68c).build(),
-            BeeSpec.of("prismarine", BUBBA).model("prismarine").egg(0xc0dcd6, 0x6da99d).build(),
+            BeeSpec.of("sea", BUBBA).model("sea").rare("nautilus", 20).traits(WATER_SAFE).egg(0x3b65bb, 0xded8c1).build(),
+            BeeSpec.of("coral", BUBBA).model("coral").traits(WATER_SAFE).egg(0x454890, 0xc4b68c).build(),
+            BeeSpec.of("prismarine", BUBBA).model("prismarine").traits(WATER_SAFE).egg(0xc0dcd6, 0x6da99d).build(),
             BeeSpec.of("corrupt_stone", BUBBA).model("corrupt_stone").home(NETHER).fireImmune().egg(0x6d3132, 0x422021).build(),
             BeeSpec.of("soul", BUBBA).model("soul").home(NETHER).fireImmune().translucent().rare("sad", 20)
                     .egg(0xeef1f2, 0xb0bdc5).build(),
             BeeSpec.of("corrupt_nature", BUBBA).model("corrupt_nature").home(NETHER).fireImmune().egg(0x35786c, 0xa01d1d).build(),
-            BeeSpec.of("magma", BUBBA).model("magma").home(NETHER).fireImmune().egg(0x3d1614, 0xc46724).build(),
-            BeeSpec.of("ender", BUBBA).home(END).egg(0xd36be3, 0x682a73).build(),
-            BeeSpec.of("royal_guard", BUBBA).model("royal_guard").comb(BeeSpec.VANILLA_HONEYCOMB, 1).egg(0xdadcdd, 0x352f27).build(),
-            BeeSpec.of("starlight", BUBBA).model("starlight").egg(0x352c7c, 0x383888).build(),
+            BeeSpec.of("magma", BUBBA).model("magma").home(NETHER).fireImmune().traits(LAVA_FILLER).egg(0x3d1614, 0xc46724).build(),
+            BeeSpec.of("ender", BUBBA).home(END).traits(SHORT_TELEPORT, NO_WATER_DAMAGE).egg(0xd36be3, 0x682a73).build(),
+            BeeSpec.of("royal_guard", BUBBA).model("royal_guard").comb(BeeSpec.VANILLA_HONEYCOMB, 1).traits(ROYAL_GUARD).egg(0xdadcdd, 0x352f27).build(),
+            BeeSpec.of("starlight", BUBBA).model("starlight").traits(NOCTURNAL).egg(0x352c7c, 0x383888).build(),
             // Celestial Bubba Star: ore bees are 100% except diamond (1 in 4) and ancient debris (1 in 6)
             BeeSpec.of("coal", CELESTIAL).model("coal").deepslateLook().egg(0x7e7e7d, 0x686869).build(),
             BeeSpec.of("copper", CELESTIAL).deepslateLook().egg(0x7d2c0f, 0xe36336).build(),
@@ -70,7 +71,7 @@ public final class BeeSpecs {
             BeeSpec.of("ancient_debris", CELESTIAL).model("ancient_debris").home(NETHER).fireImmune()
                     .combChance(1.0F / 6).egg(0x624844, 0x252022).build(),
             // Royal queen: no gem (summoned by her ritual), one per world
-            BeeSpec.of("royal_queen", NONE).model("royal_queen").egg(0xebaf3e, 0x541b71).build()
+            BeeSpec.of("royal_queen", NONE).model("royal_queen").traits(ROYAL_QUEEN).health(20).egg(0xebaf3e, 0x541b71).build()
     );
 
     private static final Map<String, BeeSpec> BY_ID = new LinkedHashMap<>();

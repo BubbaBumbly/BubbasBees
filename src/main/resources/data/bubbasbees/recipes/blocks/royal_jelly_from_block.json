@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "bubbasbees:royal_jelly_block"
+    }
+  ],
+  "result": {
+    "item": "bubbasbees:royal_jelly",
+    "count": 9
+  }
+}

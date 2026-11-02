@@ -2,6 +2,7 @@ package net.bubba.bubbasbees.bees;
 
 import net.bubba.bubbasbees.BubbasBees;
 import net.bubba.bubbasbees.registries.ModItems;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -10,10 +11,13 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.Set;
 import java.util.List;
 
 /**
@@ -25,8 +29,68 @@ import java.util.List;
  */
 public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb> combs, List<RareComb> rareCombs,
                       @Nullable ResourceKey<Level> home, boolean fireImmune, boolean deepslateLook, boolean translucent,
-                      String model,
+                      String model, Set<Trait> traits, double maxHealth,
                       int eggBase, int eggSpots) {
+
+    /** Optional abilities (finish-spec.md bee cards). Fire immunity is its own flag (entity type property). */
+    public enum Trait {
+        /** Works in rain and takes no damage from water. */
+        WATER_SAFE,
+        /** Takes no damage from water (but still stops for rain). */
+        NO_WATER_DAMAGE,
+        /** Works while it snows (rain in a snowy biome) and can't freeze in powder snow. */
+        SNOWPROOF,
+        /** Works only at night, and only from a hive and at flowers with open sky above. */
+        NOCTURNAL,
+        BLAST_PROOF,
+        /** Its flapping makes no vibrations. */
+        SILENT_WINGS,
+        /** Dives into nearby sand or gravel when hurt and pops out later. */
+        BURROWER,
+        /** Teleports a short way when hurt. */
+        SHORT_TELEPORT,
+        /** Animals near its hive grow up and lose breeding cooldown 25% faster. */
+        HERDER,
+        /** Grows crops it flies over (vanilla bee behaviour; every other mod bee has it removed). */
+        GREEN_THUMB,
+        /** Glows and lights dark spots it flies through. */
+        GLOW,
+        /** 25% chance per cauldron fly-over to add a quarter of lava. */
+        LAVA_FILLER,
+        ROYAL_GUARD,
+        ROYAL_QUEEN
+    }
+
+    public boolean has(Trait trait) {
+        return traits.contains(trait);
+    }
+
+    /** Home biomes: data/bubbasbees/tags/worldgen/biome/home_biomes/<id>.json (missing file = none). */
+    public TagKey<Biome> homeBiomeTag() {
+        return TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(BubbasBees.MOD_ID, "home_biomes/" + id));
+    }
+
+    public boolean isHomeBiome(Level level, BlockPos pos) {
+        return level.getBiome(pos).is(homeBiomeTag());
+    }
+
+    /**
+     * Whether weather and time let this bee work at pos: vanilla bees stop at night and in rain. Water-safe bees work
+     * in rain, snowproof bees while it snows there, nocturnal bees only at night (and, with checkSky, only from a
+     * spot under open sky: the hive's front, not the flying bee).
+     */
+    public boolean canWorkAt(Level level, BlockPos pos, boolean checkSky) {
+        if (has(Trait.NOCTURNAL)) {
+            if (!level.isNight() || (checkSky && !level.canSeeSky(pos))) return false;
+        } else if (level.isNight()) {
+            return false;
+        }
+        if (level.isRaining()) {
+            if (has(Trait.WATER_SAFE)) return true;
+            return has(Trait.SNOWPROOF) && level.getBiome(pos).value().coldEnoughToSnow(pos);
+        }
+        return true;
+    }
 
     /** Which star its conversion gem needs; NONE = no gem (the royal queen is summoned). */
     public enum Tier { LESSER, BUBBA, CELESTIAL, NONE }
@@ -107,6 +171,8 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
         private boolean deepslateLook;
         private boolean translucent;
         private String model = "ore";
+        private final EnumSet<Trait> traits = EnumSet.noneOf(Trait.class);
+        private double maxHealth = 10.0D;
         private int eggBase = 0xffffff;
         private int eggSpots = 0x000000;
 
@@ -159,6 +225,16 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
             return this;
         }
 
+        public Builder traits(Trait... traits) {
+            this.traits.addAll(List.of(traits));
+            return this;
+        }
+
+        public Builder health(double maxHealth) {
+            this.maxHealth = maxHealth;
+            return this;
+        }
+
         public Builder egg(int base, int spots) {
             this.eggBase = base;
             this.eggSpots = spots;
@@ -168,7 +244,7 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
         public BeeSpec build() {
             if (combs.isEmpty()) combs.add(new WeightedComb(id, 1));
             return new BeeSpec(id, tier, combChance, List.copyOf(combs), List.copyOf(rareCombs), home, fireImmune,
-                    deepslateLook, translucent, model, eggBase, eggSpots);
+                    deepslateLook, translucent, model, Set.copyOf(traits), maxHealth, eggBase, eggSpots);
         }
     }
 }

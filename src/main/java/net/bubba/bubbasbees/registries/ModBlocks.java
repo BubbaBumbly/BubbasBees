@@ -3,6 +3,10 @@ package net.bubba.bubbasbees.registries;
 import net.bubba.bubbasbees.blocks.custom.PartialLavaCauldronBlock;
 import net.bubba.bubbasbees.blocks.custom.PedestalBlock;
 import net.bubba.bubbasbees.blocks.custom.StardustBlock;
+import net.bubba.bubbasbees.blocks.custom.RoyalJellyBlock;
+import net.bubba.bubbasbees.blocks.custom.PinkPistonHeadBlock;
+import net.bubba.bubbasbees.blocks.custom.BeeLightBlock;
+import net.minecraft.world.level.block.piston.PistonBaseBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 
@@ -60,10 +64,9 @@ public class ModBlocks {
     public static final RegistryObject<Block> DEEPSLATE_PEDESTAL = registerPedestal("deepslate_pedestal", Blocks.POLISHED_DEEPSLATE, false);
     public static final RegistryObject<Block> BLACKSTONE_PEDESTAL = registerPedestal("blackstone_pedestal", Blocks.POLISHED_BLACKSTONE, false);
     public static final RegistryObject<Block> QUARTZ_PEDESTAL = registerPedestal("quartz_pedestal", Blocks.QUARTZ_BLOCK, false);
-    public static final RegistryObject<Block> HONEYCOMB_PEDESTAL = registerPedestal("honeycomb_pedestal", Blocks.HONEYCOMB_BLOCK, false);
     public static final RegistryObject<Block> CELESTIAL_ALTAR = registerPedestal("celestial_altar", Blocks.CRYING_OBSIDIAN, true);
     public static final List<RegistryObject<Block>> PEDESTALS = List.of(STONE_PEDESTAL, DEEPSLATE_PEDESTAL,
-            BLACKSTONE_PEDESTAL, QUARTZ_PEDESTAL, HONEYCOMB_PEDESTAL, CELESTIAL_ALTAR);
+            BLACKSTONE_PEDESTAL, QUARTZ_PEDESTAL, CELESTIAL_ALTAR);
 
     /** Stardust laid like redstone dust (its item is ModItems.STARDUST). */
     public static final RegistryObject<Block> STARDUST = BLOCKS.register("stardust",
@@ -73,6 +76,22 @@ public class ModBlocks {
     /** Lava cauldron at 1/4, 2/4, 3/4 (the magma bee fills it); no item, it drops a cauldron. */
     public static final RegistryObject<Block> PARTIAL_LAVA_CAULDRON = BLOCKS.register("partial_lava_cauldron",
             () -> new PartialLavaCauldronBlock(BlockBehaviour.Properties.copy(Blocks.CAULDRON).lightLevel(state -> 15)));
+
+    /** Royal queen products: the jelly block (sink, no bounce, piston-sticky) and the pink sticky piston. */
+    public static final RegistryObject<Block> ROYAL_JELLY_BLOCK = registerBlock("royal_jelly_block",
+            () -> new RoyalJellyBlock(BlockBehaviour.Properties.copy(Blocks.HONEY_BLOCK).noOcclusion()
+                    .isSuffocating((s, l, p) -> false).isViewBlocking((s, l, p) -> false)
+                    .sound(SoundType.HONEY_BLOCK)), ModCreativeModeTab.BUBBASBEES_TAB);
+    public static final RegistryObject<Block> PINK_STICKY_PISTON = registerBlock("pink_sticky_piston",
+            () -> new PistonBaseBlock(true, BlockBehaviour.Properties.copy(Blocks.STICKY_PISTON)),
+            ModCreativeModeTab.BUBBASBEES_TAB);
+    public static final RegistryObject<Block> PINK_PISTON_HEAD = BLOCKS.register("pink_piston_head",
+            () -> new PinkPistonHeadBlock(BlockBehaviour.Properties.copy(Blocks.PISTON_HEAD).noLootTable()));
+
+    /** The glow bee's moving light (invisible, removes itself). */
+    public static final RegistryObject<Block> BEE_LIGHT = BLOCKS.register("bee_light",
+            () -> new BeeLightBlock(BlockBehaviour.Properties.of(Material.AIR).noCollission().noLootTable().air()
+                    .lightLevel(state -> 10)));
 
     private static RegistryObject<Block> registerPedestal(String name, Block material, boolean altar) {
         return registerBlock(name, () -> new PedestalBlock(BlockBehaviour.Properties.copy(material).noOcclusion()

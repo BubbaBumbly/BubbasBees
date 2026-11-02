@@ -40,10 +40,10 @@ public class ModItems {
     /** The starlight bee's product; placed like redstone dust (the ritual circle). */
     public static final RegistryObject<Item> STARDUST = ITEMS.register("stardust",
             () -> new ItemNameBlockItem(ModBlocks.STARDUST.get(), new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
-    /** Hive upgrade: hoppers and pipes can pull combs out. Right-click a hive to fit, sneak + empty hand to remove. */
+    /** Hive upgrade: hoppers and pipes can pull combs out. Right-click a hive to fit, sneak + shears to remove. */
     public static final RegistryObject<Item> COMB_CHUTE = ITEMS.register("comb_chute",
             () -> new Item(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB).stacksTo(16)));
-    /** The royal queen's product: 1 hunger bar, 1.5 saturation (slimeball uses come in step 4). */
+    /** The royal queen's product: 1 hunger bar, 1.5 saturation (tagged forge:slimeballs). */
     public static final RegistryObject<Item> ROYAL_JELLY = ITEMS.register("royal_jelly",
             () -> new Item(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)
                     .food(new FoodProperties.Builder().nutrition(2).saturationMod(0.375F).build())));

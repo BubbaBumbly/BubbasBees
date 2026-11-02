@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "J",
+    "P"
+  ],
+  "key": {
+    "J": {
+      "item": "bubbasbees:royal_jelly"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:pink_sticky_piston"
+  }
+}

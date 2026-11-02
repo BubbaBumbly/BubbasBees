@@ -27,6 +27,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -131,6 +132,21 @@ public abstract class BeeMixin extends Animal {
             }
         }
     }
+    /// Work rules per bee (BeeSpec.canWorkAt): a mod bee heads home when its own weather/time rule says stop
+    @Redirect(method = "wantsToEnterHive",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;isRaining()Z"))
+    private boolean bubbasBees$stopsForWeather(Level level) {
+        if ((Object) this instanceof BubbasBee bee && bee.getSpec() != null) return !bee.canWorkNow();
+        return level.isRaining();
+    }
+
+    @Redirect(method = "wantsToEnterHive",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;isNight()Z"))
+    private boolean bubbasBees$stopsForNight(Level level) {
+        if ((Object) this instanceof BubbasBee bee && bee.getSpec() != null) return false;   // covered above
+        return level.isNight();
+    }
+
     /// Goal editing section
     @Inject(method = "registerGoals", at = @At("HEAD"))
     protected void registerGoalsMixin (CallbackInfo ci) {

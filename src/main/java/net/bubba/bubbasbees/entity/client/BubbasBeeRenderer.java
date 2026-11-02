@@ -2,7 +2,9 @@ package net.bubba.bubbasbees.entity.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.bubba.bubbasbees.bees.BeeSpec;
 import net.bubba.bubbasbees.entity.custom.BubbasBee;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -26,6 +28,14 @@ public class BubbasBeeRenderer extends GeoEntityRenderer<BubbasBee> {
     @Override
     public float getHeightScale(BubbasBee bee) {
         return bee.isBaby() ? 0.5F * super.getHeightScale(bee) : super.getHeightScale(bee);
+    }
+
+    // Glow bees glow: drawn at full brightness whatever the light around them
+    @Override
+    public void render(BubbasBee bee, float entityYaw, float partialTick, PoseStack poseStack,
+                       MultiBufferSource bufferSource, int packedLight) {
+        boolean glows = bee.getSpec() != null && bee.getSpec().has(BeeSpec.Trait.GLOW);
+        super.render(bee, entityYaw, partialTick, poseStack, bufferSource, glows ? LightTexture.FULL_BRIGHT : packedLight);
     }
 
     @Override

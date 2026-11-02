@@ -12,9 +12,15 @@
     "BeehiveEntityAccessor",
     "BeeMixin",
     "BeehiveBlockEntityMixin",
-    "BeePollinateGoalAccessor"
+    "BeePollinateGoalAccessor",
+    "PinkPistonBaseMixin",
+    "PinkPistonHeadMixin",
+    "PinkPistonMovingMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "client": [
+    "client.PinkPistonRendererMixin"
+  ]
 }

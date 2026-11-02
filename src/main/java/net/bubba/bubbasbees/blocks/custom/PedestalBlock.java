@@ -28,9 +28,10 @@ import org.jetbrains.annotations.Nullable;
  * it down, right-click again to take it back. The Celestial Altar is the fancy one: the centre of both rituals.
  */
 public class PedestalBlock extends BaseEntityBlock {
-    private static final VoxelShape PEDESTAL = Shapes.or(Block.box(2, 0, 2, 14, 3, 14), Block.box(4, 3, 4, 12, 11, 12),
-            Block.box(2, 11, 2, 14, 13, 14));
-    private static final VoxelShape ALTAR = Shapes.or(Block.box(0, 0, 0, 16, 3, 16), Block.box(3, 3, 3, 13, 13, 13),
+    // Final shapes (BubbasBeesArt/work/pedestals/final): PB column and AE altar
+    private static final VoxelShape PEDESTAL = Shapes.or(Block.box(2, 0, 2, 14, 2, 14), Block.box(3, 2, 3, 13, 3, 13),
+            Block.box(5, 3, 5, 11, 11, 11), Block.box(3, 11, 3, 13, 12, 13), Block.box(2, 12, 2, 14, 14, 14));
+    private static final VoxelShape ALTAR = Shapes.or(Block.box(0, 0, 0, 16, 4, 16), Block.box(2, 4, 2, 14, 13, 14),
             Block.box(1, 13, 1, 15, 16, 15));
 
     private final boolean altar;
@@ -46,7 +47,7 @@ public class PedestalBlock extends BaseEntityBlock {
 
     /** Height of the top surface in blocks; the item floats a little above it. */
     public double topHeight() {
-        return altar ? 1.0 : 13.0 / 16.0;
+        return altar ? 16.5 / 16.0 : 14.0 / 16.0;   // top of the model (the altar's diamond inlay)
     }
 
     @Override

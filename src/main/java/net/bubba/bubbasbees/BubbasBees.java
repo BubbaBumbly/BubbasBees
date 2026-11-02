@@ -68,6 +68,7 @@ public class BubbasBees {
             });
             EntityRenderers.register(ModEntityTypes.BUBBAS_BEE.get(), BubbasBeeRenderer::new);
             ModEntityTypes.bees().values().forEach(bee -> EntityRenderers.register(bee.get(), BubbasBeeRenderer::new));
+            EntityRenderers.register(ModEntityTypes.DARK_BEE.get(), net.bubba.bubbasbees.entity.client.DarkBeeRenderer::new);
         }
 
         @SubscribeEvent

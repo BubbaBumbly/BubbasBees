@@ -1,8 +1,0 @@
-{
-  "parent": "bubbasbees:block/pedestal",
-  "textures": {
-    "top": "minecraft:block/honeycomb_block",
-    "column": "minecraft:block/honeycomb_block",
-    "base": "minecraft:block/honeycomb_block"
-  }
-}

@@ -2,6 +2,9 @@ package net.bubba.bubbasbees.blockentities;
 
 import net.bubba.bubbasbees.bees.BeeSpec;
 import net.bubba.bubbasbees.bees.BeeSpecs;
+import net.bubba.bubbasbees.bees.QueenData;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.phys.AABB;
 import net.bubba.bubbasbees.item.custom.SmokerItem;
 import net.bubba.bubbasbees.blocks.custom.AdvancedBeehiveBlock;
 import net.bubba.bubbasbees.entity.custom.BubbasBee;
@@ -61,6 +64,16 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     /** Comb chute upgrade: hoppers and other mods' pipes can pull combs out (extract only). */
     protected boolean combChute = false;
     private LazyOptional<IItemHandler> chuteHandler = LazyOptional.empty();
+    /** Stored-bee flag: this stay is 20% shorter (queen within 16 blocks, or the bee's home biome). */
+    public static final String BOOST_TAG = "BubbasBoost";
+    /// Herder (savanna bee): animals within 8 blocks grow up / lose breeding cooldown 25% faster
+    private static final int HERDER_INTERVAL = 200;
+    private static final int HERDER_RANGE = 8;
+    private static final int HERDER_BONUS_TICKS = HERDER_INTERVAL / 4;
+    // A savanna bee counts while inside, and for a while after it left (out on a trip)
+    private static final int HERDER_MEMORY_TICKS = 2400;
+    private static final String HERDED_TAG = "BubbasHerdedAt";
+    private long lastHerderSeen = Long.MIN_VALUE / 2;
     public static final int STAY_TICKS = 600;
     public static final int BUSY_STAY_TICKS_WITH_NECTAR = 1200;
     // Vanilla's MIN_OCCUPATION_TICKS_NECTAR
@@ -95,6 +108,7 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
             }
         }
         tickOccupants(hive, state, hive.getBees());
+        if ((level.getGameTime() + pos.asLong()) % HERDER_INTERVAL == 0 && hive.isHerding()) hive.herd();
         ((HiveOccupantView) hive).bubbasBees$syncOccupantsIfChanged();
         DebugPackets.sendHiveInfo(level, pos, state, hive);
     }
@@ -169,6 +183,16 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
             entity.ejectPassengers();
             CompoundTag compoundtag = new CompoundTag();
             entity.save(compoundtag);
+            if (this.level != null && !this.level.isClientSide) {
+                // Decided once on entry (no searching while inside): 20% shorter stay near the queen or in the bee's
+                // home biome; the two never stack
+                QueenData queen = QueenData.get(this.level);
+                boolean boosted = (queen != null && queen.boosts(this.level, this.worldPosition))
+                        || (entity instanceof BubbasBee bee && bee.getSpec() != null
+                            && bee.getSpec().isHomeBiome(this.level, this.worldPosition));
+                compoundtag.putBoolean(BOOST_TAG, boosted);
+                if (entity instanceof BubbasBee bee && bee.has(BeeSpec.Trait.HERDER)) lastHerderSeen = this.level.getGameTime();
+            }
             this.storeBee(compoundtag, ticksInHive, flag);
             if (this.level != null) {
                 if (entity instanceof Bee bee) {
@@ -183,6 +207,11 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
             }
 
             entity.discard();
+            // After discard (which clears her position, as for a bee jar): the queen is now in this hive
+            if (entity instanceof BubbasBee queen && queen.isQueen() && this.level != null) {
+                QueenData data = QueenData.get(this.level);
+                if (data != null) data.setPosition(queen.getUUID(), this.level.dimension(), this.worldPosition);
+            }
             super.setChanged();
             if (this.level != null) {
                 recalculateHoneyLevel(this, this.getBlockState());
@@ -200,10 +229,10 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     /// Various releasing bee methods
     // Release one bee after enough ticks in hive
     private static boolean releaseBee(AdvancedBeehiveBlockEntity hive, @NotNull BlockState state, @NotNull BeehiveBlockEntity.BeeData tileBee, @Nullable List<Entity> entities, @NotNull BeeReleaseStatus beehiveState) {
-        if (shouldStayInHive(hive.level, beehiveState)) {
+        CompoundTag nbt = ((BeehiveBeeDataAccessor) tileBee).getEntityData();
+        if (hive.mustStay(nbt, beehiveState)) {
             return false;
         } else {
-            CompoundTag nbt = ((BeehiveBeeDataAccessor) tileBee).getEntityData();
             BeehiveEntityAccessor.callRemoveIgnoredBeeTags(nbt);
             nbt.put("HivePos", NbtUtils.writeBlockPos(hive.getBlockPos()));
             nbt.put("BubbasHomeAnchor", NbtUtils.writeBlockPos(hive.getBlockPos()));
@@ -217,6 +246,9 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
             }
             Entity entity = EntityType.loadEntityRecursive(nbt, hive.level, entity1 -> entity1);
             if (entity != null) {
+                if (entity instanceof BubbasBee released && released.has(BeeSpec.Trait.HERDER)) {
+                    hive.lastHerderSeen = hive.level.getGameTime();
+                }
                 BlockPos blockpos = hive.getBlockPos();
                 EntityDimensions size = entity.getDimensions(Pose.STANDING);
                 double d0 = 0.65D + size.width / 2.0F;
@@ -244,6 +276,14 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
             return true;
         }
     }
+    /** Per-bee release rule: vanilla bees wait out night and rain; mod bees follow BeeSpec.canWorkAt at the hive. */
+    private boolean mustStay(CompoundTag beeNbt, BeeReleaseStatus status) {
+        if (status == BeeReleaseStatus.EMERGENCY || this.level == null) return false;
+        BeeSpec spec = BeeSpecs.byEntity(ResourceLocation.tryParse(beeNbt.getString("id")));
+        if (spec == null) return this.level.isNight() || this.level.isRaining();
+        return !spec.canWorkAt(this.level, this.worldPosition.above(), true);
+    }
+
     public static boolean shouldStayInHive(Level level, BeeReleaseStatus beehiveState) {
         return (level != null && (level.isNight() || level.isRaining())) && beehiveState != BeeReleaseStatus.EMERGENCY;
     }
@@ -295,9 +335,10 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         return busy ? BUSY_STAY_TICKS_WITH_NECTAR : CALM_STAY_TICKS_WITH_NECTAR;
     }
 
-    /** Stay for a stored bee: Nether and End bees stay twice as long outside their home dimension. */
+    /** Stay for a stored bee: 20% shorter when boosted (queen or home biome, see addOccupant); Nether and End bees stay twice as long outside their home dimension. */
     public int stayTicks(CompoundTag beeNbt) {
         int ticks = stayTicks(beeNbt.getBoolean("HasNectar"));
+        if (beeNbt.getBoolean(BOOST_TAG)) ticks = ticks * 4 / 5;
         BeeSpec spec = BeeSpecs.byEntity(ResourceLocation.tryParse(beeNbt.getString("id")));
         return spec != null && this.level != null && spec.isAwayFromHome(this.level) ? ticks * 2 : ticks;
     }
@@ -309,6 +350,30 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     public void toggleBusy() {
         busy = !busy;
         setChanged();
+    }
+
+    private boolean isHerding() {
+        if (this.level == null) return false;
+        if (this.level.getGameTime() - lastHerderSeen < HERDER_MEMORY_TICKS) return true;
+        for (BeeData data : getBees()) {
+            BeeSpec spec = BeeSpecs.byEntity(ResourceLocation.tryParse(((BeehiveBeeDataAccessor) data).getEntityData().getString("id")));
+            if (spec != null && spec.has(BeeSpec.Trait.HERDER)) return true;
+        }
+        return false;
+    }
+
+    /** One box query per 10 s; an animal near several herder hives still only gets one bonus per 10 s. */
+    private void herd() {
+        if (this.level == null) return;
+        long now = this.level.getGameTime();
+        for (Animal animal : this.level.getEntitiesOfClass(Animal.class, new AABB(this.worldPosition).inflate(HERDER_RANGE))) {
+            CompoundTag data = animal.getPersistentData();
+            if (data.contains(HERDED_TAG) && now - data.getLong(HERDED_TAG) < HERDER_INTERVAL) continue;
+            int age = animal.getAge();
+            if (age == 0) continue;
+            data.putLong(HERDED_TAG, now);
+            animal.setAge(age < 0 ? Math.min(0, age + HERDER_BONUS_TICKS) : Math.max(0, age - HERDER_BONUS_TICKS));
+        }
     }
 
     /// Comb chute

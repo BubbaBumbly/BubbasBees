@@ -6,7 +6,15 @@ import net.bubba.bubbasbees.entity.goals.BeeAnchorHomingGoal;
 import net.bubba.bubbasbees.entity.goals.BeeDaftWanderGoal;
 import net.bubba.bubbasbees.entity.goals.ModBeePollinateGoal;
 import net.bubba.bubbasbees.mixin.BeeEntityAccessor;
+import net.bubba.bubbasbees.bees.QueenData;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -49,6 +57,17 @@ public class BubbasBee extends Bee implements IAnimatable {
     private int nextModeCheckTick = 0;
     private static final int MODE_CHECK_INTERVAL = 20;
 
+    // Burrower: hiding in the block below burrowSpot until burrowTicksLeft runs out (invisible, can't be hurt)
+    private @Nullable BlockPos burrowBlock;
+    private int burrowTicksLeft;
+    private static final int BURROW_MIN_TICKS = 100;
+    private static final int BURROW_MAX_TICKS = 200;
+    // Lava filler: the cauldron under the bee last check, so one fly-over rolls once
+    private @Nullable BlockPos lastCauldron;
+    private static final float LAVA_FILL_CHANCE = 0.25F;
+    // Royal guard: keeps stinging (it survives it) until the anger it got from a mugging runs out
+    private int mugUntilTick;
+
     // Ore bees come in a stone and a deepslate look; each bee rolls its own when it's created and
     // keeps it in its save data (through hives and reloads). Synced so the client picks the texture.
     private static final EntityDataAccessor<Boolean> DEEPSLATE =
@@ -81,6 +100,180 @@ public class BubbasBee extends Bee implements IAnimatable {
     public ItemStack rollComb() {
         BeeSpec spec = getSpec();
         return spec == null ? ItemStack.EMPTY : spec.rollComb(this.random);
+    }
+
+    public boolean has(BeeSpec.Trait trait) {
+        BeeSpec spec = getSpec();
+        return spec != null && spec.has(trait);
+    }
+
+    /** Weather and time allow work where the bee is now (see BeeSpec.canWorkAt; the sky rule applies to hive and flower). */
+    public boolean canWorkNow() {
+        BeeSpec spec = getSpec();
+        if (spec == null) return !this.level.isRaining() && !this.level.isNight();
+        return spec.canWorkAt(this.level, this.blockPosition(), false);
+    }
+
+    /** Nocturnal bees only use flowers under open sky. */
+    public boolean canUseFlowerAt(BlockPos flower) {
+        return !has(BeeSpec.Trait.NOCTURNAL) || this.level.canSeeSky(flower.above());
+    }
+
+    public boolean isBurrowed() {
+        return burrowBlock != null;
+    }
+
+    /// Traits that change damage
+    @Override
+    public boolean hurt(@NotNull DamageSource source, float amount) {
+        if (source == DamageSource.SWEET_BERRY_BUSH) return false;   // vanilla exempts only its own bee type
+        if (isBurrowed() && source != DamageSource.OUT_OF_WORLD) return false;
+        if (source.isExplosion() && has(BeeSpec.Trait.BLAST_PROOF)) return false;
+        if (source == DamageSource.DROWN && (has(BeeSpec.Trait.WATER_SAFE) || has(BeeSpec.Trait.NO_WATER_DAMAGE))) return false;
+        boolean hurt = super.hurt(source, amount);
+        if (hurt && !this.level.isClientSide && this.isAlive() && source != DamageSource.OUT_OF_WORLD) {
+            if (has(BeeSpec.Trait.BURROWER)) {
+                startBurrow();
+            } else if (has(BeeSpec.Trait.SHORT_TELEPORT)) {
+                BeeTraits.shortTeleport(this);
+            }
+        }
+        return hurt;
+    }
+
+    @Override
+    public void makeStuckInBlock(@NotNull BlockState state, @NotNull Vec3 multiplier) {
+        if (state.is(Blocks.SWEET_BERRY_BUSH)) return;
+        super.makeStuckInBlock(state, multiplier);
+    }
+
+    @Override
+    public boolean canFreeze() {
+        return !has(BeeSpec.Trait.SNOWPROOF) && super.canFreeze();
+    }
+
+    // Silent wings: no flap, so no FLAP vibration for sculk sensors and shriekers
+    @Override
+    public boolean isFlapping() {
+        return !has(BeeSpec.Trait.SILENT_WINGS) && super.isFlapping();
+    }
+
+    /// Burrower
+    private void startBurrow() {
+        if (isBurrowed()) return;
+        BlockPos block = BeeTraits.findBurrow(this);
+        if (block == null) return;
+        burrowBlock = block;
+        burrowTicksLeft = Mth.nextInt(this.random, BURROW_MIN_TICKS, BURROW_MAX_TICKS);
+        BeeTraits.burrowParticles(this, block);
+        this.setInvisible(true);
+        this.getNavigation().stop();
+        this.setTarget(null);
+        this.moveTo(block.getX() + 0.5D, block.getY() + 1.0D, block.getZ() + 0.5D, getYRot(), getXRot());
+    }
+
+    private void burrowTick() {
+        BlockPos block = burrowBlock;
+        if (block == null) return;
+        this.setDeltaMovement(Vec3.ZERO);
+        this.setInvisible(true);   // LivingEntity resets invisibility from potion effects, e.g. after a reload
+        this.setPos(block.getX() + 0.5D, block.getY() + 1.0D, block.getZ() + 0.5D);
+        // Pops out when the time is up, or at once if its block is dug away
+        BlockState state = this.level.getBlockState(block);
+        if (--burrowTicksLeft <= 0 || !(state.is(BlockTags.SAND) || state.is(Blocks.GRAVEL))) {
+            BeeTraits.burrowParticles(this, block);
+            burrowBlock = null;
+            this.setInvisible(false);
+            this.setDeltaMovement(0.0D, 0.2D, 0.0D);
+        }
+    }
+
+    /// Royal guard
+    public boolean isRoyalGuard() {
+        return has(BeeSpec.Trait.ROYAL_GUARD);
+    }
+
+    /** Someone hit this guard, or a bee near it: sting them over and over until the anger runs out. */
+    public void mug(LivingEntity attacker) {
+        this.setTarget(attacker);
+        this.setPersistentAngerTarget(attacker.getUUID());
+        this.startPersistentAngerTimer();
+    }
+
+    @Override
+    public void startPersistentAngerTimer() {
+        super.startPersistentAngerTimer();
+        mugUntilTick = this.tickCount + this.getRemainingPersistentAngerTime();
+    }
+
+    @Override
+    public boolean doHurtTarget(@NotNull Entity target) {
+        boolean hit = super.doHurtTarget(target);
+        if (hit && isRoyalGuard()) {
+            // Vanilla bees die some time after stinging; the guard doesn't, and goes on while still angry
+            ((BeeEntityAccessor) this).callSetHasStung(false);
+            if (target instanceof LivingEntity living && living.isAlive() && this.tickCount < mugUntilTick) {
+                this.setTarget(living);
+                this.setPersistentAngerTarget(living.getUUID());
+                this.setRemainingPersistentAngerTime(mugUntilTick - this.tickCount);
+            }
+        }
+        return hit;
+    }
+
+    /// Royal queen
+    public boolean isQueen() {
+        return has(BeeSpec.Trait.ROYAL_QUEEN);
+    }
+
+    @Override
+    public void die(@NotNull DamageSource source) {
+        super.die(source);
+        if (isQueen() && !this.level.isClientSide && this.getServer() != null) {
+            QueenData data = QueenData.get(this.level);
+            if (data != null) data.died(this.getUUID());
+            this.getServer().getPlayerList().broadcastSystemMessage(
+                    Component.translatable("message.bubbasbees.queen_fallen").withStyle(ChatFormatting.GOLD), false);
+        }
+    }
+
+    @Override
+    public void remove(@NotNull RemovalReason reason) {
+        // Into a bee jar (or a hive, which records her position right after): no known position meanwhile
+        if (isQueen() && reason == RemovalReason.DISCARDED && !this.level.isClientSide) {
+            QueenData data = QueenData.get(this.level);
+            if (data != null) data.clearPosition(this.getUUID());
+        }
+        super.remove(reason);
+    }
+
+    /// Per-tick trait work, spread out so no trait scans every tick
+    @Override
+    public void tick() {
+        super.tick();
+        if (this.level.isClientSide || !this.isAlive()) return;
+        if (isBurrowed()) {
+            burrowTick();
+            return;
+        }
+        int phase = this.tickCount + this.getId();
+        if (has(BeeSpec.Trait.GLOW) && phase % 4 == 0) BeeTraits.placeLight(this);
+        if (has(BeeSpec.Trait.LAVA_FILLER) && phase % 10 == 0) {
+            BlockPos cauldron = BeeTraits.cauldronBelow(this);
+            if (cauldron != null && !cauldron.equals(lastCauldron) && this.random.nextFloat() < LAVA_FILL_CHANCE) {
+                BeeTraits.addLava(this, cauldron);
+            }
+            lastCauldron = cauldron;
+        }
+        if (isRoyalGuard() && phase % 200 == 0) BeeTraits.waxNearbyCopper(this);
+        if (isQueen()) {
+            if (!this.isPersistenceRequired()) this.setPersistenceRequired();
+            if (phase % 20 == 0) {
+                QueenData data = QueenData.get(this.level);
+                if (data != null) data.setPosition(this.getUUID(), this.level.dimension(), this.blockPosition());
+            }
+            if (phase % 100 == 0) BeeTraits.healBees(this);
+        }
     }
 
     @Override
@@ -161,6 +354,10 @@ public class BubbasBee extends Bee implements IAnimatable {
         }
         tag.putBoolean("BubbasDeepslate", isDeepslate());
         tag.putBoolean(AdvancedBeehiveBlockEntity.BUSY_TAG, busy);
+        if (burrowBlock != null) {
+            tag.put("BubbasBurrow", NbtUtils.writeBlockPos(burrowBlock));
+            tag.putInt("BubbasBurrowTicks", burrowTicksLeft);
+        }
     }
 
     @Override
@@ -176,6 +373,10 @@ public class BubbasBee extends Bee implements IAnimatable {
             setDeepslate(tag.getBoolean("BubbasDeepslate"));
         }
         busy = tag.getBoolean(AdvancedBeehiveBlockEntity.BUSY_TAG);
+        if (tag.contains("BubbasBurrow")) {
+            burrowBlock = NbtUtils.readBlockPos(tag.getCompound("BubbasBurrow"));
+            burrowTicksLeft = tag.getInt("BubbasBurrowTicks");
+        }
     }
 
     @Override
@@ -249,8 +450,12 @@ public class BubbasBee extends Bee implements IAnimatable {
         return this.factory;
     }
     public static AttributeSupplier setAttributes() {
+        return setAttributes(10.0D);
+    }
+
+    public static AttributeSupplier setAttributes(double maxHealth) {
         return BubbasBee.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 10.0D)
+                .add(Attributes.MAX_HEALTH, maxHealth)
                 .add(Attributes.FLYING_SPEED, (double)0.6F)
                 .add(Attributes.MOVEMENT_SPEED, (double)0.3F)
                 .add(Attributes.ATTACK_DAMAGE, 2.0D)

@@ -25,6 +25,9 @@ public interface BeeEntityAccessor {
     @Invoker("wantsToEnterHive")
     boolean callWantsToEnterHive();
 
+    @Invoker("setHasStung")
+    void callSetHasStung(boolean hasStung);
+
     @Invoker("pathfindRandomlyTowards")
     void callPathfindRandomlyTowards(BlockPos pos);
 }

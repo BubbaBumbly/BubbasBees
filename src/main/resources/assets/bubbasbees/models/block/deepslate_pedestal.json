@@ -2,7 +2,8 @@
   "parent": "bubbasbees:block/pedestal",
   "textures": {
     "top": "minecraft:block/polished_deepslate",
-    "column": "minecraft:block/polished_deepslate",
-    "base": "minecraft:block/deepslate"
+    "column": "minecraft:block/deepslate_bricks",
+    "base": "minecraft:block/deepslate",
+    "acc": "minecraft:block/chiseled_deepslate"
   }
 }

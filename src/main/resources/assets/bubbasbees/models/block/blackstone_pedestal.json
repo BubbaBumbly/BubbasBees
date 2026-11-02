@@ -2,7 +2,8 @@
   "parent": "bubbasbees:block/pedestal",
   "textures": {
     "top": "minecraft:block/polished_blackstone",
-    "column": "minecraft:block/blackstone",
-    "base": "minecraft:block/polished_blackstone"
+    "column": "minecraft:block/polished_blackstone_bricks",
+    "base": "minecraft:block/blackstone",
+    "acc": "minecraft:block/chiseled_polished_blackstone"
   }
 }
