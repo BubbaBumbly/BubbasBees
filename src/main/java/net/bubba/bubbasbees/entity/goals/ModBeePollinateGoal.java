@@ -1,5 +1,7 @@
 package net.bubba.bubbasbees.entity.goals;
 
+import net.bubba.bubbasbees.ritual.RitualManager;
+
 import net.bubba.bubbasbees.entity.custom.BubbasBee;
 import net.bubba.bubbasbees.mixin.BeePollinateGoalAccessor;
 import net.minecraft.core.BlockPos;
@@ -530,6 +532,7 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         hoveringAtFlower = false;
         this.nextSearchTick = bubbasBee.tickCount + (bubbasBee.isBusy() ? 0 : CALM_SEARCH_COOLDOWN);
 
+        if (pollinated) RitualManager.onPollinated(bubbasBee, flower);
         // The copper bee ages the copper it pollinates
         if (pollinated && "copper".equals(bubbasBee.getVariant())) {
             this.copperAging(bubbasBee, flower);

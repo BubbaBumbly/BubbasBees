@@ -1,6 +1,8 @@
 package net.bubba.bubbasbees.blocks.custom;
 
 import net.bubba.bubbasbees.blockentities.PedestalBlockEntity;
+import net.bubba.bubbasbees.ritual.RitualManager;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -79,6 +81,7 @@ public class PedestalBlock extends BaseEntityBlock {
                 pedestal.setItem(one);
                 if (!player.getAbilities().instabuild) held.shrink(1);
                 level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
+                if (altar && level instanceof ServerLevel server) RitualManager.tryStart(server, pos, player);
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         }

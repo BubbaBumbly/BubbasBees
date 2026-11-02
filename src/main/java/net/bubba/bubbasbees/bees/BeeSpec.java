@@ -80,9 +80,14 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
      * spot under open sky: the hive's front, not the flying bee).
      */
     public boolean canWorkAt(Level level, BlockPos pos, boolean checkSky) {
+        return canWorkAt(level, pos, checkSky, false);
+    }
+
+    /** As above; ritual = the bee's hive is inside a running ritual circle, so day bees work at night too. */
+    public boolean canWorkAt(Level level, BlockPos pos, boolean checkSky, boolean ritual) {
         if (has(Trait.NOCTURNAL)) {
             if (!level.isNight() || (checkSky && !level.canSeeSky(pos))) return false;
-        } else if (level.isNight()) {
+        } else if (level.isNight() && !ritual) {
             return false;
         }
         if (level.isRaining()) {

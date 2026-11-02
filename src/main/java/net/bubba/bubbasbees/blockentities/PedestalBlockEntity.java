@@ -61,12 +61,13 @@ public class PedestalBlockEntity extends BlockEntity {
     protected void saveAdditional(@NotNull CompoundTag tag) {
         super.saveAdditional(tag);
         if (!item.isEmpty()) tag.put(ITEM_TAG, item.save(new CompoundTag()));
-        if (ritualActive) tag.putBoolean(RITUAL_TAG, true);
     }
 
     @Override
     public @NotNull CompoundTag getUpdateTag() {
-        return saveWithoutMetadata();
+        CompoundTag tag = saveWithoutMetadata();
+        if (ritualActive) tag.putBoolean(RITUAL_TAG, true);   // client only: rituals live in memory (RitualManager)
+        return tag;
     }
 
     @Override

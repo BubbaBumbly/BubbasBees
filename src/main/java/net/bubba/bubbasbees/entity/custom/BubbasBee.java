@@ -1,5 +1,7 @@
 package net.bubba.bubbasbees.entity.custom;
 
+import net.bubba.bubbasbees.ritual.RitualManager;
+
 import net.bubba.bubbasbees.bees.BeeSpec;
 import net.bubba.bubbasbees.blockentities.AdvancedBeehiveBlockEntity;
 import net.bubba.bubbasbees.entity.goals.BeeAnchorHomingGoal;
@@ -115,7 +117,7 @@ public class BubbasBee extends Bee implements IAnimatable {
     public boolean canWorkNow() {
         BeeSpec spec = getSpec();
         if (spec == null) return !this.level.isRaining() && !this.level.isNight();
-        return spec.canWorkAt(this.level, this.blockPosition(), false);
+        return spec.canWorkAt(this.level, this.blockPosition(), false, RitualManager.isRitualHive(this.level, this.getHivePos()));
     }
 
     /** Nocturnal bees only use flowers under open sky. */

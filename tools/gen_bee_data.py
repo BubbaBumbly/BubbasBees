@@ -608,6 +608,47 @@ def step4_data():
     write_json(path, lang)
 
 
+# ------------------------------------------------------------------ step 5: rituals
+def step5_data():
+    """Ritual boss bar, chat and structure-hint text (RitualManager / RitualStructure)."""
+    path = os.path.join(ASSETS, "lang", "en_us.json")
+    lang = json.load(open(path))
+    r = "ritual.bubbasbees."
+    lang.update({
+        r + "night": "Celestial Ritual", r + "queen": "Royal Summoning",
+        r + "total": "Pollinations %s/%s", r + "starlight": "Starlight %s/%s", r + "guards": "Royal guards %s/%s",
+        r + "types": "Types %s/%s", r + "missing_types": "Missing: %s", r + "time_left": "%s left",
+        r + "paused": "Paused: relight the candle",
+        r + "started.night": "The Celestial Ritual has begun. Finish before sunrise.",
+        r + "started.queen": "The Royal Summoning has begun. You have 5 minutes.",
+        r + "complete": "The ritual is complete",
+        r + "complete.night": "The Bubba Star has become a Celestial Bubba Star!",
+        r + "complete.queen": "The Royal Queen has arrived!",
+        r + "failed": "The ritual has failed", r + "failed_because": "The ritual has failed. %s",
+        r + "fail.unloaded": "Everyone left the circle.", r + "fail.item": "The altar's item was taken.",
+        r + "fail.bee_killed": "A bee from the circle was killed.", r + "fail.sunrise": "The sun rose.",
+        r + "fail.time": "Time ran out.",
+        r + "problem.night": "The Celestial Ritual can only begin at night",
+        r + "problem.sky": "The altar must be under open sky",
+        r + "problem.day": "The Royal Summoning can only begin in daytime",
+        r + "problem.queen_alive": "The Royal Queen is still alive",
+        r + "problem.candles_lit": "Light every candle to begin",
+        r + "problem.end_rod": "Needs an end rod 7 blocks %s of the altar",
+        r + "problem.rod_dust": "The stardust circle must touch the end rod to the %s",
+        r + "problem.corner_pedestal": "Needs a pedestal on the circle to the %s (4 out, 4 across)",
+        r + "problem.echo_shard": "The %s pedestal needs an echo shard",
+        r + "problem.circle": "The stardust circle around the altar isn't closed",
+        r + "problem.centre_candles": "Needs 4 candles next to the altar (%s found)",
+        r + "problem.corner_candles": "Needs 2 candles beside the %s pedestal, inside the circle (%s found)",
+        r + "problem.queen_base": "The altar must stand on 3x3 honeycomb blocks with gold block corners",
+        r + "problem.flower_pot": "Needs a potted flower on the circle's edge to the %s",
+        r + "problem.honey_block": "The %s flower pot must stand on a honey block",
+    })
+    for d in ("north", "east", "south", "west", "north_east", "south_east", "south_west", "north_west"):
+        lang[r + "dir." + d] = d.replace("_", "-")
+    write_json(path, lang)
+
+
 def step4_art(work):
     """Final royal jelly art (item, block, pink piston face), the Celestial Bubba Star, and a PLACEHOLDER dark bee."""
     from PIL import Image
@@ -660,6 +701,7 @@ def main():
     tags(ids)
     step3_blocks()
     step4_data()
+    step5_data()
     if args.art:
         art(os.path.abspath(args.art), combs, ids)
         step3_art(os.path.abspath(args.art))

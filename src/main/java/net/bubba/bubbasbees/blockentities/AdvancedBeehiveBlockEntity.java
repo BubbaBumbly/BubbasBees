@@ -1,5 +1,7 @@
 package net.bubba.bubbasbees.blockentities;
 
+import net.bubba.bubbasbees.ritual.RitualManager;
+
 import net.bubba.bubbasbees.bees.BeeSpec;
 import net.bubba.bubbasbees.bees.BeeSpecs;
 import net.bubba.bubbasbees.bees.QueenData;
@@ -254,8 +256,9 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
                     if (entity instanceof Bee bee){
                         bee.dropOffNectar();
                         // Mod bees roll their comb table (a failed roll leaves nothing); vanilla bees give honeycomb.
-                        // A full hive (8 combs) loses the roll.
-                        ItemStack comb = bee instanceof BubbasBee bubbasBee
+                        // A full hive (8 combs) loses the roll. No combs inside a running ritual circle.
+                        ItemStack comb = RitualManager.isRitualHive(hive.level, hive.worldPosition) ? ItemStack.EMPTY
+                                : bee instanceof BubbasBee bubbasBee
                                 ? bubbasBee.rollComb() : new ItemStack(Items.HONEYCOMB);
                         if (!comb.isEmpty() && hive.honeycombList.size() < MAX_COMBS) hive.honeycombList.add(comb);
                     }
@@ -275,7 +278,7 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         if (status == BeeReleaseStatus.EMERGENCY || this.level == null) return false;
         BeeSpec spec = BeeSpecs.byEntity(ResourceLocation.tryParse(beeNbt.getString("id")));
         if (spec == null) return this.level.isNight() || this.level.isRaining();
-        return !spec.canWorkAt(this.level, this.worldPosition.above(), true);
+        return !spec.canWorkAt(this.level, this.worldPosition.above(), true, RitualManager.isRitualHive(this.level, this.worldPosition));
     }
 
     public static boolean shouldStayInHive(Level level, BeeReleaseStatus beehiveState) {
