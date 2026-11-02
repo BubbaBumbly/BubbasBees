@@ -33,6 +33,10 @@ public class BubbasBeeRenderer extends GeoEntityRenderer<BubbasBee> {
                                     @Nullable MultiBufferSource renderTypeBuffer,
                                     @Nullable VertexConsumer vertexBuilder, int packedLightIn,
                                     ResourceLocation textureLocation) {
+        // GeckoLib 3 defaults to entityCutout, which drops partial alpha; see-through bees (the soul bee) blend
+        if (animatable.getSpec() != null && animatable.getSpec().translucent()) {
+            return RenderType.entityTranslucent(textureLocation);
+        }
         return super.getRenderType(animatable, partialTicks, stack,
                 renderTypeBuffer, vertexBuilder, packedLightIn, textureLocation);
     }

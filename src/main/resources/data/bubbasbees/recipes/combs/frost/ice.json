@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:frost_honeycomb"
+    },
+    "B": {
+      "item": "minecraft:ice"
+    }
+  },
+  "result": {
+    "item": "minecraft:ice",
+    "count": 16
+  }
+}

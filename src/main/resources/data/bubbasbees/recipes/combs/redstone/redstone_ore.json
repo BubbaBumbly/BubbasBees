@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:redstone_honeycomb"
+    },
+    "B": {
+      "item": "minecraft:redstone_ore"
+    }
+  },
+  "result": {
+    "item": "minecraft:redstone_ore",
+    "count": 2
+  }
+}

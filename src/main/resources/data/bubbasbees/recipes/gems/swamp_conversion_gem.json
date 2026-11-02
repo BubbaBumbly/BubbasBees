@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:mud"
+    },
+    "B": {
+      "item": "minecraft:lily_pad"
+    },
+    "C": {
+      "item": "minecraft:mangrove_propagule"
+    },
+    "D": {
+      "item": "bubbasbees:bubba_star"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:swamp_conversion_gem"
+  }
+}

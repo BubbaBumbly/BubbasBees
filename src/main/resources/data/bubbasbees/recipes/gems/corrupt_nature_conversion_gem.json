@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABC",
+    "DEF",
+    "CGA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:crimson_stem"
+    },
+    "B": {
+      "item": "minecraft:nether_wart_block"
+    },
+    "C": {
+      "item": "minecraft:warped_stem"
+    },
+    "D": {
+      "item": "minecraft:crimson_fungus"
+    },
+    "E": {
+      "item": "bubbasbees:bubba_star"
+    },
+    "F": {
+      "item": "minecraft:warped_fungus"
+    },
+    "G": {
+      "item": "minecraft:warped_wart_block"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:corrupt_nature_conversion_gem"
+  }
+}

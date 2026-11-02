@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:ancient_debris_honeycomb"
+    },
+    "B": {
+      "item": "minecraft:ancient_debris"
+    }
+  },
+  "result": {
+    "item": "minecraft:ancient_debris",
+    "count": 2
+  }
+}

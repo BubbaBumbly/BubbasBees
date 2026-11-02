@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABC",
+    "BDB",
+    "EBF"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:poppy"
+    },
+    "B": {
+      "item": "minecraft:grass_block"
+    },
+    "C": {
+      "item": "minecraft:dandelion"
+    },
+    "D": {
+      "item": "bubbasbees:lesser_bubba_star"
+    },
+    "E": {
+      "item": "minecraft:cornflower"
+    },
+    "F": {
+      "item": "minecraft:allium"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:meadow_conversion_gem"
+  }
+}

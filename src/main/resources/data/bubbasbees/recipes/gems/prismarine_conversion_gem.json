@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "ACA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:dark_prismarine"
+    },
+    "B": {
+      "item": "minecraft:wet_sponge"
+    },
+    "C": {
+      "item": "minecraft:prismarine_bricks"
+    },
+    "D": {
+      "item": "bubbasbees:bubba_star"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:prismarine_conversion_gem"
+  }
+}

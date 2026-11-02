@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:nether_quartz_ore"
+    },
+    "B": {
+      "item": "minecraft:quartz_block"
+    },
+    "C": {
+      "item": "bubbasbees:celestial_bubba_star"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:quartz_conversion_gem"
+  }
+}

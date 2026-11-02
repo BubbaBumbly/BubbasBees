@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:nature_honeycomb"
+    },
+    "B": {
+      "item": "bubbasbees:river_honeycomb"
+    },
+    "C": {
+      "item": "minecraft:sugar_cane"
+    }
+  },
+  "result": {
+    "item": "minecraft:sugar_cane",
+    "count": 8
+  }
+}

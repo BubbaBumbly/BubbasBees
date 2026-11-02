@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:echo_honeycomb"
+    },
+    "B": {
+      "item": "bubbasbees:deep_dark_honeycomb"
+    },
+    "C": {
+      "item": "minecraft:sculk_sensor"
+    }
+  },
+  "result": {
+    "item": "minecraft:sculk_shrieker"
+  }
+}

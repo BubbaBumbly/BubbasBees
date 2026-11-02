@@ -1,0 +1,2927 @@
+{
+ "source": "../BubbasBeesArt/work/drafts",
+ "combs": [
+  {
+   "bee": "stone",
+   "label": "stone",
+   "grid": [
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "v:stone",
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "c:stone"
+   ],
+   "out": "v:stone",
+   "count": 32
+  },
+  {
+   "bee": "stone",
+   "label": "andesite",
+   "grid": [
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "v:andesite",
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "c:stone"
+   ],
+   "out": "v:andesite",
+   "count": 32
+  },
+  {
+   "bee": "stone",
+   "label": "diorite",
+   "grid": [
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "v:diorite",
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "c:stone"
+   ],
+   "out": "v:diorite",
+   "count": 32
+  },
+  {
+   "bee": "stone",
+   "label": "granite",
+   "grid": [
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "v:granite",
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "c:stone"
+   ],
+   "out": "v:granite",
+   "count": 32
+  },
+  {
+   "bee": "stone",
+   "label": "calcite",
+   "grid": [
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "v:calcite",
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "c:stone"
+   ],
+   "out": "v:calcite",
+   "count": 32
+  },
+  {
+   "bee": "stone",
+   "label": "tuff",
+   "grid": [
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "v:tuff",
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "c:stone"
+   ],
+   "out": "v:tuff",
+   "count": 32
+  },
+  {
+   "bee": "stone",
+   "label": "deepslate",
+   "grid": [
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "v:deepslate",
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "c:stone"
+   ],
+   "out": "v:deepslate",
+   "count": 32
+  },
+  {
+   "bee": "stone",
+   "label": "dripstone (new)",
+   "grid": [
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "v:dripstone_block",
+    "c:stone",
+    "c:stone",
+    "c:stone",
+    "c:stone"
+   ],
+   "out": "v:dripstone_block",
+   "count": 16
+  },
+  {
+   "bee": "coal",
+   "label": "coal ore",
+   "grid": [
+    "c:coal",
+    "c:coal",
+    "c:coal",
+    "c:coal",
+    "v:coal_ore",
+    "c:coal",
+    "c:coal",
+    "c:coal",
+    "c:coal"
+   ],
+   "out": "v:coal_ore",
+   "count": 2
+  },
+  {
+   "bee": "coal",
+   "label": "deepslate coal ore",
+   "grid": [
+    "c:coal",
+    "c:coal",
+    "c:coal",
+    "c:coal",
+    "v:deepslate_coal_ore",
+    "c:coal",
+    "c:coal",
+    "c:coal",
+    "c:coal"
+   ],
+   "out": "v:deepslate_coal_ore",
+   "count": 2
+  },
+  {
+   "bee": "copper",
+   "label": "copper ore",
+   "grid": [
+    "c:copper",
+    "c:copper",
+    "c:copper",
+    "c:copper",
+    "v:copper_ore",
+    "c:copper",
+    "c:copper",
+    "c:copper",
+    "c:copper"
+   ],
+   "out": "v:copper_ore",
+   "count": 2
+  },
+  {
+   "bee": "copper",
+   "label": "deepslate copper ore",
+   "grid": [
+    "c:copper",
+    "c:copper",
+    "c:copper",
+    "c:copper",
+    "v:deepslate_copper_ore",
+    "c:copper",
+    "c:copper",
+    "c:copper",
+    "c:copper"
+   ],
+   "out": "v:deepslate_copper_ore",
+   "count": 2
+  },
+  {
+   "bee": "iron",
+   "label": "iron ore",
+   "grid": [
+    "c:iron",
+    "c:iron",
+    "c:iron",
+    "c:iron",
+    "v:iron_ore",
+    "c:iron",
+    "c:iron",
+    "c:iron",
+    "c:iron"
+   ],
+   "out": "v:iron_ore",
+   "count": 2
+  },
+  {
+   "bee": "iron",
+   "label": "deepslate iron ore",
+   "grid": [
+    "c:iron",
+    "c:iron",
+    "c:iron",
+    "c:iron",
+    "v:deepslate_iron_ore",
+    "c:iron",
+    "c:iron",
+    "c:iron",
+    "c:iron"
+   ],
+   "out": "v:deepslate_iron_ore",
+   "count": 2
+  },
+  {
+   "bee": "gold",
+   "label": "gold ore",
+   "grid": [
+    "c:gold",
+    "c:gold",
+    "c:gold",
+    "c:gold",
+    "v:gold_ore",
+    "c:gold",
+    "c:gold",
+    "c:gold",
+    "c:gold"
+   ],
+   "out": "v:gold_ore",
+   "count": 2
+  },
+  {
+   "bee": "gold",
+   "label": "deepslate gold ore",
+   "grid": [
+    "c:gold",
+    "c:gold",
+    "c:gold",
+    "c:gold",
+    "v:deepslate_gold_ore",
+    "c:gold",
+    "c:gold",
+    "c:gold",
+    "c:gold"
+   ],
+   "out": "v:deepslate_gold_ore",
+   "count": 2
+  },
+  {
+   "bee": "gold",
+   "label": "nether gold ore",
+   "grid": [
+    "c:gold",
+    "c:gold",
+    "c:gold",
+    "c:gold",
+    "v:nether_gold_ore",
+    "c:gold",
+    "c:gold",
+    "c:gold",
+    "c:gold"
+   ],
+   "out": "v:nether_gold_ore",
+   "count": 2
+  },
+  {
+   "bee": "gold",
+   "label": "gilded blackstone (current)",
+   "grid": [
+    "c:gold",
+    "v:blackstone",
+    "c:gold",
+    "v:blackstone",
+    "c:gold",
+    "v:blackstone",
+    "c:gold",
+    "v:blackstone",
+    "c:gold"
+   ],
+   "out": "v:gilded_blackstone",
+   "count": 2
+  },
+  {
+   "bee": "redstone",
+   "label": "redstone ore",
+   "grid": [
+    "c:redstone",
+    "c:redstone",
+    "c:redstone",
+    "c:redstone",
+    "v:redstone_ore",
+    "c:redstone",
+    "c:redstone",
+    "c:redstone",
+    "c:redstone"
+   ],
+   "out": "v:redstone_ore",
+   "count": 2
+  },
+  {
+   "bee": "redstone",
+   "label": "deepslate redstone ore",
+   "grid": [
+    "c:redstone",
+    "c:redstone",
+    "c:redstone",
+    "c:redstone",
+    "v:deepslate_redstone_ore",
+    "c:redstone",
+    "c:redstone",
+    "c:redstone",
+    "c:redstone"
+   ],
+   "out": "v:deepslate_redstone_ore",
+   "count": 2
+  },
+  {
+   "bee": "lapis",
+   "label": "lapis ore",
+   "grid": [
+    "c:lapis",
+    "c:lapis",
+    "c:lapis",
+    "c:lapis",
+    "v:lapis_ore",
+    "c:lapis",
+    "c:lapis",
+    "c:lapis",
+    "c:lapis"
+   ],
+   "out": "v:lapis_ore",
+   "count": 2
+  },
+  {
+   "bee": "lapis",
+   "label": "deepslate lapis ore",
+   "grid": [
+    "c:lapis",
+    "c:lapis",
+    "c:lapis",
+    "c:lapis",
+    "v:deepslate_lapis_ore",
+    "c:lapis",
+    "c:lapis",
+    "c:lapis",
+    "c:lapis"
+   ],
+   "out": "v:deepslate_lapis_ore",
+   "count": 2
+  },
+  {
+   "bee": "diamond",
+   "label": "diamond ore",
+   "grid": [
+    "c:diamond",
+    "c:diamond",
+    "c:diamond",
+    "c:diamond",
+    "v:diamond_ore",
+    "c:diamond",
+    "c:diamond",
+    "c:diamond",
+    "c:diamond"
+   ],
+   "out": "v:diamond_ore",
+   "count": 2
+  },
+  {
+   "bee": "diamond",
+   "label": "deepslate diamond ore",
+   "grid": [
+    "c:diamond",
+    "c:diamond",
+    "c:diamond",
+    "c:diamond",
+    "v:deepslate_diamond_ore",
+    "c:diamond",
+    "c:diamond",
+    "c:diamond",
+    "c:diamond"
+   ],
+   "out": "v:deepslate_diamond_ore",
+   "count": 2
+  },
+  {
+   "bee": "emerald",
+   "label": "emerald ore",
+   "grid": [
+    "c:emerald",
+    "c:emerald",
+    "c:emerald",
+    "c:emerald",
+    "v:emerald_ore",
+    "c:emerald",
+    "c:emerald",
+    "c:emerald",
+    "c:emerald"
+   ],
+   "out": "v:emerald_ore",
+   "count": 2
+  },
+  {
+   "bee": "emerald",
+   "label": "deepslate emerald ore",
+   "grid": [
+    "c:emerald",
+    "c:emerald",
+    "c:emerald",
+    "c:emerald",
+    "v:deepslate_emerald_ore",
+    "c:emerald",
+    "c:emerald",
+    "c:emerald",
+    "c:emerald"
+   ],
+   "out": "v:deepslate_emerald_ore",
+   "count": 2
+  },
+  {
+   "bee": "quartz",
+   "label": "nether quartz ore",
+   "grid": [
+    "c:quartz",
+    "c:quartz",
+    "c:quartz",
+    "c:quartz",
+    "v:nether_quartz_ore",
+    "c:quartz",
+    "c:quartz",
+    "c:quartz",
+    "c:quartz"
+   ],
+   "out": "v:nether_quartz_ore",
+   "count": 2
+  },
+  {
+   "bee": "ancient_debris",
+   "label": "ancient debris",
+   "grid": [
+    "c:ancient_debris",
+    "c:ancient_debris",
+    "c:ancient_debris",
+    "c:ancient_debris",
+    "v:ancient_debris",
+    "c:ancient_debris",
+    "c:ancient_debris",
+    "c:ancient_debris",
+    "c:ancient_debris"
+   ],
+   "out": "v:ancient_debris",
+   "count": 2
+  },
+  {
+   "bee": "amethyst",
+   "label": "shards (final)",
+   "grid": [
+    "c:amethyst",
+    "c:amethyst",
+    "c:amethyst",
+    "c:amethyst",
+    "v:amethyst_shard",
+    "c:amethyst",
+    "c:amethyst",
+    "c:amethyst",
+    "c:amethyst"
+   ],
+   "out": "v:amethyst_shard",
+   "count": 16
+  },
+  {
+   "bee": "amethyst",
+   "label": "small bud",
+   "grid": [
+    null,
+    "c:amethyst",
+    null,
+    "c:amethyst",
+    "v:amethyst_shard",
+    "c:amethyst",
+    null,
+    "c:amethyst",
+    null
+   ],
+   "out": "v:small_amethyst_bud",
+   "count": 1
+  },
+  {
+   "bee": "amethyst",
+   "label": "medium bud",
+   "grid": [
+    null,
+    "c:amethyst",
+    null,
+    "c:amethyst",
+    "v:small_amethyst_bud",
+    "c:amethyst",
+    null,
+    "c:amethyst",
+    null
+   ],
+   "out": "v:medium_amethyst_bud",
+   "count": 1
+  },
+  {
+   "bee": "amethyst",
+   "label": "large bud",
+   "grid": [
+    null,
+    "c:amethyst",
+    null,
+    "c:amethyst",
+    "v:medium_amethyst_bud",
+    "c:amethyst",
+    null,
+    "c:amethyst",
+    null
+   ],
+   "out": "v:large_amethyst_bud",
+   "count": 1
+  },
+  {
+   "bee": "amethyst",
+   "label": "cluster",
+   "grid": [
+    null,
+    "c:amethyst",
+    null,
+    "c:amethyst",
+    "v:large_amethyst_bud",
+    "c:amethyst",
+    null,
+    "c:amethyst",
+    null
+   ],
+   "out": "v:amethyst_cluster",
+   "count": 1
+  },
+  {
+   "bee": "amethyst",
+   "label": "budding amethyst (rare comb)",
+   "grid": [
+    "c:budding_amethyst",
+    "c:budding_amethyst",
+    "c:budding_amethyst",
+    "c:budding_amethyst",
+    "v:amethyst_block",
+    "c:budding_amethyst",
+    "c:budding_amethyst",
+    "c:budding_amethyst",
+    "c:budding_amethyst"
+   ],
+   "out": "v:budding_amethyst",
+   "count": 1
+  },
+  {
+   "bee": "amethyst",
+   "label": "smooth basalt (+ Corrupt stone)",
+   "grid": [
+    "c:amethyst",
+    "c:corrupt_stone",
+    "c:amethyst",
+    "c:corrupt_stone",
+    "v:calcite",
+    "c:corrupt_stone",
+    "c:amethyst",
+    "c:corrupt_stone",
+    "c:amethyst"
+   ],
+   "out": "v:smooth_basalt",
+   "count": 8
+  },
+  {
+   "bee": "obsidian",
+   "label": "obsidian",
+   "grid": [
+    "c:obsidian",
+    "c:obsidian",
+    "c:obsidian",
+    "c:obsidian",
+    "v:lava_bucket",
+    "c:obsidian",
+    "c:obsidian",
+    "c:obsidian",
+    "c:obsidian"
+   ],
+   "out": "v:obsidian",
+   "count": 4
+  },
+  {
+   "bee": "obsidian",
+   "label": "crying obsidian (+ sad comb)",
+   "grid": [
+    "c:obsidian",
+    "c:sad",
+    "c:obsidian",
+    "c:sad",
+    "v:obsidian",
+    "c:sad",
+    "c:obsidian",
+    "c:sad",
+    "c:obsidian"
+   ],
+   "out": "v:crying_obsidian",
+   "count": 4
+  },
+  {
+   "bee": "dirt",
+   "label": "dirt",
+   "grid": [
+    "c:dirt",
+    "c:dirt",
+    "c:dirt",
+    "c:dirt",
+    "v:dirt",
+    "c:dirt",
+    "c:dirt",
+    "c:dirt",
+    "c:dirt"
+   ],
+   "out": "v:dirt",
+   "count": 24
+  },
+  {
+   "bee": "dirt",
+   "label": "podzol (+ taiga)",
+   "grid": [
+    "c:taiga",
+    "c:dirt",
+    "c:taiga",
+    "c:dirt",
+    "v:podzol",
+    "c:dirt",
+    "c:taiga",
+    "c:dirt",
+    "c:taiga"
+   ],
+   "out": "v:podzol",
+   "count": 16
+  },
+  {
+   "bee": "dirt",
+   "label": "coarse dirt (+ savanna)",
+   "grid": [
+    "c:savanna",
+    "c:dirt",
+    "c:savanna",
+    "c:dirt",
+    "v:coarse_dirt",
+    "c:dirt",
+    "c:savanna",
+    "c:dirt",
+    "c:savanna"
+   ],
+   "out": "v:coarse_dirt",
+   "count": 16
+  },
+  {
+   "bee": "dirt",
+   "label": "grass block (+ meadow)",
+   "grid": [
+    "c:meadow",
+    "c:dirt",
+    "c:meadow",
+    "c:dirt",
+    "v:grass_block",
+    "c:dirt",
+    "c:meadow",
+    "c:dirt",
+    "c:meadow"
+   ],
+   "out": "v:grass_block",
+   "count": 16
+  },
+  {
+   "bee": "dirt",
+   "label": "rooted dirt (+ lush caves)",
+   "grid": [
+    "c:lush_caves",
+    "c:dirt",
+    "c:lush_caves",
+    "c:dirt",
+    "v:rooted_dirt",
+    "c:dirt",
+    "c:lush_caves",
+    "c:dirt",
+    "c:lush_caves"
+   ],
+   "out": "v:rooted_dirt",
+   "count": 16
+  },
+  {
+   "bee": "concrete",
+   "label": "red",
+   "grid": [
+    "c:concrete",
+    "c:concrete",
+    "c:concrete",
+    "c:concrete",
+    "v:red_dye",
+    "c:concrete",
+    "c:concrete",
+    "c:concrete",
+    "c:concrete"
+   ],
+   "out": "v:red_concrete_powder",
+   "count": 32
+  },
+  {
+   "bee": "concrete",
+   "label": "blue",
+   "grid": [
+    "c:concrete",
+    "c:concrete",
+    "c:concrete",
+    "c:concrete",
+    "v:blue_dye",
+    "c:concrete",
+    "c:concrete",
+    "c:concrete",
+    "c:concrete"
+   ],
+   "out": "v:blue_concrete_powder",
+   "count": 32
+  },
+  {
+   "bee": "nature",
+   "label": "bee nest (current)",
+   "grid": [
+    "c:nature",
+    "c:nature",
+    "c:nature",
+    "c:nature",
+    "v:beehive",
+    "c:nature",
+    "c:nature",
+    "c:nature",
+    "c:nature"
+   ],
+   "out": "v:bee_nest",
+   "count": 1
+  },
+  {
+   "bee": "forest",
+   "label": "oak",
+   "grid": [
+    "c:nature",
+    "c:forest",
+    "c:nature",
+    "c:forest",
+    "v:oak_log",
+    "c:forest",
+    "c:nature",
+    "c:forest",
+    "c:nature"
+   ],
+   "out": "v:oak_log",
+   "count": 8
+  },
+  {
+   "bee": "forest",
+   "label": "birch",
+   "grid": [
+    "c:nature",
+    "c:forest",
+    "c:nature",
+    "c:forest",
+    "v:birch_log",
+    "c:forest",
+    "c:nature",
+    "c:forest",
+    "c:nature"
+   ],
+   "out": "v:birch_log",
+   "count": 8
+  },
+  {
+   "bee": "forest",
+   "label": "dark oak",
+   "grid": [
+    "c:nature",
+    "c:forest",
+    "c:nature",
+    "c:forest",
+    "v:dark_oak_log",
+    "c:forest",
+    "c:nature",
+    "c:forest",
+    "c:nature"
+   ],
+   "out": "v:dark_oak_log",
+   "count": 8
+  },
+  {
+   "bee": "forest",
+   "label": "apples",
+   "grid": [
+    "c:nature",
+    "c:forest",
+    "c:nature",
+    "c:forest",
+    "v:apple",
+    "c:forest",
+    "c:nature",
+    "c:forest",
+    "c:nature"
+   ],
+   "out": "v:apple",
+   "count": 8
+  },
+  {
+   "bee": "glow",
+   "label": "glowstone dust",
+   "grid": [
+    "c:glow",
+    "c:glow",
+    "c:glow",
+    "c:glow",
+    "v:glowstone_dust",
+    "c:glow",
+    "c:glow",
+    "c:glow",
+    "c:glow"
+   ],
+   "out": "v:glowstone_dust",
+   "count": 12
+  },
+  {
+   "bee": "glow",
+   "label": "glow lichen",
+   "grid": [
+    "c:glow",
+    "c:glow",
+    "c:glow",
+    "c:glow",
+    "v:glow_lichen",
+    "c:glow",
+    "c:glow",
+    "c:glow",
+    "c:glow"
+   ],
+   "out": "v:glow_lichen",
+   "count": 16
+  },
+  {
+   "bee": "glow",
+   "label": "glow ink sac",
+   "grid": [
+    "c:glow",
+    "c:glow",
+    "c:glow",
+    "c:glow",
+    "v:ink_sac",
+    "c:glow",
+    "c:glow",
+    "c:glow",
+    "c:glow"
+   ],
+   "out": "v:glow_ink_sac",
+   "count": 8
+  },
+  {
+   "bee": "glow",
+   "label": "shroomlight",
+   "grid": [
+    "c:glow",
+    "c:glow",
+    "c:glow",
+    "c:glow",
+    "v:shroomlight",
+    "c:glow",
+    "c:glow",
+    "c:glow",
+    "c:glow"
+   ],
+   "out": "v:shroomlight",
+   "count": 4
+  },
+  {
+   "bee": "desert",
+   "label": "sand (current)",
+   "grid": [
+    "c:sandy",
+    "c:sandy",
+    "c:sandy",
+    "c:sandy",
+    "v:sand",
+    "c:sandy",
+    "c:sandy",
+    "c:sandy",
+    "c:sandy"
+   ],
+   "out": "v:sand",
+   "count": 24
+  },
+  {
+   "bee": "desert",
+   "label": "cactus (+ nature)",
+   "grid": [
+    "c:nature",
+    "c:sandy",
+    "c:nature",
+    "c:sandy",
+    "v:cactus",
+    "c:sandy",
+    "c:nature",
+    "c:sandy",
+    "c:nature"
+   ],
+   "out": "v:cactus",
+   "count": 8
+  },
+  {
+   "bee": "desert",
+   "label": "dead bush (+ nature)",
+   "grid": [
+    "c:nature",
+    "c:sandy",
+    "c:nature",
+    "c:sandy",
+    "v:dead_bush",
+    "c:sandy",
+    "c:nature",
+    "c:sandy",
+    "c:nature"
+   ],
+   "out": "v:dead_bush",
+   "count": 8
+  },
+  {
+   "bee": "desert",
+   "label": "bone blocks (bone comb)",
+   "grid": [
+    "c:bone",
+    "c:bone",
+    "c:bone",
+    "c:bone",
+    "v:bone",
+    "c:bone",
+    "c:bone",
+    "c:bone",
+    "c:bone"
+   ],
+   "out": "v:bone_block",
+   "count": 3
+  },
+  {
+   "bee": "desert",
+   "label": "suspicious sand (1.20+)",
+   "grid": [
+    "c:suspicious",
+    "c:suspicious",
+    "c:suspicious",
+    "c:suspicious",
+    "v:sand",
+    "c:suspicious",
+    "c:suspicious",
+    "c:suspicious",
+    "c:suspicious"
+   ],
+   "out": "v:suspicious_sand",
+   "count": 1
+  },
+  {
+   "bee": "mesa",
+   "label": "red sand",
+   "grid": [
+    "c:mesa",
+    "c:mesa",
+    "c:mesa",
+    "c:mesa",
+    "v:red_sand",
+    "c:mesa",
+    "c:mesa",
+    "c:mesa",
+    "c:mesa"
+   ],
+   "out": "v:red_sand",
+   "count": 24
+  },
+  {
+   "bee": "mesa",
+   "label": "terracotta",
+   "grid": [
+    "c:mesa",
+    "c:mesa",
+    "c:mesa",
+    "c:mesa",
+    "v:terracotta",
+    "c:mesa",
+    "c:mesa",
+    "c:mesa",
+    "c:mesa"
+   ],
+   "out": "v:terracotta",
+   "count": 16
+  },
+  {
+   "bee": "mesa",
+   "label": "orange terracotta",
+   "grid": [
+    "c:mesa",
+    "c:mesa",
+    "c:mesa",
+    "c:mesa",
+    "v:orange_terracotta",
+    "c:mesa",
+    "c:mesa",
+    "c:mesa",
+    "c:mesa"
+   ],
+   "out": "v:orange_terracotta",
+   "count": 16
+  },
+  {
+   "bee": "mesa",
+   "label": "dead bush (+ nature)",
+   "grid": [
+    "c:nature",
+    "c:mesa",
+    "c:nature",
+    "c:mesa",
+    "v:dead_bush",
+    "c:mesa",
+    "c:nature",
+    "c:mesa",
+    "c:nature"
+   ],
+   "out": "v:dead_bush",
+   "count": 8
+  },
+  {
+   "bee": "river",
+   "label": "clay",
+   "grid": [
+    "c:river",
+    "c:river",
+    "c:river",
+    "c:river",
+    "v:clay",
+    "c:river",
+    "c:river",
+    "c:river",
+    "c:river"
+   ],
+   "out": "v:clay",
+   "count": 8
+  },
+  {
+   "bee": "river",
+   "label": "gravel (gravel comb)",
+   "grid": [
+    "c:gravel",
+    "c:gravel",
+    "c:gravel",
+    "c:gravel",
+    "v:gravel",
+    "c:gravel",
+    "c:gravel",
+    "c:gravel",
+    "c:gravel"
+   ],
+   "out": "v:gravel",
+   "count": 24
+  },
+  {
+   "bee": "river",
+   "label": "flint (gravel comb)",
+   "grid": [
+    "c:gravel",
+    "c:gravel",
+    "c:gravel",
+    "c:gravel",
+    "v:flint",
+    "c:gravel",
+    "c:gravel",
+    "c:gravel",
+    "c:gravel"
+   ],
+   "out": "v:flint",
+   "count": 12
+  },
+  {
+   "bee": "river",
+   "label": "sugar cane (+ nature)",
+   "grid": [
+    "c:nature",
+    "c:river",
+    "c:nature",
+    "c:river",
+    "v:sugar_cane",
+    "c:river",
+    "c:nature",
+    "c:river",
+    "c:nature"
+   ],
+   "out": "v:sugar_cane",
+   "count": 8
+  },
+  {
+   "bee": "meadow",
+   "label": "poppy",
+   "grid": [
+    "c:nature",
+    "c:meadow",
+    "c:nature",
+    "c:meadow",
+    "v:poppy",
+    "c:meadow",
+    "c:nature",
+    "c:meadow",
+    "c:nature"
+   ],
+   "out": "v:poppy",
+   "count": 8
+  },
+  {
+   "bee": "meadow",
+   "label": "cornflower",
+   "grid": [
+    "c:nature",
+    "c:meadow",
+    "c:nature",
+    "c:meadow",
+    "v:cornflower",
+    "c:meadow",
+    "c:nature",
+    "c:meadow",
+    "c:nature"
+   ],
+   "out": "v:cornflower",
+   "count": 8
+  },
+  {
+   "bee": "meadow",
+   "label": "wither rose (+ soul + sad comb)",
+   "grid": [
+    "c:meadow",
+    "c:sad",
+    "c:meadow",
+    "c:soul",
+    "v:wither_rose",
+    "c:soul",
+    "c:meadow",
+    "c:soul",
+    "c:meadow"
+   ],
+   "out": "v:wither_rose",
+   "count": 4
+  },
+  {
+   "bee": "jungle",
+   "label": "jungle log",
+   "grid": [
+    "c:nature",
+    "c:jungle",
+    "c:nature",
+    "c:jungle",
+    "v:jungle_log",
+    "c:jungle",
+    "c:nature",
+    "c:jungle",
+    "c:nature"
+   ],
+   "out": "v:jungle_log",
+   "count": 8
+  },
+  {
+   "bee": "jungle",
+   "label": "melon",
+   "grid": [
+    "c:nature",
+    "c:jungle",
+    "c:nature",
+    "c:jungle",
+    "v:melon",
+    "c:jungle",
+    "c:nature",
+    "c:jungle",
+    "c:nature"
+   ],
+   "out": "v:melon",
+   "count": 8
+  },
+  {
+   "bee": "jungle",
+   "label": "cocoa beans",
+   "grid": [
+    "c:nature",
+    "c:jungle",
+    "c:nature",
+    "c:jungle",
+    "v:cocoa_beans",
+    "c:jungle",
+    "c:nature",
+    "c:jungle",
+    "c:nature"
+   ],
+   "out": "v:cocoa_beans",
+   "count": 8
+  },
+  {
+   "bee": "jungle",
+   "label": "bamboo",
+   "grid": [
+    "c:nature",
+    "c:jungle",
+    "c:nature",
+    "c:jungle",
+    "v:bamboo",
+    "c:jungle",
+    "c:nature",
+    "c:jungle",
+    "c:nature"
+   ],
+   "out": "v:bamboo",
+   "count": 8
+  },
+  {
+   "bee": "jungle",
+   "label": "vines",
+   "grid": [
+    "c:nature",
+    "c:jungle",
+    "c:nature",
+    "c:jungle",
+    "v:vine",
+    "c:jungle",
+    "c:nature",
+    "c:jungle",
+    "c:nature"
+   ],
+   "out": "v:vine",
+   "count": 8
+  },
+  {
+   "bee": "taiga",
+   "label": "spruce log",
+   "grid": [
+    "c:nature",
+    "c:taiga",
+    "c:nature",
+    "c:taiga",
+    "v:spruce_log",
+    "c:taiga",
+    "c:nature",
+    "c:taiga",
+    "c:nature"
+   ],
+   "out": "v:spruce_log",
+   "count": 8
+  },
+  {
+   "bee": "taiga",
+   "label": "pumpkin",
+   "grid": [
+    "c:nature",
+    "c:taiga",
+    "c:nature",
+    "c:taiga",
+    "v:pumpkin",
+    "c:taiga",
+    "c:nature",
+    "c:taiga",
+    "c:nature"
+   ],
+   "out": "v:pumpkin",
+   "count": 8
+  },
+  {
+   "bee": "taiga",
+   "label": "sweet berries",
+   "grid": [
+    "c:nature",
+    "c:taiga",
+    "c:nature",
+    "c:taiga",
+    "v:sweet_berries",
+    "c:taiga",
+    "c:nature",
+    "c:taiga",
+    "c:nature"
+   ],
+   "out": "v:sweet_berries",
+   "count": 8
+  },
+  {
+   "bee": "taiga",
+   "label": "fern",
+   "grid": [
+    "c:nature",
+    "c:taiga",
+    "c:nature",
+    "c:taiga",
+    "v:fern",
+    "c:taiga",
+    "c:nature",
+    "c:taiga",
+    "c:nature"
+   ],
+   "out": "v:fern",
+   "count": 8
+  },
+  {
+   "bee": "savanna",
+   "label": "acacia log",
+   "grid": [
+    "c:nature",
+    "c:savanna",
+    "c:nature",
+    "c:savanna",
+    "v:acacia_log",
+    "c:savanna",
+    "c:nature",
+    "c:savanna",
+    "c:nature"
+   ],
+   "out": "v:acacia_log",
+   "count": 8
+  },
+  {
+   "bee": "cherry_grove",
+   "label": "cherry log",
+   "grid": [
+    "c:nature",
+    "c:cherry_grove",
+    "c:nature",
+    "c:cherry_grove",
+    "v:cherry_log",
+    "c:cherry_grove",
+    "c:nature",
+    "c:cherry_grove",
+    "c:nature"
+   ],
+   "out": "v:cherry_log",
+   "count": 8
+  },
+  {
+   "bee": "cherry_grove",
+   "label": "pink petals",
+   "grid": [
+    "c:nature",
+    "c:cherry_grove",
+    "c:nature",
+    "c:cherry_grove",
+    "v:pink_petals",
+    "c:cherry_grove",
+    "c:nature",
+    "c:cherry_grove",
+    "c:nature"
+   ],
+   "out": "v:pink_petals",
+   "count": 8
+  },
+  {
+   "bee": "swamp",
+   "label": "mud",
+   "grid": [
+    "c:swamp",
+    "c:swamp",
+    "c:swamp",
+    "c:swamp",
+    "v:mud",
+    "c:swamp",
+    "c:swamp",
+    "c:swamp",
+    "c:swamp"
+   ],
+   "out": "v:mud",
+   "count": 16
+  },
+  {
+   "bee": "swamp",
+   "label": "mangrove log (+ nature)",
+   "grid": [
+    "c:nature",
+    "c:swamp",
+    "c:nature",
+    "c:swamp",
+    "v:mangrove_log",
+    "c:swamp",
+    "c:nature",
+    "c:swamp",
+    "c:nature"
+   ],
+   "out": "v:mangrove_log",
+   "count": 8
+  },
+  {
+   "bee": "swamp",
+   "label": "lily pad (+ nature)",
+   "grid": [
+    "c:nature",
+    "c:swamp",
+    "c:nature",
+    "c:swamp",
+    "v:lily_pad",
+    "c:swamp",
+    "c:nature",
+    "c:swamp",
+    "c:nature"
+   ],
+   "out": "v:lily_pad",
+   "count": 8
+  },
+  {
+   "bee": "swamp",
+   "label": "vines (+ nature)",
+   "grid": [
+    "c:nature",
+    "c:swamp",
+    "c:nature",
+    "c:swamp",
+    "v:vine",
+    "c:swamp",
+    "c:nature",
+    "c:swamp",
+    "c:nature"
+   ],
+   "out": "v:vine",
+   "count": 8
+  },
+  {
+   "bee": "swamp",
+   "label": "froglight (+ glow)",
+   "grid": [
+    "c:glow",
+    "c:swamp",
+    "c:glow",
+    "c:swamp",
+    "v:ochre_froglight",
+    "c:swamp",
+    "c:glow",
+    "c:swamp",
+    "c:glow"
+   ],
+   "out": "v:ochre_froglight",
+   "count": 4
+  },
+  {
+   "bee": "swamp",
+   "label": "slimeballs (+ royal)",
+   "grid": [
+    "c:swamp",
+    "c:royal_queen",
+    "c:swamp",
+    "c:royal_queen",
+    "v:slime_ball",
+    "c:royal_queen",
+    "c:swamp",
+    "c:royal_queen",
+    "c:swamp"
+   ],
+   "out": "v:slime_ball",
+   "count": 8
+  },
+  {
+   "bee": "frost",
+   "label": "snowballs",
+   "grid": [
+    "c:frost",
+    "c:frost",
+    "c:frost",
+    "c:frost",
+    "v:snowball",
+    "c:frost",
+    "c:frost",
+    "c:frost",
+    "c:frost"
+   ],
+   "out": "v:snowball",
+   "count": 16
+  },
+  {
+   "bee": "frost",
+   "label": "ice",
+   "grid": [
+    "c:frost",
+    "c:frost",
+    "c:frost",
+    "c:frost",
+    "v:ice",
+    "c:frost",
+    "c:frost",
+    "c:frost",
+    "c:frost"
+   ],
+   "out": "v:ice",
+   "count": 16
+  },
+  {
+   "bee": "frost",
+   "label": "powder snow (+ river)",
+   "grid": [
+    "c:frost",
+    "c:river",
+    "c:frost",
+    "c:river",
+    "v:bucket",
+    "c:river",
+    "c:frost",
+    "c:river",
+    "c:frost"
+   ],
+   "out": "v:powder_snow_bucket",
+   "count": 1
+  },
+  {
+   "bee": "lush_caves",
+   "label": "glow berries",
+   "grid": [
+    "c:nature",
+    "c:lush_caves",
+    "c:nature",
+    "c:lush_caves",
+    "v:glow_berries",
+    "c:lush_caves",
+    "c:nature",
+    "c:lush_caves",
+    "c:nature"
+   ],
+   "out": "v:glow_berries",
+   "count": 8
+  },
+  {
+   "bee": "lush_caves",
+   "label": "moss block",
+   "grid": [
+    "c:nature",
+    "c:lush_caves",
+    "c:nature",
+    "c:lush_caves",
+    "v:moss_block",
+    "c:lush_caves",
+    "c:nature",
+    "c:lush_caves",
+    "c:nature"
+   ],
+   "out": "v:moss_block",
+   "count": 8
+  },
+  {
+   "bee": "lush_caves",
+   "label": "big dripleaf",
+   "grid": [
+    "c:nature",
+    "c:lush_caves",
+    "c:nature",
+    "c:lush_caves",
+    "v:big_dripleaf",
+    "c:lush_caves",
+    "c:nature",
+    "c:lush_caves",
+    "c:nature"
+   ],
+   "out": "v:big_dripleaf",
+   "count": 8
+  },
+  {
+   "bee": "lush_caves",
+   "label": "small dripleaf",
+   "grid": [
+    "c:nature",
+    "c:lush_caves",
+    "c:nature",
+    "c:lush_caves",
+    "v:small_dripleaf",
+    "c:lush_caves",
+    "c:nature",
+    "c:lush_caves",
+    "c:nature"
+   ],
+   "out": "v:small_dripleaf",
+   "count": 8
+  },
+  {
+   "bee": "lush_caves",
+   "label": "azalea",
+   "grid": [
+    "c:nature",
+    "c:lush_caves",
+    "c:nature",
+    "c:lush_caves",
+    "v:azalea",
+    "c:lush_caves",
+    "c:nature",
+    "c:lush_caves",
+    "c:nature"
+   ],
+   "out": "v:azalea",
+   "count": 8
+  },
+  {
+   "bee": "lush_caves",
+   "label": "flowering azalea",
+   "grid": [
+    "c:nature",
+    "c:lush_caves",
+    "c:nature",
+    "c:lush_caves",
+    "v:flowering_azalea",
+    "c:lush_caves",
+    "c:nature",
+    "c:lush_caves",
+    "c:nature"
+   ],
+   "out": "v:flowering_azalea",
+   "count": 8
+  },
+  {
+   "bee": "lush_caves",
+   "label": "spore blossom",
+   "grid": [
+    "c:nature",
+    "c:lush_caves",
+    "c:nature",
+    "c:lush_caves",
+    "v:spore_blossom",
+    "c:lush_caves",
+    "c:nature",
+    "c:lush_caves",
+    "c:nature"
+   ],
+   "out": "v:spore_blossom",
+   "count": 4
+  },
+  {
+   "bee": "mushroom_fields",
+   "label": "mycelium",
+   "grid": [
+    "c:mushroom_fields",
+    "c:mushroom_fields",
+    "c:mushroom_fields",
+    "c:mushroom_fields",
+    "v:mycelium",
+    "c:mushroom_fields",
+    "c:mushroom_fields",
+    "c:mushroom_fields",
+    "c:mushroom_fields"
+   ],
+   "out": "v:mycelium",
+   "count": 16
+  },
+  {
+   "bee": "mushroom_fields",
+   "label": "red mushroom",
+   "grid": [
+    "c:nature",
+    "c:mushroom_fields",
+    "c:nature",
+    "c:mushroom_fields",
+    "v:red_mushroom",
+    "c:mushroom_fields",
+    "c:nature",
+    "c:mushroom_fields",
+    "c:nature"
+   ],
+   "out": "v:red_mushroom",
+   "count": 8
+  },
+  {
+   "bee": "mushroom_fields",
+   "label": "brown mushroom",
+   "grid": [
+    "c:nature",
+    "c:mushroom_fields",
+    "c:nature",
+    "c:mushroom_fields",
+    "v:brown_mushroom",
+    "c:mushroom_fields",
+    "c:nature",
+    "c:mushroom_fields",
+    "c:nature"
+   ],
+   "out": "v:brown_mushroom",
+   "count": 8
+  },
+  {
+   "bee": "mushroom_fields",
+   "label": "red mushroom block",
+   "grid": [
+    "c:nature",
+    "c:mushroom_fields",
+    "c:nature",
+    "c:mushroom_fields",
+    "v:red_mushroom_block",
+    "c:mushroom_fields",
+    "c:nature",
+    "c:mushroom_fields",
+    "c:nature"
+   ],
+   "out": "v:red_mushroom_block",
+   "count": 8
+  },
+  {
+   "bee": "mushroom_fields",
+   "label": "brown mushroom block",
+   "grid": [
+    "c:nature",
+    "c:mushroom_fields",
+    "c:nature",
+    "c:mushroom_fields",
+    "v:brown_mushroom_block",
+    "c:mushroom_fields",
+    "c:nature",
+    "c:mushroom_fields",
+    "c:nature"
+   ],
+   "out": "v:brown_mushroom_block",
+   "count": 8
+  },
+  {
+   "bee": "deep_dark",
+   "label": "sculk",
+   "grid": [
+    "c:deep_dark",
+    "c:deep_dark",
+    "c:deep_dark",
+    "c:deep_dark",
+    "v:deepslate",
+    "c:deep_dark",
+    "c:deep_dark",
+    "c:deep_dark",
+    "c:deep_dark"
+   ],
+   "out": "v:sculk",
+   "count": 16
+  },
+  {
+   "bee": "deep_dark",
+   "label": "sculk sensor (+ redstone)",
+   "grid": [
+    "c:deep_dark",
+    "c:redstone",
+    "c:deep_dark",
+    "c:redstone",
+    "v:sculk",
+    "c:redstone",
+    "c:deep_dark",
+    "c:redstone",
+    "c:deep_dark"
+   ],
+   "out": "v:sculk_sensor",
+   "count": 1
+  },
+  {
+   "bee": "deep_dark",
+   "label": "echo shard (echo comb)",
+   "grid": [
+    "c:echo",
+    "c:echo",
+    "c:echo",
+    "c:echo",
+    "v:amethyst_shard",
+    "c:echo",
+    "c:echo",
+    "c:echo",
+    "c:echo"
+   ],
+   "out": "v:echo_shard",
+   "count": 1
+  },
+  {
+   "bee": "deep_dark",
+   "label": "sculk catalyst",
+   "grid": [
+    "c:echo",
+    "c:deep_dark",
+    "c:echo",
+    "c:deep_dark",
+    "v:bone_block",
+    "c:deep_dark",
+    "c:echo",
+    "c:deep_dark",
+    "c:echo"
+   ],
+   "out": "v:sculk_catalyst",
+   "count": 1
+  },
+  {
+   "bee": "deep_dark",
+   "label": "sculk shrieker",
+   "grid": [
+    "c:echo",
+    "c:deep_dark",
+    "c:echo",
+    "c:deep_dark",
+    "v:sculk_sensor",
+    "c:deep_dark",
+    "c:echo",
+    "c:deep_dark",
+    "c:echo"
+   ],
+   "out": "v:sculk_shrieker",
+   "count": 1
+  },
+  {
+   "bee": "sea",
+   "label": "kelp (+ nature)",
+   "grid": [
+    "c:nature",
+    "c:sea",
+    "c:nature",
+    "c:sea",
+    "v:kelp",
+    "c:sea",
+    "c:nature",
+    "c:sea",
+    "c:nature"
+   ],
+   "out": "v:kelp",
+   "count": 8
+  },
+  {
+   "bee": "sea",
+   "label": "seagrass (+ nature)",
+   "grid": [
+    "c:nature",
+    "c:sea",
+    "c:nature",
+    "c:sea",
+    "v:seagrass",
+    "c:sea",
+    "c:nature",
+    "c:sea",
+    "c:nature"
+   ],
+   "out": "v:seagrass",
+   "count": 8
+  },
+  {
+   "bee": "sea",
+   "label": "sea pickle (+ nature)",
+   "grid": [
+    "c:nature",
+    "c:sea",
+    "c:nature",
+    "c:sea",
+    "v:sea_pickle",
+    "c:sea",
+    "c:nature",
+    "c:sea",
+    "c:nature"
+   ],
+   "out": "v:sea_pickle",
+   "count": 8
+  },
+  {
+   "bee": "sea",
+   "label": "nautilus shell (nautilus comb)",
+   "grid": [
+    "c:nautilus",
+    "c:nautilus",
+    "c:nautilus",
+    "c:nautilus",
+    "v:nautilus_shell",
+    "c:nautilus",
+    "c:nautilus",
+    "c:nautilus",
+    "c:nautilus"
+   ],
+   "out": "v:nautilus_shell",
+   "count": 2
+  },
+  {
+   "bee": "coral",
+   "label": "tube coral block",
+   "grid": [
+    "c:coral",
+    "c:coral",
+    "c:coral",
+    "c:coral",
+    "v:tube_coral_block",
+    "c:coral",
+    "c:coral",
+    "c:coral",
+    "c:coral"
+   ],
+   "out": "v:tube_coral_block",
+   "count": 8
+  },
+  {
+   "bee": "coral",
+   "label": "fire coral fan",
+   "grid": [
+    "c:coral",
+    "c:coral",
+    "c:coral",
+    "c:coral",
+    "v:fire_coral_fan",
+    "c:coral",
+    "c:coral",
+    "c:coral",
+    "c:coral"
+   ],
+   "out": "v:fire_coral_fan",
+   "count": 8
+  },
+  {
+   "bee": "prismarine",
+   "label": "prismarine shards",
+   "grid": [
+    "c:prismarine",
+    "c:prismarine",
+    "c:prismarine",
+    "c:prismarine",
+    "v:prismarine_shard",
+    "c:prismarine",
+    "c:prismarine",
+    "c:prismarine",
+    "c:prismarine"
+   ],
+   "out": "v:prismarine_shard",
+   "count": 8
+  },
+  {
+   "bee": "prismarine",
+   "label": "prismarine crystals (+ glow)",
+   "grid": [
+    "c:prismarine",
+    "c:glow",
+    "c:prismarine",
+    "c:glow",
+    "v:prismarine_crystals",
+    "c:glow",
+    "c:prismarine",
+    "c:glow",
+    "c:prismarine"
+   ],
+   "out": "v:prismarine_crystals",
+   "count": 4
+  },
+  {
+   "bee": "starlight",
+   "label": "stardust",
+   "grid": [
+    "c:starlight",
+    "c:starlight",
+    "c:starlight",
+    "c:starlight",
+    "v:glowstone_dust",
+    "c:starlight",
+    "c:starlight",
+    "c:starlight",
+    "c:starlight"
+   ],
+   "out": "x:stardust",
+   "count": 4
+  },
+  {
+   "bee": "corrupt_stone",
+   "label": "netherrack",
+   "grid": [
+    "c:corrupt_stone",
+    "c:corrupt_stone",
+    "c:corrupt_stone",
+    "c:corrupt_stone",
+    "v:netherrack",
+    "c:corrupt_stone",
+    "c:corrupt_stone",
+    "c:corrupt_stone",
+    "c:corrupt_stone"
+   ],
+   "out": "v:netherrack",
+   "count": 32
+  },
+  {
+   "bee": "corrupt_stone",
+   "label": "basalt",
+   "grid": [
+    "c:corrupt_stone",
+    "c:corrupt_stone",
+    "c:corrupt_stone",
+    "c:corrupt_stone",
+    "v:basalt",
+    "c:corrupt_stone",
+    "c:corrupt_stone",
+    "c:corrupt_stone",
+    "c:corrupt_stone"
+   ],
+   "out": "v:basalt",
+   "count": 16
+  },
+  {
+   "bee": "corrupt_stone",
+   "label": "blackstone",
+   "grid": [
+    "c:corrupt_stone",
+    "c:corrupt_stone",
+    "c:corrupt_stone",
+    "c:corrupt_stone",
+    "v:blackstone",
+    "c:corrupt_stone",
+    "c:corrupt_stone",
+    "c:corrupt_stone",
+    "c:corrupt_stone"
+   ],
+   "out": "v:blackstone",
+   "count": 16
+  },
+  {
+   "bee": "corrupt_nylium",
+   "label": "crimson nylium",
+   "grid": [
+    "c:corrupt_stone",
+    "c:corrupt_nature",
+    "c:corrupt_stone",
+    "c:corrupt_nature",
+    "v:crimson_nylium",
+    "c:corrupt_nature",
+    "c:corrupt_stone",
+    "c:corrupt_nature",
+    "c:corrupt_stone"
+   ],
+   "out": "v:crimson_nylium",
+   "count": 8
+  },
+  {
+   "bee": "corrupt_nylium",
+   "label": "warped nylium",
+   "grid": [
+    "c:corrupt_stone",
+    "c:corrupt_nature",
+    "c:corrupt_stone",
+    "c:corrupt_nature",
+    "v:warped_nylium",
+    "c:corrupt_nature",
+    "c:corrupt_stone",
+    "c:corrupt_nature",
+    "c:corrupt_stone"
+   ],
+   "out": "v:warped_nylium",
+   "count": 8
+  },
+  {
+   "bee": "soul",
+   "label": "soul sand",
+   "grid": [
+    "c:soul",
+    "c:soul",
+    "c:soul",
+    "c:soul",
+    "v:sand",
+    "c:soul",
+    "c:soul",
+    "c:soul",
+    "c:soul"
+   ],
+   "out": "v:soul_sand",
+   "count": 16
+  },
+  {
+   "bee": "soul",
+   "label": "soul soil",
+   "grid": [
+    "c:soul",
+    "c:soul",
+    "c:soul",
+    "c:soul",
+    "v:dirt",
+    "c:soul",
+    "c:soul",
+    "c:soul",
+    "c:soul"
+   ],
+   "out": "v:soul_soil",
+   "count": 16
+  },
+  {
+   "bee": "soul",
+   "label": "ghast tear (sad comb)",
+   "grid": [
+    "c:sad",
+    "c:sad",
+    "c:sad",
+    "c:sad",
+    "v:ghast_tear",
+    "c:sad",
+    "c:sad",
+    "c:sad",
+    "c:sad"
+   ],
+   "out": "v:ghast_tear",
+   "count": 2
+  },
+  {
+   "bee": "corrupt_nature",
+   "label": "crimson stem",
+   "grid": [
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "v:crimson_stem",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature"
+   ],
+   "out": "v:crimson_stem",
+   "count": 8
+  },
+  {
+   "bee": "corrupt_nature",
+   "label": "warped stem",
+   "grid": [
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "v:warped_stem",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature"
+   ],
+   "out": "v:warped_stem",
+   "count": 8
+  },
+  {
+   "bee": "corrupt_nature",
+   "label": "crimson fungus",
+   "grid": [
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "v:crimson_fungus",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature"
+   ],
+   "out": "v:crimson_fungus",
+   "count": 8
+  },
+  {
+   "bee": "corrupt_nature",
+   "label": "warped fungus",
+   "grid": [
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "v:warped_fungus",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature"
+   ],
+   "out": "v:warped_fungus",
+   "count": 8
+  },
+  {
+   "bee": "corrupt_nature",
+   "label": "nether wart",
+   "grid": [
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "v:nether_wart",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature"
+   ],
+   "out": "v:nether_wart",
+   "count": 16
+  },
+  {
+   "bee": "corrupt_nature",
+   "label": "weeping vines",
+   "grid": [
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "v:weeping_vines",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature"
+   ],
+   "out": "v:weeping_vines",
+   "count": 16
+  },
+  {
+   "bee": "corrupt_nature",
+   "label": "twisting vines",
+   "grid": [
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "v:twisting_vines",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature",
+    "c:corrupt_nature"
+   ],
+   "out": "v:twisting_vines",
+   "count": 16
+  },
+  {
+   "bee": "magma",
+   "label": "magma block",
+   "grid": [
+    "c:magma",
+    "c:magma",
+    "c:magma",
+    "c:magma",
+    "v:magma_block",
+    "c:magma",
+    "c:magma",
+    "c:magma",
+    "c:magma"
+   ],
+   "out": "v:magma_block",
+   "count": 8
+  },
+  {
+   "bee": "ender",
+   "label": "end stone",
+   "grid": [
+    "c:ender",
+    "c:ender",
+    "c:ender",
+    "c:ender",
+    "v:end_stone",
+    "c:ender",
+    "c:ender",
+    "c:ender",
+    "c:ender"
+   ],
+   "out": "v:end_stone",
+   "count": 16
+  },
+  {
+   "bee": "ender",
+   "label": "chorus fruit",
+   "grid": [
+    "c:ender",
+    "c:ender",
+    "c:ender",
+    "c:ender",
+    "v:chorus_fruit",
+    "c:ender",
+    "c:ender",
+    "c:ender",
+    "c:ender"
+   ],
+   "out": "v:chorus_fruit",
+   "count": 8
+  },
+  {
+   "bee": "ender",
+   "label": "chorus flower (+ nature)",
+   "grid": [
+    "c:nature",
+    "c:ender",
+    "c:nature",
+    "c:ender",
+    "v:chorus_flower",
+    "c:ender",
+    "c:nature",
+    "c:ender",
+    "c:nature"
+   ],
+   "out": "v:chorus_flower",
+   "count": 4
+  },
+  {
+   "bee": "ender",
+   "label": "shulker shell (your layout)",
+   "grid": [
+    "c:ender",
+    "c:ender",
+    "c:ender",
+    "c:ender",
+    "v:diamond",
+    "c:ender",
+    "v:chest",
+    "v:chest",
+    "v:chest"
+   ],
+   "out": "v:shulker_shell",
+   "count": 1
+  },
+  {
+   "bee": "royal_queen",
+   "label": "royal jelly",
+   "grid": [
+    "c:royal_queen",
+    "c:royal_queen",
+    "c:royal_queen",
+    "c:royal_queen",
+    "v:honey_bottle",
+    "c:royal_queen",
+    "c:royal_queen",
+    "c:royal_queen",
+    "c:royal_queen"
+   ],
+   "out": "x:royal_jelly",
+   "count": 4
+  },
+  {
+   "bee": "royal_queen",
+   "label": "honey block",
+   "grid": [
+    "c:royal_queen",
+    "c:royal_queen",
+    "c:royal_queen",
+    "c:royal_queen",
+    "v:honeycomb_block",
+    "c:royal_queen",
+    "c:royal_queen",
+    "c:royal_queen",
+    "c:royal_queen"
+   ],
+   "out": "v:honey_block",
+   "count": 4
+  }
+ ],
+ "gems": {
+  "amethyst": {
+   "pick": "1",
+   "grid": [
+    "v:amethyst_block",
+    "v:amethyst_shard",
+    "v:amethyst_block",
+    "v:amethyst_shard",
+    "s:bubba",
+    "v:amethyst_shard",
+    "v:amethyst_block",
+    "v:amethyst_shard",
+    "v:amethyst_block"
+   ]
+  },
+  "ancient_debris": {
+   "pick": "AD1",
+   "grid": [
+    "v:netherite_ingot",
+    "v:netherite_ingot",
+    "v:netherite_ingot",
+    "v:netherite_ingot",
+    "s:ritual",
+    "v:netherite_ingot",
+    "v:netherite_ingot",
+    "v:netherite_ingot",
+    "v:netherite_ingot"
+   ]
+  },
+  "cherry_grove": {
+   "pick": "2",
+   "grid": [
+    "v:cherry_leaves",
+    "v:cherry_sapling",
+    "v:cherry_leaves",
+    "v:cherry_sapling",
+    "s:lesser",
+    "v:cherry_sapling",
+    "v:cherry_leaves",
+    "v:cherry_sapling",
+    "v:cherry_leaves"
+   ]
+  },
+  "coal": {
+   "pick": "OG1",
+   "grid": [
+    "v:coal_ore",
+    "v:coal_block",
+    "v:deepslate_coal_ore",
+    "v:coal_block",
+    "s:ritual",
+    "v:coal_block",
+    "v:deepslate_coal_ore",
+    "v:coal_block",
+    "v:coal_ore"
+   ]
+  },
+  "concrete": {
+   "pick": "2",
+   "grid": [
+    "v:white_concrete_powder",
+    "v:white_concrete",
+    "v:white_concrete_powder",
+    "v:white_concrete",
+    "s:lesser",
+    "v:white_concrete",
+    "v:white_concrete_powder",
+    "v:white_concrete",
+    "v:white_concrete_powder"
+   ]
+  },
+  "copper": {
+   "pick": "OG1",
+   "grid": [
+    "v:copper_ore",
+    "v:copper_block",
+    "v:deepslate_copper_ore",
+    "v:copper_block",
+    "s:ritual",
+    "v:copper_block",
+    "v:deepslate_copper_ore",
+    "v:copper_block",
+    "v:copper_ore"
+   ]
+  },
+  "coral": {
+   "pick": "1",
+   "grid": [
+    "v:tube_coral_block",
+    "v:horn_coral_block",
+    "v:brain_coral_block",
+    "v:horn_coral_block",
+    "s:bubba",
+    "v:horn_coral_block",
+    "v:bubble_coral_block",
+    "v:horn_coral_block",
+    "v:fire_coral_block"
+   ]
+  },
+  "corrupt_nature": {
+   "pick": "CN2",
+   "grid": [
+    "v:crimson_stem",
+    "v:nether_wart_block",
+    "v:warped_stem",
+    "v:crimson_fungus",
+    "s:bubba",
+    "v:warped_fungus",
+    "v:warped_stem",
+    "v:warped_wart_block",
+    "v:crimson_stem"
+   ]
+  },
+  "corrupt_stone": {
+   "pick": "CS1",
+   "grid": [
+    "v:netherrack",
+    "v:blackstone",
+    "v:blackstone",
+    "v:netherrack",
+    "s:bubba",
+    "v:smooth_basalt",
+    "v:basalt",
+    "v:basalt",
+    "v:smooth_basalt"
+   ]
+  },
+  "deep_dark": {
+   "pick": "DD1",
+   "grid": [
+    "v:sculk_catalyst",
+    "v:echo_shard",
+    "v:sculk_catalyst",
+    "v:echo_shard",
+    "s:bubba",
+    "v:echo_shard",
+    "v:sculk_catalyst",
+    "v:echo_shard",
+    "v:sculk_catalyst"
+   ]
+  },
+  "desert": {
+   "pick": "DE1",
+   "grid": [
+    "v:sandstone",
+    "v:sand",
+    "v:sandstone",
+    "v:sand",
+    "s:lesser",
+    "v:sand",
+    "v:sandstone",
+    "v:sand",
+    "v:sandstone"
+   ]
+  },
+  "diamond": {
+   "pick": "OG1",
+   "grid": [
+    "v:diamond_ore",
+    "v:diamond_block",
+    "v:deepslate_diamond_ore",
+    "v:diamond_block",
+    "s:ritual",
+    "v:diamond_block",
+    "v:deepslate_diamond_ore",
+    "v:diamond_block",
+    "v:diamond_ore"
+   ]
+  },
+  "dirt": {
+   "pick": "1",
+   "grid": [
+    "v:dirt",
+    "v:coarse_dirt",
+    "v:dirt",
+    "v:coarse_dirt",
+    "s:lesser",
+    "v:coarse_dirt",
+    "v:dirt",
+    "v:coarse_dirt",
+    "v:dirt"
+   ]
+  },
+  "emerald": {
+   "pick": "OG1",
+   "grid": [
+    "v:emerald_ore",
+    "v:emerald_block",
+    "v:deepslate_emerald_ore",
+    "v:emerald_block",
+    "s:ritual",
+    "v:emerald_block",
+    "v:deepslate_emerald_ore",
+    "v:emerald_block",
+    "v:emerald_ore"
+   ]
+  },
+  "ender": {
+   "pick": "2",
+   "grid": [
+    "v:end_stone",
+    "v:ender_pearl",
+    "v:end_stone",
+    "v:ender_pearl",
+    "s:ritual",
+    "v:ender_pearl",
+    "v:end_stone",
+    "v:ender_pearl",
+    "v:end_stone"
+   ]
+  },
+  "forest": {
+   "pick": "2",
+   "grid": [
+    "v:oak_log",
+    "v:oak_sapling",
+    "v:birch_log",
+    "v:birch_sapling",
+    "s:lesser",
+    "v:dark_oak_sapling",
+    "v:dark_oak_log",
+    "v:oak_sapling",
+    "v:oak_log"
+   ]
+  },
+  "frost": {
+   "pick": "FR1",
+   "grid": [
+    "v:blue_ice",
+    "v:snow_block",
+    "v:blue_ice",
+    "v:snow_block",
+    "s:bubba",
+    "v:snow_block",
+    "v:blue_ice",
+    "v:snow_block",
+    "v:blue_ice"
+   ]
+  },
+  "glow": {
+   "pick": "2",
+   "grid": [
+    "v:glowstone",
+    "v:shroomlight",
+    "v:glowstone",
+    "v:shroomlight",
+    "s:bubba",
+    "v:shroomlight",
+    "v:glowstone",
+    "v:shroomlight",
+    "v:glowstone"
+   ]
+  },
+  "gold": {
+   "pick": "OG1",
+   "grid": [
+    "v:gold_ore",
+    "v:gold_block",
+    "v:deepslate_gold_ore",
+    "v:gold_block",
+    "s:ritual",
+    "v:gold_block",
+    "v:deepslate_gold_ore",
+    "v:gold_block",
+    "v:gold_ore"
+   ]
+  },
+  "iron": {
+   "pick": "OG1",
+   "grid": [
+    "v:iron_ore",
+    "v:iron_block",
+    "v:deepslate_iron_ore",
+    "v:iron_block",
+    "s:ritual",
+    "v:iron_block",
+    "v:deepslate_iron_ore",
+    "v:iron_block",
+    "v:iron_ore"
+   ]
+  },
+  "jungle": {
+   "pick": "JU2",
+   "grid": [
+    "v:melon",
+    "v:bamboo",
+    "v:melon",
+    "v:jungle_sapling",
+    "s:lesser",
+    "v:jungle_sapling",
+    "v:melon",
+    "v:bamboo",
+    "v:melon"
+   ]
+  },
+  "lapis": {
+   "pick": "OG1",
+   "grid": [
+    "v:lapis_ore",
+    "v:lapis_block",
+    "v:deepslate_lapis_ore",
+    "v:lapis_block",
+    "s:ritual",
+    "v:lapis_block",
+    "v:deepslate_lapis_ore",
+    "v:lapis_block",
+    "v:lapis_ore"
+   ]
+  },
+  "lush_caves": {
+   "pick": "LC1",
+   "grid": [
+    "v:spore_blossom",
+    "v:glow_berries",
+    "v:spore_blossom",
+    "v:glow_berries",
+    "s:bubba",
+    "v:glow_berries",
+    "v:spore_blossom",
+    "v:glow_berries",
+    "v:spore_blossom"
+   ]
+  },
+  "magma": {
+   "pick": "1",
+   "grid": [
+    "v:magma_block",
+    "v:lava_bucket",
+    "v:magma_block",
+    "v:lava_bucket",
+    "s:bubba",
+    "v:lava_bucket",
+    "v:magma_block",
+    "v:lava_bucket",
+    "v:magma_block"
+   ]
+  },
+  "meadow": {
+   "pick": "1",
+   "grid": [
+    "v:poppy",
+    "v:grass_block",
+    "v:dandelion",
+    "v:grass_block",
+    "s:lesser",
+    "v:grass_block",
+    "v:cornflower",
+    "v:grass_block",
+    "v:allium"
+   ]
+  },
+  "mesa": {
+   "pick": "1",
+   "grid": [
+    "v:terracotta",
+    "v:red_sand",
+    "v:terracotta",
+    "v:red_sand",
+    "s:bubba",
+    "v:red_sand",
+    "v:terracotta",
+    "v:red_sand",
+    "v:terracotta"
+   ]
+  },
+  "mushroom_fields": {
+   "pick": "MU1",
+   "grid": [
+    "v:mycelium",
+    "v:red_mushroom_block",
+    "v:mycelium",
+    "v:brown_mushroom_block",
+    "s:bubba",
+    "v:brown_mushroom_block",
+    "v:mycelium",
+    "v:red_mushroom_block",
+    "v:mycelium"
+   ]
+  },
+  "nature": {
+   "pick": "2",
+   "grid": [
+    "v:grass_block",
+    "v:moss_block",
+    "v:grass_block",
+    "v:moss_block",
+    "s:lesser",
+    "v:moss_block",
+    "v:grass_block",
+    "v:moss_block",
+    "v:grass_block"
+   ]
+  },
+  "obsidian": {
+   "pick": "2",
+   "grid": [
+    "v:crying_obsidian",
+    "v:obsidian",
+    "v:crying_obsidian",
+    "v:obsidian",
+    "s:bubba",
+    "v:obsidian",
+    "v:crying_obsidian",
+    "v:obsidian",
+    "v:crying_obsidian"
+   ]
+  },
+  "prismarine": {
+   "pick": "2",
+   "grid": [
+    "v:dark_prismarine",
+    "v:wet_sponge",
+    "v:dark_prismarine",
+    "v:prismarine_bricks",
+    "s:bubba",
+    "v:prismarine_bricks",
+    "v:dark_prismarine",
+    "v:prismarine_bricks",
+    "v:dark_prismarine"
+   ]
+  },
+  "quartz": {
+   "pick": "OG1",
+   "grid": [
+    "v:nether_quartz_ore",
+    "v:quartz_block",
+    "v:nether_quartz_ore",
+    "v:quartz_block",
+    "s:ritual",
+    "v:quartz_block",
+    "v:nether_quartz_ore",
+    "v:quartz_block",
+    "v:nether_quartz_ore"
+   ]
+  },
+  "redstone": {
+   "pick": "OG1",
+   "grid": [
+    "v:redstone_ore",
+    "v:redstone_block",
+    "v:deepslate_redstone_ore",
+    "v:redstone_block",
+    "s:ritual",
+    "v:redstone_block",
+    "v:deepslate_redstone_ore",
+    "v:redstone_block",
+    "v:redstone_ore"
+   ]
+  },
+  "river": {
+   "pick": "2",
+   "grid": [
+    "v:clay",
+    "v:water_bucket",
+    "v:clay",
+    "v:water_bucket",
+    "s:lesser",
+    "v:water_bucket",
+    "v:clay",
+    "v:water_bucket",
+    "v:clay"
+   ]
+  },
+  "royal_guard": {
+   "pick": "RG4",
+   "grid": [
+    "v:honeycomb_block",
+    "v:iron_helmet",
+    "v:honeycomb_block",
+    "v:iron_chestplate",
+    "s:bubba",
+    "v:iron_leggings",
+    "v:honeycomb_block",
+    "v:iron_boots",
+    "v:honeycomb_block"
+   ]
+  },
+  "savanna": {
+   "pick": "SA1",
+   "grid": [
+    "v:coarse_dirt",
+    "v:acacia_sapling",
+    "v:coarse_dirt",
+    "v:acacia_sapling",
+    "s:lesser",
+    "v:acacia_sapling",
+    "v:coarse_dirt",
+    "v:acacia_sapling",
+    "v:coarse_dirt"
+   ]
+  },
+  "sea": {
+   "pick": "1",
+   "grid": [
+    "v:dried_kelp_block",
+    "v:sea_pickle",
+    "v:dried_kelp_block",
+    "v:sea_pickle",
+    "s:bubba",
+    "v:sea_pickle",
+    "v:dried_kelp_block",
+    "v:sea_pickle",
+    "v:dried_kelp_block"
+   ]
+  },
+  "soul": {
+   "pick": "2",
+   "grid": [
+    "v:soul_soil",
+    "v:soul_lantern",
+    "v:soul_soil",
+    "v:soul_lantern",
+    "s:bubba",
+    "v:soul_lantern",
+    "v:soul_soil",
+    "v:soul_lantern",
+    "v:soul_soil"
+   ]
+  },
+  "starlight": {
+   "pick": "1",
+   "grid": [
+    "v:glowstone",
+    "v:phantom_membrane",
+    "v:glowstone",
+    "v:phantom_membrane",
+    "s:bubba",
+    "v:phantom_membrane",
+    "v:glowstone",
+    "v:phantom_membrane",
+    "v:glowstone"
+   ]
+  },
+  "stone": {
+   "pick": "1",
+   "grid": [
+    "v:cobblestone",
+    "v:andesite",
+    "v:cobbled_deepslate",
+    "v:calcite",
+    "s:lesser",
+    "v:diorite",
+    "v:deepslate",
+    "v:granite",
+    "v:stone"
+   ]
+  },
+  "swamp": {
+   "pick": "SW2",
+   "grid": [
+    "v:mud",
+    "v:lily_pad",
+    "v:mud",
+    "v:mangrove_propagule",
+    "s:bubba",
+    "v:mangrove_propagule",
+    "v:mud",
+    "v:lily_pad",
+    "v:mud"
+   ]
+  },
+  "taiga": {
+   "pick": "TA2",
+   "grid": [
+    "v:sweet_berries",
+    "v:podzol",
+    "v:pumpkin",
+    "v:spruce_sapling",
+    "s:lesser",
+    "v:spruce_sapling",
+    "v:pumpkin",
+    "v:podzol",
+    "v:sweet_berries"
+   ]
+  }
+ }
+}

@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABC",
+    "DEF",
+    "GHI"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:cobblestone"
+    },
+    "B": {
+      "item": "minecraft:andesite"
+    },
+    "C": {
+      "item": "minecraft:cobbled_deepslate"
+    },
+    "D": {
+      "item": "minecraft:calcite"
+    },
+    "E": {
+      "item": "bubbasbees:lesser_bubba_star"
+    },
+    "F": {
+      "item": "minecraft:diorite"
+    },
+    "G": {
+      "item": "minecraft:deepslate"
+    },
+    "H": {
+      "item": "minecraft:granite"
+    },
+    "I": {
+      "item": "minecraft:stone"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:stone_conversion_gem"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:ender_honeycomb"
+    },
+    "B": {
+      "item": "minecraft:chorus_fruit"
+    }
+  },
+  "result": {
+    "item": "minecraft:chorus_fruit",
+    "count": 8
+  }
+}

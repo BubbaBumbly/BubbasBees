@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "B": {
+      "item": "bubbasbees:celestial_bubba_star"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:ancient_debris_conversion_gem"
+  }
+}

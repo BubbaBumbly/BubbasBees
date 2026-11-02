@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:amethyst_honeycomb"
+    },
+    "B": {
+      "item": "bubbasbees:corrupt_stone_honeycomb"
+    },
+    "C": {
+      "item": "minecraft:calcite"
+    }
+  },
+  "result": {
+    "item": "minecraft:smooth_basalt",
+    "count": 8
+  }
+}

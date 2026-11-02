@@ -1,6 +1,7 @@
 package net.bubba.bubbasbees.registries;
 
 import net.bubba.bubbasbees.BubbasBees;
+import net.bubba.bubbasbees.recipes.ConsumingShapedRecipe;
 import net.bubba.bubbasbees.recipes.HiveConversionRecipe;
 import net.bubba.bubbasbees.recipes.MixedPlanksHiveRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -19,6 +20,9 @@ public class ModRecipes {
 
     public static final RegistryObject<RecipeSerializer<MixedPlanksHiveRecipe>> MIXED_PLANKS_HIVE =
             RECIPE_SERIALIZERS.register("mixed_planks_hive", () -> new SimpleRecipeSerializer<>(MixedPlanksHiveRecipe::new));
+
+    public static final RegistryObject<RecipeSerializer<ConsumingShapedRecipe>> CONSUMING_SHAPED =
+            RECIPE_SERIALIZERS.register("consuming_shaped", ConsumingShapedRecipe.Serializer::new);
 
     public static void register(IEventBus eventBus) {
         RECIPE_SERIALIZERS.register(eventBus);

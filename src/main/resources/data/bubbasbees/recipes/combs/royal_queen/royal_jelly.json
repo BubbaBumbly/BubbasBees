@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:royal_queen_honeycomb"
+    },
+    "B": {
+      "item": "minecraft:honey_bottle"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:royal_jelly",
+    "count": 8
+  }
+}

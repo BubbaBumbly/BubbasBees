@@ -24,7 +24,8 @@ import java.util.List;
  * the bee's own comb at combChance, picked by weight when the bee has several; a failed roll gives nothing.
  */
 public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb> combs, List<RareComb> rareCombs,
-                      @Nullable ResourceKey<Level> home, boolean fireImmune, boolean deepslateLook, String model,
+                      @Nullable ResourceKey<Level> home, boolean fireImmune, boolean deepslateLook, boolean translucent,
+                      String model,
                       int eggBase, int eggSpots) {
 
     /** Which star its conversion gem needs; NONE = no gem (the royal queen is summoned). */
@@ -104,6 +105,7 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
         private ResourceKey<Level> home;
         private boolean fireImmune;
         private boolean deepslateLook;
+        private boolean translucent;
         private String model = "ore";
         private int eggBase = 0xffffff;
         private int eggSpots = 0x000000;
@@ -145,6 +147,12 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
             return this;
         }
 
+        /** See-through body (the soul bee): rendered with the entityTranslucent render type. */
+        public Builder translucent() {
+            this.translucent = true;
+            return this;
+        }
+
         /** geo/<model>.geo.json; the default is the plain bee body ("ore"). */
         public Builder model(String model) {
             this.model = model;
@@ -160,7 +168,7 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
         public BeeSpec build() {
             if (combs.isEmpty()) combs.add(new WeightedComb(id, 1));
             return new BeeSpec(id, tier, combChance, List.copyOf(combs), List.copyOf(rareCombs), home, fireImmune,
-                    deepslateLook, model, eggBase, eggSpots);
+                    deepslateLook, translucent, model, eggBase, eggSpots);
         }
     }
 }

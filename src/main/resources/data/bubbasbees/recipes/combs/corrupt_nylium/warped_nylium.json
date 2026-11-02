@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:corrupt_stone_honeycomb"
+    },
+    "B": {
+      "item": "bubbasbees:corrupt_nature_honeycomb"
+    },
+    "C": {
+      "item": "minecraft:warped_nylium"
+    }
+  },
+  "result": {
+    "item": "minecraft:warped_nylium",
+    "count": 8
+  }
+}

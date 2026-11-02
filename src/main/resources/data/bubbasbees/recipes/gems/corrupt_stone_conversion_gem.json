@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABB",
+    "ACD",
+    "EED"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:netherrack"
+    },
+    "B": {
+      "item": "minecraft:blackstone"
+    },
+    "C": {
+      "item": "bubbasbees:bubba_star"
+    },
+    "D": {
+      "item": "minecraft:smooth_basalt"
+    },
+    "E": {
+      "item": "minecraft:basalt"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:corrupt_stone_conversion_gem"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:river_honeycomb"
+    },
+    "B": {
+      "item": "minecraft:clay"
+    }
+  },
+  "result": {
+    "item": "minecraft:clay",
+    "count": 8
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:glow_honeycomb"
+    },
+    "B": {
+      "item": "bubbasbees:swamp_honeycomb"
+    },
+    "C": {
+      "item": "minecraft:pearlescent_froglight"
+    }
+  },
+  "result": {
+    "item": "minecraft:pearlescent_froglight",
+    "count": 4
+  }
+}

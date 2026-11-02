@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:concrete_honeycomb"
+    },
+    "B": {
+      "item": "minecraft:pink_dye"
+    }
+  },
+  "result": {
+    "item": "minecraft:pink_concrete_powder",
+    "count": 32
+  }
+}

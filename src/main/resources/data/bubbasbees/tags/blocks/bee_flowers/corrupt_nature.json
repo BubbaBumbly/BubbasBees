@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:crimson_fungus",
+    "minecraft:warped_fungus",
+    "minecraft:crimson_nylium",
+    "minecraft:warped_nylium",
+    "minecraft:nether_wart",
+    "minecraft:nether_wart_block",
+    "minecraft:warped_wart_block",
+    "minecraft:weeping_vines",
+    "minecraft:weeping_vines_plant",
+    "minecraft:twisting_vines",
+    "minecraft:twisting_vines_plant",
+    "minecraft:crimson_stem",
+    "minecraft:warped_stem"
+  ]
+}

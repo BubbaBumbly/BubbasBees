@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:nature_honeycomb"
+    },
+    "B": {
+      "item": "bubbasbees:taiga_honeycomb"
+    },
+    "C": {
+      "item": "minecraft:fern"
+    }
+  },
+  "result": {
+    "item": "minecraft:fern",
+    "count": 8
+  }
+}

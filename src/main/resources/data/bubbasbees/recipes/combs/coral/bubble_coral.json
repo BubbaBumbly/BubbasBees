@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:coral_honeycomb"
+    },
+    "B": {
+      "item": "minecraft:bubble_coral"
+    }
+  },
+  "result": {
+    "item": "minecraft:bubble_coral",
+    "count": 8
+  }
+}

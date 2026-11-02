@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:mud",
+    "minecraft:lily_pad",
+    "minecraft:mangrove_leaves"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:mycelium"
+    },
+    "B": {
+      "item": "minecraft:red_mushroom_block"
+    },
+    "C": {
+      "item": "minecraft:brown_mushroom_block"
+    },
+    "D": {
+      "item": "bubbasbees:bubba_star"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:mushroom_fields_conversion_gem"
+  }
+}

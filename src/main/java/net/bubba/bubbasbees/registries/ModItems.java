@@ -7,6 +7,7 @@ import net.bubba.bubbasbees.item.ModCreativeModeTab;
 import net.bubba.bubbasbees.item.custom.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -34,6 +35,14 @@ public class ModItems {
     /** Top-tier star, made by the night ritual; reusable catalyst for the ore-bee gems. */
     public static final RegistryObject<Item> CELESTIAL_BUBBA_STAR = ITEMS.register("celestial_bubba_star",
             () -> new CelestialBubbaStarItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
+
+    /** The starlight bee's product; ritual circle material (placeable dust comes in Phase 2 step 3). */
+    public static final RegistryObject<Item> STARDUST = ITEMS.register("stardust",
+            () -> new Item(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
+    /** The royal queen's product: 1 hunger bar, 1.5 saturation (slimeball uses come in step 4). */
+    public static final RegistryObject<Item> ROYAL_JELLY = ITEMS.register("royal_jelly",
+            () -> new Item(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)
+                    .food(new FoodProperties.Builder().nutrition(2).saturationMod(0.375F).build())));
 
     /// Combs, gems and spawn eggs: one of each per roster bee (BeeSpecs), ids <comb>_honeycomb,
     /// <bee>_conversion_gem, <bee>_bee_spawn_egg

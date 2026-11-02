@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:nature_honeycomb"
+    },
+    "B": {
+      "item": "bubbasbees:lush_caves_honeycomb"
+    },
+    "C": {
+      "item": "minecraft:glow_berries"
+    }
+  },
+  "result": {
+    "item": "minecraft:glow_berries",
+    "count": 8
+  }
+}
