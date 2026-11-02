@@ -40,9 +40,10 @@ public class ModItems {
     /** The starlight bee's product; placed like redstone dust (the ritual circle). */
     public static final RegistryObject<Item> STARDUST = ITEMS.register("stardust",
             () -> new ItemNameBlockItem(ModBlocks.STARDUST.get(), new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
-    /** Hive upgrade: hoppers and pipes can pull combs out. Right-click a hive to fit, sneak + shears to remove. */
+    /** Comb chute block (placed under a hive, see CombChuteBlock); flat icon in the inventory. */
     public static final RegistryObject<Item> COMB_CHUTE = ITEMS.register("comb_chute",
-            () -> new Item(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB).stacksTo(16)));
+            () -> new net.minecraft.world.item.BlockItem(ModBlocks.COMB_CHUTE.get(),
+                    new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)));
     /** The royal queen's product: 1 hunger bar, 1.5 saturation (tagged forge:slimeballs). */
     public static final RegistryObject<Item> ROYAL_JELLY = ITEMS.register("royal_jelly",
             () -> new Item(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB)

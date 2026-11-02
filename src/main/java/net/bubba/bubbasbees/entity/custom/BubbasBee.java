@@ -67,6 +67,10 @@ public class BubbasBee extends Bee implements IAnimatable {
     private static final float LAVA_FILL_CHANCE = 0.25F;
     // Royal guard: keeps stinging (it survives it) until the anger it got from a mugging runs out
     private int mugUntilTick;
+    // A mugging stings once every 3 s (user, 2026-11-02: once a second was lethal); threats get the normal rate
+    private static final int MUG_STING_INTERVAL = 60;
+    private @Nullable java.util.UUID mugTarget;
+    private int nextMugStingTick;
 
     // Ore bees come in a stone and a deepslate look; each bee rolls its own when it's created and
     // keeps it in its save data (through hives and reloads). Synced so the client picks the texture.
@@ -195,6 +199,7 @@ public class BubbasBee extends Bee implements IAnimatable {
 
     /** Someone hit this guard, or a bee near it: sting them over and over until the anger runs out. */
     public void mug(LivingEntity attacker) {
+        mugTarget = attacker.getUUID();
         this.setTarget(attacker);
         this.setPersistentAngerTarget(attacker.getUUID());
         this.startPersistentAngerTimer();
@@ -208,7 +213,10 @@ public class BubbasBee extends Bee implements IAnimatable {
 
     @Override
     public boolean doHurtTarget(@NotNull Entity target) {
+        boolean mugging = isRoyalGuard() && target.getUUID().equals(mugTarget);
+        if (mugging && this.tickCount < nextMugStingTick) return false;
         boolean hit = super.doHurtTarget(target);
+        if (hit && mugging) nextMugStingTick = this.tickCount + MUG_STING_INTERVAL;
         if (hit && isRoyalGuard()) {
             // Vanilla bees die some time after stinging; the guard doesn't, and goes on while still angry
             ((BeeEntityAccessor) this).callSetHasStung(false);

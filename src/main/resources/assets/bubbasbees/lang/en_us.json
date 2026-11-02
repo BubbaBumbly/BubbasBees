@@ -257,13 +257,14 @@
   "block.bubbasbees.stardust": "Stardust",
   "block.bubbasbees.partial_lava_cauldron": "Lava Cauldron",
   "item.bubbasbees.comb_chute": "Comb Chute",
-  "message.bubbasbees.comb_chute.fitted": "Comb chute fitted: hoppers can pull combs out (sneak + shears takes it off)",
-  "message.bubbasbees.comb_chute.removed": "Comb chute removed",
-  "gui.bubbasbees.hive_info.with_chute": "%s \u00b7 comb chute",
   "block.bubbasbees.royal_jelly_block": "Royal Jelly Block",
   "block.bubbasbees.pink_sticky_piston": "Pink Sticky Piston",
   "block.bubbasbees.pink_piston_head": "Pink Piston Head",
   "block.bubbasbees.bee_light": "Bee Light",
   "entity.bubbasbees.dark_bee": "Dark Bee",
-  "message.bubbasbees.queen_fallen": "The Royal Queen has fallen"
+  "message.bubbasbees.queen_fallen": "The Royal Queen has fallen",
+  "block.bubbasbees.comb_chute": "Comb Chute",
+  "message.bubbasbees.comb_chute.comb_mode": "Comb chute: combs",
+  "message.bubbasbees.comb_chute.honey_mode": "Comb chute: honey bottles (needs glass bottles)",
+  "message.bubbasbees.comb_chute.bottles": "Comb chute: %s glass bottles"
 }

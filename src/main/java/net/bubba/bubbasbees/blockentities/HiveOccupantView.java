@@ -9,7 +9,6 @@ public interface HiveOccupantView {
     String DUE_TAG = "Due";
     String SMOKE_END_TAG = "SmokeEnd";
     String BUSY_TAG = "Busy";
-    String CHUTE_TAG = "Chute";
     long NOT_SMOKED = -1L;
 
     /** Bees inside, in storage order (valid on the client after sync). */
@@ -21,8 +20,6 @@ public interface HiveOccupantView {
     /** Whether an advanced hive is set to busy rather than calm (valid on the client after sync). */
     boolean bubbasBees$isClientBusy();
 
-    /** Whether an advanced hive has a comb chute fitted (valid on the client after sync). */
-    boolean bubbasBees$hasClientChute();
 
     /** Server side: sends a block entity update to clients if the occupant list changed since the last sync. */
     void bubbasBees$syncOccupantsIfChanged();

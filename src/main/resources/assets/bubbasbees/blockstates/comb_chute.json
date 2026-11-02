@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "honey=false": {
+      "model": "bubbasbees:block/comb_chute"
+    },
+    "honey=true": {
+      "model": "bubbasbees:block/comb_chute_honey"
+    }
+  }
+}

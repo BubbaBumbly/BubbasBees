@@ -1,5 +1,7 @@
 package net.bubba.bubbasbees.registries;
 
+import net.bubba.bubbasbees.blockentities.CombChuteBlockEntity;
+
 import net.bubba.bubbasbees.blockentities.PartialLavaCauldronBlockEntity;
 import net.bubba.bubbasbees.blockentities.PedestalBlockEntity;
 import net.bubba.bubbasbees.blockentities.StardustBlockEntity;
@@ -36,6 +38,10 @@ public class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<StardustBlockEntity>> STARDUST =
             BLOCK_ENTITIES.register("stardust", () -> BlockEntityType.Builder.of(
                     StardustBlockEntity::new, ModBlocks.STARDUST.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<CombChuteBlockEntity>> COMB_CHUTE =
+            BLOCK_ENTITIES.register("comb_chute", () -> BlockEntityType.Builder.of(
+                    CombChuteBlockEntity::new, ModBlocks.COMB_CHUTE.get()).build(null));
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

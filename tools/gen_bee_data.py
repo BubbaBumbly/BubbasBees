@@ -423,9 +423,22 @@ def step3_blocks():
     write_json(os.path.join(DATA, "recipes", "blocks", "celestial_altar.json"),
                shaped(["v:crying_obsidian", "v:diamond", "v:crying_obsidian", "v:diamond", "x:quartz_pedestal",
                        "v:diamond", "v:crying_obsidian", "v:diamond", "v:crying_obsidian"], "bubbasbees:celestial_altar"))
+    # comb chute: a block under the hive since 2026-11-02 (user); shears in the recipe
     write_json(os.path.join(DATA, "recipes", "blocks", "comb_chute.json"),
-               shaped(["v:iron_ingot", "v:honeycomb", "v:iron_ingot", "v:honeycomb", "v:hopper", "v:honeycomb",
+               shaped(["v:iron_ingot", "v:shears", "v:iron_ingot", "v:honeycomb", "v:hopper", "v:honeycomb",
                        "v:iron_ingot", "v:honeycomb", "v:iron_ingot"], "bubbasbees:comb_chute"))
+    for honey, top in ((False, "minecraft:block/honeycomb_block"), (True, "minecraft:block/honey_block_top")):
+        # PLACEHOLDER look (hopper-like funnel); the mode shows in the top: honeycomb (combs) or honey (bottles)
+        write_json(os.path.join(bm, "comb_chute" + ("_honey" if honey else "") + ".json"),
+            {"render_type": "minecraft:cutout", "textures": {"particle": "minecraft:block/hopper_outside",
+             "side": "minecraft:block/hopper_outside", "top": top, "spout": "minecraft:block/hopper_outside"},
+             "elements": [box([0, 10, 0], [16, 16, 16], "#side", ("north", "east", "south", "west", "down")),
+                          {"from": [0, 16, 0], "to": [16, 16, 16], "faces": {"up": {"texture": "#top"}}},
+                          box([4, 4, 4], [12, 10, 12], "#side", ("north", "east", "south", "west", "down")),
+                          box([6, 0, 6], [10, 4, 10], "#spout")]})
+    write_json(os.path.join(bs, "comb_chute.json"), {"variants": {
+        "honey=false": {"model": "bubbasbees:block/comb_chute"}, "honey=true": {"model": "bubbasbees:block/comb_chute_honey"}}})
+    write_json(os.path.join(loot, "comb_chute.json"), drop("bubbasbees:comb_chute"))
     # stardust: redstone-style dot + arms (art final: BubbasBeesArt/work/stardust/final), pile drawn by a renderer
     write_json(os.path.join(bm, "stardust_dot.json"), {"render_type": "minecraft:cutout", "ambientocclusion": False,
         "textures": {"particle": "bubbasbees:block/stardust_dot", "dot": "bubbasbees:block/stardust_dot"},
@@ -459,15 +472,19 @@ def step3_blocks():
     write_json(os.path.join(im, "comb_chute.json"), {"parent": "item/generated", "textures": {"layer0": "bubbasbees:item/comb_chute"}})
     write_json(os.path.join(RES, "data", "minecraft", "tags", "blocks", "mineable", "pickaxe.json"),
                {"replace": False, "values": ["bubbasbees:" + p for p in ("stone_pedestal", "deepslate_pedestal",
-                "blackstone_pedestal", "quartz_pedestal", "celestial_altar", "partial_lava_cauldron")]})
+                "blackstone_pedestal", "quartz_pedestal", "celestial_altar", "partial_lava_cauldron", "comb_chute")]})
     path = os.path.join(ASSETS, "lang", "en_us.json")
     lang = json.load(open(path))
     for b, n in BLOCK_NAMES.items():
         lang[f"block.bubbasbees.{b}"] = n
     lang.update({"item.bubbasbees.comb_chute": "Comb Chute",
-                 "message.bubbasbees.comb_chute.fitted": "Comb chute fitted: hoppers can pull combs out (sneak + shears takes it off)",
-                 "message.bubbasbees.comb_chute.removed": "Comb chute removed",
-                 "gui.bubbasbees.hive_info.with_chute": "%s · comb chute"})
+                 "block.bubbasbees.comb_chute": "Comb Chute",
+                 "message.bubbasbees.comb_chute.comb_mode": "Comb chute: combs",
+                 "message.bubbasbees.comb_chute.honey_mode": "Comb chute: honey bottles (needs glass bottles)",
+                 "message.bubbasbees.comb_chute.bottles": "Comb chute: %s glass bottles"})
+    for old_key in ("message.bubbasbees.comb_chute.fitted", "message.bubbasbees.comb_chute.removed",
+                    "gui.bubbasbees.hive_info.with_chute"):
+        lang.pop(old_key, None)
     write_json(path, lang)
 
 
@@ -601,6 +618,15 @@ def step4_art(work):
     shutil.copyfile(os.path.join(fin, "royal_jelly.png"), os.path.join(items, "royal_jelly.png"))
     for name in ("royal_jelly_block", "royal_jelly_block_inner", "pink_piston_top_sticky"):
         shutil.copyfile(os.path.join(fin, name + ".png"), os.path.join(blocks, name + ".png"))
+    # Conversion gems with final art (family batches; the rest keep their tinted placeholders)
+    gems = os.path.join(work, "gems", "final")
+    on_hold = ()   # gem names still under review by the user, if any (prefixes)
+    if os.path.isdir(gems):
+        for name in sorted(os.listdir(gems)):
+            if name.startswith(on_hold):
+                continue
+            if name.endswith("_conversion_gem.png") or name.endswith("_conversion_gem.png.mcmeta"):
+                shutil.copyfile(os.path.join(gems, name), os.path.join(items, name))
     # Celestial Bubba Star: final G3 (starlight recolour of the Bubba Star animation, 14 frames; glint from isFoil)
     star = os.path.join(work, "star", "celestial", "final")
     for name in ("celestial_bubba_star.png", "celestial_bubba_star.png.mcmeta"):

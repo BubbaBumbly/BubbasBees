@@ -38,7 +38,6 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
     @Unique private final List<HiveOccupant> bubbasBees$clientOccupants = new ArrayList<>();
     @Unique private long bubbasBees$clientSmokeEnd = NOT_SMOKED;
     @Unique private boolean bubbasBees$clientBusy = false;
-    @Unique private boolean bubbasBees$clientChute = false;
     @Unique private String bubbasBees$lastSyncedSignature = null;
 
     protected BeehiveBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -80,14 +79,8 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
     }
 
     @Unique
-    private boolean bubbasBees$serverChute() {
-        return (Object) this instanceof AdvancedBeehiveBlockEntity hive && hive.hasCombChute();
-    }
-
-    @Unique
-    private static String bubbasBees$signature(List<HiveOccupant> occupants, long smokeEnd, boolean busy, boolean chute) {
-        StringBuilder builder = new StringBuilder("smoke@").append(smokeEnd).append(";busy@").append(busy)
-                .append(";chute@").append(chute).append(';');
+    private static String bubbasBees$signature(List<HiveOccupant> occupants, long smokeEnd, boolean busy) {
+        StringBuilder builder = new StringBuilder("smoke@").append(smokeEnd).append(";busy@").append(busy).append(';');
         for (HiveOccupant occupant : occupants) {
             builder.append(occupant.id()).append('@').append(occupant.dueGameTime()).append(';');
         }
@@ -110,16 +103,10 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
     }
 
     @Override
-    public boolean bubbasBees$hasClientChute() {
-        return this.bubbasBees$clientChute;
-    }
-
-    @Override
     public void bubbasBees$syncOccupantsIfChanged() {
         Level level = this.level;
         if (level == null || level.isClientSide) return;
-        String signature = bubbasBees$signature(bubbasBees$serverOccupants(), bubbasBees$serverSmokeEnd(), bubbasBees$serverBusy(),
-                bubbasBees$serverChute());
+        String signature = bubbasBees$signature(bubbasBees$serverOccupants(), bubbasBees$serverSmokeEnd(), bubbasBees$serverBusy());
         if (!signature.equals(this.bubbasBees$lastSyncedSignature)) {
             this.bubbasBees$lastSyncedSignature = signature;
             BlockState state = this.getBlockState();
@@ -147,7 +134,6 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
         tag.put(OCCUPANTS_TAG, list);
         tag.putLong(SMOKE_END_TAG, bubbasBees$serverSmokeEnd());
         tag.putBoolean(BUSY_TAG, bubbasBees$serverBusy());
-        tag.putBoolean(CHUTE_TAG, bubbasBees$serverChute());
         return tag;
     }
 
@@ -168,7 +154,6 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
         if (!tag.contains(OCCUPANTS_TAG, Tag.TAG_LIST)) return;
         this.bubbasBees$clientSmokeEnd = tag.contains(SMOKE_END_TAG) ? tag.getLong(SMOKE_END_TAG) : NOT_SMOKED;
         this.bubbasBees$clientBusy = tag.getBoolean(BUSY_TAG);
-        this.bubbasBees$clientChute = tag.getBoolean(CHUTE_TAG);
         this.bubbasBees$clientOccupants.clear();
         ListTag list = tag.getList(OCCUPANTS_TAG, Tag.TAG_COMPOUND);
         for (int i = 0; i < list.size(); i++) {

@@ -6,6 +6,7 @@ import net.bubba.bubbasbees.blocks.custom.StardustBlock;
 import net.bubba.bubbasbees.blocks.custom.RoyalJellyBlock;
 import net.bubba.bubbasbees.blocks.custom.PinkPistonHeadBlock;
 import net.bubba.bubbasbees.blocks.custom.BeeLightBlock;
+import net.bubba.bubbasbees.blocks.custom.CombChuteBlock;
 import net.minecraft.world.level.block.piston.PistonBaseBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
@@ -87,6 +88,11 @@ public class ModBlocks {
             ModCreativeModeTab.BUBBASBEES_TAB);
     public static final RegistryObject<Block> PINK_PISTON_HEAD = BLOCKS.register("pink_piston_head",
             () -> new PinkPistonHeadBlock(BlockBehaviour.Properties.copy(Blocks.PISTON_HEAD).noLootTable()));
+
+    /** Funnel under a hive: harvests a full hive (combs, or honey bottles in honey mode) and pushes down like a hopper.
+     *  Its item keeps the flat icon (ModItems.COMB_CHUTE), like the hopper's. */
+    public static final RegistryObject<Block> COMB_CHUTE = BLOCKS.register("comb_chute",
+            () -> new CombChuteBlock(BlockBehaviour.Properties.copy(Blocks.HOPPER).noOcclusion()));
 
     /** The glow bee's moving light (invisible, removes itself). */
     public static final RegistryObject<Block> BEE_LIGHT = BLOCKS.register("bee_light",

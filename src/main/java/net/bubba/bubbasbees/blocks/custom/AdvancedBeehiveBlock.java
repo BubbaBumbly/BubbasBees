@@ -71,29 +71,6 @@ public class AdvancedBeehiveBlock extends BeehiveBlock {
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
-        // Comb chute: right-click to fit one; sneak + right-click with shears takes it back out (sneak + empty hand is
-        // Carry On's pick-up gesture in packs that have it)
-        if (level.getBlockEntity(pos) instanceof AdvancedBeehiveBlockEntity chuteHive) {
-            if (held_Item.is(ModItems.COMB_CHUTE.get()) && !chuteHive.hasCombChute()) {
-                if (!level.isClientSide) {
-                    chuteHive.setCombChute(true);
-                    if (!player.getAbilities().instabuild) held_Item.shrink(1);
-                    level.playSound(null, pos, SoundEvents.IRON_TRAPDOOR_CLOSE, SoundSource.BLOCKS, 1.0F, 1.2F);
-                    player.displayClientMessage(Component.translatable("message.bubbasbees.comb_chute.fitted"), true);
-                }
-                return InteractionResult.sidedSuccess(level.isClientSide);
-            }
-            if (player.isShiftKeyDown() && held_Item.canPerformAction(ToolActions.SHEARS_HARVEST) && chuteHive.hasCombChute()) {
-                if (!level.isClientSide) {
-                    chuteHive.setCombChute(false);
-                    ItemStack chute = new ItemStack(ModItems.COMB_CHUTE.get());
-                    if (!player.getInventory().add(chute)) player.drop(chute, false);
-                    level.playSound(null, pos, SoundEvents.IRON_TRAPDOOR_OPEN, SoundSource.BLOCKS, 1.0F, 1.2F);
-                    player.displayClientMessage(Component.translatable("message.bubbasbees.comb_chute.removed"), true);
-                }
-                return InteractionResult.sidedSuccess(level.isClientSide);
-            }
-        }
         int i = (Integer) state.getValue(HONEY_LEVEL);
         boolean flag = false;
         if (i>=5){
@@ -175,16 +152,6 @@ public class AdvancedBeehiveBlock extends BeehiveBlock {
                 }
             }
         }
-    }
-
-    // A fitted comb chute drops as an item when the hive goes (it is not kept in the hive item)
-    @Override
-    public void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState newState, boolean moved) {
-        if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof AdvancedBeehiveBlockEntity hive
-                && hive.hasCombChute()) {
-            popResource(level, pos, new ItemStack(ModItems.COMB_CHUTE.get()));
-        }
-        super.onRemove(state, level, pos, newState, moved);
     }
 
     private boolean hiveContainsBees(Level level, BlockPos pos) {

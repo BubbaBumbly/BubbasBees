@@ -59,11 +59,7 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     /** Busy hives send out the mod's fast pollinators; calm hives (the default) keep their bees close to vanilla. */
     protected boolean busy = false;
     public static final String BUSY_TAG = "BubbasBusy";
-    public static final String CHUTE_TAG = "BubbasCombChute";
     public static final int MAX_COMBS = 8;
-    /** Comb chute upgrade: hoppers and other mods' pipes can pull combs out (extract only). */
-    protected boolean combChute = false;
-    private LazyOptional<IItemHandler> chuteHandler = LazyOptional.empty();
     /** Stored-bee flag: this stay is 20% shorter (queen within 16 blocks, or the bee's home biome). */
     public static final String BOOST_TAG = "BubbasBoost";
     /// Herder (savanna bee): animals within 8 blocks grow up / lose breeding cooldown 25% faster
@@ -143,7 +139,6 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         this.ticksSmoked = nbt.getInt("TicksSmoked");
         this.smokeDuration = nbt.contains("SmokeDuration") ? nbt.getInt("SmokeDuration") : SmokerItem.IRON_SMOKE_TICKS;
         this.busy = nbt.getBoolean(BUSY_TAG);
-        setCombChute(nbt.getBoolean(CHUTE_TAG));
     }
     @Override
     protected void saveAdditional(@NotNull CompoundTag tag) {
@@ -153,7 +148,6 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         tag.putInt("TicksSmoked", ticksSmoked);
         tag.putInt("SmokeDuration", smokeDuration);
         tag.putBoolean(BUSY_TAG, busy);
-        tag.putBoolean(CHUTE_TAG, combChute);
     }
     public ArrayList<ItemStack> getHoneycombs(CompoundTag nbt) {
         return nbt.getList("ModBeehiveCombList", Tag.TAG_COMPOUND)
@@ -376,81 +370,22 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         }
     }
 
-    /// Comb chute
-    public boolean hasCombChute() {
-        return combChute;
+    /// Harvest by a comb chute below: takes every comb out and empties the hive's honey (as if sheared, but the
+    /// bees stay calm). Returns the combs.
+    public List<ItemStack> takeAllCombs() {
+        List<ItemStack> combs = new ArrayList<>(honeycombList);
+        honeycombList.clear();
+        emptyHoney();
+        return combs;
     }
 
-    public void setCombChute(boolean fitted) {
-        if (fitted == combChute && (fitted == chuteHandler.isPresent())) return;
-        combChute = fitted;
-        chuteHandler.invalidate();
-        chuteHandler = fitted ? LazyOptional.of(CombChuteHandler::new) : LazyOptional.empty();
+    /** Honey level back to 0 and the combs gone (the chute's honey-bottle harvest). */
+    public void emptyHoney() {
+        honeycombList.clear();
+        if (this.level != null) {
+            this.level.setBlockAndUpdate(this.worldPosition, this.getBlockState().setValue(BeehiveBlock.HONEY_LEVEL, 0));
+        }
         setChanged();
-    }
-
-    @Override
-    public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER && combChute) {
-            return chuteHandler.cast();
-        }
-        return super.getCapability(cap, side);
-    }
-
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        chuteHandler.invalidate();
-    }
-
-    @Override
-    public void reviveCaps() {
-        super.reviveCaps();
-        if (combChute) chuteHandler = LazyOptional.of(CombChuteHandler::new);
-    }
-
-    /** One slot per stored comb (8); nothing can be inserted. */
-    private class CombChuteHandler implements IItemHandler {
-        @Override
-        public int getSlots() {
-            return MAX_COMBS;
-        }
-
-        @Override
-        public @NotNull ItemStack getStackInSlot(int slot) {
-            return slot < honeycombList.size() ? honeycombList.get(slot) : ItemStack.EMPTY;
-        }
-
-        @Override
-        public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-            return stack;
-        }
-
-        @Override
-        public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-            if (amount <= 0 || slot >= honeycombList.size()) return ItemStack.EMPTY;
-            ItemStack comb = honeycombList.get(slot);
-            if (comb.isEmpty()) return ItemStack.EMPTY;
-            ItemStack out = comb.copy();
-            out.setCount(Math.min(amount, comb.getCount()));
-            if (!simulate) {
-                comb.shrink(out.getCount());
-                if (comb.isEmpty()) honeycombList.remove(slot);
-                setChanged();
-                if (level != null) recalculateHoneyLevel(AdvancedBeehiveBlockEntity.this, getBlockState());
-            }
-            return out;
-        }
-
-        @Override
-        public int getSlotLimit(int slot) {
-            return 64;
-        }
-
-        @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return false;
-        }
     }
 
     /// Smoker implementation
