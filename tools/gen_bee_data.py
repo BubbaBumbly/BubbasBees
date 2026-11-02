@@ -427,15 +427,7 @@ def step3_blocks():
     write_json(os.path.join(DATA, "recipes", "blocks", "comb_chute.json"),
                shaped(["v:iron_ingot", "v:shears", "v:iron_ingot", "v:honeycomb", "v:hopper", "v:honeycomb",
                        "v:iron_ingot", "v:honeycomb", "v:iron_ingot"], "bubbasbees:comb_chute"))
-    for honey, top in ((False, "minecraft:block/honeycomb_block"), (True, "minecraft:block/honey_block_top")):
-        # PLACEHOLDER look (hopper-like funnel); the mode shows in the top: honeycomb (combs) or honey (bottles)
-        write_json(os.path.join(bm, "comb_chute" + ("_honey" if honey else "") + ".json"),
-            {"render_type": "minecraft:cutout", "textures": {"particle": "minecraft:block/hopper_outside",
-             "side": "minecraft:block/hopper_outside", "top": top, "spout": "minecraft:block/hopper_outside"},
-             "elements": [box([0, 10, 0], [16, 16, 16], "#side", ("north", "east", "south", "west", "down")),
-                          {"from": [0, 16, 0], "to": [16, 16, 16], "faces": {"up": {"texture": "#top"}}},
-                          box([4, 4, 4], [12, 10, 12], "#side", ("north", "east", "south", "west", "down")),
-                          box([6, 0, 6], [10, 4, 10], "#spout")]})
+    # block models: final art W1 (BubbasBeesArt/work/comb_chute/block/final), copied in step3_art
     write_json(os.path.join(bs, "comb_chute.json"), {"variants": {
         "honey=false": {"model": "bubbasbees:block/comb_chute"}, "honey=true": {"model": "bubbasbees:block/comb_chute_honey"}}})
     write_json(os.path.join(loot, "comb_chute.json"), drop("bubbasbees:comb_chute"))
@@ -511,6 +503,12 @@ def step3_art(work):
         im.save(os.path.join(blocks, name + ".png"))
     # comb chute icon: final art (BubbasBeesArt/work/comb_chute/final)
     shutil.copyfile(os.path.join(work, "comb_chute", "final", "comb_chute.png"), os.path.join(items, "comb_chute.png"))
+    # comb chute block: final art W1 (user pick 2026-11-02): 8 textures + 2 models
+    cfin = os.path.join(work, "comb_chute", "block", "final")
+    for f in sorted(os.listdir(os.path.join(cfin, "textures", "block"))):
+        shutil.copyfile(os.path.join(cfin, "textures", "block", f), os.path.join(blocks, f))
+    for f in ("comb_chute.json", "comb_chute_honey.json"):
+        shutil.copyfile(os.path.join(cfin, "models", "block", f), os.path.join(ASSETS, "models", "block", f))
 
 
 # ------------------------------------------------------------------ step 4: traits, queen, jelly, pink piston

@@ -1,16 +1,19 @@
 {
-  "render_type": "minecraft:cutout",
+  "parent": "block/block",
   "textures": {
-    "particle": "minecraft:block/hopper_outside",
-    "side": "minecraft:block/hopper_outside",
-    "top": "minecraft:block/honeycomb_block",
-    "spout": "minecraft:block/hopper_outside"
+    "particle": "bubbasbees:block/comb_chute_iron",
+    "top": "bubbasbees:block/comb_chute_top_comb",
+    "collar": "bubbasbees:block/comb_chute_collar_comb",
+    "iron": "bubbasbees:block/comb_chute_iron",
+    "wood": "bubbasbees:block/comb_chute_wood",
+    "under": "bubbasbees:block/comb_chute_under",
+    "spout": "bubbasbees:block/comb_chute_spout"
   },
   "elements": [
     {
       "from": [
         0,
-        10,
+        11,
         0
       ],
       "to": [
@@ -20,36 +23,91 @@
       ],
       "faces": {
         "north": {
-          "texture": "#side"
+          "texture": "#collar",
+          "cullface": "north"
         },
         "east": {
-          "texture": "#side"
+          "texture": "#collar",
+          "cullface": "east"
         },
         "south": {
-          "texture": "#side"
+          "texture": "#collar",
+          "cullface": "south"
         },
         "west": {
-          "texture": "#side"
+          "texture": "#collar",
+          "cullface": "west"
+        },
+        "up": {
+          "texture": "#top",
+          "cullface": "up"
         },
         "down": {
-          "texture": "#side"
+          "texture": "#under"
         }
       }
     },
     {
       "from": [
-        0,
-        16,
-        0
+        2,
+        8,
+        2
       ],
       "to": [
-        16,
-        16,
-        16
+        14,
+        11,
+        14
       ],
       "faces": {
+        "north": {
+          "texture": "#wood"
+        },
+        "east": {
+          "texture": "#wood"
+        },
+        "south": {
+          "texture": "#wood"
+        },
+        "west": {
+          "texture": "#wood"
+        },
         "up": {
-          "texture": "#top"
+          "texture": "#wood"
+        },
+        "down": {
+          "texture": "#under"
+        }
+      }
+    },
+    {
+      "from": [
+        3,
+        6,
+        3
+      ],
+      "to": [
+        13,
+        8,
+        13
+      ],
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#wood"
+        },
+        "down": {
+          "texture": "#iron"
         }
       }
     },
@@ -61,24 +119,27 @@
       ],
       "to": [
         12,
-        10,
+        6,
         12
       ],
       "faces": {
         "north": {
-          "texture": "#side"
+          "texture": "#wood"
         },
         "east": {
-          "texture": "#side"
+          "texture": "#wood"
         },
         "south": {
-          "texture": "#side"
+          "texture": "#wood"
         },
         "west": {
-          "texture": "#side"
+          "texture": "#wood"
+        },
+        "up": {
+          "texture": "#wood"
         },
         "down": {
-          "texture": "#side"
+          "texture": "#under"
         }
       }
     },
@@ -110,7 +171,8 @@
           "texture": "#spout"
         },
         "down": {
-          "texture": "#spout"
+          "texture": "#spout",
+          "cullface": "down"
         }
       }
     }

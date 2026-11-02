@@ -39,8 +39,8 @@ import org.jetbrains.annotations.Nullable;
  */
 public class CombChuteBlock extends BaseEntityBlock {
     public static final BooleanProperty HONEY = BooleanProperty.create("honey");
-    private static final VoxelShape SHAPE = Shapes.or(Block.box(0, 10, 0, 16, 16, 16), Block.box(4, 4, 4, 12, 10, 12),
-            Block.box(6, 0, 6, 10, 4, 10));
+    private static final VoxelShape SHAPE = Shapes.or(Block.box(0, 11, 0, 16, 16, 16), Block.box(2, 8, 2, 14, 11, 14),
+            Block.box(3, 6, 3, 13, 8, 13), Block.box(4, 4, 4, 12, 6, 12), Block.box(6, 0, 6, 10, 4, 10));   // W1 model
 
     public CombChuteBlock(Properties properties) {
         super(properties);
