@@ -571,6 +571,8 @@ def step4_data():
     write_json(os.path.join(rec, "pink_sticky_piston.json"), {"type": "minecraft:crafting_shaped", "pattern": ["J", "P"],
         "key": {"J": {"item": "bubbasbees:royal_jelly"}, "P": {"item": "minecraft:piston"}},
         "result": {"item": "bubbasbees:pink_sticky_piston"}})
+    write_json(os.path.join(im, "celestial_bubba_star.json"), {"parent": "item/generated",
+        "textures": {"layer0": "bubbasbees:item/celestial_bubba_star"}})
     write_json(os.path.join(bs, "bee_light.json"), {"variants": {"": {"model": "minecraft:block/air"}}})
     # royal jelly counts as a slimeball for other mods' recipes
     write_json(os.path.join(RES, "data", "forge", "tags", "items", "slimeballs.json"),
@@ -592,13 +594,17 @@ def step4_data():
 
 
 def step4_art(work):
-    """Final royal jelly art (item, block, pink piston face) and a PLACEHOLDER dark bee (darkened, see-through)."""
+    """Final royal jelly art (item, block, pink piston face), the Celestial Bubba Star, and a PLACEHOLDER dark bee."""
     from PIL import Image
     fin = os.path.join(work, "royal_jelly", "final")
     items, blocks = os.path.join(ASSETS, "textures", "item"), os.path.join(ASSETS, "textures", "block")
     shutil.copyfile(os.path.join(fin, "royal_jelly.png"), os.path.join(items, "royal_jelly.png"))
     for name in ("royal_jelly_block", "royal_jelly_block_inner", "pink_piston_top_sticky"):
         shutil.copyfile(os.path.join(fin, name + ".png"), os.path.join(blocks, name + ".png"))
+    # Celestial Bubba Star: final G3 (starlight recolour of the Bubba Star animation, 14 frames; glint from isFoil)
+    star = os.path.join(work, "star", "celestial", "final")
+    for name in ("celestial_bubba_star.png", "celestial_bubba_star.png.mcmeta"):
+        shutil.copyfile(os.path.join(star, name), os.path.join(items, name))
     ent = os.path.join(ASSETS, "textures", "entity")
     dark = os.path.join(ent, "dark_bee.png")
     if not os.path.exists(dark):
