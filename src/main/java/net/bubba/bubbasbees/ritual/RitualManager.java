@@ -79,7 +79,7 @@ public final class RitualManager {
         Map<BlockPos, Ritual> rituals = ACTIVE.get(level.dimension());
         if (rituals == null) return false;
         for (Ritual ritual : rituals.values()) {
-            if (ritual.isRunning() && RitualStructure.inArea(ritual.altar, hive)) return true;
+            if (ritual.isRunning() && RitualStructure.inArea(ritual.altar, hive, ritual.kind == Ritual.Kind.NIGHT)) return true;
         }
         return false;
     }
@@ -92,8 +92,8 @@ public final class RitualManager {
         BlockPos hive = bee.getHivePos();
         for (Ritual ritual : rituals.values()) {
             if (!ritual.isRunning() || ritual.paused || hive == null) continue;
-            if (!RitualStructure.countsFlower(ritual.altar, flower, ritual.kind == Ritual.Kind.NIGHT)
-                    || !RitualStructure.inArea(ritual.altar, hive)) continue;
+            boolean night = ritual.kind == Ritual.Kind.NIGHT;
+            if (!RitualStructure.inArea(ritual.altar, flower, night) || !RitualStructure.inArea(ritual.altar, hive, night)) continue;
             ritual.total++;
             String type = bee.getVariant();
             if (ritual.kind == Ritual.Kind.NIGHT ? "starlight".equals(type) : "royal_guard".equals(type)) ritual.special++;
@@ -266,8 +266,8 @@ public final class RitualManager {
             boolean placed = false;
             for (int attempt = 0; attempt < 8 && !placed; attempt++) {   // a random point on the ring, in open air
                 double angle = level.random.nextDouble() * Math.PI * 2;
-                double x = ritual.altar.getX() + 0.5 + Math.cos(angle) * RitualStructure.RADIUS;
-                double z = ritual.altar.getZ() + 0.5 + Math.sin(angle) * RitualStructure.RADIUS;
+                double x = ritual.altar.getX() + 0.5 + Math.cos(angle) * RitualStructure.NIGHT_RADIUS;
+                double z = ritual.altar.getZ() + 0.5 + Math.sin(angle) * RitualStructure.NIGHT_RADIUS;
                 bee.moveTo(x, ritual.altar.getY() + 1.5, z, level.random.nextFloat() * 360.0F, 0.0F);
                 placed = level.noCollision(bee);
             }
@@ -366,8 +366,8 @@ public final class RitualManager {
     private static void showEdge(ServerLevel level, BlockPos altar) {
         for (int i = 0; i < 48; i++) {
             double angle = i * Math.PI * 2 / 48;
-            level.sendParticles(EDGE, altar.getX() + 0.5 + Math.cos(angle) * RitualStructure.RADIUS, altar.getY() + 0.3,
-                    altar.getZ() + 0.5 + Math.sin(angle) * RitualStructure.RADIUS, 1, 0, 0, 0, 0);
+            level.sendParticles(EDGE, altar.getX() + 0.5 + Math.cos(angle) * RitualStructure.QUEEN_RADIUS, altar.getY() + 0.3,
+                    altar.getZ() + 0.5 + Math.sin(angle) * RitualStructure.QUEEN_RADIUS, 1, 0, 0, 0, 0);
         }
     }
 
@@ -402,7 +402,7 @@ public final class RitualManager {
         Map<BlockPos, Ritual> rituals = ACTIVE.get(level.dimension());
         if (rituals == null || bee.getHivePos() == null) return;
         for (Ritual ritual : rituals.values()) {
-            if (ritual.isRunning() && RitualStructure.inArea(ritual.altar, bee.getHivePos())) fail(level, ritual, "bee_killed");
+            if (ritual.isRunning() && RitualStructure.inArea(ritual.altar, bee.getHivePos(), ritual.kind == Ritual.Kind.NIGHT)) fail(level, ritual, "bee_killed");
         }
     }
 

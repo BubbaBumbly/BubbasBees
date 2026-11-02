@@ -15,48 +15,60 @@ import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayDeque;
 import java.util.List;
 
 /**
  * The two ritual structures around the Celestial Altar (finish-spec.md "Rituals"), all on the altar's own layer.
  * Positions are offsets from the altar; x = east, z = south.
  *
- * Night: end rods 7 blocks N/E/S/W; a closed stardust circle (radius 6, touching each rod) through 4 pedestals with
- * echo shards on the diagonals at (+-4, +-4); 4 candles within 2 blocks of the altar and 2 beside each corner pedestal.
- * Queen: the altar on a 3x3 of honeycomb blocks with gold block corners; 8 potted flowers on the radius-6 edge, at
- * N/E/S/W (6 out) and on the diagonals (+-4, +-4), the diagonal ones on honey blocks.
+ * Night (radius 8, user 2026-11-02): one exact ring, the 8-neighbour outer edge of a radius-8.5 disc (64 cells). Its
+ * N/E/S/W cells (8 out) are end rods, its 4 diagonal cells (+-6, +-6) are pedestals holding echo shards, the other 56
+ * are stardust. Candles: 4 within 2 of the altar, 2 within 2 of each corner pedestal (inside the ring).
+ * Queen (radius 6): the altar on a 3x3 of honeycomb blocks with gold block corners; 8 potted flowers on the radius-6
+ * edge, at N/E/S/W (6 out) and on the diagonals (+-4, +-4), the diagonal ones on honey blocks.
  */
 public final class RitualStructure {
     private RitualStructure() {}
 
-    public static final int RADIUS = 6;
-    /** "Inside the circle": horizontal distance up to 6.5 (the dust ring's middle), 4 below to 8 above the altar. */
-    private static final double AREA_RADIUS_SQ = 6.5 * 6.5;
+    public static final int NIGHT_RADIUS = 8, QUEEN_RADIUS = 6;
+    /** "Inside the circle": horizontal distance up to the radius + 0.5 (the ring itself), 4 below to 8 above the altar. */
     private static final int AREA_BELOW = 4, AREA_ABOVE = 8;
-    private static final int ROD_DISTANCE = 7, CORNER = 4;
-    /** The flood fill that proves the circle is closed gives up (leak) once it reaches this distance squared. */
-    private static final int LEAK_DISTANCE_SQ = 7 * 7;
+    private static final int NIGHT_CORNER = 6, QUEEN_CORNER = 4;
 
     static final int[][] COMPASS = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
     static final String[] COMPASS_NAMES = {"north", "east", "south", "west"};
     static final int[][] DIAGONALS = {{1, -1}, {1, 1}, {-1, 1}, {-1, -1}};
     static final String[] DIAGONAL_NAMES = {"north_east", "south_east", "south_west", "north_west"};
 
-    public static boolean inArea(BlockPos altar, BlockPos pos) {
-        int dx = pos.getX() - altar.getX(), dy = pos.getY() - altar.getY(), dz = pos.getZ() - altar.getZ();
-        return dy >= -AREA_BELOW && dy <= AREA_ABOVE && dx * dx + dz * dz <= AREA_RADIUS_SQ;
+    /** The night ring's stardust cells (rods and corner pedestals left out), in walking order around the circle. */
+    public static final List<int[]> NIGHT_DUST = nightDust();
+
+    private static List<int[]> nightDust() {
+        double r2 = (NIGHT_RADIUS + 0.5) * (NIGHT_RADIUS + 0.5);
+        List<int[]> cells = new java.util.ArrayList<>();
+        for (int x = -NIGHT_RADIUS - 1; x <= NIGHT_RADIUS + 1; x++) {
+            for (int z = -NIGHT_RADIUS - 1; z <= NIGHT_RADIUS + 1; z++) {
+                if (x * x + z * z > r2) continue;
+                boolean edge = false;
+                for (int dx = -1; dx <= 1 && !edge; dx++) {
+                    for (int dz = -1; dz <= 1; dz++) {
+                        int nx = x + dx, nz = z + dz;
+                        if (nx * nx + nz * nz > r2) { edge = true; break; }
+                    }
+                }
+                boolean rod = (x == 0 || z == 0);
+                boolean corner = Math.abs(x) == NIGHT_CORNER && Math.abs(z) == NIGHT_CORNER;
+                if (edge && !rod && !corner) cells.add(new int[]{x, z});
+            }
+        }
+        cells.sort(java.util.Comparator.comparingDouble(c -> Math.atan2(c[1], c[0])));
+        return List.copyOf(cells);
     }
 
-    /**
-     * Where a finished flower visit counts: inside the circle, or (night) on one of the circle's own end rods, which
-     * sit 7 out and are a starlight flower (starlight bees fly to them first).
-     */
-    public static boolean countsFlower(BlockPos altar, BlockPos flower, boolean night) {
-        if (inArea(altar, flower)) return true;
-        if (!night || flower.getY() != altar.getY()) return false;
-        int dx = Math.abs(flower.getX() - altar.getX()), dz = Math.abs(flower.getZ() - altar.getZ());
-        return (dx == 0 && dz == ROD_DISTANCE) || (dz == 0 && dx == ROD_DISTANCE);
+    public static boolean inArea(BlockPos altar, BlockPos pos, boolean night) {
+        int dx = pos.getX() - altar.getX(), dy = pos.getY() - altar.getY(), dz = pos.getZ() - altar.getZ();
+        double r = (night ? NIGHT_RADIUS : QUEEN_RADIUS) + 0.5;
+        return dy >= -AREA_BELOW && dy <= AREA_ABOVE && dx * dx + dz * dz <= r * r;
     }
 
     private static Component dir(String name) {
@@ -72,16 +84,13 @@ public final class RitualStructure {
         candles.clear();
         for (int i = 0; i < 4; i++) {
             int[] d = COMPASS[i];
-            if (!level.getBlockState(altar.offset(d[0] * ROD_DISTANCE, 0, d[1] * ROD_DISTANCE)).is(Blocks.END_ROD)) {
+            if (!level.getBlockState(altar.offset(d[0] * NIGHT_RADIUS, 0, d[1] * NIGHT_RADIUS)).is(Blocks.END_ROD)) {
                 return problem("end_rod", dir(COMPASS_NAMES[i]));
-            }
-            if (!(level.getBlockState(altar.offset(d[0] * RADIUS, 0, d[1] * RADIUS)).getBlock() instanceof StardustBlock)) {
-                return problem("rod_dust", dir(COMPASS_NAMES[i]));
             }
         }
         for (int i = 0; i < 4; i++) {
             int[] d = DIAGONALS[i];
-            BlockPos pos = altar.offset(d[0] * CORNER, 0, d[1] * CORNER);
+            BlockPos pos = altar.offset(d[0] * NIGHT_CORNER, 0, d[1] * NIGHT_CORNER);
             BlockState state = level.getBlockState(pos);
             if (!(state.getBlock() instanceof PedestalBlock pedestal) || pedestal.isAltar()) {
                 return problem("corner_pedestal", dir(DIAGONAL_NAMES[i]));
@@ -90,12 +99,18 @@ public final class RitualStructure {
                 return problem("echo_shard", dir(DIAGONAL_NAMES[i]));
             }
         }
-        if (!circleClosed(level, altar)) return problem("circle");
-        int centre = countCandles(level, altar, 2, null, candles);
+        BlockPos.MutableBlockPos cell = new BlockPos.MutableBlockPos();
+        for (int[] c : NIGHT_DUST) {
+            cell.set(altar.getX() + c[0], altar.getY(), altar.getZ() + c[1]);
+            if (!(level.getBlockState(cell).getBlock() instanceof StardustBlock)) {
+                return problem("ring_dust", cell.getX(), cell.getY(), cell.getZ());
+            }
+        }
+        int centre = countCandles(level, altar, altar, candles);
         if (centre < 4) return problem("centre_candles", centre);
         for (int i = 0; i < 4; i++) {
             int[] d = DIAGONALS[i];
-            int beside = countCandles(level, altar.offset(d[0] * CORNER, 0, d[1] * CORNER), 1, altar, candles);
+            int beside = countCandles(level, altar.offset(d[0] * NIGHT_CORNER, 0, d[1] * NIGHT_CORNER), altar, candles);
             if (beside < 2) return problem("corner_candles", dir(DIAGONAL_NAMES[i]), beside);
         }
         return null;
@@ -112,13 +127,13 @@ public final class RitualStructure {
         }
         for (int i = 0; i < 4; i++) {
             int[] d = COMPASS[i];
-            if (!isPottedFlower(level.getBlockState(altar.offset(d[0] * RADIUS, 0, d[1] * RADIUS)))) {
+            if (!isPottedFlower(level.getBlockState(altar.offset(d[0] * QUEEN_RADIUS, 0, d[1] * QUEEN_RADIUS)))) {
                 return problem("flower_pot", dir(COMPASS_NAMES[i]));
             }
         }
         for (int i = 0; i < 4; i++) {
             int[] d = DIAGONALS[i];
-            BlockPos pot = altar.offset(d[0] * CORNER, 0, d[1] * CORNER);
+            BlockPos pot = altar.offset(d[0] * QUEEN_CORNER, 0, d[1] * QUEEN_CORNER);
             if (!isPottedFlower(level.getBlockState(pot))) return problem("flower_pot", dir(DIAGONAL_NAMES[i]));
             if (!level.getBlockState(pot.below()).is(Blocks.HONEY_BLOCK)) return problem("honey_block", dir(DIAGONAL_NAMES[i]));
         }
@@ -134,50 +149,16 @@ public final class RitualStructure {
         return state.getBlock() instanceof AbstractCandleBlock && state.getValue(AbstractCandleBlock.LIT);
     }
 
-    /** Candle blocks within reach (horizontal square, one layer up or down) of centre; inside the circle when altar is given. */
-    private static int countCandles(Level level, BlockPos centre, int reach, @Nullable BlockPos altar, List<BlockPos> out) {
+    /** Candle blocks within 2 (horizontal square, one layer up or down) of centre and inside the night ring. */
+    private static int countCandles(Level level, BlockPos centre, BlockPos altar, List<BlockPos> out) {
         int count = 0;
-        for (BlockPos pos : BlockPos.betweenClosed(centre.offset(-reach, -1, -reach), centre.offset(reach, 1, reach))) {
+        for (BlockPos pos : BlockPos.betweenClosed(centre.offset(-2, -1, -2), centre.offset(2, 1, 2))) {
             if (!(level.getBlockState(pos).getBlock() instanceof AbstractCandleBlock)) continue;
-            if (altar != null && !inArea(altar, pos)) continue;
+            if (!inArea(altar, pos, true)) continue;
             BlockPos found = pos.immutable();
             if (!out.contains(found)) out.add(found);
             count++;
         }
         return count;
-    }
-
-    private static boolean isWall(Level level, BlockPos pos) {
-        Block block = level.getBlockState(pos).getBlock();
-        return block instanceof StardustBlock || block instanceof PedestalBlock;
-    }
-
-    /**
-     * The circle is closed when a flood fill from the altar, moving in all 8 directions on the altar's layer and
-     * stopped by stardust and pedestals, never gets 7 blocks out. Diagonal-only dust links leak, so the dust must
-     * join edge to edge, like it looks.
-     */
-    private static boolean circleClosed(Level level, BlockPos altar) {
-        int size = 2 * ROD_DISTANCE + 1;
-        boolean[] seen = new boolean[size * size];
-        ArrayDeque<int[]> queue = new ArrayDeque<>();
-        queue.add(new int[]{0, 0});
-        seen[(ROD_DISTANCE) * size + ROD_DISTANCE] = true;
-        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
-        while (!queue.isEmpty()) {
-            int[] cell = queue.poll();
-            for (int dx = -1; dx <= 1; dx++) {
-                for (int dz = -1; dz <= 1; dz++) {
-                    int x = cell[0] + dx, z = cell[1] + dz;
-                    if (x * x + z * z >= LEAK_DISTANCE_SQ) return false;
-                    int index = (x + ROD_DISTANCE) * size + z + ROD_DISTANCE;
-                    if (seen[index]) continue;
-                    seen[index] = true;
-                    if (isWall(level, pos.set(altar.getX() + x, altar.getY(), altar.getZ() + z))) continue;
-                    queue.add(new int[]{x, z});
-                }
-            }
-        }
-        return true;
     }
 }

@@ -293,13 +293,11 @@
   "ritual.bubbasbees.problem.day": "The Royal Summoning can only begin in daytime",
   "ritual.bubbasbees.problem.queen_alive": "The Royal Queen is still alive",
   "ritual.bubbasbees.problem.candles_lit": "Light every candle to begin",
-  "ritual.bubbasbees.problem.end_rod": "Needs an end rod 7 blocks %s of the altar",
-  "ritual.bubbasbees.problem.rod_dust": "The stardust circle must touch the end rod to the %s",
-  "ritual.bubbasbees.problem.corner_pedestal": "Needs a pedestal on the circle to the %s (4 out, 4 across)",
+  "ritual.bubbasbees.problem.end_rod": "Needs an end rod in the circle, 8 blocks %s of the altar",
+  "ritual.bubbasbees.problem.corner_pedestal": "Needs a pedestal in the circle to the %s (6 out, 6 across)",
   "ritual.bubbasbees.problem.echo_shard": "The %s pedestal needs an echo shard",
-  "ritual.bubbasbees.problem.circle": "The stardust circle around the altar isn't closed",
   "ritual.bubbasbees.problem.centre_candles": "Needs 4 candles next to the altar (%s found)",
-  "ritual.bubbasbees.problem.corner_candles": "Needs 2 candles beside the %s pedestal, inside the circle (%s found)",
+  "ritual.bubbasbees.problem.corner_candles": "Needs 2 candles within 2 blocks of the %s pedestal, inside the circle (%s found)",
   "ritual.bubbasbees.problem.queen_base": "The altar must stand on 3x3 honeycomb blocks with gold block corners",
   "ritual.bubbasbees.problem.flower_pot": "Needs a potted flower on the circle's edge to the %s",
   "ritual.bubbasbees.problem.honey_block": "The %s flower pot must stand on a honey block",
@@ -310,5 +308,6 @@
   "ritual.bubbasbees.dir.north_east": "north-east",
   "ritual.bubbasbees.dir.south_east": "south-east",
   "ritual.bubbasbees.dir.south_west": "south-west",
-  "ritual.bubbasbees.dir.north_west": "north-west"
+  "ritual.bubbasbees.dir.north_west": "north-west",
+  "ritual.bubbasbees.problem.ring_dust": "The stardust circle is missing a piece at %s, %s, %s"
 }
