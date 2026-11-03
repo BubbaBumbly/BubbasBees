@@ -659,9 +659,13 @@ def step4_art(work):
     for name in ("royal_jelly_block", "royal_jelly_block_inner", "pink_piston_top_sticky"):
         shutil.copyfile(os.path.join(fin, name + ".png"), os.path.join(blocks, name + ".png"))
     # Conversion gems with final art (family batches; the rest keep their tinted placeholders)
-    gems = os.path.join(work, "gems", "final")
+    # gems/final = ore family, gems/biome_final = biome family (desert's sprout gem replaces the old sandy one,
+    # which the user keeps as the crystalline template; it is still sandy_conversion_gem.png in the main repo)
     on_hold = ()   # gem names still under review by the user, if any (prefixes)
-    if os.path.isdir(gems):
+    for family in ("final", "biome_final"):
+        gems = os.path.join(work, "gems", family)
+        if not os.path.isdir(gems):
+            continue
         for name in sorted(os.listdir(gems)):
             if name.startswith(on_hold):
                 continue
