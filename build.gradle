@@ -51,6 +51,8 @@ minecraft {
         server {
             workingDirectory project.file('run')
 
+            property 'bubbasbees.measure', 'true'
+
             property 'forge.logging.markers', 'REGISTRIES'
 
             property 'forge.logging.console.level', 'debug'

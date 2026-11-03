@@ -1,6 +1,8 @@
 package net.bubba.bubbasbees.blockentities;
 
 import net.bubba.bubbasbees.ritual.RitualManager;
+import net.minecraftforge.registries.ForgeRegistries;
+import com.mojang.logging.LogUtils;
 
 import net.bubba.bubbasbees.bees.BeeSpec;
 import net.bubba.bubbasbees.bees.BeeSpecs;
@@ -62,6 +64,8 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     protected boolean busy = false;
     public static final String BUSY_TAG = "BubbasBusy";
     public static final int MAX_COMBS = 8;
+    /** Dev-only balance measurement: -Dbubbasbees.measure=true logs every trip's comb roll (step 6). */
+    private static final boolean MEASURE = Boolean.getBoolean("bubbasbees.measure");
     /** Stored-bee flag: this stay is 20% shorter (queen within 16 blocks, or the bee's home biome). */
     public static final String BOOST_TAG = "BubbasBoost";
     /// Herder (savanna bee): animals within 8 blocks grow up / lose breeding cooldown 25% faster
@@ -260,6 +264,10 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
                         ItemStack comb = RitualManager.isRitualHive(hive.level, hive.worldPosition) ? ItemStack.EMPTY
                                 : bee instanceof BubbasBee bubbasBee
                                 ? bubbasBee.rollComb() : new ItemStack(Items.HONEYCOMB);
+                        if (MEASURE) LogUtils.getLogger().info("[BBMEASURE] t={} dim={} hive={} bee={} comb={} full={}",
+                                hive.level.getGameTime(), hive.level.dimension().location(), hive.worldPosition.toShortString(),
+                                nbt.getString("id"), comb.isEmpty() ? "none" : ForgeRegistries.ITEMS.getKey(comb.getItem()),
+                                hive.honeycombList.size() >= MAX_COMBS);
                         if (!comb.isEmpty() && hive.honeycombList.size() < MAX_COMBS) hive.honeycombList.add(comb);
                     }
                     if (getHoneyLevel(state) < 5) {
