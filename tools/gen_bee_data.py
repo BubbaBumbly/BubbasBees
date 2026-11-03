@@ -662,7 +662,8 @@ def step4_art(work):
     # gems/final = ore family, gems/biome_final = biome family (desert's sprout gem replaces the old sandy one,
     # which the user keeps as the crystalline template; it is still sandy_conversion_gem.png in the main repo)
     on_hold = ()   # gem names still under review by the user, if any (prefixes)
-    for family in ("final", "biome_final"):
+    # gems/batchA_final, batchB_final = the remaining families (recolours of the user's sandy, nature and stone gems)
+    for family in ("final", "biome_final", "batchA_final", "batchB_final"):
         gems = os.path.join(work, "gems", family)
         if not os.path.isdir(gems):
             continue
