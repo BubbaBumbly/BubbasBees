@@ -72,6 +72,11 @@ public class BubbasBees {
         }
 
         @SubscribeEvent
+        public static void onRegisterShaders(net.minecraftforge.client.event.RegisterShadersEvent event) throws java.io.IOException {
+            net.bubba.bubbasbees.entity.client.StarlightSky.registerShaders(event);
+        }
+
+        @SubscribeEvent
         public static void onRegisterRenderers(net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers event) {
             event.registerBlockEntityRenderer(ModBlockEntities.PEDESTAL.get(), net.bubba.bubbasbees.client.PedestalRenderer::new);
             event.registerBlockEntityRenderer(ModBlockEntities.STARDUST.get(), net.bubba.bubbasbees.client.StardustPileRenderer::new);

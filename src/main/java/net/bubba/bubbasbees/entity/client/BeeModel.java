@@ -18,7 +18,11 @@ public class BeeModel extends AnimatedGeoModel<BubbasBee> {
     @Override
     public ResourceLocation getTextureResource(BubbasBee instance) {
         BeeSpec spec = instance.getSpec();
-        String name = spec == null ? "diamond" : spec.id();   // the dev-only Bubbas Bee wears the diamond look
+        String name = spec == null ? "diamond" : spec.id();
+        // The starlight bee's normal look twinkles (16 frames); its angry look stays still
+        if (spec != null && "starlight".equals(spec.id()) && !instance.isAngry()) {
+            return StarlightSky.twinkleFrame(instance.level.getGameTime());
+        }   // the dev-only Bubbas Bee wears the diamond look
         if ((spec == null || spec.deepslateLook()) && instance.isDeepslate()) {
             name += "_deepslate";
         }

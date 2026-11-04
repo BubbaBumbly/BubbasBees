@@ -17,6 +17,23 @@ public class BubbasBeeRenderer extends GeoEntityRenderer<BubbasBee> {
     public BubbasBeeRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new BeeModel());
         this.shadowRadius = 0.2f;
+        this.addLayer(new StarlightOverlayLayer(this));
+    }
+
+    /** Whether this bee is drawn as a window into the night sky now (the starlight bee, no shader pack); see StarlightSky. */
+    static boolean usesSky(BubbasBee bee) {
+        return bee.getSpec() != null && "starlight".equals(bee.getSpec().id()) && StarlightSky.available();
+    }
+
+    /**
+     * The star pass leaves the wings out; the overlay layer draws them. Bones come from the bee's baked model:
+     * GeckoLib 3's modelProvider.getBone throws until that model has been rendered once.
+     */
+    void setWingsHidden(BubbasBee bee, boolean hidden) {
+        var model = this.modelProvider.getModel(this.modelProvider.getModelResource(bee));
+        for (String name : new String[]{"leftWing", "rightWing"}) {
+            model.getBone(name).ifPresent(bone -> bone.setHidden(hidden));
+        }
     }
 
     // GeckoLib 3 does not scale babies itself; halve the model like vanilla's baby bee
@@ -35,7 +52,13 @@ public class BubbasBeeRenderer extends GeoEntityRenderer<BubbasBee> {
     public void render(BubbasBee bee, float entityYaw, float partialTick, PoseStack poseStack,
                        MultiBufferSource bufferSource, int packedLight) {
         boolean glows = bee.getSpec() != null && bee.getSpec().has(BeeSpec.Trait.GLOW);
-        super.render(bee, entityYaw, partialTick, poseStack, bufferSource, glows ? LightTexture.FULL_BRIGHT : packedLight);
+        boolean sky = usesSky(bee);
+        if (sky) setWingsHidden(bee, true);
+        try {
+            super.render(bee, entityYaw, partialTick, poseStack, bufferSource, glows ? LightTexture.FULL_BRIGHT : packedLight);
+        } finally {
+            if (sky) setWingsHidden(bee, false);
+        }
     }
 
     @Override
@@ -43,6 +66,7 @@ public class BubbasBeeRenderer extends GeoEntityRenderer<BubbasBee> {
                                     @Nullable MultiBufferSource renderTypeBuffer,
                                     @Nullable VertexConsumer vertexBuilder, int packedLightIn,
                                     ResourceLocation textureLocation) {
+        if (usesSky(animatable)) return StarlightSky.SKY;
         // GeckoLib 3 defaults to entityCutout, which drops partial alpha; see-through bees (the soul bee) blend
         if (animatable.getSpec() != null && animatable.getSpec().translucent()) {
             return RenderType.entityTranslucent(textureLocation);
