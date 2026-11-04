@@ -25,13 +25,17 @@ public class BubbasBeeRenderer extends GeoEntityRenderer<BubbasBee> {
         return bee.getSpec() != null && "starlight".equals(bee.getSpec().id()) && StarlightSky.available();
     }
 
+    /** Parts drawn only by the overlay layer: in the star pass their texture shapes would double up (two antenna pairs). */
+    private static final String[] OVERLAY_PARTS = {"leftWing", "rightWing", "leftAntenna", "rightAntenna",
+            "frontLegs", "middleLegs", "backLegs", "stinger"};
+
     /**
-     * The star pass leaves the wings out; the overlay layer draws them. Bones come from the bee's baked model:
-     * GeckoLib 3's modelProvider.getBone throws until that model has been rendered once.
+     * The star pass leaves the overlay-only parts out; the overlay layer draws them. Bones come from the bee's baked
+     * model: GeckoLib 3's modelProvider.getBone throws until that model has been rendered once.
      */
-    void setWingsHidden(BubbasBee bee, boolean hidden) {
+    void setOverlayPartsHidden(BubbasBee bee, boolean hidden) {
         var model = this.modelProvider.getModel(this.modelProvider.getModelResource(bee));
-        for (String name : new String[]{"leftWing", "rightWing"}) {
+        for (String name : OVERLAY_PARTS) {
             model.getBone(name).ifPresent(bone -> bone.setHidden(hidden));
         }
     }
@@ -53,11 +57,11 @@ public class BubbasBeeRenderer extends GeoEntityRenderer<BubbasBee> {
                        MultiBufferSource bufferSource, int packedLight) {
         boolean glows = bee.getSpec() != null && bee.getSpec().has(BeeSpec.Trait.GLOW);
         boolean sky = usesSky(bee);
-        if (sky) setWingsHidden(bee, true);
+        if (sky) setOverlayPartsHidden(bee, true);
         try {
             super.render(bee, entityYaw, partialTick, poseStack, bufferSource, glows ? LightTexture.FULL_BRIGHT : packedLight);
         } finally {
-            if (sky) setWingsHidden(bee, false);
+            if (sky) setOverlayPartsHidden(bee, false);
         }
     }
 

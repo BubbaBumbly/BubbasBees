@@ -3,6 +3,8 @@ package net.bubba.bubbasbees.entity.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.bubba.bubbasbees.entity.custom.BubbasBee;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
 import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 
@@ -19,8 +21,14 @@ public class StarlightOverlayLayer extends GeoLayerRenderer<BubbasBee> {
     public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, BubbasBee bee, float limbSwing,
                        float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (!BubbasBeeRenderer.usesSky(bee)) return;
-        renderer.setWingsHidden(bee, false);
+        renderer.setOverlayPartsHidden(bee, false);
         renderModel(getEntityModel(), StarlightSky.OVERLAY, poseStack, buffer, packedLight, bee, partialTicks, 1.0F, 1.0F, 1.0F);
-        renderer.setWingsHidden(bee, true);
+        renderer.setOverlayPartsHidden(bee, true);
+    }
+
+    /** Translucent, not GeckoLib's cutout: the overlay's half-alpha pixels (the dim mask) darken the stars below. */
+    @Override
+    public RenderType getRenderType(ResourceLocation textureLocation) {
+        return RenderType.entityTranslucent(textureLocation);
     }
 }
