@@ -340,7 +340,7 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         return busy ? BUSY_STAY_TICKS_WITH_NECTAR : CALM_STAY_TICKS_WITH_NECTAR;
     }
 
-    /** Stay for a stored bee: 20% shorter when boosted (queen or home biome, see addOccupant); Nether and End bees stay twice as long outside their home dimension. */
+    /** Stay for a stored bee: 20% shorter when boosted (queen or home biome, see addOccupant); every mod bee stays twice as long outside its home dimension (the Overworld unless its spec sets one). */
     public int stayTicks(CompoundTag beeNbt) {
         int ticks = stayTicks(beeNbt.getBoolean("HasNectar"));
         if (beeNbt.getBoolean(BOOST_TAG)) ticks = ticks * 4 / 5;

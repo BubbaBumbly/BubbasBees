@@ -124,9 +124,9 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
         return TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(BubbasBees.MOD_ID, "bee_flowers/" + id));
     }
 
-    /** Spends twice as long in a hive outside its home dimension (the dimension rule). */
+    /** Spends twice as long in a hive outside its home dimension (the dimension rule); a bee with no home is an Overworld bee. */
     public boolean isAwayFromHome(Level level) {
-        return home != null && !level.dimension().equals(home);
+        return !level.dimension().equals(home != null ? home : Level.OVERWORLD);
     }
 
     public ItemStack rollComb(RandomSource random) {
