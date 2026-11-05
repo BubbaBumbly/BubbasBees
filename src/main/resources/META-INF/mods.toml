@@ -10,6 +10,7 @@ credits="Includes code adapted from Resourceful Bees by Team Resourceful (LGPLv3
 displayURL=""
 authors="bubba_bert"
 logoFile="logo.png"
+logoBlur=false
 description='''Adds Bees, Duh'''
 
 [[dependencies.bubbasbees]]
