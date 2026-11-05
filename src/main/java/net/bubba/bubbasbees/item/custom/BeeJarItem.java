@@ -1,9 +1,13 @@
 package net.bubba.bubbasbees.item.custom;
 
+import net.bubba.bubbasbees.BubbasBees;
+import net.bubba.bubbasbees.bees.BeeSpec;
+import net.bubba.bubbasbees.bees.BeeSpecs;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -46,19 +50,16 @@ public class BeeJarItem extends Item {
         String entityTypeStr = beeData.getString("EntityType");
         if (entityTypeStr.isEmpty()) return 1.0F;
 
-        String path = entityTypeStr.contains(":") ? entityTypeStr.substring(entityTypeStr.indexOf(':') + 1) : entityTypeStr;
-
-        return switch (path) {
-            case "copper_bee" -> 2.0F;
-            case "ender_bee" -> 3.0F;
-            case "gold_bee" -> 4.0F;
-            case "iron_bee" -> 5.0F;
-            case "nature_bee" -> 6.0F;
-            case "redstone_bee" -> 7.0F;
-            case "desert_bee", "sandy_bee" -> 8.0F;   // sandy_bee: the desert bee's id before 2026-11
-            case "stone_bee" -> 9.0F;
-            default -> 1.0F;
-        };
+        // 2 + the bee's place in the roster; tools/gen_bee_data.py writes bee_jar.json's overrides in the same order
+        ResourceLocation id = ResourceLocation.tryParse(entityTypeStr);
+        if (id != null && id.equals(new ResourceLocation(BubbasBees.MOD_ID, "sandy_bee"))) {
+            id = new ResourceLocation(BubbasBees.MOD_ID, "desert_bee");   // the desert bee's id before 2026-11
+        }
+        BeeSpec spec = BeeSpecs.byEntity(id);
+        if (spec == null) return 1.0F;
+        // Ore bees jarred in their deepslate look (BubbasBee's BubbasDeepslate roll, kept in the jar) get the next half step
+        boolean deepslate = spec.deepslateLook() && beeData.getBoolean("BubbasDeepslate");
+        return 2.0F + BeeSpecs.ALL.indexOf(spec) + (deepslate ? 0.5F : 0.0F);
     }
 
     @Override

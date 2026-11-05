@@ -14,49 +14,301 @@
       "predicate": {
         "bubbasbees:filled": 2.0
       },
-      "model": "bubbasbees:item/bee_jar_filled_copper"
+      "model": "bubbasbees:item/bee_jar_filled_stone"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 2.5
+      },
+      "model": "bubbasbees:item/bee_jar_filled_stone_deepslate"
     },
     {
       "predicate": {
         "bubbasbees:filled": 3.0
       },
-      "model": "bubbasbees:item/bee_jar_filled_ender"
+      "model": "bubbasbees:item/bee_jar_filled_dirt"
     },
     {
       "predicate": {
         "bubbasbees:filled": 4.0
       },
-      "model": "bubbasbees:item/bee_jar_filled_gold"
+      "model": "bubbasbees:item/bee_jar_filled_concrete"
     },
     {
       "predicate": {
         "bubbasbees:filled": 5.0
       },
-      "model": "bubbasbees:item/bee_jar_filled_iron"
+      "model": "bubbasbees:item/bee_jar_filled_nature"
     },
     {
       "predicate": {
         "bubbasbees:filled": 6.0
       },
-      "model": "bubbasbees:item/bee_jar_filled_nature"
+      "model": "bubbasbees:item/bee_jar_filled_forest"
     },
     {
       "predicate": {
         "bubbasbees:filled": 7.0
       },
-      "model": "bubbasbees:item/bee_jar_filled_redstone"
+      "model": "bubbasbees:item/bee_jar_filled_desert"
     },
     {
       "predicate": {
         "bubbasbees:filled": 8.0
       },
-      "model": "bubbasbees:item/bee_jar_filled_desert"
+      "model": "bubbasbees:item/bee_jar_filled_river"
     },
     {
       "predicate": {
         "bubbasbees:filled": 9.0
       },
-      "model": "bubbasbees:item/bee_jar_filled_stone"
+      "model": "bubbasbees:item/bee_jar_filled_meadow"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 10.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_jungle"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 11.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_taiga"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 12.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_savanna"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 13.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_amethyst"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 14.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_obsidian"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 15.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_glow"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 16.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_mesa"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 17.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_swamp"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 18.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_frost"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 19.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_lush_caves"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 20.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_deep_dark"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 21.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_mushroom_fields"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 22.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_sea"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 23.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_coral"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 24.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_prismarine"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 25.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_corrupt_stone"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 26.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_soul"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 27.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_corrupt_nature"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 28.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_magma"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 29.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_ender"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 30.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_royal_guard"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 31.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_starlight"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 32.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_coal"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 32.5
+      },
+      "model": "bubbasbees:item/bee_jar_filled_coal_deepslate"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 33.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_copper"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 33.5
+      },
+      "model": "bubbasbees:item/bee_jar_filled_copper_deepslate"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 34.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_iron"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 34.5
+      },
+      "model": "bubbasbees:item/bee_jar_filled_iron_deepslate"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 35.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_gold"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 35.5
+      },
+      "model": "bubbasbees:item/bee_jar_filled_gold_deepslate"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 36.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_redstone"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 36.5
+      },
+      "model": "bubbasbees:item/bee_jar_filled_redstone_deepslate"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 37.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_lapis"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 37.5
+      },
+      "model": "bubbasbees:item/bee_jar_filled_lapis_deepslate"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 38.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_diamond"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 38.5
+      },
+      "model": "bubbasbees:item/bee_jar_filled_diamond_deepslate"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 39.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_emerald"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 39.5
+      },
+      "model": "bubbasbees:item/bee_jar_filled_emerald_deepslate"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 40.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_quartz"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 41.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_ancient_debris"
+    },
+    {
+      "predicate": {
+        "bubbasbees:filled": 42.0
+      },
+      "model": "bubbasbees:item/bee_jar_filled_royal_queen"
     }
   ]
 }

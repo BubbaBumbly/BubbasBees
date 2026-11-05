@@ -8,7 +8,7 @@ Writes (overwriting only what it owns):
                                                    with the balance-pass counts below and the colour families expanded)
   data/bubbasbees/tags/blocks/bee_flowers/<bee>.json, data/minecraft/tags/entity_types/beehive_inhabitors.json
   assets/bubbasbees/lang/en_us.json                 (bee/comb/gem/egg/new-item names merged in)
-  assets/bubbasbees/models/item/...                 comb, gem, spawn egg, stardust, royal jelly models
+  assets/bubbasbees/models/item/...                 comb, gem, spawn egg, stardust, royal jelly, filled bee jar models
 With --art, also copies the final bee textures + models and comb textures, makes placeholder art for items that have
 none yet (gems, stardust, royal jelly), and writes each bee's spawn egg colours into BeeSpecs.java.
 
@@ -650,6 +650,48 @@ def step5_data():
     write_json(path, lang)
 
 
+def deepslate_ids():
+    """Bees with a stone and a deepslate look (.deepslateLook() in BeeSpecs.java)."""
+    java = open(SPECS_JAVA).read()
+    return [m.group(1) for m in re.finditer(r'BeeSpec\.of\("([a-z_]+)"(.*?)\.build\(\)', java, re.S)
+            if ".deepslateLook()" in m.group(2)]
+
+
+def jar_names(ids):
+    """(fill value, model/texture name) per filled jar, matching BeeJarItem.getFillState: 2 + roster index,
+    +0.5 for a bee jarred in its deepslate look."""
+    deep = set(deepslate_ids())
+    out = []
+    for i, bee in enumerate(ids):
+        out.append((2.0 + i, "bee_jar_filled_" + bee))
+        if bee in deep:
+            out.append((2.5 + i, f"bee_jar_filled_{bee}_deepslate"))
+    return out
+
+
+def jar_models(ids):
+    """Bee jar: one filled model per bee (and per deepslate look)."""
+    models = os.path.join(ASSETS, "models", "item")
+    overrides = [{"predicate": {"bubbasbees:filled": 1.0}, "model": "bubbasbees:item/bee_jar_filled"}]
+    for value, name in jar_names(ids):
+        write_json(os.path.join(models, name + ".json"),
+                   {"parent": "item/generated", "textures": {"layer0": "bubbasbees:item/" + name}})
+        overrides.append({"predicate": {"bubbasbees:filled": value}, "model": "bubbasbees:item/" + name})
+    write_json(os.path.join(models, "bee_jar.json"),
+               {"parent": "item/generated", "textures": {"layer0": "bubbasbees:item/bee_jar"}, "overrides": overrides})
+
+
+def jar_art(work, ids):
+    """Filled bee jars (art: eggs_jars/final_jars, one per roster bee; every jar shows the bee's real face)."""
+    src = os.path.join(work, "eggs_jars", "final_jars")
+    names = [n + ".png" for _, n in jar_names(ids)]
+    missing = [n for n in names if not os.path.exists(os.path.join(src, n))]
+    if missing:
+        sys.exit(f"jar art missing: {missing}")
+    for name in names:
+        shutil.copyfile(os.path.join(src, name), os.path.join(ASSETS, "textures", "item", name))
+
+
 def step4_art(work):
     """Final royal jelly art (item, block, pink piston face), the Celestial Bubba Star, and a PLACEHOLDER dark bee."""
     from PIL import Image
@@ -708,10 +750,12 @@ def main():
     step3_blocks()
     step4_data()
     step5_data()
+    jar_models(ids)
     if args.art:
         art(os.path.abspath(args.art), combs, ids)
         step3_art(os.path.abspath(args.art))
         step4_art(os.path.abspath(args.art))
+        jar_art(os.path.abspath(args.art), ids)
     print(len(ids), "bees,", len(combs), "combs,", len(made), "recipes")
 
 
