@@ -1,0 +1,21 @@
+{
+  "name": "Advanced Beehive",
+  "icon": "bubbasbees:advanced_beehive",
+  "category": "bubbasbees:tools",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The mod's hive holds $(l)5 bees$() and $(l)8 combs$(). Every vanilla wood has its own; craft one with that wood's planks, or craft a hive with planks to change its wood. Vanilla bees can live in it and make plain honeycomb."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:advanced_beehive",
+      "recipe2": "bubbasbees:reinforced_advanced_beehive"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The reinforced hive resists explosions like obsidian."
+    }
+  ]
+}

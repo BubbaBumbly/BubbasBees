@@ -1,0 +1,33 @@
+{
+  "name": "Taiga Bee",
+  "icon": "bubbasbees:taiga_honeycomb",
+  "category": "bubbasbees:lesser",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "bubbasbees:taiga_bee",
+      "name": "Taiga Bee",
+      "text": "Lesser Bubba Star. Overworld, by day."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Sweet berry bushes don't hurt it (or any mod bee).$(br2)$(l)Flowers:$() Spruce Leaves, Spruce Log, Sweet Berry Bush$(br2)$(l)Home biome:$() Taiga, Old Growth Pine Taiga, Old Growth Spruce Taiga, Snowy Taiga$(br2)$(l)Brings home$() (busy hive):$(li)Taiga Honeycomb: every trip, 210 per hive-hour"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:gems/taiga_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/taiga/fern",
+      "recipe2": "bubbasbees:combs/taiga/pumpkin"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/taiga/spruce_log",
+      "recipe2": "bubbasbees:combs/taiga/sweet_berries"
+    }
+  ]
+}

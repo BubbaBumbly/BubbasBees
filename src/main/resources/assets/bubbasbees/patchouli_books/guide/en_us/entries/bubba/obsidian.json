@@ -1,0 +1,28 @@
+{
+  "name": "Obsidian Bee",
+  "icon": "bubbasbees:obsidian_honeycomb",
+  "category": "bubbasbees:bubba",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "bubbasbees:obsidian_bee",
+      "name": "Obsidian Bee",
+      "text": "Bubba Star. Overworld, by day."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Flowers:$() Obsidian, Crying Obsidian$(br2)$(l)Home biome:$() none$(br2)$(l)Brings home$() (busy hive):$(li)Obsidian Honeycomb: every trip, 210 per hive-hour$(br2)$(l)Blast-proof:$() Explosions don't hurt it."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:gems/obsidian_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/obsidian/crying_obsidian",
+      "recipe2": "bubbasbees:combs/obsidian/obsidian"
+    }
+  ]
+}

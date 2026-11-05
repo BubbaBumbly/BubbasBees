@@ -1,0 +1,46 @@
+{
+  "name": "Amethyst Bee",
+  "icon": "bubbasbees:amethyst_honeycomb",
+  "category": "bubbasbees:bubba",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "bubbasbees:amethyst_bee",
+      "name": "Amethyst Bee",
+      "text": "Bubba Star. Overworld, by day."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Very rarely brings home a budding amethyst comb, the only way to make budding amethyst.$(br2)$(l)Flowers:$() Block of Amethyst, Budding Amethyst, Small Amethyst Bud, Medium Amethyst Bud, Large Amethyst Bud, Amethyst Cluster$(br2)$(l)Home biome:$() none"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Brings home$() (busy hive):$(li)Amethyst Honeycomb: the other trips, 209 per hive-hour$(li)Budding Amethyst Honeycomb: rare, 1 in 150, 1.40 per hive-hour"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:gems/amethyst_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/amethyst/amethyst_cluster",
+      "recipe2": "bubbasbees:combs/amethyst/amethyst_shard"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/amethyst/budding_amethyst",
+      "recipe2": "bubbasbees:combs/amethyst/large_amethyst_bud"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/amethyst/medium_amethyst_bud",
+      "recipe2": "bubbasbees:combs/amethyst/small_amethyst_bud"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/amethyst/smooth_basalt"
+    }
+  ]
+}

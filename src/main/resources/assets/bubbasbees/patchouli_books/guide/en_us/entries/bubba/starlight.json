@@ -1,0 +1,31 @@
+{
+  "name": "Starlight Bee",
+  "icon": "bubbasbees:starlight_honeycomb",
+  "category": "bubbasbees:bubba",
+  "sortnum": 28,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "bubbasbees:starlight_bee",
+      "name": "Starlight Bee",
+      "text": "Bubba Star. Overworld, night only."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Its stardust builds the Celestial Ritual's circle, and it is the bee the ritual needs most.$(br2)$(l)Flowers:$() End Rod, Enchanting Table$(br2)$(l)Home biome:$() none$(br2)$(l)Brings home$() (busy hive):$(li)Starlight Honeycomb: every trip, 210 per hive-hour"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Nocturnal:$() Works only at night, and only when its hive and flowers have open sky above."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:gems/starlight_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/starlight/stardust"
+    }
+  ]
+}

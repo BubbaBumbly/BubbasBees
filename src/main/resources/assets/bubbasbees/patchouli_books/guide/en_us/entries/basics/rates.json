@@ -1,0 +1,16 @@
+{
+  "name": "Reading the Rates",
+  "icon": "minecraft:clock",
+  "category": "bubbasbees:basics",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A full busy hive (5 bees of one kind) makes about $(l)210$() trips per hour of work.$(br2)Away from home it makes about 123; boosted (home biome or the queen) about 244.$(br2)Combs per hive-hour = trips x the chance a trip brings that comb home."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A day is 20 real minutes: about 10.9 of day and 9.1 of night. Overworld bees only work in the day, so a real hour holds about 55% of a hive-hour."
+    }
+  ]
+}

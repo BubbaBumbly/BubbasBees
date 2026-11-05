@@ -1,0 +1,33 @@
+{
+  "name": "Glow Bee",
+  "icon": "bubbasbees:glow_honeycomb",
+  "category": "bubbasbees:bubba",
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "bubbasbees:glow_bee",
+      "name": "Glow Bee",
+      "text": "Bubba Star. Overworld, by day."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Flowers:$() Glowstone, Glow Lichen, Shroomlight$(br2)$(l)Home biome:$() none$(br2)$(l)Brings home$() (busy hive):$(li)Glow Honeycomb: every trip, 210 per hive-hour$(br2)$(l)Glow:$() Glows, and lights up dark spots it flies through."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:gems/glow_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/glow/glow_ink_sac",
+      "recipe2": "bubbasbees:combs/glow/glow_lichen"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/glow/glowstone_dust",
+      "recipe2": "bubbasbees:combs/glow/shroomlight"
+    }
+  ]
+}

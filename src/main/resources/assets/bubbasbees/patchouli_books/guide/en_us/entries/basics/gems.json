@@ -1,0 +1,12 @@
+{
+  "name": "Conversion Gems",
+  "icon": "bubbasbees:stone_conversion_gem",
+  "category": "bubbasbees:basics",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Each bee has a conversion gem. $(l)Use it on a vanilla bee$() and the bee turns into that kind, keeping its hive. The gem is used up.$(br2)Vanilla bees follow you while you hold a gem.$(br2)Each bee's entry in this book shows its gem recipe."
+    }
+  ]
+}

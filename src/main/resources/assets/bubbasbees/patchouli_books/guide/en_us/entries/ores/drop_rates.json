@@ -1,0 +1,53 @@
+{
+  "name": "Ore Drop Rates",
+  "icon": "bubbasbees:diamond_honeycomb",
+  "category": "bubbasbees:ores",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Every ore, every rate.$() Ore combs craft only ore blocks: 8 ore combs around 1 ore block (used up) make 2, so each craft gains one block. The seed picks the variant. Mine them with Fortune for more.$(br2)Rates are per hive-hour: one hour of work for a full busy hive of 5 bees, at home. See $(l:basics/rates)Reading the Rates$(/l)."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Coal Bee$()$(br)Comb drop rate: $(l)every trip$() (100%)$(br)210 combs per hive-hour, making:$(li)$(l)Coal Ore$(): 26.3$(li)$(l)Deepslate Coal Ore$(): 26.3$(br2)Mined with Fortune III: about 57.8 coal per hive-hour.$(br)Home: Overworld."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Copper Bee$()$(br)Comb drop rate: $(l)every trip$() (100%)$(br)210 combs per hive-hour, making:$(li)$(l)Copper Ore$(): 26.3$(li)$(l)Deepslate Copper Ore$(): 26.3$(br2)Mined with Fortune III: about 202 raw copper per hive-hour.$(br)Home: Overworld."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Iron Bee$()$(br)Comb drop rate: $(l)every trip$() (100%)$(br)210 combs per hive-hour, making:$(li)$(l)Deepslate Iron Ore$(): 26.3$(li)$(l)Iron Ore$(): 26.3$(br2)Mined with Fortune III: about 57.8 raw iron per hive-hour.$(br)Home: Overworld."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Gold Bee$()$(br)Comb drop rate: $(l)every trip$() (100%)$(br)210 combs per hive-hour, making:$(li)$(l)Deepslate Gold Ore$(): 26.3$(li)$(l)Gilded Blackstone$(): 84.1 (5 combs + 4 Blackstone make 2; not an ore)$(li)$(l)Gold Ore$(): 26.3$(li)$(l)Nether Gold Ore$(): 26.3$(br2)Mined with Fortune III: about 57.8 raw gold per hive-hour.$(br)Home: Overworld."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Redstone Bee$()$(br)Comb drop rate: $(l)every trip$() (100%)$(br)210 combs per hive-hour, making:$(li)$(l)Deepslate Redstone Ore$(): 26.3$(li)$(l)Redstone Ore$(): 26.3$(br2)Mined with Fortune III: about 158 redstone dust per hive-hour.$(br)Home: Overworld."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Lapis Bee$()$(br)Comb drop rate: $(l)every trip$() (100%)$(br)210 combs per hive-hour, making:$(li)$(l)Deepslate Lapis Lazuli Ore$(): 26.3$(li)$(l)Lapis Lazuli Ore$(): 26.3$(br2)Mined with Fortune III: about 376 lapis lazuli per hive-hour.$(br)Home: Overworld."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Diamond Bee$()$(br)Comb drop rate: $(l)1 in 4$() (25%)$(br)52.6 combs per hive-hour, making:$(li)$(l)Deepslate Diamond Ore$(): 6.57$(li)$(l)Diamond Ore$(): 6.57$(br2)Mined with Fortune III: about 14.5 diamonds per hive-hour.$(br)Home: Overworld."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Emerald Bee$()$(br)Comb drop rate: $(l)every trip$() (100%)$(br)210 combs per hive-hour, making:$(li)$(l)Deepslate Emerald Ore$(): 26.3$(li)$(l)Emerald Ore$(): 26.3$(br2)Mined with Fortune III: about 57.8 emeralds per hive-hour.$(br)Home: Overworld."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Quartz Bee$()$(br)Comb drop rate: $(l)every trip$() (100%)$(br)210 combs per hive-hour, making:$(li)$(l)Nether Quartz Ore$(): 26.3$(br2)Mined with Fortune III: about 57.8 nether quartz per hive-hour.$(br)Home: Nether."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Ancient Debris Bee$()$(br)Comb drop rate: $(l)1 in 6$() (16.7%)$(br)35.0 combs per hive-hour, making:$(li)$(l)Ancient Debris$(): 4.38$(br2)Mined: 4.38 ancient debris (no Fortune bonus).$(br)Home: Nether."
+    }
+  ],
+  "priority": true
+}

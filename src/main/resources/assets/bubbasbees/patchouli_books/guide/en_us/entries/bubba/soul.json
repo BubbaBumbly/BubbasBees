@@ -1,0 +1,36 @@
+{
+  "name": "Soul Bee",
+  "icon": "bubbasbees:soul_honeycomb",
+  "category": "bubbasbees:bubba",
+  "sortnum": 23,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "bubbasbees:soul_bee",
+      "name": "Soul Bee",
+      "text": "Bubba Star. Nether, all the time."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Rarely brings home a sad comb, which makes ghast tears and goes into crying obsidian and wither roses.$(br2)$(l)Flowers:$() Soul Sand, Soul Soil$(br2)$(l)Home biome:$() Soul Sand Valley$(br2)$(l)Brings home$() (busy hive):$(li)Soul Honeycomb: the other trips, 200 per hive-hour$(li)Sad Honeycomb: rare, 1 in 20, 10.5 per hive-hour"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Fire-immune:$() Fire and lava don't hurt it."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:gems/soul_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/soul/ghast_tear",
+      "recipe2": "bubbasbees:combs/soul/soul_sand"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/soul/soul_soil"
+    }
+  ]
+}

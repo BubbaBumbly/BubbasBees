@@ -1,0 +1,27 @@
+{
+  "name": "Bubba Stars",
+  "icon": "bubbasbees:bubba_star",
+  "category": "bubbasbees:basics",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Every conversion gem is crafted around a star, and the star comes back: it is a reusable catalyst. Better bees need better stars.$(br2)$(l)Lesser Bubba Star$(): 10 bees.$(br)$(l)Bubba Star$(): 19 bees.$(br)$(l)Celestial Bubba Star$(): the 10 ore bees."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:stars/lesser_bubba_star",
+      "text": "The first star."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:stars/bubba_star",
+      "text": "The Lesser Bubba Star is used up here."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "bubbasbees:celestial_bubba_star",
+      "text": "Not crafted: a Bubba Star becomes celestial in the $(l:rituals/night)Celestial Ritual$(/l), one night under open sky. Every ore bee's gem needs it."
+    }
+  ]
+}

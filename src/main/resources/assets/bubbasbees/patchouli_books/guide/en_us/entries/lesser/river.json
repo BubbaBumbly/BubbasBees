@@ -1,0 +1,37 @@
+{
+  "name": "River Bee",
+  "icon": "bubbasbees:river_honeycomb",
+  "category": "bubbasbees:lesser",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "bubbasbees:river_bee",
+      "name": "River Bee",
+      "text": "Lesser Bubba Star. Overworld, by day (also works in rain)."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Each trip it brings home a river comb (clay) or a gravel comb (gravel and flint), half and half.$(br2)$(l)Flowers:$() Clay, Gravel$(br2)$(l)Home biome:$() River$(br2)$(l)Brings home$() (busy hive):$(li)River Honeycomb: half the trips, 105 per hive-hour$(li)Gravel Honeycomb: half the trips, 105 per hive-hour"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Water-safe:$() Works in the rain and takes no damage from water."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:gems/river_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/river/clay",
+      "recipe2": "bubbasbees:combs/river/flint"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/river/gravel",
+      "recipe2": "bubbasbees:combs/river/sugar_cane"
+    }
+  ]
+}

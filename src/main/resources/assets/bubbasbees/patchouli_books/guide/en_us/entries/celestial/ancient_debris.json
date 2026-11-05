@@ -1,0 +1,31 @@
+{
+  "name": "Ancient Debris Bee",
+  "icon": "bubbasbees:ancient_debris_honeycomb",
+  "category": "bubbasbees:celestial",
+  "sortnum": 38,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "bubbasbees:ancient_debris_bee",
+      "name": "Ancient Debris Bee",
+      "text": "Celestial Bubba Star. Nether, all the time."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Its comb roll is 1 in 6. About one netherite ingot per hive-hour in the Nether.$(br2)$(l)Flowers:$() Ancient Debris, Block of Netherite$(br2)$(l)Home biome:$() none$(br2)$(l)Brings home$() (busy hive):$(li)Ancient Debris Honeycomb: 1 in 6, 35.0 per hive-hour$(br2)$(l)Fire-immune:$() Fire and lava don't hurt it."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ore rates: $(l:ores/drop_rates)Ore Drop Rates$(/l)."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:gems/ancient_debris_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/ancient_debris/ancient_debris"
+    }
+  ]
+}

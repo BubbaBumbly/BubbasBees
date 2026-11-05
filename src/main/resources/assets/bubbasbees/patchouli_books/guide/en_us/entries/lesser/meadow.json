@@ -1,0 +1,67 @@
+{
+  "name": "Meadow Bee",
+  "icon": "bubbasbees:meadow_honeycomb",
+  "category": "bubbasbees:lesser",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "bubbasbees:meadow_bee",
+      "name": "Meadow Bee",
+      "text": "Lesser Bubba Star. Overworld, by day."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Meadow + nature combs around one flower makes more of that flower (every vanilla flower). Meadow + dirt makes grass blocks, the only way to craft them.$(br2)$(l)Flowers:$() any flower$(br2)$(l)Home biome:$() Meadow, Flower Forest$(br2)$(l)Brings home$() (busy hive):$(li)Meadow Honeycomb: every trip, 210 per hive-hour"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:gems/meadow_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/meadow/allium",
+      "recipe2": "bubbasbees:combs/meadow/azure_bluet"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/meadow/blue_orchid",
+      "recipe2": "bubbasbees:combs/meadow/cornflower"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/meadow/dandelion",
+      "recipe2": "bubbasbees:combs/meadow/lilac"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/meadow/lily_of_the_valley",
+      "recipe2": "bubbasbees:combs/meadow/orange_tulip"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/meadow/oxeye_daisy",
+      "recipe2": "bubbasbees:combs/meadow/peony"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/meadow/pink_tulip",
+      "recipe2": "bubbasbees:combs/meadow/poppy"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/meadow/red_tulip",
+      "recipe2": "bubbasbees:combs/meadow/rose_bush"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/meadow/sunflower",
+      "recipe2": "bubbasbees:combs/meadow/white_tulip"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/meadow/wither_rose"
+    }
+  ]
+}

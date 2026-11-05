@@ -1,0 +1,16 @@
+{
+  "name": "Calm and Busy",
+  "icon": "bubbasbees:bubba_star",
+  "category": "bubbasbees:basics",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Use a $(l)Bubba Star$() on a hive to switch its bees between calm and busy. The star isn't used up.$(br2)$(l)Calm$() (the default): bees fly like vanilla bees, wander a little and stay inside twice as long."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Busy$(): bees fly faster, go straight back to flowers they know and spend half as long inside. Every rate in this book is for busy hives."
+    }
+  ]
+}

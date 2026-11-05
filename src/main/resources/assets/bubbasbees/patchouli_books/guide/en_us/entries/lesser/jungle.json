@@ -1,0 +1,37 @@
+{
+  "name": "Jungle Bee",
+  "icon": "bubbasbees:jungle_honeycomb",
+  "category": "bubbasbees:lesser",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "bubbasbees:jungle_bee",
+      "name": "Jungle Bee",
+      "text": "Lesser Bubba Star. Overworld, by day."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "All its recipes need nature combs too: melons, cocoa, bamboo, vines and jungle logs.$(br2)$(l)Flowers:$() Jungle Leaves, Jungle Log, Bamboo, Melon$(br2)$(l)Home biome:$() Jungle, Bamboo Jungle, Sparse Jungle$(br2)$(l)Brings home$() (busy hive):$(li)Jungle Honeycomb: every trip, 210 per hive-hour"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:gems/jungle_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/jungle/bamboo",
+      "recipe2": "bubbasbees:combs/jungle/cocoa_beans"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/jungle/jungle_log",
+      "recipe2": "bubbasbees:combs/jungle/melon"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/jungle/vine"
+    }
+  ]
+}

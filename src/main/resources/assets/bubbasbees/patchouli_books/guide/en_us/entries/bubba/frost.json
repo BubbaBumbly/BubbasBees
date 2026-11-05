@@ -1,0 +1,32 @@
+{
+  "name": "Frost Bee",
+  "icon": "bubbasbees:frost_honeycomb",
+  "category": "bubbasbees:bubba",
+  "sortnum": 15,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "bubbasbees:frost_bee",
+      "name": "Frost Bee",
+      "text": "Bubba Star. Overworld, by day (also works in rain)."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Flowers:$() Snow Block, Ice, Packed Ice, Blue Ice$(br2)$(l)Home biome:$() Snowy Plains, Ice Spikes, Snowy Slopes, Frozen Peaks, Frozen River, Frozen Ocean, Deep Frozen Ocean$(br2)$(l)Brings home$() (busy hive):$(li)Frost Honeycomb: every trip, 210 per hive-hour$(br2)$(l)Snowproof:$() Keeps working while it snows and can't freeze in powder snow."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:gems/frost_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/frost/ice",
+      "recipe2": "bubbasbees:combs/frost/powder_snow_bucket"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:combs/frost/snowball"
+    }
+  ]
+}
