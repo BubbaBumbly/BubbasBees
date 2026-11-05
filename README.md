@@ -14,7 +14,9 @@ inspirations for this project, without which this mod would certainly not exist.
 and I am very thankful that their code is available for my eyes, my learning and my modding.
 
 ### License
-Bubba's Bees is licensed under the [GNU General Public License v3](LICENSE). Some of its code is adapted from:
+The **code** of Bubba's Bees is licensed under the [GNU General Public License v3](LICENSE). The **art** (the
+textures, bee models and animations in `src/main/resources/assets/bubbasbees/`, and the mod's icon and logo) is
+**All Rights Reserved**: see [LICENSE-ASSETS](LICENSE-ASSETS). Some of the code is adapted from:
 - [Resourceful Bees](https://github.com/Team-Resourceful/ResourcefulBees) by Team Resourceful, licensed under the
   GNU Lesser General Public License v3.
 - [Productive Bees](https://github.com/JDKDigital/productive-bees) by JDKDigital, from versions released under the

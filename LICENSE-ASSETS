@@ -1,0 +1,13 @@
+Bubba's Bees art
+Copyright (c) Bubba Bumbly. All Rights Reserved.
+
+This covers the mod's art: the textures (*.png), the bee models (*.geo.json) and the animations
+(*.animation.json) under src/main/resources/assets/bubbasbees/, and the mod's icon and logo (logo.png).
+
+You may not copy, modify or redistribute this art, in whole or in part, outside the unmodified
+Bubba's Bees mod, without written permission. Modpacks may include the unmodified mod jar.
+
+Everything else (the Java code, data files, language files and build scripts) is licensed under the
+GNU General Public License v3; see LICENSE.
+
+Bundled libraries keep their own licenses: GeckoLib (MIT) and MixinExtras (MIT).

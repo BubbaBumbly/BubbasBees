@@ -1,6 +1,6 @@
 modLoader="javafml"
 loaderVersion="[41,)"
-license="GNU GPLv3"
+license="Code: GNU GPLv3. Art (textures, bee models, animations): All Rights Reserved. See LICENSE and LICENSE-ASSETS."
 
 [[mods]]
 modId="bubbasbees"
