@@ -22,6 +22,7 @@ import java.lang.reflect.Method;
  */
 public final class StarlightSky extends RenderType {
     public static final ResourceLocation OVERLAY = tex("starlight_bee_overlay");
+    public static final ResourceLocation OVERLAY_ANGRY = tex("starlight_bee_overlay_angry");
     private static final ResourceLocation SKY_TILE = tex("starlight_sky_tile");
     private static final ResourceLocation NEAR_STARS = tex("starlight_stars_near");
     /** The bee's own texture, used only for its alpha: stars only where the bee has pixels (antennae, legs, stinger). */

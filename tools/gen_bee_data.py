@@ -286,6 +286,11 @@ def art(work, combs, ids):
     for bee in ids:
         src = ROSTER[bee][2]
         if src == "existing":
+            # Original bees keep their committed looks; only matched angry replacements from angry/old_final come in
+            for name in (f"{bee}_bee", f"{bee}_deepslate_bee"):
+                angry = os.path.join(work, "angry", "old_final", name + "_angry.png")
+                if os.path.exists(angry):
+                    shutil.copyfile(angry, os.path.join(ent, name + "_angry.png"))
             continue
         if src == "soul":
             tex, model = os.path.join(drafts, "soul_translucent", "soul_final.png"), os.path.join(drafts, "bees", "soul", "B.geo.json")
@@ -303,6 +308,10 @@ def art(work, combs, ids):
             shutil.copyfile(angry if os.path.exists(angry) else tex, os.path.join(ent, name + "_angry.png"))
         shutil.copyfile(model, os.path.join(geo, bee + ".geo.json"))
         copied.append(bee)
+    # Starlight's angry eyes overlay (the calm overlay is committed by hand: never copy starsky/out's retired E2)
+    overlay = os.path.join(work, "angry", "new_final", "starlight_bee_overlay_angry.png")
+    if os.path.exists(overlay):
+        shutil.copyfile(overlay, os.path.join(ent, "starlight_bee_overlay_angry.png"))
     for c in combs:
         src = os.path.join(drafts, "comb_finals", f"{c}_honeycomb.png")
         dst = os.path.join(items, f"{c}_honeycomb.png")

@@ -22,7 +22,7 @@ public class StarlightOverlayLayer extends GeoLayerRenderer<BubbasBee> {
                        float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (!BubbasBeeRenderer.usesSky(bee)) return;
         renderer.setOverlayPartsHidden(bee, false);
-        renderModel(getEntityModel(), StarlightSky.OVERLAY, poseStack, buffer, packedLight, bee, partialTicks, 1.0F, 1.0F, 1.0F);
+        renderModel(getEntityModel(), bee.isAngry() ? StarlightSky.OVERLAY_ANGRY : StarlightSky.OVERLAY, poseStack, buffer, packedLight, bee, partialTicks, 1.0F, 1.0F, 1.0F);
         renderer.setOverlayPartsHidden(bee, true);
     }
 
