@@ -71,7 +71,7 @@ public final class BeeSpecs {
             BeeSpec.of("ancient_debris", CELESTIAL).model("ancient_debris").home(NETHER).fireImmune()
                     .combChance(1.0F / 6).egg(0x624844, 0x252022).build(),
             // Royal queen: no gem (summoned by her ritual), one per world
-            BeeSpec.of("royal_queen", NONE).model("royal_queen").traits(ROYAL_QUEEN).health(20).egg(0xebaf3e, 0x541b71).build()
+            BeeSpec.of("royal_queen", NONE).model("royal_queen").traits(ROYAL_QUEEN).health(20).scale(1.25F).egg(0xf5ae2b, 0x541b71).build()
     );
 
     private static final Map<String, BeeSpec> BY_ID = new LinkedHashMap<>();

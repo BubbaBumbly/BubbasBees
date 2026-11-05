@@ -44,7 +44,7 @@ public class ModEntityTypes {
             BEES.put(spec.id(), ENTITY_TYPES.register(spec.entityId(), () -> {
                 EntityType.Builder<ModBee> builder = EntityType.Builder
                         .<ModBee>of((type, level) -> new ModBee(type, level, spec), MobCategory.CREATURE)
-                        .sized(0.7f, 0.6f);
+                        .sized(0.7f * spec.scale(), 0.6f * spec.scale());
                 if (spec.fireImmune()) builder.fireImmune();
                 return builder.build(spec.entityKey().toString());
             }));

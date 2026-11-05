@@ -29,7 +29,7 @@ import java.util.List;
  */
 public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb> combs, List<RareComb> rareCombs,
                       @Nullable ResourceKey<Level> home, boolean fireImmune, boolean deepslateLook, boolean translucent,
-                      String model, Set<Trait> traits, double maxHealth,
+                      String model, Set<Trait> traits, double maxHealth, float scale,
                       int eggBase, int eggSpots) {
 
     /** Optional abilities (finish-spec.md bee cards). Fire immunity is its own flag (entity type property). */
@@ -178,6 +178,7 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
         private String model = "ore";
         private final EnumSet<Trait> traits = EnumSet.noneOf(Trait.class);
         private double maxHealth = 10.0D;
+        private float scale = 1.0F;
         private int eggBase = 0xffffff;
         private int eggSpots = 0x000000;
 
@@ -240,6 +241,12 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
             return this;
         }
 
+        /** Size against a normal bee: hitbox (entity type) and model (BubbasBeeRenderer) both scale by it. */
+        public Builder scale(float scale) {
+            this.scale = scale;
+            return this;
+        }
+
         public Builder egg(int base, int spots) {
             this.eggBase = base;
             this.eggSpots = spots;
@@ -249,7 +256,7 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
         public BeeSpec build() {
             if (combs.isEmpty()) combs.add(new WeightedComb(id, 1));
             return new BeeSpec(id, tier, combChance, List.copyOf(combs), List.copyOf(rareCombs), home, fireImmune,
-                    deepslateLook, translucent, model, Set.copyOf(traits), maxHealth, eggBase, eggSpots);
+                    deepslateLook, translucent, model, Set.copyOf(traits), maxHealth, scale, eggBase, eggSpots);
         }
     }
 }

@@ -40,15 +40,20 @@ public class BubbasBeeRenderer extends GeoEntityRenderer<BubbasBee> {
         }
     }
 
-    // GeckoLib 3 does not scale babies itself; halve the model like vanilla's baby bee
+    // GeckoLib 3 does not scale babies itself; halve the model like vanilla's baby bee, times the bee's own size
     @Override
     public float getWidthScale(BubbasBee bee) {
-        return bee.isBaby() ? 0.5F * super.getWidthScale(bee) : super.getWidthScale(bee);
+        return sizeOf(bee) * super.getWidthScale(bee);
     }
 
     @Override
     public float getHeightScale(BubbasBee bee) {
-        return bee.isBaby() ? 0.5F * super.getHeightScale(bee) : super.getHeightScale(bee);
+        return sizeOf(bee) * super.getHeightScale(bee);
+    }
+
+    private static float sizeOf(BubbasBee bee) {
+        float scale = bee.getSpec() == null ? 1.0F : bee.getSpec().scale();
+        return bee.isBaby() ? 0.5F * scale : scale;
     }
 
     // Glow bees glow: drawn at full brightness whatever the light around them
