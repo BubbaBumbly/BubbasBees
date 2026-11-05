@@ -2,8 +2,11 @@ package net.bubba.bubbasbees.entity.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector4f;
 import net.bubba.bubbasbees.bees.BeeSpec;
 import net.bubba.bubbasbees.entity.custom.BubbasBee;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -65,12 +68,42 @@ public class BubbasBeeRenderer extends GeoEntityRenderer<BubbasBee> {
         if (!bee.isAddedToWorld() && bee.level != null) bee.tickCount = (int) bee.level.getGameTime();
         boolean glows = bee.getSpec() != null && bee.getSpec().has(BeeSpec.Trait.GLOW);
         boolean sky = usesSky(bee);
+        boolean book = inPatchouliBook(bee);
+        if (book) {
+            poseStack.pushPose();
+            flipDepth(poseStack);
+        }
         if (sky) setOverlayPartsHidden(bee, true);
         try {
             super.render(bee, entityYaw, partialTick, poseStack, bufferSource, glows ? LightTexture.FULL_BRIGHT : packedLight);
         } finally {
             if (sky) setOverlayPartsHidden(bee, false);
+            if (book) poseStack.popPose();
         }
+    }
+
+    /**
+     * Patchouli's entity pages draw with screen depth reversed (vanilla's inventory preview flips z, Patchouli 1.19.2
+     * doesn't), so a bee seen from behind shows its antennae and stinger through its body. Jade/JEI/inventory
+     * previews go through vanilla's flip and are left alone.
+     */
+    private static boolean inPatchouliBook(BubbasBee bee) {
+        var screen = Minecraft.getInstance().screen;
+        return !bee.isAddedToWorld() && screen != null && screen.getClass().getName().startsWith("vazkii.patchouli");
+    }
+
+    /**
+     * Mirrors screen depth around the bee's origin (z' = 2c - z): screen x/y, and so face winding and culling, stay
+     * the same; only which part is in front flips. Normals are left alone, so the lighting doesn't change.
+     */
+    private static void flipDepth(PoseStack poseStack) {
+        Matrix4f pose = poseStack.last().pose();
+        Vector4f origin = new Vector4f(0, 0, 0, 1);
+        origin.transform(pose);
+        Matrix4f flip = Matrix4f.createTranslateMatrix(0, 0, 2 * origin.z());
+        flip.multiply(Matrix4f.createScaleMatrix(1, 1, -1));
+        flip.multiply(pose);
+        pose.load(flip);
     }
 
     @Override
