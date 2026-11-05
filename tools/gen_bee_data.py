@@ -298,7 +298,9 @@ def art(work, combs, ids):
             pairs, model = [(os.path.join(drafts, src) + ".png", f"{bee}_bee")], os.path.join(drafts, src) + ".geo.json"
         for tex, name in pairs:
             shutil.copyfile(tex, os.path.join(ent, name + ".png"))
-            shutil.copyfile(tex, os.path.join(ent, name + "_angry.png"))   # angry looks = normal, as for every bee so far
+            # Angry look: the final from angry/new_final when there is one, else the normal look
+            angry = os.path.join(work, "angry", "new_final", name + "_angry.png")
+            shutil.copyfile(angry if os.path.exists(angry) else tex, os.path.join(ent, name + "_angry.png"))
         shutil.copyfile(model, os.path.join(geo, bee + ".geo.json"))
         copied.append(bee)
     for c in combs:
