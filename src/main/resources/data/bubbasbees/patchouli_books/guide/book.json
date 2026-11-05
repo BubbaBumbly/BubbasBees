@@ -1,5 +1,5 @@
 {
-  "name": "Bubba's Bees Guide",
+  "name": "Encyclobeedia",
   "subtitle": "Every bee, comb and ore",
   "landing_text": "Welcome, beekeeper.$(br2)This book lists every bee, every comb recipe and every ore drop rate in Bubba's Bees. Start with $(l:basics/welcome)Getting Started$(/l).",
   "version": 1,
@@ -9,5 +9,7 @@
   "show_toasts": false,
   "text_overflow_mode": "resize",
   "i18n": false,
-  "filler_texture": "bubbasbees:textures/gui/book/filler.png"
+  "filler_texture": "bubbasbees:textures/gui/book/filler.png",
+  "model": "bubbasbees:encyclobeedia",
+  "book_texture": "bubbasbees:textures/gui/encyclobeedia.png"
 }
