@@ -38,6 +38,13 @@
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:combs/swamp/verdant_froglight",
       "recipe2": "bubbasbees:combs/swamp/vine"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_swamp.png"
+      ],
+      "border": false
     }
   ]
 }

@@ -21,11 +21,19 @@
     {
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:gems/ancient_debris_conversion_gem",
-      "text": "Use it on a vanilla bee."
+      "text": "Use it on a vanilla bee.",
+      "title": "Ancient Debris Gem"
     },
     {
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:combs/ancient_debris/ancient_debris"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_ancient_debris.png"
+      ],
+      "border": false
     }
   ]
 }

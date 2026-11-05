@@ -26,6 +26,13 @@
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:combs/royal_queen/honey_block",
       "recipe2": "bubbasbees:combs/royal_queen/royal_jelly"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_royal_queen.png"
+      ],
+      "border": false
     }
   ]
 }

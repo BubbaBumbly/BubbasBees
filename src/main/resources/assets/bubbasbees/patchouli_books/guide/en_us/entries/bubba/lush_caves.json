@@ -37,6 +37,13 @@
     {
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:combs/lush_caves/spore_blossom"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_lush_caves.png"
+      ],
+      "border": false
     }
   ]
 }

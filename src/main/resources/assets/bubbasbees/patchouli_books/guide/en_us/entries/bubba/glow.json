@@ -28,6 +28,13 @@
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:combs/glow/glowstone_dust",
       "recipe2": "bubbasbees:combs/glow/shroomlight"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_glow.png"
+      ],
+      "border": false
     }
   ]
 }

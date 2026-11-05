@@ -28,6 +28,13 @@
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:combs/taiga/spruce_log",
       "recipe2": "bubbasbees:combs/taiga/sweet_berries"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_taiga.png"
+      ],
+      "border": false
     }
   ]
 }

@@ -28,6 +28,13 @@
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:combs/desert/dead_bush",
       "recipe2": "bubbasbees:combs/desert/sand"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_desert.png"
+      ],
+      "border": false
     }
   ]
 }

@@ -26,6 +26,13 @@
     {
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:combs/magma/magma_block"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_magma.png"
+      ],
+      "border": false
     }
   ]
 }

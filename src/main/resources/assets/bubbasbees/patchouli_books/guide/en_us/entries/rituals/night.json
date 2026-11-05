@@ -57,6 +57,13 @@
     {
       "type": "patchouli:text",
       "text": "$(l)Tip: bring 4 starlight hives$() (20 bees), plus a hive of each of the 8 bees with their flowers inside the circle. Keep a sword ready for dark bees."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/celestial_bubba_star.png"
+      ],
+      "border": false
     }
   ]
 }

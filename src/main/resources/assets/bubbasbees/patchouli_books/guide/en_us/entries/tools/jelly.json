@@ -17,6 +17,13 @@
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:blocks/pink_sticky_piston",
       "recipe2": "bubbasbees:blocks/royal_jelly_from_block"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/royal_jelly.png"
+      ],
+      "border": false
     }
   ]
 }

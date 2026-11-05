@@ -28,6 +28,13 @@
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:combs/gold/gold_ore",
       "recipe2": "bubbasbees:combs/gold/nether_gold_ore"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_gold.png"
+      ],
+      "border": false
     }
   ]
 }

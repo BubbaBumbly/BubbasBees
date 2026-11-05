@@ -17,7 +17,8 @@
     {
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:gems/mushroom_fields_conversion_gem",
-      "text": "Use it on a vanilla bee."
+      "text": "Use it on a vanilla bee.",
+      "title": "Mushroom Fields Gem"
     },
     {
       "type": "patchouli:crafting",

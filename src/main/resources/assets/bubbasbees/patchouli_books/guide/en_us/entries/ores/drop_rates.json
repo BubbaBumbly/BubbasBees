@@ -47,6 +47,13 @@
     {
       "type": "patchouli:text",
       "text": "$(l)Ancient Debris Bee$()$(br)Comb drop rate: $(l)1 in 6$() (16.7%)$(br)35.0 combs per hive-hour, making:$(li)$(l)Ancient Debris$(): 4.38$(br2)Mined: 4.38 ancient debris (no Fortune bonus).$(br)Home: Nether."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/diamond_honeycomb.png"
+      ],
+      "border": false
     }
   ],
   "priority": true

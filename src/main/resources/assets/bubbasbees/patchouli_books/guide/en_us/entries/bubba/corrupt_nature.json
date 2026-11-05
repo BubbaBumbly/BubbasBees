@@ -21,7 +21,8 @@
     {
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:gems/corrupt_nature_conversion_gem",
-      "text": "Use it on a vanilla bee."
+      "text": "Use it on a vanilla bee.",
+      "title": "Corrupt Nature Gem"
     },
     {
       "type": "patchouli:crafting",

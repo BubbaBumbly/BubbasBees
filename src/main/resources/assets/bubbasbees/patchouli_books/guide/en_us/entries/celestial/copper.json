@@ -27,6 +27,13 @@
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:combs/copper/copper_ore",
       "recipe2": "bubbasbees:combs/copper/deepslate_copper_ore"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_copper.png"
+      ],
+      "border": false
     }
   ]
 }

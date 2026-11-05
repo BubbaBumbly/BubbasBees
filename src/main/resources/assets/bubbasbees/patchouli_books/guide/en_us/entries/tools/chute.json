@@ -15,6 +15,13 @@
     {
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:blocks/comb_chute"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/comb_chute.png"
+      ],
+      "border": false
     }
   ]
 }

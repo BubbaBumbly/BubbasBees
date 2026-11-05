@@ -8,5 +8,6 @@
   "show_progress": false,
   "show_toasts": false,
   "text_overflow_mode": "resize",
-  "i18n": false
+  "i18n": false,
+  "filler_texture": "bubbasbees:textures/gui/book/filler.png"
 }

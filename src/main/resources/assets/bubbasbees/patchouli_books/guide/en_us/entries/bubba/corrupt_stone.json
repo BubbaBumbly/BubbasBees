@@ -17,7 +17,8 @@
     {
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:gems/corrupt_stone_conversion_gem",
-      "text": "Use it on a vanilla bee."
+      "text": "Use it on a vanilla bee.",
+      "title": "Corrupt Stone Gem"
     },
     {
       "type": "patchouli:crafting",
@@ -27,6 +28,13 @@
     {
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:combs/corrupt_stone/netherrack"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_corrupt_stone.png"
+      ],
+      "border": false
     }
   ]
 }

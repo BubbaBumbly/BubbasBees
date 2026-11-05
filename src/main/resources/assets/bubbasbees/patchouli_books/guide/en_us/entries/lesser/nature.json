@@ -26,6 +26,13 @@
     {
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:combs/nature/bee_nest"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_nature.png"
+      ],
+      "border": false
     }
   ]
 }

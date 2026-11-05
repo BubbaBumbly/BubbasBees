@@ -10,12 +10,20 @@
     },
     {
       "type": "patchouli:crafting",
-      "recipe": "bubbasbees:advanced_beehive",
-      "recipe2": "bubbasbees:reinforced_advanced_beehive"
+      "recipe": "bubbasbees:advanced_beehive"
     },
     {
-      "type": "patchouli:text",
-      "text": "The reinforced hive resists explosions like obsidian."
+      "type": "patchouli:crafting",
+      "recipe": "bubbasbees:reinforced_advanced_beehive",
+      "text": "Resists explosions like obsidian.",
+      "title": "Reinforced Hive"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/advanced_beehive_front_honey.png"
+      ],
+      "border": false
     }
   ]
 }

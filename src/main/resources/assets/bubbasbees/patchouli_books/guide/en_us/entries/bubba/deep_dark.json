@@ -36,6 +36,13 @@
     {
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:combs/deep_dark/sculk_shrieker"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_deep_dark.png"
+      ],
+      "border": false
     }
   ]
 }

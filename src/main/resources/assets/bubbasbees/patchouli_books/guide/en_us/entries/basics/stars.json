@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Every conversion gem is crafted around a star, and the star comes back: it is a reusable catalyst. Better bees need better stars.$(br2)$(l)Lesser Bubba Star$(): 10 bees.$(br)$(l)Bubba Star$(): 19 bees.$(br)$(l)Celestial Bubba Star$(): the 10 ore bees."
+      "text": "Every conversion gem is crafted around a star, and the star comes back: it is a reusable catalyst. Better bees need better stars.$(br2)$(l)Lesser Bubba Star bees:$()$(br)$(l:lesser/stone)Stone Bee$(/l), $(l:lesser/dirt)Dirt Bee$(/l), $(l:lesser/nature)Nature Bee$(/l), $(l:lesser/forest)Forest Bee$(/l), $(l:lesser/desert)Desert Bee$(/l), $(l:lesser/river)River Bee$(/l), $(l:lesser/meadow)Meadow Bee$(/l), $(l:lesser/jungle)Jungle Bee$(/l), $(l:lesser/taiga)Taiga Bee$(/l), $(l:lesser/savanna)Savanna Bee$(/l)."
     },
     {
       "type": "patchouli:crafting",
@@ -14,9 +14,17 @@
       "text": "The first star."
     },
     {
+      "type": "patchouli:text",
+      "text": "$(l)Bubba Star bees:$()$(br)$(l:bubba/amethyst)Amethyst Bee$(/l), $(l:bubba/obsidian)Obsidian Bee$(/l), $(l:bubba/glow)Glow Bee$(/l), $(l:bubba/mesa)Mesa Bee$(/l), $(l:bubba/swamp)Swamp Bee$(/l), $(l:bubba/frost)Frost Bee$(/l), $(l:bubba/lush_caves)Lush Caves Bee$(/l), $(l:bubba/deep_dark)Deep Dark Bee$(/l), $(l:bubba/mushroom_fields)Mushroom Fields Bee$(/l), $(l:bubba/sea)Sea Bee$(/l), $(l:bubba/coral)Coral Bee$(/l), $(l:bubba/prismarine)Prismarine Bee$(/l), $(l:bubba/corrupt_stone)Corrupt Stone Bee$(/l), $(l:bubba/soul)Soul Bee$(/l), $(l:bubba/corrupt_nature)Corrupt Nature Bee$(/l), $(l:bubba/magma)Magma Bee$(/l), $(l:bubba/ender)Ender Bee$(/l), $(l:bubba/royal_guard)Royal Guard Bee$(/l), $(l:bubba/starlight)Starlight Bee$(/l)."
+    },
+    {
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:stars/bubba_star",
       "text": "The Lesser Bubba Star is used up here."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Celestial Bubba Star bees:$()$(br)$(l:celestial/coal)Coal Bee$(/l), $(l:celestial/copper)Copper Bee$(/l), $(l:celestial/iron)Iron Bee$(/l), $(l:celestial/gold)Gold Bee$(/l), $(l:celestial/redstone)Redstone Bee$(/l), $(l:celestial/lapis)Lapis Bee$(/l), $(l:celestial/diamond)Diamond Bee$(/l), $(l:celestial/emerald)Emerald Bee$(/l), $(l:celestial/quartz)Quartz Bee$(/l), $(l:celestial/ancient_debris)Ancient Debris Bee$(/l).$(br2)The $(l:rituals/royal_queen)Royal Queen$(/l) has no gem: she is summoned by a ritual."
     },
     {
       "type": "patchouli:spotlight",

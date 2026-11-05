@@ -27,6 +27,13 @@
       "type": "patchouli:crafting",
       "recipe": "bubbasbees:combs/prismarine/prismarine_crystals",
       "recipe2": "bubbasbees:combs/prismarine/prismarine_shard"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_prismarine.png"
+      ],
+      "border": false
     }
   ]
 }
