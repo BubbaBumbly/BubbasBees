@@ -44,7 +44,7 @@ public final class BeeSpecs {
             BeeSpec.of("swamp", BUBBA).model("swamp").egg(0x3e6838, 0x241f18).build(),
             BeeSpec.of("frost", BUBBA).model("frost").traits(SNOWPROOF).egg(0xeaf2f5, 0xf6fbfe).build(),
             BeeSpec.of("lush_caves", BUBBA).model("lush_caves").egg(0x5c552f, 0x6d7737).build(),
-            BeeSpec.of("deep_dark", BUBBA).model("deep_dark").rare("echo", 60).traits(SILENT_WINGS).egg(0x45494d, 0x1b363e).build(),
+            BeeSpec.of("deep_dark", BUBBA).model("deep_dark").rare("echo", 60).traits(SILENT_WINGS).egg(0x44494d, 0x1c363e).build(),
             BeeSpec.of("mushroom_fields", BUBBA).model("mushroom_fields").egg(0x6b6167, 0x8a3534).build(),
             BeeSpec.of("sea", BUBBA).model("sea").rare("nautilus", 20).traits(WATER_SAFE).egg(0x3b65bb, 0xded8c1).build(),
             BeeSpec.of("coral", BUBBA).model("coral").traits(WATER_SAFE).egg(0x454890, 0xc4b68c).build(),
