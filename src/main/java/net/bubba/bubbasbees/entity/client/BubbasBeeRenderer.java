@@ -60,6 +60,9 @@ public class BubbasBeeRenderer extends GeoEntityRenderer<BubbasBee> {
     @Override
     public void render(BubbasBee bee, float entityYaw, float partialTick, PoseStack poseStack,
                        MultiBufferSource bufferSource, int packedLight) {
+        // Patchouli's entity pages (and other GUI previews) never tick their bee, and GeckoLib 3 runs the animation
+        // clock from tickCount, so a stuck tickCount loops the flap every frame. Drive it from the level's clock.
+        if (!bee.isAddedToWorld() && bee.level != null) bee.tickCount = (int) bee.level.getGameTime();
         boolean glows = bee.getSpec() != null && bee.getSpec().has(BeeSpec.Trait.GLOW);
         boolean sky = usesSky(bee);
         if (sky) setOverlayPartsHidden(bee, true);
