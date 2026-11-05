@@ -10,9 +10,18 @@ craft for this reason.
 I am Bubba Bumbly, a solo developer interested in Minecraft mod development. Secondarily responsible would be my 
 inspirations for this project, without which this mod would certainly not exist. Those mods are 
 [Productive Bees](https://github.com/JDKDigital/productive-bees/tree/dev-1.21.0) and 
-[Resourceful Bees](https://github.com/Team-Resourceful/ResourcefulBees). I have scoured and appropriated much of the 
-code from the 1.19.x versions of these mods in order to create my own, and I am very thankful that their code is 
-available for my eyes, my learning and my modding. 
+[Resourceful Bees](https://github.com/Team-Resourceful/ResourcefulBees). I learned from their code to create my own,
+and I am very thankful that their code is available for my eyes, my learning and my modding.
+
+### License
+Bubba's Bees is licensed under the [GNU General Public License v3](LICENSE). Some of its code is adapted from:
+- [Resourceful Bees](https://github.com/Team-Resourceful/ResourcefulBees) by Team Resourceful, licensed under the
+  GNU Lesser General Public License v3.
+- [Productive Bees](https://github.com/JDKDigital/productive-bees) by JDKDigital, from versions released under the
+  GNU General Public License v3 (before March 2022).
+
+The jar bundles [GeckoLib](https://github.com/bernie-g/geckolib) and
+[MixinExtras](https://github.com/LlamaLad7/MixinExtras), both MIT licensed, with their own license files.
 
 ### Usage of this Mod
 Please consider downloading and trying the mod for yourself, especially if you are a vanilla / vanilla+ player who 
