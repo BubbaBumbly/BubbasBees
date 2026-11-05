@@ -28,7 +28,6 @@ public final class BeeSpecs {
             // Lesser star (cherry grove is 1.20+ only)
             BeeSpec.of("stone", LESSER).deepslateLook().egg(0x4e4a4f, 0x8b858c).build(),
             BeeSpec.of("dirt", LESSER).model("dirt").egg(0x8a6343, 0x302218).build(),
-            BeeSpec.of("concrete", LESSER).model("concrete").egg(0x79726e, 0xe8ebec).build(),
             BeeSpec.of("nature", LESSER).model("nature").traits(GREEN_THUMB).egg(0x074a10, 0x0e871e).build(),
             BeeSpec.of("forest", LESSER).model("forest").egg(0x485725, 0x43371e).build(),
             BeeSpec.of("desert", LESSER).model("desert").rare("bone", 20).traits(BURROWER).egg(0xd4be8c, 0xb5aa91).build(),
@@ -42,7 +41,7 @@ public final class BeeSpecs {
             BeeSpec.of("obsidian", BUBBA).model("obsidian").traits(BLAST_PROOF).egg(0x231437, 0x64388d).build(),
             BeeSpec.of("glow", BUBBA).model("glow").traits(GLOW).egg(0x826131, 0xf0e0b0).build(),
             BeeSpec.of("mesa", BUBBA).model("mesa").traits(BURROWER).egg(0xb66d2e, 0x452f22).build(),
-            BeeSpec.of("swamp", BUBBA).model("swamp").egg(0x3f643b, 0x37302a).build(),
+            BeeSpec.of("swamp", BUBBA).model("swamp").egg(0x3e6838, 0x241f18).build(),
             BeeSpec.of("frost", BUBBA).model("frost").traits(SNOWPROOF).egg(0xeaf2f5, 0xf6fbfe).build(),
             BeeSpec.of("lush_caves", BUBBA).model("lush_caves").egg(0x5c552f, 0x6d7737).build(),
             BeeSpec.of("deep_dark", BUBBA).model("deep_dark").rare("echo", 60).traits(SILENT_WINGS).egg(0x45494d, 0x1b363e).build(),
@@ -66,7 +65,7 @@ public final class BeeSpecs {
             BeeSpec.of("redstone", CELESTIAL).deepslateLook().egg(0x470e0a, 0x7a1710).build(),
             BeeSpec.of("lapis", CELESTIAL).model("lapis").deepslateLook().egg(0x7e7e7d, 0x666970).build(),
             BeeSpec.of("diamond", CELESTIAL).deepslateLook().combChance(1.0F / 4).egg(0x4ad0d0, 0x7a7a7a).build(),
-            BeeSpec.of("emerald", CELESTIAL).model("emerald").deepslateLook().egg(0x636965, 0x7e7e7d).build(),
+            BeeSpec.of("emerald", CELESTIAL).model("emerald").deepslateLook().egg(0x727772, 0x1bc855).build(),
             BeeSpec.of("quartz", CELESTIAL).model("quartz").home(NETHER).fireImmune().egg(0xdcd9d2, 0x783e3a).build(),
             BeeSpec.of("ancient_debris", CELESTIAL).model("ancient_debris").home(NETHER).fireImmune()
                     .combChance(1.0F / 6).egg(0x624844, 0x252022).build(),

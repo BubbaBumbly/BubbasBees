@@ -48,7 +48,6 @@ FLOWERS = ["dandelion", "poppy", "blue_orchid", "allium", "azure_bluet", "red_tu
 ROSTER = {
     "stone": ("Stone Bee", ["stone", "deepslate", "tuff", "andesite", "diorite", "granite", "calcite", "dripstone_block"], "existing"),
     "dirt": ("Dirt Bee", ["dirt", "coarse_dirt", "podzol", "rooted_dirt", "grass_block"], "bees/dirt/A"),
-    "concrete": ("Concrete Bee", [f"{c}_concrete" for c in COLOURS] + [f"{c}_concrete_powder" for c in COLOURS], "bees/concrete/A"),
     "nature": ("Nature Bee", ["#minecraft:flowers", "#minecraft:leaves", "#minecraft:saplings", "#minecraft:crops", "grass",
                               "fern", "tall_grass", "large_fern", "moss_block", "moss_carpet", "vine", "cactus", "sugar_cane",
                               "bamboo", "lily_pad", "brown_mushroom", "red_mushroom", "big_dripleaf", "small_dripleaf",
@@ -108,8 +107,6 @@ SKIP_RECIPES = {("desert", "suspicious sand (1.20+)")}
 
 # Colour families: the snapshot holds one example per family; (bee, label) -> (example seed, [(seed, output)])
 FAMILIES = {
-    ("concrete", "red"): ("v:red_dye", [(f"v:{c}_dye", f"v:{c}_concrete_powder") for c in COLOURS]),
-    ("concrete", "blue"): None,
     ("mesa", "orange terracotta"): ("v:orange_terracotta", [(f"v:{c}_terracotta",) * 2 for c in
                                                              ("orange", "yellow", "red", "brown", "white", "light_gray")]),
     ("coral", "tube coral block"): ("v:tube_coral_block", [(f"v:{c}_{p}",) * 2 for c in CORALS
@@ -185,7 +182,7 @@ def recipes(snapshot, known):
     made = []
     for r in snapshot["combs"]:
         bee, label = r["bee"], r["label"]
-        if bee in SKIP_BEES or (bee, label) in SKIP_RECIPES:
+        if bee in SKIP_BEES or bee not in ROSTER or (bee, label) in SKIP_RECIPES:
             continue
         count = COUNTS.get((bee, label), r["count"])
         fam = FAMILIES.get((bee, label), ())
@@ -199,7 +196,7 @@ def recipes(snapshot, known):
             res = item_id(out)
             made.append((f"combs/{bee}/{res.split(':')[1]}", shaped(grid, res, count)))
     for bee, g in snapshot["gems"].items():
-        if bee in SKIP_BEES:
+        if bee in SKIP_BEES or bee not in ROSTER:
             continue
         grid = [GEM_STAR_FIX.get(bee, t) if t and t.startswith("s:") else t for t in g["grid"]]
         made.append((f"gems/{bee}_conversion_gem", shaped(grid, f"bubbasbees:{bee}_conversion_gem")))
@@ -723,6 +720,8 @@ def step4_art(work):
         for name in sorted(os.listdir(gems)):
             if name.startswith(on_hold):
                 continue
+            if name.split("_conversion_gem")[0] not in ROSTER:
+                continue    # gem of a bee no longer in the roster (concrete, deleted 2026-11-04)
             if name.endswith("_conversion_gem.png") or name.endswith("_conversion_gem.png.mcmeta"):
                 shutil.copyfile(os.path.join(gems, name), os.path.join(items, name))
     # Celestial Bubba Star: final G3 (starlight recolour of the Bubba Star animation, 14 frames; glint from isFoil)
