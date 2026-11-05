@@ -704,7 +704,7 @@ def jar_art(work, ids):
 
 
 def step4_art(work):
-    """Final royal jelly art (item, block, pink piston face), the Celestial Bubba Star, and a PLACEHOLDER dark bee."""
+    """Final royal jelly art (item, block, pink piston face), the Celestial Bubba Star, and the dark bee (final art, else a placeholder)."""
     from PIL import Image
     fin = os.path.join(work, "royal_jelly", "final")
     items, blocks = os.path.join(ASSETS, "textures", "item"), os.path.join(ASSETS, "textures", "block")
@@ -731,7 +731,11 @@ def step4_art(work):
         shutil.copyfile(os.path.join(star, name), os.path.join(items, name))
     ent = os.path.join(ASSETS, "textures", "entity")
     dark = os.path.join(ent, "dark_bee.png")
-    if not os.path.exists(dark):
+    # Dark bee: final art (dark_bee/final, one texture, no angry look, no jar); placeholder only while it is missing
+    dark_final = os.path.join(work, "dark_bee", "final", "dark_bee.png")
+    if os.path.exists(dark_final):
+        shutil.copyfile(dark_final, dark)
+    elif not os.path.exists(dark):
         im = Image.open(os.path.join(ent, "stone_bee.png")).convert("RGBA")
         px = im.load()
         for y in range(im.height):
