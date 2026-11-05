@@ -39,7 +39,7 @@ public final class BeeSpecs {
             // Bubba Star
             BeeSpec.of("amethyst", BUBBA).model("amethyst").rare("budding_amethyst", 150).egg(0x423b5a, 0xdcd2e3).build(),
             BeeSpec.of("obsidian", BUBBA).model("obsidian").traits(BLAST_PROOF).egg(0x231437, 0x64388d).build(),
-            BeeSpec.of("glow", BUBBA).model("glow").traits(GLOW).egg(0x826131, 0xf0e0b0).build(),
+            BeeSpec.of("glow", BUBBA).model("glow").traits(GLOW).egg(0xf9f3cd, 0xca9d53).build(),
             BeeSpec.of("mesa", BUBBA).model("mesa").traits(BURROWER).egg(0xb66d2e, 0x452f22).build(),
             BeeSpec.of("swamp", BUBBA).model("swamp").egg(0x3e6838, 0x241f18).build(),
             BeeSpec.of("frost", BUBBA).model("frost").traits(SNOWPROOF).egg(0xeaf2f5, 0xf6fbfe).build(),
