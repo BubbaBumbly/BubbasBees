@@ -3,7 +3,6 @@ package net.bubba.bubbasbees.mixin;
 import net.bubba.bubbasbees.blockentities.AdvancedBeehiveBlockEntity;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -37,11 +36,4 @@ public abstract class BeeEnterHiveGoalMixin {
         }
     }
 
-    /*@Inject(method = "start", at = @At(value = "TAIL"))
-    public void onStart(CallbackInfo ci) {
-        BlockEntity blockEntity = this$0.level.getBlockEntity(this$0.getHivePos());
-        if (blockEntity instanceof AdvancedBeehiveBlockEntity holder) {
-
-        }
-    }*/
 }

@@ -223,10 +223,6 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         return bubbasBee.tickCount < wanderUntilTick && !bubbasBee.hasNectar();
     }
 
-    public Departure getDeparture() {
-        return departure;
-    }
-
     @Override
     public boolean canBeeUse() {
         if (bubbasBee.tickCount < this.nextSearchTick) return false;

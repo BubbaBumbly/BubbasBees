@@ -38,10 +38,6 @@ import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
 import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -289,9 +285,6 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         return !spec.canWorkAt(this.level, this.worldPosition.above(), true, RitualManager.isRitualHive(this.level, this.worldPosition));
     }
 
-    public static boolean shouldStayInHive(Level level, BeeReleaseStatus beehiveState) {
-        return (level != null && (level.isNight() || level.isRaining())) && beehiveState != BeeReleaseStatus.EMERGENCY;
-    }
     private static void increaseTicksInHive(BeeData beeData, int amount) {
         ((BeehiveBeeDataAccessor) beeData).setTicksInHive(((BeehiveBeeDataAccessor) beeData).getTicksInHive() + amount);
     }
@@ -409,10 +402,6 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     /** Game time the smoke wears off, or HiveOccupantView.NOT_SMOKED; constant while the smoke lasts. */
     public long smokeEndGameTime(long gameTime) {
         return isSmoked ? gameTime + Math.max(0, smokeDuration - ticksSmoked) : HiveOccupantView.NOT_SMOKED;
-    }
-
-    public int getTicksSmoked() {
-        return ticksSmoked;
     }
 
     @Override

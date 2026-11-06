@@ -23,18 +23,13 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -326,30 +321,6 @@ public class BubbasBee extends Bee implements IAnimatable {
         return spec == null ? "none" : spec.id();
     }
 
-    @Override
-    public InteractionResult mobInteract(Player player, InteractionHand hand) {
-        ItemStack itemstack = player.getItemInHand(hand);
-        if (itemstack.is(Items.STICK) && !this.level.isClientSide) {
-            System.out.println("=== BubbasBee Debug: " + this.getName().getString() + " ===");
-            System.out.println("  Variant: " + getVariant());
-            System.out.println("  Tick: " + tickCount);
-            System.out.println("  HasNectar: " + hasNectar());
-            System.out.println("  SavedFlowerPos: " + (savedFlowerPos != null ? savedFlowerPos.toShortString() : "null"));
-            System.out.println("  Flowers: " + (getSpec() == null ? "none" : "#" + getSpec().flowerTag().location()));
-            System.out.println("  Has hive: " + hasHive());
-            System.out.println("  HivePos: " + (getHivePos() != null ? getHivePos().toShortString() : "null"));
-            System.out.println("  HomeAnchor: " + (homeAnchorPos != null ? homeAnchorPos.toShortString() : "null"));
-            System.out.println("  Mode: " + (isBusy() ? "busy" : "calm"));
-            if (((BeeEntityAccessor)this).getBeePollinateGoal() instanceof ModBeePollinateGoal goal) {
-                System.out.println("  Departure: " + (goal.getDeparture() != null ? goal.getDeparture() : "none (busy or not rolled yet)")
-                        + (goal.isDawdling() ? ", still wandering" : ""));
-            }
-            System.out.println("======================================");
-            return InteractionResult.SUCCESS;
-        }
-        return super.mobInteract(player, hand);
-    }
-
     // Spawn eggs and breeding produce a baby of this bee's own type instead of a vanilla bee
     @Override
     public Bee getBreedOffspring(@NotNull ServerLevel level, @NotNull AgeableMob other) {
@@ -472,6 +443,7 @@ public class BubbasBee extends Bee implements IAnimatable {
                 .add(Attributes.FOLLOW_RANGE, 48.0D).build();
     }
 
+    @Override
     public boolean isFood(ItemStack p_27895_) {
         return false;
     }

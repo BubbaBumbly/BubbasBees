@@ -6,8 +6,6 @@ import net.bubba.bubbasbees.entity.custom.*;
 import net.bubba.bubbasbees.registries.ModEntityTypes;
 import net.bubba.bubbasbees.registries.ModItems;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -15,7 +13,6 @@ import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.animal.Bee;
@@ -70,16 +67,6 @@ public abstract class BeeMixin extends Animal {
     /// Bee conversion functions below (use conversion gems to convert Bee to BubbasBee)
     public @NotNull InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
-        if (itemstack.is(Items.STICK)){
-            BlockPos hivePos = this.getHivePos();
-            String typeStr = this.getType().toString();
-            System.out.println("Type: " + typeStr);
-            if (hivePos != null && !level.isClientSide){
-                    System.out.println("HivePos: " + hivePos.toString());
-                } else if (!level.isClientSide){
-                    System.out.println("No HivePos");
-                }
-        }
         BeeSpec gemSpec = ModItems.specForGem(itemstack);
         if (gemSpec != null && this.getType() == EntityType.BEE) {
             if (!this.level.isClientSide) {
