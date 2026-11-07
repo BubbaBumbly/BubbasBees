@@ -6,6 +6,7 @@ import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import net.bubba.bubbasbees.BubbasBees;
 import net.bubba.bubbasbees.blockentities.StardustBlockEntity;
+import net.bubba.bubbasbees.blocks.custom.PedestalBlock;
 import net.bubba.bubbasbees.blocks.custom.StardustBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -14,6 +15,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.Mth;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -28,14 +30,27 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * The stardust pile-ups (art: BubbasBeesArt/work/stardust/final3d/README.md). Against a pedestal or the Celestial Altar:
+ * pick K3, 0.5 px steps up to 3 px at the pedestal's base (the altar's comes 2 px further out, it fills its block); each
+ * dust block draws its own. Columns over flat dust start on top of it, so no faces are shared with the block model.
+ *
  * The stardust pile-up against an end rod (art pick T1 at 9 px, BubbasBeesArt/work/stardust/final/README.md, height
  * maps from pile_pass4.py). Dust can arrive at a rod from 1-4 sides; the per-side height maps merge with max, and the
  * first arriving dust (order W, N, E, S) draws the whole merged pile so no cube is drawn twice. Nothing goes inside
  * the rod (px 7-8) and columns over the rod's base (px 6-9) start on top of it (y 1).
  */
 public class StardustPileRenderer implements BlockEntityRenderer<StardustBlockEntity> {
-    public static final ResourceLocation TOP = new ResourceLocation(BubbasBees.MOD_ID, "block/stardust_pile_top");
-    public static final ResourceLocation SIDE = new ResourceLocation(BubbasBees.MOD_ID, "block/stardust_pile_side");
+    /** 4 twinkle versions (art pick V4): version 0 has no suffix, then _1.._3. A dust block picks one by position. */
+    public static final int VARIANTS = 4;
+    public static final ResourceLocation[] TOP = new ResourceLocation[VARIANTS];
+    public static final ResourceLocation[] SIDE = new ResourceLocation[VARIANTS];
+    static {
+        for (int i = 0; i < VARIANTS; i++) {
+            String sfx = i == 0 ? "" : "_" + i;
+            TOP[i] = new ResourceLocation(BubbasBees.MOD_ID, "block/stardust_pile_top" + sfx);
+            SIDE[i] = new ResourceLocation(BubbasBees.MOD_ID, "block/stardust_pile_side" + sfx);
+        }
+    }
     private static final Direction[] ORDER = {Direction.WEST, Direction.NORTH, Direction.EAST, Direction.SOUTH};
     private static final double H = 9.0;
     /** Merged pile per set of arriving sides (bit i = ORDER[i]): boxes {x, y0, z, height} in rod-block pixels. */
@@ -51,6 +66,27 @@ public class StardustPileRenderer implements BlockEntityRenderer<StardustBlockEn
         if (level == null) return;
         BlockState state = dust.getBlockState();
         if (!(state.getBlock() instanceof StardustBlock)) return;
+        VertexConsumer out = buffers.getBuffer(RenderType.entityCutout(InventoryMenu.BLOCK_ATLAS));
+        for (Direction towards : ORDER) {
+            if (state.getValue(StardustBlock.PROPERTY.get(towards)) != StardustBlock.Side.SIDE) continue;
+            BlockPos ped = dust.getBlockPos().relative(towards);
+            if (!(level.getBlockState(ped).getBlock() instanceof PedestalBlock block)) continue;
+            int k = indexOf(towards.getOpposite());   // the pedestal side the dust is on: W 0, N 1, E 2, S 3
+            List<float[]> boxes = new ArrayList<>();
+            for (float[] c : pedestalMap(block.isAltar())) {
+                int x = (int) c[0], z = (int) c[2];
+                for (int r = 0; r < k; r++) { int t = x; x = 15 - z; z = t; }
+                float y0 = c[1], top = c[3];
+                if (Math.floorDiv(x, 16) != 0 || Math.floorDiv(z, 16) != 0) {   // inside the dust block: sit on the flat dust
+                    y0 = Math.max(y0, flatHeight(state, Math.floorMod(x, 16), Math.floorMod(z, 16)));
+                }
+                if (top > y0 + 1e-3F) boxes.add(new float[]{x, y0, z, top - y0});
+            }
+            pose.pushPose();
+            pose.translate(ped.getX() - dust.getBlockPos().getX(), 0, ped.getZ() - dust.getBlockPos().getZ());
+            drawBoxes(boxes, pose, out, light, variant(dust.getBlockPos()));
+            pose.popPose();
+        }
         for (Map.Entry<Direction, ?> e : StardustBlock.PROPERTY.entrySet()) {
             Direction towardsRod = e.getKey();
             if (state.getValue(StardustBlock.PROPERTY.get(towardsRod)) != StardustBlock.Side.ROD) continue;
@@ -69,31 +105,101 @@ public class StardustPileRenderer implements BlockEntityRenderer<StardustBlockEn
             if (!dust.getBlockPos().equals(owner)) continue;
             pose.pushPose();
             pose.translate(rod.getX() - dust.getBlockPos().getX(), 0, rod.getZ() - dust.getBlockPos().getZ());
-            drawPile(pile(mask), pose, buffers.getBuffer(RenderType.entityCutout(InventoryMenu.BLOCK_ATLAS)), light);
+            List<float[]> boxes = new ArrayList<>();
+            for (int[] c : pile(mask)) {
+                float y0 = c[1], top = c[1] + c[3];
+                int bx = Math.floorDiv(c[0], 16), bz = Math.floorDiv(c[2], 16);
+                if (bx != 0 || bz != 0) {   // over a neighbouring dust block: sit on its flat dust
+                    BlockState under = level.getBlockState(rod.offset(bx, 0, bz));
+                    if (under.getBlock() instanceof StardustBlock) y0 = Math.max(y0, flatHeight(under, Math.floorMod(c[0], 16), Math.floorMod(c[2], 16)));
+                }
+                if (top > y0 + 1e-3F) boxes.add(new float[]{c[0], y0, c[2], top - y0});
+            }
+            drawBoxes(boxes, pose, out, light, variant(dust.getBlockPos()));
             pose.popPose();
         }
     }
 
-    private static void drawPile(List<int[]> boxes, PoseStack pose, VertexConsumer out, int light) {
+    /** Which twinkle version a pile uses: any fixed spread by position, so neighbours rarely blink alike. */
+    private static int variant(BlockPos pos) {
+        return Math.floorMod((int) Mth.getSeed(pos.getX(), 0, pos.getZ()) >>> 7, VARIANTS);
+    }
+
+    /** Boxes {x, y0, z, h} in block px (fractions allowed); top uv = the world pixel, side uv = its height band. */
+    private static void drawBoxes(List<float[]> boxes, PoseStack pose, VertexConsumer out, int light, int variant) {
         var atlas = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS);
-        TextureAtlasSprite top = atlas.apply(TOP);
-        TextureAtlasSprite side = atlas.apply(SIDE);
+        TextureAtlasSprite top = atlas.apply(TOP[variant]);
+        TextureAtlasSprite side = atlas.apply(SIDE[variant]);
         Matrix4f m = pose.last().pose();
         Matrix3f n = pose.last().normal();
-        for (int[] b : boxes) {
+        for (float[] b : boxes) {
             float x0 = b[0] / 16f, y0 = b[1] / 16f, z0 = b[2] / 16f;
             float x1 = x0 + 1 / 16f, y1 = (b[1] + b[3]) / 16f, z1 = z0 + 1 / 16f;
-            int tu = Math.floorMod(b[0], 16), tv = Math.floorMod(b[2], 16);
+            int tu = Math.floorMod((int) b[0], 16), tv = Math.floorMod((int) b[2], 16);
             float u0 = top.getU(tu), u1 = top.getU(tu + 1), v0 = top.getV(tv), v1 = top.getV(tv + 1);
             quad(out, m, n, light, 0, 1, 0, x0, y1, z0, x0, y1, z1, x1, y1, z1, x1, y1, z0, u0, v0, u1, v1);
-            int su = Math.floorMod(b[0] + b[2], 16);
-            float sv0 = side.getV(Math.max(0, 16 - b[3])), sv1 = side.getV(16);
+            int su = Math.floorMod((int) b[0] + (int) b[2], 16);
+            float sv0 = side.getV(Math.max(0, 16 - b[1] - b[3])), sv1 = side.getV(16 - b[1]);
             float su0 = side.getU(su), su1 = side.getU(su + 1);
             quad(out, m, n, light, 0, 0, -1, x1, y1, z0, x1, y0, z0, x0, y0, z0, x0, y1, z0, su0, sv0, su1, sv1);
             quad(out, m, n, light, 0, 0, 1, x0, y1, z1, x0, y0, z1, x1, y0, z1, x1, y1, z1, su0, sv0, su1, sv1);
             quad(out, m, n, light, -1, 0, 0, x0, y1, z0, x0, y0, z0, x0, y0, z1, x0, y1, z1, su0, sv0, su1, sv1);
             quad(out, m, n, light, 1, 0, 0, x1, y1, z1, x1, y0, z1, x1, y0, z0, x1, y1, z0, su0, sv0, su1, sv1);
         }
+    }
+
+    /** Height of the block model's flat dust at a pixel of a stardust block (0 = none): models stardust_dot/arm/hill. */
+    static float flatHeight(BlockState state, int x, int z) {
+        boolean core = x >= 6 && x <= 9 && z >= 6 && z <= 9;
+        if (core && isTurn(state)) return 0.75F;
+        boolean dot = (x >= 5 && x <= 10 && z >= 6 && z <= 9) || (x >= 6 && x <= 9 && (z == 5 || z == 10));
+        if (dot) return 0.5F;
+        boolean across = z >= 6 && z <= 9, along = x >= 6 && x <= 9;
+        if (across && x >= 11 && on(state, Direction.EAST)) return 0.5F;
+        if (across && x <= 4 && on(state, Direction.WEST)) return 0.5F;
+        if (along && z >= 11 && on(state, Direction.SOUTH)) return 0.5F;
+        if (along && z <= 4 && on(state, Direction.NORTH)) return 0.5F;
+        return 0F;
+    }
+
+    private static boolean on(BlockState state, Direction d) {
+        return state.getValue(StardustBlock.PROPERTY.get(d)) != StardustBlock.Side.NONE;
+    }
+
+    /** Two perpendicular connections (a turn, or a 3-4 way junction): the blockstate's stardust_hill case. */
+    private static boolean isTurn(BlockState state) {
+        boolean n = on(state, Direction.NORTH), e = on(state, Direction.EAST), s = on(state, Direction.SOUTH), w = on(state, Direction.WEST);
+        return (n && e) || (e && s) || (s && w) || (w && n);
+    }
+
+    private static int indexOf(Direction d) {
+        for (int i = 0; i < ORDER.length; i++) if (ORDER[i] == d) return i;
+        return 0;
+    }
+
+    private static final Map<Boolean, List<float[]>> PEDESTAL = new HashMap<>();
+
+    /** flat3d_pass1.ped_side_map(3), dust arriving from the west, pedestal-block px: {x, y0, z, top}. The altar fills its
+     *  block, so its ramp ends 2 px further out (x <= -1) and has no ledge. Python's round() = Math.rint. */
+    private static List<float[]> pedestalMap(boolean altar) {
+        return PEDESTAL.computeIfAbsent(altar, a -> {
+            List<float[]> out = new ArrayList<>();
+            double H = 3;
+            for (int x = -6; x < 2; x++) {
+                double t = (x + 7) / 8.0;
+                double h = H * (Math.exp(2.5 * t) - 1) / (Math.exp(2.5) - 1);
+                for (int z = 4; z < 12; z++) {
+                    double d = Math.abs(z - 7.5);
+                    double hz = d < 2 ? h : (d < 3 ? h * 0.6 : h * 0.3);
+                    hz = Math.max(0.5, Math.rint(hz * 2) / 2);
+                    out.add(new float[]{a ? x - 2 : x, 0, z, (float) hz});
+                }
+            }
+            if (!a) {
+                for (int z = 5; z < 11; z++) out.add(new float[]{2, 2, z, (float) (H - (z >= 6 && z <= 9 ? 0 : 0.5))});
+            }
+            return out;
+        });
     }
 
     /** Four corners in order; uv: (u0,v0) at the first corner's top edge, (u1,v1) at the opposite corner. */

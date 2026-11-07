@@ -86,8 +86,8 @@ public class BubbasBees {
         @SubscribeEvent
         public static void onTextureStitch(net.minecraftforge.client.event.TextureStitchEvent.Pre event) {
             if (event.getAtlas().location().equals(net.minecraft.world.inventory.InventoryMenu.BLOCK_ATLAS)) {
-                event.addSprite(net.bubba.bubbasbees.client.StardustPileRenderer.TOP);
-                event.addSprite(net.bubba.bubbasbees.client.StardustPileRenderer.SIDE);
+                for (var rl : net.bubba.bubbasbees.client.StardustPileRenderer.TOP) event.addSprite(rl);
+                for (var rl : net.bubba.bubbasbees.client.StardustPileRenderer.SIDE) event.addSprite(rl);
             }
         }
 

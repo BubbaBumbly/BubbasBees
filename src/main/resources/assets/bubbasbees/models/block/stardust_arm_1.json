@@ -1,0 +1,10 @@
+{
+  "__comment": "Twinkle version 1 of stardust_arm (art pick V4; the blockstate picks one per block).",
+  "parent": "bubbasbees:block/stardust_arm",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "particle": "bubbasbees:block/stardust_pile_top",
+    "top": "bubbasbees:block/stardust_pile_top_1",
+    "side": "bubbasbees:block/stardust_pile_side_1"
+  }
+}

@@ -1,41 +1,100 @@
 {
+  "__comment": "Stardust centre: 6x6 minus corners, 0.5 px tall (art final3d F1). Pieces never overlap, so nothing z-fights.",
   "render_type": "minecraft:cutout",
   "ambientocclusion": false,
   "textures": {
-    "particle": "bubbasbees:block/stardust_dot",
-    "dot": "bubbasbees:block/stardust_dot"
+    "particle": "bubbasbees:block/stardust_pile_top",
+    "top": "bubbasbees:block/stardust_pile_top",
+    "side": "bubbasbees:block/stardust_pile_side"
   },
   "elements": [
     {
       "from": [
+        5,
         0,
-        0.25,
-        0
+        6
       ],
       "to": [
-        16,
-        0.25,
-        16
+        11,
+        0.5,
+        10
       ],
       "shade": false,
       "faces": {
         "up": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#dot"
+          "texture": "#top"
         },
-        "down": {
-          "uv": [
-            0,
-            16,
-            16,
-            0
-          ],
-          "texture": "#dot"
+        "north": {
+          "texture": "#side"
+        },
+        "south": {
+          "texture": "#side"
+        },
+        "east": {
+          "texture": "#side"
+        },
+        "west": {
+          "texture": "#side"
+        }
+      }
+    },
+    {
+      "from": [
+        6,
+        0,
+        5
+      ],
+      "to": [
+        10,
+        0.5,
+        6
+      ],
+      "shade": false,
+      "faces": {
+        "up": {
+          "texture": "#top"
+        },
+        "north": {
+          "texture": "#side"
+        },
+        "south": {
+          "texture": "#side"
+        },
+        "east": {
+          "texture": "#side"
+        },
+        "west": {
+          "texture": "#side"
+        }
+      }
+    },
+    {
+      "from": [
+        6,
+        0,
+        10
+      ],
+      "to": [
+        10,
+        0.5,
+        11
+      ],
+      "shade": false,
+      "faces": {
+        "up": {
+          "texture": "#top"
+        },
+        "north": {
+          "texture": "#side"
+        },
+        "south": {
+          "texture": "#side"
+        },
+        "east": {
+          "texture": "#side"
+        },
+        "west": {
+          "texture": "#side"
         }
       }
     }

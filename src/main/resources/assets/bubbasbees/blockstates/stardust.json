@@ -1,44 +1,144 @@
 {
   "multipart": [
     {
-      "apply": {
-        "model": "bubbasbees:block/stardust_dot"
-      }
+      "apply": [
+        {
+          "model": "bubbasbees:block/stardust_dot"
+        },
+        {
+          "model": "bubbasbees:block/stardust_dot_1"
+        },
+        {
+          "model": "bubbasbees:block/stardust_dot_2"
+        },
+        {
+          "model": "bubbasbees:block/stardust_dot_3"
+        }
+      ]
     },
     {
       "when": {
         "east": "side|rod"
       },
-      "apply": {
-        "model": "bubbasbees:block/stardust_arm"
-      }
+      "apply": [
+        {
+          "model": "bubbasbees:block/stardust_arm"
+        },
+        {
+          "model": "bubbasbees:block/stardust_arm_1"
+        },
+        {
+          "model": "bubbasbees:block/stardust_arm_2"
+        },
+        {
+          "model": "bubbasbees:block/stardust_arm_3"
+        }
+      ]
     },
     {
       "when": {
         "south": "side|rod"
       },
-      "apply": {
-        "model": "bubbasbees:block/stardust_arm",
-        "y": 90
-      }
+      "apply": [
+        {
+          "model": "bubbasbees:block/stardust_arm",
+          "y": 90
+        },
+        {
+          "model": "bubbasbees:block/stardust_arm_1",
+          "y": 90
+        },
+        {
+          "model": "bubbasbees:block/stardust_arm_2",
+          "y": 90
+        },
+        {
+          "model": "bubbasbees:block/stardust_arm_3",
+          "y": 90
+        }
+      ]
     },
     {
       "when": {
         "west": "side|rod"
       },
-      "apply": {
-        "model": "bubbasbees:block/stardust_arm",
-        "y": 180
-      }
+      "apply": [
+        {
+          "model": "bubbasbees:block/stardust_arm",
+          "y": 180
+        },
+        {
+          "model": "bubbasbees:block/stardust_arm_1",
+          "y": 180
+        },
+        {
+          "model": "bubbasbees:block/stardust_arm_2",
+          "y": 180
+        },
+        {
+          "model": "bubbasbees:block/stardust_arm_3",
+          "y": 180
+        }
+      ]
     },
     {
       "when": {
         "north": "side|rod"
       },
-      "apply": {
-        "model": "bubbasbees:block/stardust_arm",
-        "y": 270
-      }
+      "apply": [
+        {
+          "model": "bubbasbees:block/stardust_arm",
+          "y": 270
+        },
+        {
+          "model": "bubbasbees:block/stardust_arm_1",
+          "y": 270
+        },
+        {
+          "model": "bubbasbees:block/stardust_arm_2",
+          "y": 270
+        },
+        {
+          "model": "bubbasbees:block/stardust_arm_3",
+          "y": 270
+        }
+      ]
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "north": "side|rod",
+            "east": "side|rod"
+          },
+          {
+            "east": "side|rod",
+            "south": "side|rod"
+          },
+          {
+            "south": "side|rod",
+            "west": "side|rod"
+          },
+          {
+            "west": "side|rod",
+            "north": "side|rod"
+          }
+        ]
+      },
+      "apply": [
+        {
+          "model": "bubbasbees:block/stardust_hill"
+        },
+        {
+          "model": "bubbasbees:block/stardust_hill_1"
+        },
+        {
+          "model": "bubbasbees:block/stardust_hill_2"
+        },
+        {
+          "model": "bubbasbees:block/stardust_hill_3"
+        }
+      ]
     }
   ]
 }
