@@ -66,7 +66,9 @@ public class PedestalBlockEntity extends BlockEntity {
     @Override
     public @NotNull CompoundTag getUpdateTag() {
         CompoundTag tag = saveWithoutMetadata();
-        if (ritualActive) tag.putBoolean(RITUAL_TAG, true);   // client only: rituals live in memory (RitualManager)
+        // Always written, so the tag is never empty: an empty tag is dropped from the update packet, and the client
+        // would keep drawing an item that was taken off. Client only: rituals live in memory (RitualManager).
+        tag.putBoolean(RITUAL_TAG, ritualActive);
         return tag;
     }
 
