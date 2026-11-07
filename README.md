@@ -9,7 +9,7 @@ craft for this reason.
 #### Who is responsible for this project?
 I am Bubba Bumbly, a solo developer interested in Minecraft mod development. Secondarily responsible would be my 
 inspirations for this project, without which this mod would certainly not exist. Those mods are 
-[Productive Bees](https://github.com/JDKDigital/productive-bees/tree/dev-1.21.0) and 
+[Productive Bees](https://github.com/JDKDigital/productive-bees) and 
 [Resourceful Bees](https://github.com/Team-Resourceful/ResourcefulBees). I learned from their code to create my own,
 and I am very thankful that their code is available for my eyes, my learning and my modding.
 
@@ -23,6 +23,8 @@ and I am very thankful that their code is available for my eyes, my learning and
   plus 3D previews of the ritual layouts that you can show as a ghost in the world while you build.
 - A **hive panel** when you look at a hive: honey, mode, smoke time and every bee inside with its release timer
   (if you use [Jade](https://modrinth.com/mod/jade), the same info shows in Jade's panel instead).
+- **JEI support**: with [JEI](https://modrinth.com/mod/jei) installed, every item has a "how to get / what it does"
+  page, and every comb shows which bee brings it home and how often.
 
 ### Requirements
 - Minecraft **1.19.2** with **Forge**. GeckoLib is bundled in the jar, so nothing else is needed.
