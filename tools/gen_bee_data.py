@@ -104,6 +104,9 @@ COMB_NAMES = {"royal_queen": "Royal Honeycomb", "budding_amethyst": "Budding Ame
 COUNTS = {("dirt", "dirt"): 32, ("desert", "bone blocks (bone comb)"): 8, ("sea", "nautilus shell (nautilus comb)"): 4,
           ("soul", "ghast tear (sad comb)"): 5, ("starlight", "stardust"): 8, ("royal_queen", "royal jelly"): 8}
 SKIP_RECIPES = {("desert", "suspicious sand (1.20+)")}
+# Ore recipes, 8 combs + 1 ore -> n (final balance, user 2026-11-07): coal net 4, iron/gold net 3,
+# copper/redstone/quartz net 2; lapis, emerald, diamond and ancient debris stay at 2 (net 1)
+ORE_COUNTS = {"coal": 5, "iron": 4, "gold": 4, "copper": 3, "redstone": 3, "quartz": 3}
 
 # Colour families: the snapshot holds one example per family; (bee, label) -> (example seed, [(seed, output)])
 FAMILIES = {
@@ -194,7 +197,10 @@ def recipes(snapshot, known):
             variants = [([m[0] if t == seed else t for t in r["grid"]], m[-1]) for m in members]
         for grid, out in variants:
             res = item_id(out)
-            made.append((f"combs/{bee}/{res.split(':')[1]}", shaped(grid, res, count)))
+            n = count
+            if res != "minecraft:gilded_blackstone":   # not an ore recipe (5 combs + 4 blackstone -> 2)
+                n = ORE_COUNTS.get(bee, n)
+            made.append((f"combs/{bee}/{res.split(':')[1]}", shaped(grid, res, n)))
     for bee, g in snapshot["gems"].items():
         if bee in SKIP_BEES or bee not in ROSTER:
             continue
