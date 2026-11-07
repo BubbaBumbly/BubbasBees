@@ -1,0 +1,48 @@
+{
+  "name": "Deep Dark Bee",
+  "icon": "bubbasbees:deep_dark_honeycomb",
+  "category": "bubbasbees:bubba",
+  "sortnum": 17,
+  "pages": [
+    {
+      "type": "entity",
+      "entity": "bubbasbees:deep_dark_bee",
+      "name": "Deep Dark Bee",
+      "text": "Bubba Star. Overworld, by day."
+    },
+    {
+      "type": "text",
+      "text": "Very rarely brings home an echo comb: the only renewable echo shards.$(br2)$(l)Flowers:$() Sculk, Sculk Catalyst, Sculk Sensor$(br2)$(l)Home biome:$() Deep Dark$(br2)$(l)Brings home$() (busy hive):$(li)Deep Dark Honeycomb: the other trips, 207 per hive-hour$(li)Echo Honeycomb: rare, 1 in 60, 3.51 per hive-hour"
+    },
+    {
+      "type": "text",
+      "text": "$(l)Silent wings:$() Its wings make no vibrations, so it never sets off sculk sensors or shriekers."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:gems/deep_dark_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/deep_dark/echo_shard",
+      "recipe2": "bubbasbees:combs/deep_dark/sculk"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/deep_dark/sculk_catalyst",
+      "recipe2": "bubbasbees:combs/deep_dark/sculk_sensor"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/deep_dark/sculk_shrieker"
+    },
+    {
+      "type": "image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_deep_dark.png"
+      ],
+      "border": false
+    }
+  ]
+}

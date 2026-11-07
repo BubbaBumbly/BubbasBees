@@ -1,0 +1,38 @@
+{
+  "name": "Nature Bee",
+  "icon": "bubbasbees:nature_honeycomb",
+  "category": "bubbasbees:lesser",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "entity",
+      "entity": "bubbasbees:nature_bee",
+      "name": "Nature Bee",
+      "text": "Lesser Bubba Star. Overworld, by day."
+    },
+    {
+      "type": "text",
+      "text": "The partner for every biome plant: a biome bee's comb plus nature combs makes that biome's plants and logs. Alone, nature combs and a beehive make a bee nest.$(br2)$(l)Flowers:$() any flower, any leaves, any sapling, any crop, Grass, Fern, Tall Grass, Large Fern, Moss Block, Moss Carpet, Vines, Cactus, Sugar Cane, Bamboo, Lily Pad, Brown Mushroom, Red Mushroom, Big Dripleaf, Small Dripleaf, Azalea, Flowering Azalea"
+    },
+    {
+      "type": "text",
+      "text": "$(l)Home biome:$() none$(br2)$(l)Brings home$() (busy hive):$(li)Nature Honeycomb: every trip, 210 per hive-hour$(br2)$(l)Green thumb:$() Grows crops it flies over, like a vanilla bee. (Other mod bees don't.)"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:gems/nature_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/nature/bee_nest"
+    },
+    {
+      "type": "image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_nature.png"
+      ],
+      "border": false
+    }
+  ]
+}

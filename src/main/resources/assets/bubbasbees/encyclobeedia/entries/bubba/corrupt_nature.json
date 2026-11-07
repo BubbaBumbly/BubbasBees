@@ -1,0 +1,47 @@
+{
+  "name": "Corrupt Nature Bee",
+  "icon": "bubbasbees:corrupt_nature_honeycomb",
+  "category": "bubbasbees:bubba",
+  "sortnum": 24,
+  "pages": [
+    {
+      "type": "entity",
+      "entity": "bubbasbees:corrupt_nature_bee",
+      "name": "Corrupt Nature Bee",
+      "text": "Bubba Star. Nether, all the time."
+    },
+    {
+      "type": "text",
+      "text": "$(l)Flowers:$() Crimson Fungus, Warped Fungus, Crimson Nylium, Warped Nylium, Nether Wart, Nether Wart Block, Warped Wart Block, Weeping Vines, Weeping Vines Plant, Twisting Vines, Twisting Vines Plant, Crimson Stem, Warped Stem$(br2)$(l)Home biome:$() Crimson Forest, Warped Forest"
+    },
+    {
+      "type": "text",
+      "text": "$(l)Brings home$() (busy hive):$(li)Corrupt Nature Honeycomb: every trip, 210 per hive-hour$(br2)$(l)Fire-immune:$() Fire and lava don't hurt it."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:gems/corrupt_nature_conversion_gem",
+      "text": "Use it on a vanilla bee.",
+      "title": "Corrupt Nature Gem"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/corrupt_nature/crimson_fungus",
+      "recipe2": "bubbasbees:combs/corrupt_nature/crimson_stem"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/corrupt_nature/nether_wart",
+      "recipe2": "bubbasbees:combs/corrupt_nature/twisting_vines"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/corrupt_nature/warped_fungus",
+      "recipe2": "bubbasbees:combs/corrupt_nature/warped_stem"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/corrupt_nature/weeping_vines"
+    }
+  ]
+}

@@ -102,6 +102,11 @@ public class ModItems {
         return null;
     }
 
+    /// Guide
+    /** The Encyclobeedia: the mod's own guide book (client/guide), crafted from a book and a honeycomb. */
+    public static final RegistryObject<Item> ENCYCLOBEEDIA = ITEMS.register("encyclobeedia",
+            () -> new EncyclobeediaItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB).stacksTo(1)));
+
     /// Jars
     public static final RegistryObject<Item> BEE_JAR = ITEMS.register("bee_jar",
             () -> new BeeJarItem(new Item.Properties().tab(ModCreativeModeTab.BUBBASBEES_TAB).stacksTo(16)));

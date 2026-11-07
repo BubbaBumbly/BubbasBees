@@ -1,0 +1,49 @@
+{
+  "name": "Lush Caves Bee",
+  "icon": "bubbasbees:lush_caves_honeycomb",
+  "category": "bubbasbees:bubba",
+  "sortnum": 16,
+  "pages": [
+    {
+      "type": "entity",
+      "entity": "bubbasbees:lush_caves_bee",
+      "name": "Lush Caves Bee",
+      "text": "Bubba Star. Overworld, by day."
+    },
+    {
+      "type": "text",
+      "text": "$(l)Flowers:$() Azalea, Flowering Azalea, Moss Block, Spore Blossom, Cave Vines, Cave Vines Plant$(br2)$(l)Home biome:$() Lush Caves$(br2)$(l)Brings home$() (busy hive):$(li)Lush Caves Honeycomb: every trip, 210 per hive-hour"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:gems/lush_caves_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/lush_caves/azalea",
+      "recipe2": "bubbasbees:combs/lush_caves/big_dripleaf"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/lush_caves/flowering_azalea",
+      "recipe2": "bubbasbees:combs/lush_caves/glow_berries"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/lush_caves/moss_block",
+      "recipe2": "bubbasbees:combs/lush_caves/small_dripleaf"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/lush_caves/spore_blossom"
+    },
+    {
+      "type": "image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_lush_caves.png"
+      ],
+      "border": false
+    }
+  ]
+}

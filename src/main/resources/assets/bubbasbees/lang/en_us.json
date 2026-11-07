@@ -304,5 +304,14 @@
   "ritual.bubbasbees.dir.south_east": "south-east",
   "ritual.bubbasbees.dir.south_west": "south-west",
   "ritual.bubbasbees.dir.north_west": "north-west",
-  "ritual.bubbasbees.problem.ring_dust": "The stardust circle is missing a piece at %s, %s, %s"
+  "ritual.bubbasbees.problem.ring_dust": "The stardust circle is missing a piece at %s, %s, %s",
+  "item.bubbasbees.encyclobeedia": "Encyclobeedia",
+  "gui.bubbasbees.guide.categories": "Categories",
+  "gui.bubbasbees.guide.back": "Back",
+  "gui.bubbasbees.guide.visualize": "Visualize: show this layout in the world",
+  "gui.bubbasbees.guide.visualize_off": "Stop visualizing",
+  "gui.bubbasbees.guide.visualize_hint": "Look at your altar (or where it goes) and right-click to pin the layout",
+  "gui.bubbasbees.guide.visualize_aim": "look at a block",
+  "gui.bubbasbees.guide.visualize_pin": "right-click to pin",
+  "gui.bubbasbees.guide.visualize_cleared": "Layout cleared"
 }

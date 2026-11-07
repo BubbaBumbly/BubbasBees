@@ -1,0 +1,37 @@
+{
+  "name": "Forest Bee",
+  "icon": "bubbasbees:forest_honeycomb",
+  "category": "bubbasbees:lesser",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "entity",
+      "entity": "bubbasbees:forest_bee",
+      "name": "Forest Bee",
+      "text": "Lesser Bubba Star. Overworld, by day."
+    },
+    {
+      "type": "text",
+      "text": "Forest combs make nothing alone: mix them with nature combs and a log for oak, birch or dark oak logs, or with an apple for more apples.$(br2)$(l)Flowers:$() Oak Leaves, Birch Leaves, Dark Oak Leaves, Oak Log, Birch Log, Dark Oak Log$(br2)$(l)Home biome:$() Forest, Birch Forest, Old Growth Birch Forest, Dark Forest"
+    },
+    {
+      "type": "text",
+      "text": "$(l)Brings home$() (busy hive):$(li)Forest Honeycomb: every trip, 210 per hive-hour"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:gems/forest_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/forest/apple",
+      "recipe2": "bubbasbees:combs/forest/birch_log"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/forest/dark_oak_log",
+      "recipe2": "bubbasbees:combs/forest/oak_log"
+    }
+  ]
+}

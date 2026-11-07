@@ -28,7 +28,7 @@ import software.bernie.geckolib3.GeckoLib;
 @Mod(BubbasBees.MOD_ID)
 public class BubbasBees {
     public static final String MOD_ID = "bubbasbees";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public BubbasBees()
     {
@@ -94,6 +94,14 @@ public class BubbasBees {
         @SubscribeEvent
         public static void onRegisterOverlays(RegisterGuiOverlaysEvent event) {
             event.registerAboveAll(HiveInfoOverlay.ID, new HiveInfoOverlay());
+            event.registerAboveAll(net.bubba.bubbasbees.client.guide.GuideVisualizer.OVERLAY_ID,
+                    new net.bubba.bubbasbees.client.guide.GuideVisualizer.Overlay());
+        }
+
+        // The Encyclobeedia's pages are client resources (assets/bubbasbees/encyclobeedia), reloaded with F3+T
+        @SubscribeEvent
+        public static void onRegisterReloadListeners(net.minecraftforge.client.event.RegisterClientReloadListenersEvent event) {
+            event.registerReloadListener(new net.bubba.bubbasbees.client.guide.GuideBook.Loader());
         }
 
         @SubscribeEvent

@@ -1,0 +1,38 @@
+{
+  "name": "Magma Bee",
+  "icon": "bubbasbees:magma_honeycomb",
+  "category": "bubbasbees:bubba",
+  "sortnum": 25,
+  "pages": [
+    {
+      "type": "entity",
+      "entity": "bubbasbees:magma_bee",
+      "name": "Magma Bee",
+      "text": "Bubba Star. Nether, all the time."
+    },
+    {
+      "type": "text",
+      "text": "Its hive can sit on magma: fire-immune bees path through fire and lava safely.$(br2)$(l)Flowers:$() Magma Block$(br2)$(l)Home biome:$() Basalt Deltas, Nether Wastes$(br2)$(l)Brings home$() (busy hive):$(li)Magma Honeycomb: every trip, 210 per hive-hour"
+    },
+    {
+      "type": "text",
+      "text": "$(l)Lava filler:$() Each time it flies over a cauldron there is a 25% chance it adds a quarter of lava. A full lava cauldron takes four. Other mods can pump the lava out (250 mB per quarter).$(br2)$(l)Fire-immune:$() Fire and lava don't hurt it."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:gems/magma_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/magma/magma_block"
+    },
+    {
+      "type": "image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_magma.png"
+      ],
+      "border": false
+    }
+  ]
+}

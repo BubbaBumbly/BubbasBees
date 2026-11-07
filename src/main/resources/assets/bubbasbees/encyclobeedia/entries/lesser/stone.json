@@ -1,0 +1,47 @@
+{
+  "name": "Stone Bee",
+  "icon": "bubbasbees:stone_honeycomb",
+  "category": "bubbasbees:lesser",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "entity",
+      "entity": "bubbasbees:stone_bee",
+      "name": "Stone Bee",
+      "text": "Lesser Bubba Star. Overworld, by day."
+    },
+    {
+      "type": "text",
+      "text": "Seed recipes: 8 stone combs around one block of a stone type makes 32 of it. Works for stone, deepslate, tuff, andesite, diorite, granite and calcite; dripstone makes 16.$(br2)$(l)Flowers:$() Stone, Deepslate, Tuff, Andesite, Diorite, Granite, Calcite, Dripstone Block$(br2)$(l)Home biome:$() none"
+    },
+    {
+      "type": "text",
+      "text": "$(l)Brings home$() (busy hive):$(li)Stone Honeycomb: every trip, 210 per hive-hour"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:gems/stone_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/stone/andesite",
+      "recipe2": "bubbasbees:combs/stone/calcite"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/stone/deepslate",
+      "recipe2": "bubbasbees:combs/stone/diorite"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/stone/dripstone_block",
+      "recipe2": "bubbasbees:combs/stone/granite"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/stone/stone",
+      "recipe2": "bubbasbees:combs/stone/tuff"
+    }
+  ]
+}

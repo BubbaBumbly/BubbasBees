@@ -19,15 +19,3 @@ description='''Adds Bees, Duh'''
     versionRange="[1.19,]"
     ordering="NONE"
     side="BOTH"
-
-
-
-
-
-# Patchouli is optional: the guide book (data/bubbasbees/patchouli_books/guide) and its recipe load only with it
-[[dependencies.bubbasbees]]
-    modId="patchouli"
-    mandatory=false
-    versionRange="[1.19.2-77,)"
-    ordering="NONE"
-    side="BOTH"

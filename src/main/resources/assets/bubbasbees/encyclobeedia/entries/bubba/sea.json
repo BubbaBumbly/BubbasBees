@@ -1,0 +1,37 @@
+{
+  "name": "Sea Bee",
+  "icon": "bubbasbees:sea_honeycomb",
+  "category": "bubbasbees:bubba",
+  "sortnum": 19,
+  "pages": [
+    {
+      "type": "entity",
+      "entity": "bubbasbees:sea_bee",
+      "name": "Sea Bee",
+      "text": "Bubba Star. Overworld, by day (also works in rain)."
+    },
+    {
+      "type": "text",
+      "text": "Ocean bees can't dive, so they use flowers they can reach from above: sea pickles on land, kelp at the surface. Rarely brings home a nautilus comb.$(br2)$(l)Flowers:$() Sea Pickle, Kelp, Kelp Plant, Seagrass, Tall Seagrass$(br2)$(l)Home biome:$() Beach, Snowy Beach, every ocean"
+    },
+    {
+      "type": "text",
+      "text": "$(l)Brings home$() (busy hive):$(li)Sea Honeycomb: the other trips, 200 per hive-hour$(li)Nautilus Honeycomb: rare, 1 in 20, 10.5 per hive-hour$(br2)$(l)Water-safe:$() Works in the rain and takes no damage from water."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:gems/sea_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/sea/kelp",
+      "recipe2": "bubbasbees:combs/sea/nautilus_shell"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/sea/sea_pickle",
+      "recipe2": "bubbasbees:combs/sea/seagrass"
+    }
+  ]
+}

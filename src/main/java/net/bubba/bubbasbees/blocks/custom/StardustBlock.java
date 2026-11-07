@@ -91,7 +91,8 @@ public class StardustBlock extends Block implements EntityBlock {
         return state;
     }
 
-    private static Side sideFor(BlockState neighbour, Direction towards) {
+    /** How dust connects toward a neighbour (also used by the guide book's ritual preview). */
+    public static Side sideFor(BlockState neighbour, Direction towards) {
         if (neighbour.getBlock() instanceof StardustBlock || neighbour.getBlock() instanceof PedestalBlock) return Side.SIDE;
         // a standing end rod (the ritual's compass-point rods); the dust climbs its side
         if (neighbour.is(Blocks.END_ROD) && neighbour.getValue(EndRodBlock.FACING).getAxis() == Direction.Axis.Y) return Side.ROD;

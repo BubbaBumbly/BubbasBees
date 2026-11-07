@@ -1,0 +1,70 @@
+{
+  "name": "The Royal Summoning",
+  "icon": "minecraft:golden_helmet",
+  "category": "bubbasbees:rituals",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Summons the $(l:rituals/royal_queen)Royal Queen$(/l), in daytime.$(br2)$(l)Start:$() put a golden helmet on the altar (it isn't used up) with the structure complete.$(br2)$(l)Win:$() 40 pollinations inside the circle within 5 minutes, at least 2 by royal guards."
+    },
+    {
+      "type": "multiblock",
+      "name": "Royal Summoning",
+      "multiblock": {
+        "mapping": {
+          "0": "bubbasbees:celestial_altar",
+          "F": "#minecraft:flower_pots",
+          "G": "minecraft:gold_block",
+          "H": "minecraft:honeycomb_block",
+          "Y": "minecraft:honey_block"
+        },
+        "pattern": [
+          [
+            "______F______",
+            "_____________",
+            "__F_______F__",
+            "_____________",
+            "_____________",
+            "_____________",
+            "F_____0_____F",
+            "_____________",
+            "_____________",
+            "_____________",
+            "__F_______F__",
+            "_____________",
+            "______F______"
+          ],
+          [
+            "_____________",
+            "_____________",
+            "__Y_______Y__",
+            "_____________",
+            "_____________",
+            "_____GHG_____",
+            "_____HHH_____",
+            "_____GHG_____",
+            "_____________",
+            "_____________",
+            "__Y_______Y__",
+            "_____________",
+            "_____________"
+          ]
+        ]
+      },
+      "enable_visualize": true,
+      "text": "Any potted flowers. The 4 diagonal pots stand on honey blocks."
+    },
+    {
+      "type": "text",
+      "text": "It can't start while a royal queen is alive, and fails the same ways as the Celestial Ritual or when time runs out. About 12 bees in 3 hives, one or two of them royal guards, is enough."
+    },
+    {
+      "type": "image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_royal_queen.png"
+      ],
+      "border": false
+    }
+  ]
+}

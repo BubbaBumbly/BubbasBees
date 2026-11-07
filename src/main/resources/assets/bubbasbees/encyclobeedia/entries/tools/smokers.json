@@ -1,0 +1,17 @@
+{
+  "name": "Smokers",
+  "icon": "bubbasbees:smoker",
+  "category": "bubbasbees:tools",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Use a smoker on a hive before you harvest it and the bees stay calm. The copper smoker lasts 15 seconds, the iron smoker 30."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:copper_smoker_pattern1",
+      "recipe2": "bubbasbees:smoker_from_copper"
+    }
+  ]
+}

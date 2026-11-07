@@ -1,0 +1,39 @@
+{
+  "name": "Prismarine Bee",
+  "icon": "bubbasbees:prismarine_honeycomb",
+  "category": "bubbasbees:bubba",
+  "sortnum": 21,
+  "pages": [
+    {
+      "type": "entity",
+      "entity": "bubbasbees:prismarine_bee",
+      "name": "Prismarine Bee",
+      "text": "Bubba Star. Overworld, by day (also works in rain)."
+    },
+    {
+      "type": "text",
+      "text": "Its gem costs a sponge, once.$(br2)$(l)Flowers:$() Prismarine, Prismarine Bricks, Dark Prismarine, Sea Lantern$(br2)$(l)Home biome:$() Deep Ocean, Deep Cold Ocean, Deep Lukewarm Ocean, Deep Frozen Ocean$(br2)$(l)Brings home$() (busy hive):$(li)Prismarine Honeycomb: every trip, 210 per hive-hour"
+    },
+    {
+      "type": "text",
+      "text": "$(l)Water-safe:$() Works in the rain and takes no damage from water."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:gems/prismarine_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/prismarine/prismarine_crystals",
+      "recipe2": "bubbasbees:combs/prismarine/prismarine_shard"
+    },
+    {
+      "type": "image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_prismarine.png"
+      ],
+      "border": false
+    }
+  ]
+}

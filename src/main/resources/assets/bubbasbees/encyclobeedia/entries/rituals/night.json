@@ -1,0 +1,76 @@
+{
+  "name": "The Celestial Ritual",
+  "icon": "bubbasbees:celestial_bubba_star",
+  "category": "bubbasbees:rituals",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Turns a $(l)Bubba Star$() into a $(l)Celestial Bubba Star$(). It lasts one night, under open sky.$(br2)Build the circle, put the Bubba Star on the altar and light every candle, at night. Whichever you do last starts it. If something is missing, you're told what."
+    },
+    {
+      "type": "multiblock",
+      "name": "Celestial Ritual",
+      "multiblock": {
+        "mapping": {
+          "0": "bubbasbees:celestial_altar",
+          "S": "bubbasbees:stardust",
+          "R": "minecraft:end_rod",
+          "P": "#bubbasbees:pedestals",
+          "C": "#minecraft:candles"
+        },
+        "loose": {
+          "C": {
+            "radius": 2,
+            "around": "0P",
+            "within": 8.5
+          }
+        },
+        "pattern": [
+          [
+            "___________________",
+            "_______SSRSS_______",
+            "_____SSS___SSS_____",
+            "___PSS_______SSP___",
+            "___SC_________CS___",
+            "__SS_C_______C_SS__",
+            "__S_____________S__",
+            "_SS_____________SS_",
+            "_S_______C_______S_",
+            "_R______C0C______R_",
+            "_S_______C_______S_",
+            "_SS_____________SS_",
+            "__S_____________S__",
+            "__SS_C_______C_SS__",
+            "___SC_________CS___",
+            "___PSS_______SSP___",
+            "_____SSS___SSS_____",
+            "_______SSRSS_______",
+            "___________________"
+          ]
+        ]
+      },
+      "enable_visualize": true,
+      "text": "Each corner pedestal holds an echo shard. Candles: 4 next to the altar, 2 near each pedestal."
+    },
+    {
+      "type": "text",
+      "text": "$(l)Win before sunrise:$()$(li)100 pollinations inside the circle$(li)50 of them by starlight bees$(li)one each by Glow, Amethyst, Deep Dark, Obsidian, Soul, Prismarine, Frost, Corrupt Nature bees"
+    },
+    {
+      "type": "text",
+      "text": "$(l)Dark bees$() appear every 30 to 60 seconds and fly to a candle to snuff it. While a candle is out the ritual pauses: relight it. One hit kills them; royal guards attack them.$(br2)$(l)It fails$() if the circle is broken, the star is taken, everyone leaves, a bee from the circle dies, or the sun rises."
+    },
+    {
+      "type": "text",
+      "text": "$(l)Tip: bring 4 starlight hives$() (20 bees), plus a hive of each of the 8 bees with their flowers inside the circle. Keep a sword ready for dark bees."
+    },
+    {
+      "type": "image",
+      "images": [
+        "bubbasbees:textures/gui/book/celestial_bubba_star.png"
+      ],
+      "border": false
+    }
+  ]
+}

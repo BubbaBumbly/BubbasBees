@@ -1,0 +1,28 @@
+{
+  "name": "Emerald Bee",
+  "icon": "bubbasbees:emerald_honeycomb",
+  "category": "bubbasbees:celestial",
+  "sortnum": 36,
+  "pages": [
+    {
+      "type": "entity",
+      "entity": "bubbasbees:emerald_bee",
+      "name": "Emerald Bee",
+      "text": "Celestial Bubba Star. Overworld, by day."
+    },
+    {
+      "type": "text",
+      "text": "$(l)Flowers:$() Emerald Ore, Deepslate Emerald Ore, Block of Emerald$(br2)$(l)Home biome:$() none$(br2)$(l)Brings home$() (busy hive):$(li)Emerald Honeycomb: every trip, 210 per hive-hour$(br2)Ore rates: $(l:ores/drop_rates)Ore Drop Rates$(/l)."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:gems/emerald_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/emerald/deepslate_emerald_ore",
+      "recipe2": "bubbasbees:combs/emerald/emerald_ore"
+    }
+  ]
+}

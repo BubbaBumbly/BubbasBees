@@ -1,0 +1,37 @@
+{
+  "name": "Ender Bee",
+  "icon": "bubbasbees:ender_honeycomb",
+  "category": "bubbasbees:bubba",
+  "sortnum": 26,
+  "pages": [
+    {
+      "type": "entity",
+      "entity": "bubbasbees:ender_bee",
+      "name": "Ender Bee",
+      "text": "Bubba Star. End, all the time."
+    },
+    {
+      "type": "text",
+      "text": "Shulker shells: 5 ender combs, a diamond and 3 chests.$(br2)$(l)Flowers:$() End Stone, Purpur Block, Purpur Pillar, Chorus Plant, Chorus Flower$(br2)$(l)Home biome:$() every End biome$(br2)$(l)Brings home$() (busy hive):$(li)Ender Honeycomb: every trip, 210 per hive-hour$(br2)$(l)Blink:$() Teleports a short way when hurt."
+    },
+    {
+      "type": "text",
+      "text": "$(l)Waterproof:$() Takes no damage from water (it still stays home in the rain)."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:gems/ender_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/ender/chorus_flower",
+      "recipe2": "bubbasbees:combs/ender/chorus_fruit"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/ender/end_stone",
+      "recipe2": "bubbasbees:combs/ender/shulker_shell"
+    }
+  ]
+}

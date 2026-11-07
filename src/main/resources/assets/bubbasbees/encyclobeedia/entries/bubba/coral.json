@@ -1,0 +1,66 @@
+{
+  "name": "Coral Bee",
+  "icon": "bubbasbees:coral_honeycomb",
+  "category": "bubbasbees:bubba",
+  "sortnum": 20,
+  "pages": [
+    {
+      "type": "entity",
+      "entity": "bubbasbees:coral_bee",
+      "name": "Coral Bee",
+      "text": "Bubba Star. Overworld, by day (also works in rain)."
+    },
+    {
+      "type": "text",
+      "text": "Seed recipes for all five coral colours: blocks, fans and plants.$(br2)$(l)Flowers:$() any coral block, fan or coral, live or dead (all five colours)$(br2)$(l)Home biome:$() Warm Ocean$(br2)$(l)Brings home$() (busy hive):$(li)Coral Honeycomb: every trip, 210 per hive-hour"
+    },
+    {
+      "type": "text",
+      "text": "$(l)Water-safe:$() Works in the rain and takes no damage from water."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:gems/coral_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/coral/brain_coral",
+      "recipe2": "bubbasbees:combs/coral/brain_coral_block"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/coral/brain_coral_fan",
+      "recipe2": "bubbasbees:combs/coral/bubble_coral"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/coral/bubble_coral_block",
+      "recipe2": "bubbasbees:combs/coral/bubble_coral_fan"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/coral/fire_coral",
+      "recipe2": "bubbasbees:combs/coral/fire_coral_block"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/coral/fire_coral_fan",
+      "recipe2": "bubbasbees:combs/coral/horn_coral"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/coral/horn_coral_block",
+      "recipe2": "bubbasbees:combs/coral/horn_coral_fan"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/coral/tube_coral",
+      "recipe2": "bubbasbees:combs/coral/tube_coral_block"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/coral/tube_coral_fan"
+    }
+  ]
+}
