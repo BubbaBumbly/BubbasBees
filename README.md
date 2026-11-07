@@ -45,7 +45,7 @@ enjoys a challenge. You can download it from [Modrinth](MODRINTH-URL-TBD), [Curs
 [releases on this GitHub page](../../releases). If you find a bug, please open an [issue](../../issues).
 
 #### The Guide
-If you're playing my mod, I suggest you check out [The Guide](GUIDE-URL-TBD) (or the Encyclobeedia in game), which
+If you're playing my mod, I suggest you check out [The Guide](https://bubbabumbly.github.io/BubbasBees/) (or the Encyclobeedia in game), which
 contains documentation for every bee, recipe and drop rate, the mechanics and even some strategies to make your
 experience more enjoyable. There are some really cool and niche features to 
 explore, some of which you may never find unless you take a peek! 
