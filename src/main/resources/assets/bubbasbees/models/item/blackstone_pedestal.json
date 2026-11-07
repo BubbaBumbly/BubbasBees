@@ -1,3 +1,6 @@
 {
-  "parent": "bubbasbees:block/blackstone_pedestal"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "bubbasbees:item/blackstone_pedestal"
+  }
 }

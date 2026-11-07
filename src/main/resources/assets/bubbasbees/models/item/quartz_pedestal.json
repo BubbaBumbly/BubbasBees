@@ -1,3 +1,6 @@
 {
-  "parent": "bubbasbees:block/quartz_pedestal"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "bubbasbees:item/quartz_pedestal"
+  }
 }

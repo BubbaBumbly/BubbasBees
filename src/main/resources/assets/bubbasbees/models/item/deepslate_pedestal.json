@@ -1,3 +1,6 @@
 {
-  "parent": "bubbasbees:block/deepslate_pedestal"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "bubbasbees:item/deepslate_pedestal"
+  }
 }
