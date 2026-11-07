@@ -89,6 +89,16 @@ public class ModItems {
         return EGGS.get(beeId).get();
     }
 
+    /** Every mod comb, in roster order (each bee's own combs, then its rare ones). */
+    public static java.util.List<Item> allCombs() {
+        return COMBS.values().stream().map(RegistryObject::get).toList();
+    }
+
+    /** Every spawn egg, in roster order. */
+    public static java.util.List<Item> allSpawnEggs() {
+        return EGGS.values().stream().map(RegistryObject::get).toList();
+    }
+
     /** Every conversion gem, for the vanilla bee's tempt goal. */
     public static Item[] allGems() {
         return GEMS.values().stream().map(RegistryObject::get).toArray(Item[]::new);
