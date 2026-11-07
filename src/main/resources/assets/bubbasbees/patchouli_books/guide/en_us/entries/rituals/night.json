@@ -16,8 +16,8 @@
           "0": "bubbasbees:celestial_altar",
           "S": "bubbasbees:stardust",
           "R": "minecraft:end_rod",
-          "P": "bubbasbees:stone_pedestal",
-          "C": "minecraft:candle[lit=true]"
+          "P": "#bubbasbees:pedestals",
+          "C": "#minecraft:candles"
         },
         "pattern": [
           [

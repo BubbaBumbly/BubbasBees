@@ -14,7 +14,7 @@
       "multiblock": {
         "mapping": {
           "0": "bubbasbees:celestial_altar",
-          "F": "minecraft:potted_poppy",
+          "F": "#minecraft:flower_pots",
           "G": "minecraft:gold_block",
           "H": "minecraft:honeycomb_block",
           "Y": "minecraft:honey_block"
