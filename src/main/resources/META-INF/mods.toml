@@ -5,7 +5,7 @@ issueTrackerURL="https://github.com/BubbaBumbly/BubbasBees/issues"
 
 [[mods]]
 modId="bubbasbees"
-version="1.3.0"
+version="2.0.0"
 displayName="Bubba's Bees"
 credits="Includes code adapted from Resourceful Bees by Team Resourceful (LGPLv3) and from Productive Bees by JDKDigital (GPLv3 versions). Bundles GeckoLib and MixinExtras (MIT)."
 displayURL="https://bubbabumbly.github.io/BubbasBees/"
