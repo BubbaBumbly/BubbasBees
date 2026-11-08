@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "item": "bubbasbees:comb_chute"
+    },
+    "title": {
+      "translate": "advancements.bubbasbees.comb_chute.title"
+    },
+    "description": {
+      "translate": "advancements.bubbasbees.comb_chute.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "chute": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:comb_chute"
+          ]
+        }
+      }
+    }
+  },
+  "parent": "bubbasbees:place_hive"
+}

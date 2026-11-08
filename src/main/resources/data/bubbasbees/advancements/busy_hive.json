@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "item": "bubbasbees:bubba_star"
+    },
+    "title": {
+      "translate": "advancements.bubbasbees.busy_hive.title"
+    },
+    "description": {
+      "translate": "advancements.bubbasbees.busy_hive.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "switch": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "location": {
+          "block": {
+            "tag": "bubbasbees:advanced_beehives"
+          }
+        },
+        "item": {
+          "items": [
+            "bubbasbees:bubba_star"
+          ]
+        }
+      }
+    }
+  },
+  "parent": "bubbasbees:first_gem"
+}

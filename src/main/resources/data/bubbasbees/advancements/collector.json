@@ -1,0 +1,527 @@
+{
+  "display": {
+    "icon": {
+      "item": "bubbasbees:starlight_conversion_gem"
+    },
+    "title": {
+      "translate": "advancements.bubbasbees.collector.title"
+    },
+    "description": {
+      "translate": "advancements.bubbasbees.collector.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "stone": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:stone_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "dirt": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:dirt_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "nature": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:nature_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "forest": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:forest_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "desert": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:desert_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "river": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:river_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "meadow": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:meadow_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "jungle": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:jungle_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "taiga": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:taiga_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "savanna": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:savanna_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "amethyst": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:amethyst_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "obsidian": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:obsidian_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "glow": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:glow_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "mesa": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:mesa_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "swamp": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:swamp_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "frost": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:frost_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "lush_caves": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:lush_caves_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "deep_dark": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:deep_dark_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "mushroom_fields": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:mushroom_fields_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "sea": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:sea_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "coral": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:coral_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "prismarine": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:prismarine_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "corrupt_stone": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:corrupt_stone_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "soul": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:soul_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "corrupt_nature": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:corrupt_nature_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "magma": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:magma_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "ender": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:ender_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "royal_guard": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:royal_guard_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "starlight": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:starlight_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "coal": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:coal_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "copper": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:copper_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "iron": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:iron_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "gold": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:gold_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "redstone": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:redstone_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "lapis": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:lapis_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "diamond": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:diamond_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "emerald": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:emerald_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "quartz": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:quartz_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    },
+    "ancient_debris": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:ancient_debris_conversion_gem"
+          ]
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    }
+  },
+  "parent": "bubbasbees:first_gem"
+}

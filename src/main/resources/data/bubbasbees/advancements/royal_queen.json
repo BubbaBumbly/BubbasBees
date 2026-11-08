@@ -1,0 +1,28 @@
+{
+  "display": {
+    "icon": {
+      "item": "bubbasbees:royal_jelly"
+    },
+    "title": {
+      "translate": "advancements.bubbasbees.royal_queen.title"
+    },
+    "description": {
+      "translate": "advancements.bubbasbees.royal_queen.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "queen": {
+      "trigger": "minecraft:summoned_entity",
+      "conditions": {
+        "entity": {
+          "type": "bubbasbees:royal_queen_bee"
+        }
+      }
+    }
+  },
+  "parent": "bubbasbees:first_gem"
+}

@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "bubbasbees:coal_honeycomb",
+    "bubbasbees:copper_honeycomb",
+    "bubbasbees:iron_honeycomb",
+    "bubbasbees:gold_honeycomb",
+    "bubbasbees:redstone_honeycomb",
+    "bubbasbees:lapis_honeycomb",
+    "bubbasbees:diamond_honeycomb",
+    "bubbasbees:emerald_honeycomb",
+    "bubbasbees:quartz_honeycomb",
+    "bubbasbees:ancient_debris_honeycomb"
+  ]
+}

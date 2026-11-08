@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "item": "bubbasbees:iron_honeycomb"
+    },
+    "title": {
+      "translate": "advancements.bubbasbees.ore_comb.title"
+    },
+    "description": {
+      "translate": "advancements.bubbasbees.ore_comb.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "comb": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "bubbasbees:ore_combs"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "bubbasbees:celestial_ritual"
+}

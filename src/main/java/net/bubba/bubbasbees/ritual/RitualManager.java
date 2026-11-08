@@ -295,6 +295,11 @@ public final class RitualManager {
                 level.addFreshEntity(queen);
                 QueenData data = QueenData.get(level);
                 if (data != null) data.setPosition(queen.getUUID(), level.dimension(), queen.blockPosition());
+                // "Long Live the Queen" advancement (minecraft:summoned_entity) for everyone at the ritual
+                for (net.minecraft.server.level.ServerPlayer player : level.getEntitiesOfClass(net.minecraft.server.level.ServerPlayer.class,
+                        new net.minecraft.world.phys.AABB(altar).inflate(64.0D))) {
+                    net.minecraft.advancements.CriteriaTriggers.SUMMONED_ENTITY.trigger(player, queen);
+                }
             }
         }
         level.sendParticles(ParticleTypes.END_ROD, altar.getX() + 0.5, altar.getY() + 1.5, altar.getZ() + 0.5, 60, 0.4, 0.6, 0.4, 0.15);
