@@ -31,6 +31,7 @@ public class DarkBeeRenderer extends GeoEntityRenderer<DarkBee> {
                 return new ResourceLocation(BubbasBees.MOD_ID, "animations/bee.animation.json");
             }
         });
+        this.addLayer(new GlowLayer<>(this));
         this.shadowRadius = 0.15F;
     }
 

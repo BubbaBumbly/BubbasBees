@@ -18,6 +18,7 @@ public class BubbasBeeRenderer extends GeoEntityRenderer<BubbasBee> {
         super(renderManager, new BeeModel());
         this.shadowRadius = 0.2f;
         this.addLayer(new StarlightOverlayLayer(this));
+        this.addLayer(new GlowLayer<>(this));
     }
 
     /** Whether this bee is drawn as a window into the night sky now (the starlight bee, no shader pack); see StarlightSky. */

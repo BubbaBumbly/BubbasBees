@@ -256,6 +256,7 @@ public class BubbasBee extends Bee implements IAnimatable {
     @Override
     public void tick() {
         super.tick();
+        if (this.level.isClientSide && this.isAlive()) BeeParticles.clientTick(this);
         if (this.level.isClientSide || !this.isAlive()) return;
         if (isBurrowed()) {
             burrowTick();

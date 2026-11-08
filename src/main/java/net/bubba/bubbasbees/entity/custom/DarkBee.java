@@ -111,6 +111,10 @@ public class DarkBee extends PathfinderMob implements FlyingAnimal, IAnimatable 
             if (this.tickCount % 2 == 0) {
                 this.level.addParticle(TRAIL, this.getX(), this.getY() + 0.3D, this.getZ(), 0.0D, 0.0D, 0.0D);
             }
+            if (this.random.nextInt(net.bubba.bubbasbees.entity.custom.BeeParticles.CHANCE) == 0) {   // rare smoke puff (user 2026-11-08)
+                this.level.addParticle(net.minecraft.core.particles.ParticleTypes.SMOKE, this.getX(), this.getY() + 0.3D,
+                        this.getZ(), 0.0D, 0.02D, 0.0D);
+            }
         } else if (this.tickCount > MAX_LIFE_TICKS) {
             poof();
         }

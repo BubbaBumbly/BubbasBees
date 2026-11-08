@@ -102,6 +102,8 @@ public class BubbasBees {
         @SubscribeEvent
         public static void onRegisterReloadListeners(net.minecraftforge.client.event.RegisterClientReloadListenersEvent event) {
             event.registerReloadListener(new net.bubba.bubbasbees.client.guide.GuideBook.Loader());
+            event.registerReloadListener((net.minecraft.server.packs.resources.ResourceManagerReloadListener)
+                    manager -> net.bubba.bubbasbees.entity.client.GlowLayer.clearCache());
         }
 
         @SubscribeEvent
