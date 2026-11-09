@@ -46,6 +46,11 @@ public class HiveInfoOverlay implements IGuiOverlay {
         Minecraft minecraft = gui.getMinecraft();
         if (JADE_LOADED || minecraft.options.hideGui || minecraft.level == null || minecraft.screen != null) return;
         HitResult hit = minecraft.hitResult;
+        List<Component> lookLines = LookInfo.lines(minecraft, hit);
+        if (!lookLines.isEmpty()) {
+            drawPanel(poseStack, gui.getFont(), lookLines, screenWidth);
+            return;
+        }
         if (!(hit instanceof BlockHitResult blockHit) || hit.getType() != HitResult.Type.BLOCK) return;
         BlockState state = minecraft.level.getBlockState(blockHit.getBlockPos());
         if (!HiveInfo.isHive(state)) return;
@@ -115,6 +120,23 @@ public class HiveInfoOverlay implements IGuiOverlay {
         if (bee.getNamespace().equals(BubbasBees.MOD_ID)) {
             GuiComponent.blit(poseStack, x, y, ICON, ICON, HiveInfo.FACE_U, HiveInfo.CLOAK_FACE_V,
                     HiveInfo.FACE_SIZE, HiveInfo.FACE_SIZE, HiveInfo.TEXTURE_SIZE, HiveInfo.TEXTURE_SIZE);
+        }
+    }
+
+    /** Draws a list of lines in the same centred panel style as the hive overlay. */
+    private static void drawPanel(PoseStack poseStack, Font font, List<Component> lines, int screenWidth) {
+        int width = 0;
+        for (Component line : lines) width = Math.max(width, font.width(line));
+        width += PAD * 2;
+        int height = PAD + lines.size() * (font.lineHeight + 1) + PAD;
+        int left = (screenWidth - width) / 2;
+        int y = TOP;
+        GuiComponent.fill(poseStack, left, y, left + width, y + height, BACKGROUND);
+        y += PAD;
+        for (int i = 0; i < lines.size(); i++) {
+            GuiComponent.drawCenteredString(poseStack, font, lines.get(i), screenWidth / 2, y,
+                    i == 0 ? HEADER_COLOR : TEXT);
+            y += font.lineHeight + 1;
         }
     }
 }

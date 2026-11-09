@@ -5,12 +5,16 @@ import net.bubba.bubbasbees.registries.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -48,6 +52,9 @@ public class CombChuteBlockEntity extends BlockEntity {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
+            if (level != null && !level.isClientSide) {
+                level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
+            }
         }
     };
 
@@ -172,6 +179,16 @@ public class CombChuteBlockEntity extends BlockEntity {
         return items.getStackInSlot(BOTTLE_SLOT).getCount();
     }
 
+    /** Items currently in the output slots, in slot order, for the HUD and Jade. */
+    public List<ItemStack> outputStacks() {
+        List<ItemStack> list = new ArrayList<>();
+        for (int slot = 0; slot < OUTPUT_SLOTS; slot++) {
+            ItemStack stack = items.getStackInSlot(slot);
+            if (!stack.isEmpty()) list.add(stack.copy());
+        }
+        return list;
+    }
+
     /** Everything inside, for dropping when the chute is broken. */
     public List<ItemStack> contents() {
         List<ItemStack> list = new ArrayList<>();
@@ -191,6 +208,16 @@ public class CombChuteBlockEntity extends BlockEntity {
     protected void saveAdditional(@NotNull CompoundTag tag) {
         super.saveAdditional(tag);
         tag.put("Items", items.serializeNBT());
+    }
+
+    @Override
+    public @NotNull CompoundTag getUpdateTag() {
+        return saveWithoutMetadata();
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
