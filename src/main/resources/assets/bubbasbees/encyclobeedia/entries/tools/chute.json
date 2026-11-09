@@ -10,7 +10,7 @@
     },
     {
       "type": "text",
-      "text": "$(l)Comb mode$() takes the combs. $(l)Honey mode$() fills one glass bottle per harvest instead (the combs are lost). Right-click with bottles to load it; hoppers can feed it from the sides.$(br2)Right-click with an empty hand to switch modes."
+      "text": "$(l)Comb mode$() takes the combs. $(l)Honey mode$() fills one glass bottle per harvest instead (the combs are lost). Right-click with bottles to load it (it holds 64); hoppers can feed it from the sides.$(br2)Right-click with an empty hand to switch modes."
     },
     {
       "type": "crafting",
