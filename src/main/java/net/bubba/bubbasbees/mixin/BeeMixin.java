@@ -71,7 +71,10 @@ public abstract class BeeMixin extends Animal {
         if (gemSpec != null && this.getType() == EntityType.BEE) {
             if (!this.level.isClientSide) {
                 Bee newbie = ModEntityTypes.bee(gemSpec.id()).get().create(this.level);
-                if (newbie != null) bubbasBees$spawnThat(newbie);
+                if (newbie != null) {
+                    bubbasBees$conversionParticles(itemstack);
+                    bubbasBees$spawnThat(newbie);
+                }
             }
             if (!player.getAbilities().instabuild) {
                 itemstack.shrink(1);
@@ -82,6 +85,16 @@ public abstract class BeeMixin extends Animal {
             return super.mobInteract(player, hand);
         }
     }
+    /// One burst of the gem's own crumbs plus a small sparkle, so every bee's conversion matches its gem
+    @Unique
+    private void bubbasBees$conversionParticles(ItemStack gem) {
+        if (!(this.level instanceof net.minecraft.server.level.ServerLevel server)) return;
+        double x = this.getX(), y = this.getY() + 0.3D, z = this.getZ();
+        server.sendParticles(new net.minecraft.core.particles.ItemParticleOption(net.minecraft.core.particles.ParticleTypes.ITEM, gem),
+                x, y, z, 24, 0.2D, 0.2D, 0.2D, 0.08D);
+        server.sendParticles(net.minecraft.core.particles.ParticleTypes.END_ROD, x, y, z, 6, 0.25D, 0.25D, 0.25D, 0.02D);
+    }
+
     @Unique
     public void bubbasBees$spawnThat (Bee newbie){
         BlockPos oldHive = this.getHivePos();

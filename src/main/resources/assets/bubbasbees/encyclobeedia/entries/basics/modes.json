@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "Use a $(l)Bubba Star$() on a hive to switch its bees between calm and busy. The star isn't used up.$(br2)$(l)Calm$() (the default): bees fly like vanilla bees, wander a little and stay inside twice as long."
+      "text": "Use any $(l)Bubba Star$() (Lesser, regular or Celestial) on a hive to switch its bees between calm and busy. The star isn't used up.$(br2)$(l)Calm$() (the default): bees fly like vanilla bees, wander a little and stay inside twice as long."
     },
     {
       "type": "text",

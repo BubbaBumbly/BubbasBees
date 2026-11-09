@@ -23,4 +23,10 @@ public class CelestialBubbaStarItem extends Item {
     public boolean isFoil(ItemStack stack) {
         return true;
     }
+
+    @Override
+    public void appendHoverText(net.minecraft.world.item.ItemStack stack, @org.jetbrains.annotations.Nullable net.minecraft.world.level.Level level,
+            java.util.List<net.minecraft.network.chat.Component> tooltip, net.minecraft.world.item.TooltipFlag flag) {
+        tooltip.add(net.minecraft.network.chat.Component.translatable("item.bubbasbees.bubba_star.hive_mode").withStyle(net.minecraft.ChatFormatting.GRAY));
+    }
 }

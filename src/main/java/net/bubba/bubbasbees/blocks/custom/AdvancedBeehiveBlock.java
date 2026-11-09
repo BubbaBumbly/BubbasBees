@@ -61,7 +61,8 @@ public class AdvancedBeehiveBlock extends BeehiveBlock {
                                           InteractionHand hand, BlockHitResult result) {
         ItemStack held_Item = player.getItemInHand(hand);
         // A Bubba Star switches the hive between calm (vanilla-like) and busy bees; the star is not used up
-        if (held_Item.is(ModItems.BUBBA_STAR.get())) {
+        if (held_Item.is(ModItems.LESSER_BUBBA_STAR.get()) || held_Item.is(ModItems.BUBBA_STAR.get())
+                || held_Item.is(ModItems.CELESTIAL_BUBBA_STAR.get())) {
             if (!level.isClientSide && level.getBlockEntity(pos) instanceof AdvancedBeehiveBlockEntity hive) {
                 hive.toggleBusy();
                 level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 1.0F, hive.isBusy() ? 1.4F : 0.8F);

@@ -99,9 +99,9 @@ adv('lesser_star', 'place_hive', f'{NS}:lesser_bubba_star', 'Seeing Stars', 'Cra
 adv('first_gem', 'lesser_star', f'{NS}:stone_conversion_gem', 'A Gem of a Bee', 'Turn a vanilla bee with a conversion gem',
     {'gem': {'trigger': 'minecraft:player_interacted_with_entity',
              'conditions': {'item': {'tag': f'{NS}:conversion_gems'}, 'entity': {'type': 'minecraft:bee'}}}})
-adv('busy_hive', 'first_gem', f'{NS}:bubba_star', 'Busy Bees', 'Switch a hive between calm and busy with a Bubba Star',
+adv('busy_hive', 'first_gem', f'{NS}:bubba_star', 'Busy Bees', 'Switch a hive between calm and busy with any Bubba Star',
     {'switch': {'trigger': 'minecraft:item_used_on_block',
-                'conditions': {'location': {'block': {'tag': f'{NS}:advanced_beehives'}}, 'item': {'items': [f'{NS}:bubba_star']}}}})
+                'conditions': {'location': {'block': {'tag': f'{NS}:advanced_beehives'}}, 'item': {'items': [f'{NS}:lesser_bubba_star', f'{NS}:bubba_star', f'{NS}:celestial_bubba_star']}}}})
 adv('celestial_ritual', 'busy_hive', f'{NS}:celestial_bubba_star', 'Written in the Stars', 'Win the Celestial Ritual',
     {'star': has(f'{NS}:celestial_bubba_star')}, frame='goal')
 adv('ore_comb', 'celestial_ritual', f'{NS}:iron_honeycomb', 'Struck Gold', 'Get your first ore comb',

@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "From the royal queen's combs. It counts as a slimeball and you can eat it.$(br2)$(l)Royal jelly block$(): moves with pistons like slime but doesn't stick to slime or honey and doesn't bounce. Things on it sink in and are held for a moment."
+      "text": "From the royal queen's combs. It counts as a slimeball and you can eat it.$(br2)$(l)Royal jelly block$(): moves with pistons like slime but doesn't stick to slime or honey and doesn't bounce. Anything inside it moves at half speed and falls slowly."
     },
     {
       "type": "crafting",

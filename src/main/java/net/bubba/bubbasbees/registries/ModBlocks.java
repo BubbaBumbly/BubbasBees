@@ -54,7 +54,7 @@ public class ModBlocks {
 
     private static RegistryObject<Block> registerHive(String name, float blastResistance) {
         return registerBlock(name, () -> new AdvancedBeehiveBlock(BlockBehaviour.Properties.of(Material.WOOD)
-                .strength(1f, blastResistance).requiresCorrectToolForDrops().noOcclusion()),
+                .strength(1f, blastResistance).noOcclusion()),
                 ModCreativeModeTab.BUBBASBEES_TAB);
     }
 
