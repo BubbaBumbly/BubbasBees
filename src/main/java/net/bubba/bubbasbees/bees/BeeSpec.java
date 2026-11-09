@@ -45,8 +45,6 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
         BLAST_PROOF,
         /** Its flapping makes no vibrations. */
         SILENT_WINGS,
-        /** Dives into nearby sand or gravel when hurt and pops out later. */
-        BURROWER,
         /** Teleports a short way when hurt. */
         SHORT_TELEPORT,
         /** Animals near its hive grow up and lose breeding cooldown 25% faster. */

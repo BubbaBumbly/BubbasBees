@@ -5,6 +5,7 @@ import net.bubba.bubbasbees.ritual.RitualManager;
 import net.bubba.bubbasbees.entity.custom.BubbasBee;
 import net.bubba.bubbasbees.mixin.BeePollinateGoalAccessor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -69,8 +70,8 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     // Hovering drives the move control directly, so the bee's pathfinder is paused only then (see BubbasBee)
     private boolean hoveringAtFlower = false;
     private int nextRepathTick = 0;
-    // Vanilla hover point: 0.6 above the flower's bottom; setWantedPos lifts the wanted position another 0.5
-    private static final double HOVER_HEIGHT = 0.6D;
+    // The bee hovers this far over the top of the flower's shape; setWantedPos lifts the hover point by WANTED_POS_LIFT
+    private static final double HOVER_CLEARANCE = 0.15D;
     private static final double WANTED_POS_LIFT = 0.5D;
     private static final double NEAR_DISTANCE = 1.0D;
     // Straight-line approach: cruise one block over the flower's top, then drop onto it. Busy bees fly at about
@@ -274,7 +275,9 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     }
 
     private Vec3 hoverTarget(BlockPos flower) {
-        return Vec3.atBottomCenterOf(flower).add(0.0D, HOVER_HEIGHT, 0.0D);
+        var shape = bubbasBee.level.getBlockState(flower).getShape(bubbasBee.level, flower);
+        double top = shape.isEmpty() ? 1.0D : shape.max(Direction.Axis.Y);
+        return Vec3.atBottomCenterOf(flower).add(0.0D, top + HOVER_CLEARANCE - WANTED_POS_LIFT, 0.0D);
     }
 
     private double flowerTopY(BlockPos flower) {

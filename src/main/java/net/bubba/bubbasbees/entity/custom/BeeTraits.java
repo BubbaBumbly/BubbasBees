@@ -3,12 +3,10 @@ package net.bubba.bubbasbees.entity.custom;
 import net.bubba.bubbasbees.blocks.custom.PartialLavaCauldronBlock;
 import net.bubba.bubbasbees.registries.ModBlocks;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.level.Level;
@@ -23,35 +21,6 @@ import java.util.Optional;
 /** Server-side trait actions for mod bees (see BeeSpec.Trait); BubbasBee decides when they run. */
 final class BeeTraits {
     private BeeTraits() {}
-
-    /// Burrower
-    static final int BURROW_RANGE = 3;
-
-    /** A sand, red sand or gravel block near the bee with air above it, or null. */
-    static @Nullable BlockPos findBurrow(BubbasBee bee) {
-        BlockPos origin = bee.blockPosition();
-        BlockPos best = null;
-        double bestDistance = Double.MAX_VALUE;
-        for (BlockPos pos : BlockPos.betweenClosed(origin.offset(-BURROW_RANGE, -BURROW_RANGE, -BURROW_RANGE),
-                origin.offset(BURROW_RANGE, BURROW_RANGE, BURROW_RANGE))) {
-            BlockState state = bee.level.getBlockState(pos);
-            if (!(state.is(BlockTags.SAND) || state.is(Blocks.GRAVEL)) || !bee.level.getBlockState(pos.above()).isAir()) continue;
-            double distance = pos.distSqr(origin);
-            if (distance < bestDistance) {
-                bestDistance = distance;
-                best = pos.immutable();
-            }
-        }
-        return best;
-    }
-
-    static void burrowParticles(BubbasBee bee, BlockPos block) {
-        if (!(bee.level instanceof ServerLevel server)) return;
-        BlockState state = server.getBlockState(block);
-        server.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, state.isAir() ? Blocks.SAND.defaultBlockState() : state),
-                block.getX() + 0.5D, block.getY() + 1.0D, block.getZ() + 0.5D, 24, 0.3D, 0.15D, 0.3D, 0.1D);
-        server.playSound(null, block, state.getSoundType().getBreakSound(), SoundSource.NEUTRAL, 0.8F, 1.2F);
-    }
 
     /// Short teleport (ender bee): like an enderman's, but short and only through the air
     static void shortTeleport(BubbasBee bee) {

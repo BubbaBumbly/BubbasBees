@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "$(l)Flowers:$() Sand$(br2)$(l)Home biome:$() Desert$(br2)$(l)Brings home$() (busy hive):$(li)Desert Honeycomb: the other trips, 200 per hive-hour$(li)Bone Honeycomb: rare, 1 in 20, 10.5 per hive-hour$(br2)$(l)Burrower:$() When hurt, it dives into nearby sand or gravel, hides, and pops out later."
+      "text": "$(l)Flowers:$() Sand$(br2)$(l)Home biome:$() Desert$(br2)$(l)Brings home$() (busy hive):$(li)Desert Honeycomb: the other trips, 200 per hive-hour$(li)Bone Honeycomb: rare, 1 in 20, 10.5 per hive-hour"
     },
     {
       "type": "crafting",

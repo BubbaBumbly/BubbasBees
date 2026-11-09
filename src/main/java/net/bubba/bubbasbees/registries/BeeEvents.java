@@ -21,7 +21,7 @@ public class BeeEvents {
         if (!(event.getSource().getEntity() instanceof LivingEntity attacker) || attacker instanceof Bee) return;
         if (attacker instanceof Player player && (player.isCreative() || player.isSpectator())) return;
         for (BubbasBee guard : victim.level.getEntitiesOfClass(BubbasBee.class, victim.getBoundingBox().inflate(GUARD_RANGE),
-                bee -> bee.isRoyalGuard() && bee.isAlive() && !bee.isBurrowed())) {
+                bee -> bee.isRoyalGuard() && bee.isAlive())) {
             guard.mug(attacker);
         }
     }

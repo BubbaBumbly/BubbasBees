@@ -17,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -58,8 +59,9 @@ public final class LookInfo {
 
         if (block instanceof CombChuteBlock) {
             boolean honey = state.getValue(CombChuteBlock.HONEY);
-            lines.add(Component.translatable(honey
-                    ? "hud.bubbasbees.comb_chute.honey_mode" : "hud.bubbasbees.comb_chute.comb_mode"));
+            boolean noBottles = blockEntity instanceof CombChuteBlockEntity chuteEntity && chuteEntity.bottleCount() == 0;
+            lines.add(Component.translatable(!honey ? "hud.bubbasbees.comb_chute.comb_mode"
+                    : noBottles ? "hud.bubbasbees.comb_chute.honey_mode_empty" : "hud.bubbasbees.comb_chute.honey_mode"));
             if (blockEntity instanceof CombChuteBlockEntity chute) {
                 lines.add(Component.translatable("hud.bubbasbees.comb_chute.bottles", chute.bottleCount()));
                 for (ItemStack stack : chute.outputStacks()) {
@@ -75,6 +77,10 @@ public final class LookInfo {
                 lines.add(Component.translatable("hud.bubbasbees.pedestal.holding", pedestal.getItem().getHoverName()));
             } else {
                 lines.add(Component.translatable("hud.bubbasbees.pedestal.empty"));
+            }
+            if (block == ModBlocks.CELESTIAL_ALTAR.get() && blockEntity instanceof PedestalBlockEntity altar) {
+                lines.add(Component.translatable(!altar.isRitualActive() ? "hud.bubbasbees.altar.idle"
+                        : altar.getItem().is(Items.GOLDEN_HELMET) ? "hud.bubbasbees.altar.queen" : "hud.bubbasbees.altar.night"));
             }
             return lines;
         }
@@ -123,6 +129,10 @@ public final class LookInfo {
             if (bee.isAngry()) lines.add(Component.translatable("hud.bubbasbees.bee.angry"));
             if (bee.hasNectar()) lines.add(Component.translatable("hud.bubbasbees.bee.pollen"));
             if (bee.isBaby()) lines.add(Component.translatable("hud.bubbasbees.bee.baby"));
+            lines.add(Component.translatable(bee.isBusyShown() ? "hud.bubbasbees.bee.busy" : "hud.bubbasbees.bee.calm"));
+            BlockPos home = bee.getHomeShown();
+            lines.add(home != null ? Component.translatable("hud.bubbasbees.bee.home", home.getX(), home.getY(), home.getZ())
+                    : Component.translatable("hud.bubbasbees.bee.no_home"));
             return lines;
         }
 
