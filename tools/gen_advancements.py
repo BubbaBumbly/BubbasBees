@@ -104,7 +104,7 @@ adv('busy_hive', 'first_gem', f'{NS}:bubba_star', 'Busy Bees', 'Switch a hive be
                 'conditions': {'location': {'block': {'tag': f'{NS}:advanced_beehives'}}, 'item': {'items': [f'{NS}:lesser_bubba_star', f'{NS}:bubba_star', f'{NS}:celestial_bubba_star']}}}})
 adv('celestial_ritual', 'busy_hive', f'{NS}:celestial_bubba_star', 'Written in the Stars', 'Win the Celestial Ritual',
     {'star': has(f'{NS}:celestial_bubba_star')}, frame='goal')
-adv('ore_comb', 'celestial_ritual', f'{NS}:iron_honeycomb', 'Struck Gold', 'Get your first ore comb',
+adv('ore_comb', 'celestial_ritual', f'{NS}:iron_honeycomb', 'Honey, I Struck Ore', 'Get your first ore comb',
     {'comb': has(tag=f'{NS}:ore_combs')})
 adv('diamond_comb', 'ore_comb', f'{NS}:diamond_honeycomb', 'Diamonds From the Sky', 'Get a diamond comb',
     {'comb': has(f'{NS}:diamond_honeycomb')}, frame='goal')

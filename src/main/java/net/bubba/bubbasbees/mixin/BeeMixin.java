@@ -8,6 +8,7 @@ import net.bubba.bubbasbees.registries.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.animal.Animal;
@@ -24,6 +25,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -155,4 +157,11 @@ public abstract class BeeMixin extends Animal {
         }
     }
     /// End goal editing section
+
+    // Royal guards sting with their own damage source, for their death messages
+    @ModifyArg(method = "doHurtTarget", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/Entity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"), index = 0)
+    private DamageSource bubbasBees$guardSting(DamageSource source) {
+        return (Object) this instanceof BubbasBee bee && bee.isRoyalGuard() ? new RoyalGuardDamageSource(bee) : source;
+    }
 }
