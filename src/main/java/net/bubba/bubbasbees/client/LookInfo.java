@@ -1,7 +1,6 @@
 package net.bubba.bubbasbees.client;
 
 import net.bubba.bubbasbees.BubbasBees;
-import net.bubba.bubbasbees.bees.BeeSpec;
 import net.bubba.bubbasbees.blockentities.CombChuteBlockEntity;
 import net.bubba.bubbasbees.blockentities.PedestalBlockEntity;
 import net.bubba.bubbasbees.blocks.custom.*;
@@ -12,7 +11,6 @@ import net.bubba.bubbasbees.util.HiveInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Bee;
@@ -30,7 +28,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Look-at HUD lines for the mod's non-hive blocks and bees (including vanilla bees and dark bees).
@@ -120,16 +117,11 @@ public final class LookInfo {
 
         if (entity instanceof BubbasBee bee) {
             lines.add(entity.getName());
-            BeeSpec spec = bee.getSpec();
-            BeeSpec.Tier tier = spec != null ? spec.tier() : BeeSpec.Tier.NONE;
-            lines.add(Component.translatable(tierKey(tier)));
-            if (spec != null && !spec.traits().isEmpty()) {
-                lines.add(traitsLine(spec.traits()));
-            }
-            if (bee.isAngry()) lines.add(Component.translatable("hud.bubbasbees.bee.angry"));
+            // One state line: an angry bee is neither calm nor busy
+            lines.add(Component.translatable(bee.isAngry() ? "hud.bubbasbees.bee.angry"
+                    : bee.isBusyShown() ? "hud.bubbasbees.bee.busy" : "hud.bubbasbees.bee.calm"));
             if (bee.hasNectar()) lines.add(Component.translatable("hud.bubbasbees.bee.pollen"));
             if (bee.isBaby()) lines.add(Component.translatable("hud.bubbasbees.bee.baby"));
-            lines.add(Component.translatable(bee.isBusyShown() ? "hud.bubbasbees.bee.busy" : "hud.bubbasbees.bee.calm"));
             BlockPos home = bee.getHomeShown();
             lines.add(home != null ? Component.translatable("hud.bubbasbees.bee.home", home.getX(), home.getY(), home.getZ())
                     : Component.translatable("hud.bubbasbees.bee.no_home"));
@@ -154,25 +146,5 @@ public final class LookInfo {
     private static boolean isOurBlock(Block block) {
         ResourceLocation key = ForgeRegistries.BLOCKS.getKey(block);
         return key != null && BubbasBees.MOD_ID.equals(key.getNamespace());
-    }
-
-    private static String tierKey(BeeSpec.Tier tier) {
-        return "hud.bubbasbees.tier." + tier.name().toLowerCase(Locale.ROOT);
-    }
-
-    private static String traitKey(BeeSpec.Trait trait) {
-        return "hud.bubbasbees.trait." + trait.name().toLowerCase(Locale.ROOT);
-    }
-
-    @NotNull
-    private static Component traitsLine(Iterable<BeeSpec.Trait> traits) {
-        MutableComponent line = Component.empty();
-        boolean first = true;
-        for (BeeSpec.Trait trait : traits) {
-            if (!first) line.append(", ");
-            first = false;
-            line.append(Component.translatable(traitKey(trait)));
-        }
-        return line;
     }
 }

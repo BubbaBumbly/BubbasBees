@@ -49,6 +49,17 @@
                   ]
                 },
                 {
+                  "function": "minecraft:copy_nbt",
+                  "source": "block_entity",
+                  "ops": [
+                    {
+                      "source": "BubbasBusy",
+                      "target": "BlockEntityTag.BubbasBusy",
+                      "op": "replace"
+                    }
+                  ]
+                },
+                {
                   "function": "minecraft:copy_state",
                   "block": "bubbasbees:windswept_chestnut_advanced_beehive",
                   "properties": [
