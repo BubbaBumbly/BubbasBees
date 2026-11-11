@@ -31,7 +31,9 @@ for o in R.ORES:
     gems[o[0]] = ("OG1", R.ore_gem(*o))
 
 out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "recipe_snapshot.json")
-json.dump({"source": drafts, "combs": combs,
+# The snapshot is published with the mod: record the drafts folder relative to the project, never an absolute path
+source = os.path.relpath(drafts, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))).replace(os.sep, "/")
+json.dump({"source": source, "combs": combs,
            "gems": {b: {"pick": k, "grid": g} for b, (k, g) in sorted(gems.items())}},
           open(out, "w"), indent=1)
 print(out, len(combs), "comb recipes,", len(gems), "gems")
