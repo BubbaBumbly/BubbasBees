@@ -86,6 +86,8 @@ def used_on_bee(item, entity='minecraft:bee'):
 adv('root', None, f'{NS}:encyclobeedia', "Bubba's Bees", 'Get an Advanced Beehive or the Encyclobeedia',
     {'book': has(f'{NS}:encyclobeedia'), 'plain': has(tag=f'{NS}:plain_hives'), 'reinforced': has(tag=f'{NS}:reinforced_hives')},
     requirements=[['book', 'plain', 'reinforced']], background='minecraft:textures/block/honeycomb_block.png')
+adv('encyclobeedia', 'root', f'{NS}:encyclobeedia', 'Required Reading', 'Get the Encyclobeedia',
+    {'book': has(f'{NS}:encyclobeedia')})
 adv('place_hive', 'root', f'{NS}:advanced_beehive', 'Home Improvement', 'Place an Advanced Beehive',
     {'plain': {'trigger': 'minecraft:placed_block', 'conditions': {'item': {'tag': f'{NS}:plain_hives'}}},
      'reinforced': {'trigger': 'minecraft:placed_block', 'conditions': {'item': {'tag': f'{NS}:reinforced_hives'}}}},
