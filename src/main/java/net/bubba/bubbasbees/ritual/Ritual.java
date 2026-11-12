@@ -19,7 +19,7 @@ import java.util.UUID;
  */
 public class Ritual {
     public enum Kind {
-        NIGHT(100, 50, 4, ChatFormatting.LIGHT_PURPLE, BossEvent.BossBarColor.PURPLE),
+        NIGHT(100, 50, 0, ChatFormatting.LIGHT_PURPLE, BossEvent.BossBarColor.PURPLE),
         QUEEN(40, 2, 0, ChatFormatting.GOLD, BossEvent.BossBarColor.YELLOW);
 
         /** Total pollinations; night: starlight pollinations, queen: royal guard pollinations; night: other kinds needed. */
@@ -40,7 +40,10 @@ public class Ritual {
         }
     }
 
-    /** The night ritual: besides starlight, any 4 other kinds of bee (vanilla bees are a kind) pollinate this often each. */
+    /**
+     * Other kinds of bee (vanilla bees are a kind) could each be asked for this many pollinations: Kind.NIGHT.types
+     * says how many kinds. It is 0 now (user, 2026-11-11): starlight is the only kind the night ritual asks for.
+     */
     static final int TYPE_POLLINATIONS = 10;
     static final String STARLIGHT = "starlight", VANILLA = "vanilla";
     static final int QUEEN_TICKS = 5 * 60 * 20;
@@ -112,6 +115,7 @@ public class Ritual {
         float total = Math.min(this.total, kind.total) / (float) kind.total;
         float special = Math.min(this.special, kind.special) / (float) kind.special;
         if (kind == Kind.QUEEN) return 0.8F * total + 0.2F * special;
+        if (kind.types == 0) return 0.6F * total + 0.4F * special;
         return 0.5F * total + 0.3F * special + 0.2F * typePoints() / (kind.types * TYPE_POLLINATIONS);
     }
 

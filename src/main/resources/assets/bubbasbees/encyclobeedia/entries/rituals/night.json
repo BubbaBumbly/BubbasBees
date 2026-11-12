@@ -55,7 +55,7 @@
     },
     {
       "type": "text",
-      "text": "$(l)Win before sunrise:$()$(li)100 pollinations inside the circle$(li)50 of them by starlight bees$(li)10 each by 4 other kinds of bee, any you like$(br2)The last 10 can come from any bee. Vanilla bees count as a kind when they live in an Advanced Beehive."
+      "text": "$(l)Win before sunrise:$()$(li)100 pollinations inside the circle$(li)50 of them by starlight bees$(li)the other 50 by any bees you like$(br2)Vanilla bees count too, when they live in an Advanced Beehive."
     },
     {
       "type": "text",
@@ -63,7 +63,7 @@
     },
     {
       "type": "text",
-      "text": "$(l)Tip: bring 4 starlight hives$() (20 bees), plus a hive each of 4 other kinds with their flowers inside the circle. Keep a sword ready for dark bees."
+      "text": "$(l)Tip: bring 4 starlight hives$() (20 bees), plus a few hives of any other bees with their flowers inside the circle. Keep a sword ready for dark bees."
     },
     {
       "type": "image",
