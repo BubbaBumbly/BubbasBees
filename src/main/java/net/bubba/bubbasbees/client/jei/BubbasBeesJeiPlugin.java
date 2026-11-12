@@ -106,9 +106,6 @@ public class BubbasBeesJeiPlugin implements IModPlugin {
                 page(info, ModItems.spawnEgg(spec.id()), "spawn_egg.royal_queen");
             }
         }
-        for (Item comb : ModItems.allCombs()) {
-            page(info, comb, "comb.harvest");
-        }
         page(info, Items.HONEYCOMB, "honeycomb");
         page(info, Items.CAULDRON, "cauldron");
 
