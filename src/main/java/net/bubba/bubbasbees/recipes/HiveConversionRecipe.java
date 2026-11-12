@@ -1,7 +1,6 @@
 package net.bubba.bubbasbees.recipes;
 
 import com.google.gson.JsonObject;
-import net.bubba.bubbasbees.blocks.custom.AdvancedBeehiveBlock;
 import net.bubba.bubbasbees.registries.ModRecipes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -10,10 +9,11 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.level.block.BeehiveBlock;
 
 /**
- * A shaped recipe that turns one advanced beehive into another (another wood, or the reinforced
- * hive), keeping the hive's bees, combs and honey level (the item's NBT) instead of handing back
+ * A shaped recipe that turns a hive into another one (a vanilla beehive into an advanced hive, an
+ * advanced hive into another wood or the reinforced hive), keeping the hive's bees, combs and honey level (the item's NBT) instead of handing back
  * an empty hive.
  */
 public class HiveConversionRecipe extends ShapedRecipe {
@@ -28,7 +28,7 @@ public class HiveConversionRecipe extends ShapedRecipe {
         ItemStack result = super.assemble(container);
         for (int i = 0; i < container.getContainerSize(); i++) {
             ItemStack stack = container.getItem(i);
-            if (stack.getItem() instanceof BlockItem item && item.getBlock() instanceof AdvancedBeehiveBlock
+            if (stack.getItem() instanceof BlockItem item && item.getBlock() instanceof BeehiveBlock
                     && stack.hasTag()) {
                 result.setTag(stack.getTag().copy());
                 break;

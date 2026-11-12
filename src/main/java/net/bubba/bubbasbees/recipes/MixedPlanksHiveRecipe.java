@@ -43,7 +43,11 @@ public class MixedPlanksHiveRecipe extends CustomRecipe {
 
     @Override
     public ItemStack assemble(CraftingContainer container) {
-        return new ItemStack(ModBlocks.ADVANCED_BEEHIVE.get());
+        // keep the bees and honey level of a beehive that was picked up with silk touch
+        ItemStack result = new ItemStack(ModBlocks.ADVANCED_BEEHIVE.get());
+        ItemStack hive = container.getItem(4);
+        if (hive.hasTag()) result.setTag(hive.getTag().copy());
+        return result;
     }
 
     @Override

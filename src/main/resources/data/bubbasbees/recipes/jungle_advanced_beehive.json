@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "bubbasbees:hive_conversion",
   "group": "bubbasbees:advanced_beehive",
   "pattern": [
     "#$#",
