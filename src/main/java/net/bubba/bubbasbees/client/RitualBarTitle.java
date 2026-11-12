@@ -9,12 +9,12 @@ import java.util.List;
 
 /**
  * Fits a ritual boss bar's title to the screen. The server builds the full title (Ritual.refreshBar: the name, then
- * " · " + part pairs) without knowing anyone's screen; when it is wider than this player's screen, the list of missing
- * bee names is left out and the "Types n/8" count stays. Other boss bars are untouched.
+ * " · " + part pairs) without knowing anyone's screen; when it is wider than this player's screen, the next
+ * kind's own count ("Glow Bee 6/10") is left out and the "Other kinds n/4" count stays. Other boss bars are untouched.
  */
 public final class RitualBarTitle {
     private static final String RITUAL_PREFIX = "ritual.bubbasbees.";
-    private static final String MISSING_TYPES = "ritual.bubbasbees.missing_types";
+    private static final String NEXT_TYPE = "ritual.bubbasbees.next_type";
     private static final int MARGIN = 4;
 
     private RitualBarTitle() {}
@@ -25,8 +25,8 @@ public final class RitualBarTitle {
         MutableComponent shortTitle = title.plainCopy().setStyle(title.getStyle());
         boolean dropped = false;
         for (int i = 0; i < parts.size(); i++) {
-            // separator at i, part at i + 1: skip both for the missing-names part
-            if (i + 1 < parts.size() && isKey(parts.get(i + 1), MISSING_TYPES)) {
+            // separator at i, part at i + 1: skip both for the next-kind part
+            if (i + 1 < parts.size() && isKey(parts.get(i + 1), NEXT_TYPE)) {
                 i++;
                 dropped = true;
                 continue;

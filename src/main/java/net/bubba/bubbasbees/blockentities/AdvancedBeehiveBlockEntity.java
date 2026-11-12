@@ -277,11 +277,13 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
             return true;
         }
     }
-    /** Per-bee release rule: vanilla bees wait out night and rain; mod bees follow BeeSpec.canWorkAt at the hive. */
+    /** Per-bee release rule: vanilla bees wait out rain, and night unless the hive is in a ritual circle; mod bees follow BeeSpec.canWorkAt at the hive. */
     private boolean mustStay(CompoundTag beeNbt, BeeReleaseStatus status) {
         if (status == BeeReleaseStatus.EMERGENCY || this.level == null) return false;
         BeeSpec spec = BeeSpecs.byEntity(ResourceLocation.tryParse(beeNbt.getString("id")));
-        if (spec == null) return this.level.isNight() || this.level.isRaining();
+        if (spec == null) {
+            return this.level.isRaining() || (this.level.isNight() && !RitualManager.isRitualHive(this.level, this.worldPosition));
+        }
         return !spec.canWorkAt(this.level, this.worldPosition.above(), true, RitualManager.isRitualHive(this.level, this.worldPosition));
     }
 

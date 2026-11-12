@@ -86,6 +86,11 @@ public final class RitualManager {
 
     /** A bee finished a flower visit. */
     public static void onPollinated(BubbasBee bee, @Nullable BlockPos flower) {
+        onPollinated(bee, bee.getVariant(), flower);
+    }
+
+    /** As above for any bee; type = the bee's kind (BeeSpec id, or Ritual.VANILLA, which only the night ritual counts). */
+    public static void onPollinated(Bee bee, String type, @Nullable BlockPos flower) {
         if (flower == null || !(bee.level instanceof ServerLevel level)) return;
         Map<BlockPos, Ritual> rituals = ACTIVE.get(level.dimension());
         if (rituals == null) return;
@@ -93,11 +98,11 @@ public final class RitualManager {
         for (Ritual ritual : rituals.values()) {
             if (!ritual.isRunning() || ritual.paused || hive == null) continue;
             boolean night = ritual.kind == Ritual.Kind.NIGHT;
+            if (!night && Ritual.VANILLA.equals(type)) continue;
             if (!RitualStructure.inArea(ritual.altar, flower, night) || !RitualStructure.inArea(ritual.altar, hive, night)) continue;
             ritual.total++;
-            String type = bee.getVariant();
             if (ritual.kind == Ritual.Kind.NIGHT ? "starlight".equals(type) : "royal_guard".equals(type)) ritual.special++;
-            ritual.types.add(type);
+            ritual.typeCounts.merge(type, 1, Integer::sum);
             if (ritual.isWon()) win(level, ritual);
             else ritual.refreshBar(ticksLeft(level, ritual));
             return;

@@ -5,6 +5,7 @@ import net.bubba.bubbasbees.blockentities.AdvancedBeehiveBlockEntity;
 import net.bubba.bubbasbees.entity.custom.*;
 import net.bubba.bubbasbees.registries.ModEntityTypes;
 import net.bubba.bubbasbees.registries.ModItems;
+import net.bubba.bubbasbees.ritual.RitualManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -60,6 +61,8 @@ public abstract class BeeMixin extends Animal {
     @Shadow @Final public static String TAG_CANNOT_ENTER_HIVE_TICKS;
 
     @Shadow @Nullable public abstract BlockPos getHivePos();
+
+    @Shadow @Nullable public abstract BlockPos getSavedFlowerPos();
 
     @Unique
     public void bubbasBees$setHivePos(BlockPos hivePos) {
@@ -146,7 +149,17 @@ public abstract class BeeMixin extends Animal {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;isNight()Z"))
     private boolean bubbasBees$stopsForNight(Level level) {
         if ((Object) this instanceof BubbasBee bee && bee.getSpec() != null) return false;   // covered above
-        return level.isNight();
+        // vanilla bees work through the night while their hive is in a running ritual circle
+        return level.isNight() && !RitualManager.isRitualHive(level, this.hivePos);
+    }
+
+    /// A vanilla bee finished a flower visit: vanilla bees are a kind of their own in the Celestial Ritual.
+    /// tickCount is 0 while a bee is being read from saved data, which also sets the nectar flag.
+    @Inject(method = "setHasNectar", at = @At("HEAD"))
+    private void bubbasBees$vanillaPollinated(boolean hasNectar, CallbackInfo ci) {
+        if (hasNectar && !this.hasNectar() && this.tickCount > 0 && this.getType() == EntityType.BEE) {
+            RitualManager.onPollinated((Bee) (Object) this, "vanilla", this.getSavedFlowerPos());
+        }
     }
 
     /// Goal editing section

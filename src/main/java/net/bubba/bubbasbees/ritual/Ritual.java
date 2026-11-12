@@ -8,9 +8,9 @@ import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.world.BossEvent;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -19,10 +19,10 @@ import java.util.UUID;
  */
 public class Ritual {
     public enum Kind {
-        NIGHT(100, 50, 8, ChatFormatting.LIGHT_PURPLE, BossEvent.BossBarColor.PURPLE),
+        NIGHT(100, 50, 4, ChatFormatting.LIGHT_PURPLE, BossEvent.BossBarColor.PURPLE),
         QUEEN(40, 2, 0, ChatFormatting.GOLD, BossEvent.BossBarColor.YELLOW);
 
-        /** Total pollinations; night: starlight pollinations, queen: royal guard pollinations; night: types. */
+        /** Total pollinations; night: starlight pollinations, queen: royal guard pollinations; night: other kinds needed. */
         final int total, special, types;
         final ChatFormatting colour;
         final BossEvent.BossBarColor barColour;
@@ -40,9 +40,9 @@ public class Ritual {
         }
     }
 
-    /** The night ritual's 8 types; each must pollinate once (round 4). */
-    static final List<String> NIGHT_TYPES = List.of("glow", "amethyst", "deep_dark", "obsidian", "soul", "prismarine",
-            "frost", "corrupt_nature");
+    /** The night ritual: besides starlight, any 4 other kinds of bee (vanilla bees are a kind) pollinate this often each. */
+    static final int TYPE_POLLINATIONS = 10;
+    static final String STARLIGHT = "starlight", VANILLA = "vanilla";
     static final int QUEEN_TICKS = 5 * 60 * 20;
 
     final Kind kind;
@@ -51,7 +51,8 @@ public class Ritual {
     final ServerBossEvent bar;
     final List<BlockPos> candles = new ArrayList<>();
     final List<UUID> darkBees = new ArrayList<>();
-    final Set<String> types = new HashSet<>();
+    /** Pollinations per kind of bee (BeeSpec id, or VANILLA). */
+    final Map<String, Integer> typeCounts = new HashMap<>();
     int total, special;
     boolean paused;
     long nextDarkBee;
@@ -73,20 +74,45 @@ public class Ritual {
 
     boolean isWon() {
         if (total < kind.total || special < kind.special) return false;
-        return kind != Kind.NIGHT || types.containsAll(NIGHT_TYPES);
+        return kind != Kind.NIGHT || typesDone() >= kind.types;
     }
 
+    /** Kinds other than starlight that have pollinated often enough. */
     int typesDone() {
         int done = 0;
-        for (String type : NIGHT_TYPES) if (types.contains(type)) done++;
+        for (Map.Entry<String, Integer> entry : typeCounts.entrySet()) {
+            if (!STARLIGHT.equals(entry.getKey()) && entry.getValue() >= TYPE_POLLINATIONS) done++;
+        }
         return done;
+    }
+
+    /** Pollinations that count towards the kinds, from the best `kind.types` kinds; at most TYPE_POLLINATIONS each. */
+    private int typePoints() {
+        List<Integer> counts = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : typeCounts.entrySet()) {
+            if (!STARLIGHT.equals(entry.getKey())) counts.add(Math.min(entry.getValue(), TYPE_POLLINATIONS));
+        }
+        counts.sort((a, b) -> b - a);
+        int points = 0;
+        for (int i = 0; i < Math.min(kind.types, counts.size()); i++) points += counts.get(i);
+        return points;
+    }
+
+    /** The unfinished kind that is furthest along, or null. */
+    private String nextType() {
+        String best = null;
+        for (Map.Entry<String, Integer> entry : typeCounts.entrySet()) {
+            if (STARLIGHT.equals(entry.getKey()) || entry.getValue() >= TYPE_POLLINATIONS) continue;
+            if (best == null || entry.getValue() > typeCounts.get(best)) best = entry.getKey();
+        }
+        return best;
     }
 
     float progress() {
         float total = Math.min(this.total, kind.total) / (float) kind.total;
         float special = Math.min(this.special, kind.special) / (float) kind.special;
         if (kind == Kind.QUEEN) return 0.8F * total + 0.2F * special;
-        return 0.5F * total + 0.3F * special + 0.2F * typesDone() / NIGHT_TYPES.size();
+        return 0.5F * total + 0.3F * special + 0.2F * typePoints() / (kind.types * TYPE_POLLINATIONS);
     }
 
     /** The bar title: the ritual's name, then only what's still missing, the time left, and a pause note. */
@@ -99,18 +125,12 @@ public class Ritual {
             parts.add(Component.translatable(kind == Kind.NIGHT ? "ritual.bubbasbees.starlight" : "ritual.bubbasbees.guards",
                     special, kind.special));
         }
-        if (kind == Kind.NIGHT && typesDone() < NIGHT_TYPES.size()) {
-            parts.add(Component.translatable("ritual.bubbasbees.types", typesDone(), NIGHT_TYPES.size()));
-            if (NIGHT_TYPES.size() - typesDone() <= 3) {
-                MutableComponent names = Component.empty();
-                boolean first = true;
-                for (String type : NIGHT_TYPES) {
-                    if (types.contains(type)) continue;
-                    if (!first) names.append(", ");
-                    names.append(Component.translatable("entity.bubbasbees." + type + "_bee"));
-                    first = false;
-                }
-                parts.add(Component.translatable("ritual.bubbasbees.missing_types", names));
+        if (kind == Kind.NIGHT && typesDone() < kind.types) {
+            parts.add(Component.translatable("ritual.bubbasbees.types", typesDone(), kind.types));
+            String next = nextType();
+            if (next != null) {
+                Component name = Component.translatable(VANILLA.equals(next) ? "entity.minecraft.bee" : "entity.bubbasbees." + next + "_bee");
+                parts.add(Component.translatable("ritual.bubbasbees.next_type", name, typeCounts.get(next), TYPE_POLLINATIONS));
             }
         }
         long seconds = Math.max(0, ticksLeft) / 20;
