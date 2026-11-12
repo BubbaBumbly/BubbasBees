@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "ABA",
-    "BCB",
+    "DCD",
     "ABA"
   ],
   "key": {
@@ -14,6 +14,9 @@
     },
     "C": {
       "item": "bubbasbees:bubba_star"
+    },
+    "D": {
+      "item": "minecraft:ghast_tear"
     }
   },
   "result": {
