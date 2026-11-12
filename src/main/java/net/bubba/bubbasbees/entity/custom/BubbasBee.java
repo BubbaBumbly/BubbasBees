@@ -57,8 +57,10 @@ public class BubbasBee extends Bee implements IAnimatable {
     private static final float LAVA_FILL_CHANCE = 0.25F;
     // Royal guard: keeps stinging (it survives it) until the anger it got from a mugging runs out
     private int mugUntilTick;
-    // A mugging stings once every 3 s (user, 2026-11-02: once a second was lethal); threats get the normal rate
-    private static final int MUG_STING_INTERVAL = 60;
+    // A mugging stings once every 2.5 s (user, 2026-11-11; once a second was lethal); threats get the normal rate
+    private static final int MUG_STING_INTERVAL = 50;
+    /** A royal guard's sting: 1.5 hearts (other bees keep vanilla's 1 heart). */
+    private static final double GUARD_STING_DAMAGE = 3.0D;
     private @Nullable java.util.UUID mugTarget;
     private int nextMugStingTick;
 
@@ -188,6 +190,11 @@ public class BubbasBee extends Bee implements IAnimatable {
     public boolean doHurtTarget(@NotNull Entity target) {
         boolean mugging = isRoyalGuard() && target.getUUID().equals(mugTarget);
         if (mugging && this.tickCount < nextMugStingTick) return false;
+        if (isRoyalGuard()) {
+            // set here, not at spawn, so guards saved before this change sting harder too
+            var damage = this.getAttribute(Attributes.ATTACK_DAMAGE);
+            if (damage != null) damage.setBaseValue(GUARD_STING_DAMAGE);
+        }
         boolean hit = super.doHurtTarget(target);
         if (hit && mugging) nextMugStingTick = this.tickCount + MUG_STING_INTERVAL;
         if (hit && isRoyalGuard()) {

@@ -568,7 +568,13 @@ def step4_data():
         "textures": {"particle": "bubbasbees:block/royal_jelly_block", "outer": "bubbasbees:block/royal_jelly_block",
                      "inner": "bubbasbees:block/royal_jelly_block_inner"},
         "elements": [{"from": [3, 3, 3], "to": [13, 13, 13], "faces": faces([3, 3, 13, 13], "#inner", False)},
-                     {"from": [0, 0, 0], "to": [16, 16, 16], "faces": faces([0, 0, 16, 16], "#outer", True)}]})
+                     {"from": [0, 0, 0], "to": [16, 16, 16], "faces": faces([0, 0, 16, 16], "#outer", True)}]
+                    # the shell again, facing inward, so the block still draws with the camera inside it
+                    + [{"from": a, "to": b, "faces": {face: {"uv": [0, 0, 16, 16], "texture": "#outer", "cullface": side}}}
+                       for side, face, a, b in (
+                           ("north", "south", [0, 0, 0.02], [16, 16, 0.02]), ("south", "north", [0, 0, 15.98], [16, 16, 15.98]),
+                           ("west", "east", [0.02, 0, 0], [0.02, 16, 16]), ("east", "west", [15.98, 0, 0], [15.98, 16, 16]),
+                           ("down", "up", [0, 0.02, 0], [16, 0.02, 16]), ("up", "down", [0, 15.98, 0], [16, 15.98, 16]))]})
     write_json(os.path.join(bs, "royal_jelly_block.json"), {"variants": {"": {"model": "bubbasbees:block/royal_jelly_block"}}})
     write_json(os.path.join(im, "royal_jelly_block.json"), {"parent": "bubbasbees:block/royal_jelly_block"})
     write_json(os.path.join(loot, "royal_jelly_block.json"), drop("bubbasbees:royal_jelly_block"))

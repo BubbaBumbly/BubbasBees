@@ -16,7 +16,7 @@
     },
     {
       "type": "text",
-      "text": "$(l)Royal guard:$() Waxes nearby copper, protects bees and players, survives stinging, and mugs anyone who hits it or a bee nearby (one sting every 3 seconds while it mugs). Attacks dark bees on sight."
+      "text": "$(l)Royal guard:$() Waxes nearby copper, protects bees and players, survives stinging, and mugs anyone who hits it or a bee nearby (one sting of 1.5 hearts every 2.5 seconds while it mugs). Attacks dark bees on sight."
     },
     {
       "type": "crafting",

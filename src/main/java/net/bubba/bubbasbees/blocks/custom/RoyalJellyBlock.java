@@ -14,12 +14,12 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Royal jelly block: anything inside moves through it as if it weren't there, at about half speed, and falls slowly.
+ * Royal jelly block: anything inside moves through it as if it weren't there, at about 40% speed, and falls slowly.
  * Entering it resets a fall. Sticks to blocks on pistons like slime, but not to slime or honey blocks.
  */
 public class RoyalJellyBlock extends HalfTransparentBlock {
-    /** Multiplied into velocity each tick inside: about half walking speed, and a steady slow fall. */
-    private static final double SLOW_SIDEWAYS = 0.7D, SLOW_VERTICAL = 0.5D;
+    /** Multiplied into velocity each tick inside: about 40% of walking speed, and a steady slow fall. */
+    private static final double SLOW_SIDEWAYS = 0.6D, SLOW_VERTICAL = 0.42D;
 
     public RoyalJellyBlock(Properties properties) {
         super(properties);
