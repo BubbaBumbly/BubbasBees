@@ -92,7 +92,7 @@ adv('place_hive', 'root', f'{NS}:advanced_beehive', 'Home Improvement', 'Place a
     {'plain': {'trigger': 'minecraft:placed_block', 'conditions': {'item': {'tag': f'{NS}:plain_hives'}}},
      'reinforced': {'trigger': 'minecraft:placed_block', 'conditions': {'item': {'tag': f'{NS}:reinforced_hives'}}}},
     requirements=[['plain', 'reinforced']])
-adv('comb_chute', 'place_hive', f'{NS}:comb_chute', 'Hands Free', 'Put a Comb Chute under a hive to harvest it for you',
+adv('comb_chute', 'place_hive', f'{NS}:comb_chute', 'Hands Free', 'Put a Comb Chute on a hive to harvest it for you',
     {'chute': {'trigger': 'minecraft:placed_block', 'conditions': {'item': {'items': [f'{NS}:comb_chute']}}}})
 adv('bee_jar', 'place_hive', f'{NS}:bee_jar', 'Bee in a Bottle', 'Catch a bee in a Bee Jar',
     {'jar': used_on_bee(f'{NS}:bee_jar', entity=None)})

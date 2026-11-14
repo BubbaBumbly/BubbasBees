@@ -460,8 +460,12 @@ def step3_blocks():
                shaped(["v:iron_ingot", "v:shears", "v:iron_ingot", "v:honeycomb", "v:hopper", "v:honeycomb",
                        "v:iron_ingot", "v:honeycomb", "v:iron_ingot"], "bubbasbees:comb_chute"))
     # block models: final art W1 (BubbasBeesArt/work/comb_chute/block/final), copied in step3_art
+    # on any face of the hive since 2026-11-14 (user, fix list item 44): facing = the spout; the model's spout points down
+    chute_rot = {"down": {}, "up": {"x": 180}, "south": {"x": 90}, "north": {"x": 90, "y": 180},
+                 "west": {"x": 90, "y": 90}, "east": {"x": 90, "y": 270}}
     write_json(os.path.join(bs, "comb_chute.json"), {"variants": {
-        "honey=false": {"model": "bubbasbees:block/comb_chute"}, "honey=true": {"model": "bubbasbees:block/comb_chute_honey"}}})
+        f"facing={f},honey={h}": {"model": "bubbasbees:block/comb_chute" + ("_honey" if h == "true" else ""), **r}
+        for f, r in chute_rot.items() for h in ("false", "true")}})
     write_json(os.path.join(loot, "comb_chute.json"), drop("bubbasbees:comb_chute"))
     # stardust: redstone-style dot + arms (art final: BubbasBeesArt/work/stardust/final), pile drawn by a renderer
     write_json(os.path.join(bm, "stardust_dot.json"), {"render_type": "minecraft:cutout", "ambientocclusion": False,

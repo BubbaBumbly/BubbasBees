@@ -3,6 +3,7 @@ package net.bubba.bubbasbees.blocks.custom;
 import net.bubba.bubbasbees.blockentities.CombChuteBlockEntity;
 import net.bubba.bubbasbees.registries.ModBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -14,7 +15,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.BeehiveBlock;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -22,7 +27,9 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -30,32 +37,83 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 /**
- * Comb chute (user design, 2026-11-02): a funnel block placed under a hive. When the hive above is full (honey
- * level 5) it takes everything in one go, as if sheared but without angering the bees, and pushes the items down
- * into whatever is below, like a hopper. Comb mode takes the combs; honey mode fills a glass bottle from its bottle
+ * Comb chute (user design, 2026-11-02): a funnel block on a hive. When the hive is full (honey level 5) it takes
+ * everything in one go, as if sheared but without angering the bees, and pushes the items out of its spout into
+ * whatever is there, like a hopper. Since 2026-11-14 (user, fix list item 44) it goes on any face of the hive:
+ * FACING is the way the spout points, the hive is on the opposite side. Comb mode takes the combs; honey mode fills a glass bottle from its bottle
  * slot instead (the combs are lost, as when bottling by hand). Empty-hand right-click switches mode; right-click with
  * glass bottles loads them (hoppers and pipes can feed bottles in from the sides too).
  */
 public class CombChuteBlock extends BaseEntityBlock {
     public static final BooleanProperty HONEY = BooleanProperty.create("honey");
-    private static final VoxelShape SHAPE = Shapes.or(Block.box(0, 11, 0, 16, 16, 16), Block.box(2, 8, 2, 14, 11, 14),
-            Block.box(3, 6, 3, 13, 8, 13), Block.box(4, 4, 4, 12, 6, 12), Block.box(6, 0, 6, 10, 4, 10));   // W1 model
+    public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    /** W1 model boxes, spout down: {depth from the hive side, from, to; square cross-section, from, to} (all centred). */
+    private static final int[][] BOXES = {{0, 5, 0, 16}, {5, 8, 2, 14}, {8, 10, 3, 13}, {10, 12, 4, 12}, {12, 16, 6, 10}};
+    private static final Map<Direction, VoxelShape> SHAPES = new EnumMap<>(Direction.class);
+    static {
+        for (Direction dir : Direction.values()) {
+            VoxelShape shape = Shapes.empty();
+            for (int[] b : BOXES) {
+                // along the spout axis: the hive side is at 0 for a spout pointing the positive way, at 16 otherwise
+                double a0 = dir.getAxisDirection() == Direction.AxisDirection.POSITIVE ? b[0] : 16 - b[1];
+                double a1 = dir.getAxisDirection() == Direction.AxisDirection.POSITIVE ? b[1] : 16 - b[0];
+                double c0 = b[2], c1 = b[3];
+                shape = Shapes.or(shape, switch (dir.getAxis()) {
+                    case X -> Block.box(a0, c0, c0, a1, c1, c1);
+                    case Y -> Block.box(c0, a0, c0, c1, a1, c1);
+                    case Z -> Block.box(c0, c0, a0, c1, c1, a1);
+                });
+            }
+            SHAPES.put(dir, shape);
+        }
+    }
 
     public CombChuteBlock(Properties properties) {
         super(properties);
-        registerDefaultState(stateDefinition.any().setValue(HONEY, false));
+        registerDefaultState(stateDefinition.any().setValue(HONEY, false).setValue(FACING, Direction.DOWN));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(HONEY);
+        builder.add(HONEY, FACING);
+    }
+
+    /** The spout points away from the hive: the clicked hive face, else a hive next to it (the one most in view),
+     *  else down (a chute placed first, for a hive on top, as before). */
+    @Override
+    public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
+        Level level = context.getLevel();
+        BlockPos pos = context.getClickedPos();
+        Direction face = context.getClickedFace();
+        if (level.getBlockState(pos.relative(face.getOpposite())).getBlock() instanceof BeehiveBlock) {
+            return defaultBlockState().setValue(FACING, face);
+        }
+        for (Direction look : context.getNearestLookingDirections()) {
+            if (level.getBlockState(pos.relative(look)).getBlock() instanceof BeehiveBlock) {
+                return defaultBlockState().setValue(FACING, look.getOpposite());
+            }
+        }
+        return defaultBlockState();
+    }
+
+    @Override
+    public @NotNull BlockState rotate(@NotNull BlockState state, @NotNull Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+    }
+
+    @Override
+    public @NotNull BlockState mirror(@NotNull BlockState state, @NotNull Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
     @Override
     public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos,
                                         @NotNull CollisionContext context) {
-        return SHAPE;
+        return SHAPES.get(state.getValue(FACING));
     }
 
     @Override

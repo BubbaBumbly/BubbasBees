@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "Place it $(l)under a hive$(). When the hive is full it harvests it in one go, as if sheared, without angering the bees, and pushes the items down like a hopper."
+      "text": "Place it $(l)on any side of a hive$() by clicking the hive's face: the spout points away from the hive. Placed on its own it points down, for a hive on top.$(br2)When the hive is full it harvests it in one go, as if sheared, without angering the bees, and pushes the items out of the spout like a hopper."
     },
     {
       "type": "text",

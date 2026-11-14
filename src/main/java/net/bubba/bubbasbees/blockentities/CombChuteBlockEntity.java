@@ -33,7 +33,7 @@ import java.util.List;
 
 /**
  * The comb chute's storage: 5 output slots (filled only by the chute) and 1 bottle slot (glass bottles only).
- * Every 8 ticks, like a hopper, it pushes one item down and checks the hive above.
+ * Every 8 ticks, like a hopper, it pushes one item out of its spout and checks the hive behind it (FACING = spout).
  */
 public class CombChuteBlockEntity extends BlockEntity {
     public static final int OUTPUT_SLOTS = 5;
@@ -99,15 +99,16 @@ public class CombChuteBlockEntity extends BlockEntity {
     public static void serverTick(Level level, BlockPos pos, BlockState state, CombChuteBlockEntity chute) {
         if (--chute.cooldown > 0) return;
         chute.cooldown = COOLDOWN;
-        chute.pushDown(level, pos);
-        chute.harvestAbove(level, pos, state);
+        Direction spout = state.getValue(CombChuteBlock.FACING);
+        chute.pushOut(level, pos, spout);
+        chute.harvestHive(level, pos.relative(spout.getOpposite()), state);
     }
 
-    /// Output: one item per 8 ticks into whatever is below, as a hopper does
-    private void pushDown(Level level, BlockPos pos) {
-        BlockEntity below = level.getBlockEntity(pos.below());
-        if (below == null) return;
-        below.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP).ifPresent(target -> {
+    /// Output: one item per 8 ticks into whatever the spout points at, as a hopper does
+    private void pushOut(Level level, BlockPos pos, Direction spout) {
+        BlockEntity next = level.getBlockEntity(pos.relative(spout));
+        if (next == null) return;
+        next.getCapability(ForgeCapabilities.ITEM_HANDLER, spout.getOpposite()).ifPresent(target -> {
             for (int slot = 0; slot < OUTPUT_SLOTS; slot++) {
                 ItemStack one = items.extractItem(slot, 1, true);
                 if (one.isEmpty()) continue;
@@ -120,8 +121,7 @@ public class CombChuteBlockEntity extends BlockEntity {
     }
 
     /// Harvest: only a full hive (honey level 5), everything at once, without angering the bees
-    private void harvestAbove(Level level, BlockPos pos, BlockState state) {
-        BlockPos hivePos = pos.above();
+    private void harvestHive(Level level, BlockPos hivePos, BlockState state) {
         BlockState hiveState = level.getBlockState(hivePos);
         if (!(hiveState.getBlock() instanceof BeehiveBlock hiveBlock) || hiveState.getValue(BeehiveBlock.HONEY_LEVEL) < 5) return;
         BlockEntity hiveEntity = level.getBlockEntity(hivePos);

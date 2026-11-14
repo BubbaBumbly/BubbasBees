@@ -357,7 +357,7 @@
   "jei.bubbasbees.hive": "Holds 5 bees and 8 combs; it is full at 8 combs. Shears give the combs, a glass bottle gives a honey bottle. Craft one with a wood's planks, or craft a hive with planks to change its wood. Vanilla bees can live in it and make plain honeycomb.",
   "jei.bubbasbees.hive.modes": "Use any Bubba Star on it (Lesser, regular or Celestial) to switch its bees between calm (the default) and busy. Busy bees fly faster, go straight back to flowers they know and spend half as long inside.",
   "jei.bubbasbees.hive.reinforced": "Resists explosions like obsidian.",
-  "jei.bubbasbees.comb_chute": "Place it under a hive. When the hive is full it harvests it in one go, as if sheared, without angering the bees, and pushes the items down like a hopper.",
+  "jei.bubbasbees.comb_chute": "Place it on any side of a hive (click the hive's face); its spout points away from the hive. When the hive is full it harvests it in one go, as if sheared, without angering the bees, and pushes the items out of the spout like a hopper.",
   "jei.bubbasbees.comb_chute.modes": "Comb mode takes the combs. Honey mode fills one glass bottle per harvest instead (the combs are lost). Right-click with bottles to load it (it holds 64); hoppers can feed it from the sides. Right-click with an empty hand to switch modes.",
   "jei.bubbasbees.star": "Every conversion gem is crafted around a star, and the star comes back: it is a reusable catalyst. Better bees need better stars. A better star also works in any recipe that asks for a weaker one.",
   "jei.bubbasbees.lesser_bubba_star": "Used up when crafting a Bubba Star. Use it on a hive to switch its bees between calm and busy (it isn't used up).",
@@ -401,7 +401,7 @@
   "advancements.bubbasbees.collector.title": "Collector",
   "advancements.bubbasbees.collector.description": "Turn a vanilla bee into every kind of bee",
   "advancements.bubbasbees.comb_chute.title": "Hands Free",
-  "advancements.bubbasbees.comb_chute.description": "Put a Comb Chute under a hive to harvest it for you",
+  "advancements.bubbasbees.comb_chute.description": "Put a Comb Chute on a hive to harvest it for you",
   "advancements.bubbasbees.celestial_altar.title": "Setting the Stage",
   "advancements.bubbasbees.celestial_altar.description": "Craft a Celestial Altar"
 }
