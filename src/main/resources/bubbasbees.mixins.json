@@ -21,6 +21,7 @@
   },
   "client": [
     "client.BossHealthOverlayMixin",
+    "client.CreativeModeTabMixin",
     "client.PinkPistonRendererMixin"
   ]
 }

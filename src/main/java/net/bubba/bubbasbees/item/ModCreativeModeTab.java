@@ -13,8 +13,11 @@ import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.IdentityHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ModCreativeModeTab {
@@ -29,7 +32,7 @@ public class ModCreativeModeTab {
             return false;
         }
 
-        /** Grouped order (JEI's item list follows it too): see {@link #order()}. */
+        /** Grouped order, see {@link #order()}. JEI's item list follows it through {@link #sortLikeTab}. */
         @Override
         public void fillItemList(@NotNull NonNullList<ItemStack> items) {
             for (Item item : order()) item.fillItemCategory(this, items);
@@ -56,6 +59,26 @@ public class ModCreativeModeTab {
             if (item.getItemCategory() == BUBBASBEES_TAB) order.add(item);
         }
         return new ArrayList<>(order);
+    }
+
+    /**
+     * Puts this mod's stacks in a mixed item list into the tab's order. They keep the slots they had between other
+     * mods' items; only which of them sits in which slot changes. Used on the search tab's list, which JEI reads
+     * (CreativeModeTabMixin).
+     */
+    public static void sortLikeTab(List<ItemStack> items) {
+        Map<Item, Integer> rank = new IdentityHashMap<>();
+        for (Item item : order()) rank.put(item, rank.size());
+        List<Integer> slots = new ArrayList<>();
+        List<ItemStack> ours = new ArrayList<>();
+        for (int i = 0; i < items.size(); i++) {
+            if (rank.containsKey(items.get(i).getItem())) {
+                slots.add(i);
+                ours.add(items.get(i));
+            }
+        }
+        ours.sort(Comparator.comparingInt(stack -> rank.get(stack.getItem())));
+        for (int i = 0; i < slots.size(); i++) items.set(slots.get(i), ours.get(i));
     }
 
     @SafeVarargs
