@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "Ocean bees can't dive, so they use flowers they can reach from above: sea pickles on land, kelp at the surface. Rarely brings home a nautilus comb.$(br2)$(l)Flowers:$() Sea Pickle, Kelp, Kelp Plant, Seagrass, Tall Seagrass$(br2)$(l)Home biome:$() Beach, Snowy Beach, every ocean"
+      "text": "Ocean bees can't dive, so they use flowers they can reach from above: sea pickles on land, kelp at the surface. Rarely brings home a nautilus comb.$(br2)$(l)Flowers:$() Sea Pickle, Kelp, Kelp Plant, Seagrass, Tall Seagrass$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() Beach, Snowy Beach, every ocean"
     },
     {
       "type": "text",

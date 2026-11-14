@@ -22,7 +22,7 @@
     },
     {
       "type": "text",
-      "text": "$(l)Gold Bee$()$(br)Comb drop rate: $(l)every trip$() (100%)$(br)210 combs per hive-hour, making:$(li)$(l)Deepslate Gold Ore$(): 52.6$(li)$(l)Gilded Blackstone$(): 84.1 (5 combs + 4 Blackstone make 2; not an ore)$(li)$(l)Gold Ore$(): 52.6$(li)$(l)Nether Gold Ore$(): 52.6$(br2)Mined with Fortune III: about 116 raw gold per hive-hour.$(br)Home: Overworld."
+      "text": "$(l)Gold Bee$()$(br)Comb drop rate: $(l)every trip$() (100%)$(br)210 combs per hive-hour, making:$(li)$(l)Deepslate Gold Ore$(): 52.6$(li)$(l)Gilded Blackstone$(): 84.1 (5 combs + 4 Blackstone make 2; not an ore)$(li)$(l)Gold Ore$(): 52.6$(li)$(l)Nether Gold Ore$(): 52.6$(br2)Mined with Fortune III: about 116 raw gold per hive-hour.$(br)Home: Overworld and Nether."
     },
     {
       "type": "text",

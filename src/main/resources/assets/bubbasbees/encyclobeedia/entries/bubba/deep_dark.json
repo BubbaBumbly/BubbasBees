@@ -12,11 +12,11 @@
     },
     {
       "type": "text",
-      "text": "Very rarely brings home an echo comb: the only renewable echo shards.$(br2)$(l)Flowers:$() Sculk, Sculk Catalyst, Sculk Sensor$(br2)$(l)Home biome:$() Deep Dark$(br2)$(l)Brings home$() (busy hive):$(li)Deep Dark Honeycomb: the other trips, 207 per hive-hour$(li)Echo Honeycomb: rare, 1 in 60, 3.51 per hive-hour"
+      "text": "Very rarely brings home an echo comb: the only renewable echo shards.$(br2)$(l)Flowers:$() Sculk, Sculk Catalyst, Sculk Sensor$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() Deep Dark"
     },
     {
       "type": "text",
-      "text": "$(l)Silent wings:$() Its wings make no vibrations, so it never sets off sculk sensors or shriekers."
+      "text": "$(l)Brings home$() (busy hive):$(li)Deep Dark Honeycomb: the other trips, 207 per hive-hour$(li)Echo Honeycomb: rare, 1 in 60, 3.51 per hive-hour$(br2)$(l)Silent wings:$() Its wings make no vibrations, so it never sets off sculk sensors or shriekers."
     },
     {
       "type": "crafting",

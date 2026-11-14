@@ -12,7 +12,11 @@
     },
     {
       "type": "text",
-      "text": "$(l)Flowers:$() Snow Block, Ice, Packed Ice, Blue Ice$(br2)$(l)Home biome:$() Snowy Plains, Ice Spikes, Snowy Slopes, Frozen Peaks, Frozen River, Frozen Ocean, Deep Frozen Ocean$(br2)$(l)Brings home$() (busy hive):$(li)Frost Honeycomb: every trip, 210 per hive-hour$(br2)$(l)Snowproof:$() Keeps working while it snows and can't freeze in powder snow."
+      "text": "$(l)Flowers:$() Snow Block, Ice, Packed Ice, Blue Ice$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() Snowy Plains, Ice Spikes, Snowy Slopes, Frozen Peaks, Frozen River, Frozen Ocean, Deep Frozen Ocean$(br2)$(l)Brings home$() (busy hive):$(li)Frost Honeycomb: every trip, 210 per hive-hour"
+    },
+    {
+      "type": "text",
+      "text": "$(l)Snowproof:$() Keeps working while it snows and can't freeze in powder snow."
     },
     {
       "type": "crafting",
@@ -27,13 +31,6 @@
     {
       "type": "crafting",
       "recipe": "bubbasbees:combs/frost/snowball"
-    },
-    {
-      "type": "image",
-      "images": [
-        "bubbasbees:textures/gui/book/bee_jar_filled_frost.png"
-      ],
-      "border": false
     }
   ]
 }

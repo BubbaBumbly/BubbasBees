@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "All its recipes need nature combs too: melons, cocoa, bamboo, vines and jungle logs.$(br2)$(l)Flowers:$() Jungle Leaves, Jungle Log, Bamboo, Melon$(br2)$(l)Home biome:$() Jungle, Bamboo Jungle, Sparse Jungle$(br2)$(l)Brings home$() (busy hive):$(li)Jungle Honeycomb: every trip, 210 per hive-hour"
+      "text": "All its recipes need nature combs too: melons, cocoa, bamboo, vines and jungle logs.$(br2)$(l)Flowers:$() Jungle Leaves, Jungle Log, Bamboo, Melon$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() Jungle, Bamboo Jungle, Sparse Jungle$(br2)$(l)Brings home$() (busy hive):$(li)Jungle Honeycomb: every trip, 210 per hive-hour"
     },
     {
       "type": "crafting",

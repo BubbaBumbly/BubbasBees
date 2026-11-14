@@ -16,7 +16,7 @@
     },
     {
       "type": "text",
-      "text": "$(l)Home biome:$() none$(br2)$(l)Brings home$() (busy hive):$(li)Nature Honeycomb: every trip, 210 per hive-hour$(br2)$(l)Green thumb:$() Grows crops it flies over, like a vanilla bee. (Other mod bees don't.)"
+      "text": "$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() none$(br2)$(l)Brings home$() (busy hive):$(li)Nature Honeycomb: every trip, 210 per hive-hour$(br2)$(l)Green thumb:$() Grows crops it flies over, like a vanilla bee. (Other mod bees don't.)"
     },
     {
       "type": "crafting",

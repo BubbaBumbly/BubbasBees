@@ -11,6 +11,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
@@ -28,7 +29,7 @@ import java.util.List;
  * the bee's own comb at combChance, picked by weight when the bee has several; a failed roll gives nothing.
  */
 public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb> combs, List<RareComb> rareCombs,
-                      @Nullable ResourceKey<Level> home, boolean fireImmune, boolean deepslateLook, boolean translucent,
+                      List<ResourceKey<Level>> homes, boolean universal, boolean fireImmune, boolean deepslateLook, boolean translucent,
                       String model, Set<Trait> traits, double maxHealth, float scale,
                       int eggBase, int eggSpots) {
 
@@ -84,7 +85,11 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
     /** As above; ritual = the bee's hive is inside a running ritual circle, so day bees work at night too. */
     public boolean canWorkAt(Level level, BlockPos pos, boolean checkSky, boolean ritual) {
         if (has(Trait.NOCTURNAL)) {
-            if (!level.isNight() || (checkSky && !level.canSeeSky(pos))) return false;
+            if (level.dimension().equals(Level.END)) {
+                // The End has fixed time (never "night") and no sky light, so starlight bees there work all the time
+                // and the open-sky check uses the heightmap (fix list item 43: the End is a starlight home)
+                if (checkSky && pos.getY() < level.getHeight(Heightmap.Types.MOTION_BLOCKING, pos.getX(), pos.getZ())) return false;
+            } else if (!level.isNight() || (checkSky && !level.canSeeSky(pos))) return false;
         } else if (level.isNight() && !ritual) {
             return false;
         }
@@ -122,9 +127,11 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
         return TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(BubbasBees.MOD_ID, "bee_flowers/" + id));
     }
 
-    /** Spends twice as long in a hive outside its home dimension (the dimension rule); a bee with no home is an Overworld bee. */
+    /** Spends twice as long in a hive outside its home dimensions (the dimension rule). A bee with no home set is an
+     *  Overworld bee; a universal bee is at home everywhere, modded dimensions too (user 2026-11-14, fix list item 43). */
     public boolean isAwayFromHome(Level level) {
-        return !level.dimension().equals(home != null ? home : Level.OVERWORLD);
+        if (universal) return false;
+        return homes.isEmpty() ? !level.dimension().equals(Level.OVERWORLD) : !homes.contains(level.dimension());
     }
 
     public ItemStack rollComb(RandomSource random) {
@@ -169,7 +176,8 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
         private float combChance = 1.0F;
         private final List<WeightedComb> combs = new ArrayList<>();
         private final List<RareComb> rareCombs = new ArrayList<>();
-        private ResourceKey<Level> home;
+        private final List<ResourceKey<Level>> homes = new ArrayList<>();
+        private boolean universal;
         private boolean fireImmune;
         private boolean deepslateLook;
         private boolean translucent;
@@ -201,8 +209,16 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
             return this;
         }
 
-        public Builder home(ResourceKey<Level> dimension) {
-            this.home = dimension;
+        /** Home dimensions, first = main home (the guide shows it first); default is the Overworld alone. */
+        @SafeVarargs
+        public final Builder home(ResourceKey<Level>... dimensions) {
+            this.homes.addAll(List.of(dimensions));
+            return this;
+        }
+
+        /** At home in every dimension, modded ones included: never the away-from-home stay. */
+        public Builder universal() {
+            this.universal = true;
             return this;
         }
 
@@ -253,7 +269,7 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
 
         public BeeSpec build() {
             if (combs.isEmpty()) combs.add(new WeightedComb(id, 1));
-            return new BeeSpec(id, tier, combChance, List.copyOf(combs), List.copyOf(rareCombs), home, fireImmune,
+            return new BeeSpec(id, tier, combChance, List.copyOf(combs), List.copyOf(rareCombs), List.copyOf(homes), universal, fireImmune,
                     deepslateLook, translucent, model, Set.copyOf(traits), maxHealth, scale, eggBase, eggSpots);
         }
     }

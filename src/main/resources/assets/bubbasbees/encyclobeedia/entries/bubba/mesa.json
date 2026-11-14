@@ -12,11 +12,11 @@
     },
     {
       "type": "text",
-      "text": "$(l)Flowers:$() Red Sand, Terracotta, White Terracotta, Orange Terracotta, Magenta Terracotta, Light Blue Terracotta, Yellow Terracotta, Lime Terracotta, Pink Terracotta, Gray Terracotta, Light Gray Terracotta, Cyan Terracotta, Purple Terracotta, Blue Terracotta, Brown Terracotta, Green Terracotta, Red Terracotta, Black Terracotta$(br2)$(l)Home biome:$() Badlands, Eroded Badlands, Wooded Badlands"
+      "text": "$(l)Flowers:$() Red Sand, Terracotta, White Terracotta, Orange Terracotta, Magenta Terracotta, Light Blue Terracotta, Yellow Terracotta, Lime Terracotta, Pink Terracotta, Gray Terracotta, Light Gray Terracotta, Cyan Terracotta, Purple Terracotta, Blue Terracotta, Brown Terracotta, Green Terracotta, Red Terracotta, Black Terracotta$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)"
     },
     {
       "type": "text",
-      "text": "$(l)Brings home$() (busy hive):$(li)Mesa Honeycomb: every trip, 210 per hive-hour"
+      "text": "$(l)Home biome:$() Badlands, Eroded Badlands, Wooded Badlands$(br2)$(l)Brings home$() (busy hive):$(li)Mesa Honeycomb: every trip, 210 per hive-hour"
     },
     {
       "type": "crafting",

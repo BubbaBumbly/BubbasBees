@@ -20,6 +20,7 @@ import static net.bubba.bubbasbees.bees.BeeSpec.Trait.*;
 public final class BeeSpecs {
     private BeeSpecs() {}
 
+    private static final ResourceKey<Level> OVERWORLD = Level.OVERWORLD;
     private static final ResourceKey<Level> NETHER = Level.NETHER;
     private static final ResourceKey<Level> END = Level.END;
 
@@ -38,8 +39,8 @@ public final class BeeSpecs {
             BeeSpec.of("savanna", LESSER).model("savanna").traits(HERDER).egg(0xaba64a, 0x6d3d23).build(),
             // Bubba Star
             BeeSpec.of("amethyst", BUBBA).model("amethyst").rare("budding_amethyst", 150).egg(0x423b5a, 0xdcd2e3).build(),
-            BeeSpec.of("obsidian", BUBBA).model("obsidian").traits(BLAST_PROOF).egg(0x231437, 0x64388d).build(),
-            BeeSpec.of("glow", BUBBA).model("glow").traits(GLOW).egg(0xf9f3cd, 0xca9d53).build(),
+            BeeSpec.of("obsidian", BUBBA).model("obsidian").universal().traits(BLAST_PROOF).egg(0x231437, 0x64388d).build(),
+            BeeSpec.of("glow", BUBBA).model("glow").home(OVERWORLD, NETHER).traits(GLOW).egg(0xf9f3cd, 0xca9d53).build(),
             BeeSpec.of("mesa", BUBBA).model("mesa").egg(0xb66d2e, 0x452f22).build(),
             BeeSpec.of("swamp", BUBBA).model("swamp").egg(0x3e6838, 0x241f18).build(),
             BeeSpec.of("frost", BUBBA).model("frost").traits(SNOWPROOF).egg(0xeaf2f5, 0xf6fbfe).build(),
@@ -53,15 +54,15 @@ public final class BeeSpecs {
             BeeSpec.of("soul", BUBBA).model("soul").home(NETHER).fireImmune().translucent().rare("sad", 20)
                     .egg(0xeef1f2, 0xb0bdc5).build(),
             BeeSpec.of("corrupt_nature", BUBBA).model("corrupt_nature").home(NETHER).fireImmune().egg(0x35786c, 0xa01d1d).build(),
-            BeeSpec.of("magma", BUBBA).model("magma").home(NETHER).fireImmune().traits(LAVA_FILLER).egg(0x3d1614, 0xc46724).build(),
+            BeeSpec.of("magma", BUBBA).model("magma").home(NETHER, OVERWORLD).fireImmune().traits(LAVA_FILLER).egg(0x3d1614, 0xc46724).build(),
             BeeSpec.of("ender", BUBBA).home(END).traits(SHORT_TELEPORT, NO_WATER_DAMAGE).egg(0xd36be3, 0x682a73).build(),
-            BeeSpec.of("royal_guard", BUBBA).model("royal_guard").comb(BeeSpec.VANILLA_HONEYCOMB, 1).traits(ROYAL_GUARD).egg(0xdadcdd, 0x352f27).build(),
-            BeeSpec.of("starlight", BUBBA).model("starlight").traits(NOCTURNAL).egg(0x352c7c, 0x383888).build(),
+            BeeSpec.of("royal_guard", BUBBA).model("royal_guard").universal().comb(BeeSpec.VANILLA_HONEYCOMB, 1).traits(ROYAL_GUARD).egg(0xdadcdd, 0x352f27).build(),
+            BeeSpec.of("starlight", BUBBA).model("starlight").home(OVERWORLD, END).traits(NOCTURNAL).egg(0x352c7c, 0x383888).build(),
             // Celestial Bubba Star: ore bees are 100% except diamond (1 in 4) and ancient debris (1 in 6)
             BeeSpec.of("coal", CELESTIAL).model("coal").deepslateLook().egg(0x7e7e7d, 0x686869).build(),
             BeeSpec.of("copper", CELESTIAL).deepslateLook().egg(0x7d2c0f, 0xe36336).build(),
             BeeSpec.of("iron", CELESTIAL).deepslateLook().egg(0xf0e7da, 0xbfaa88).build(),
-            BeeSpec.of("gold", CELESTIAL).deepslateLook().egg(0xeb990c, 0xc97c00).build(),
+            BeeSpec.of("gold", CELESTIAL).home(OVERWORLD, NETHER).deepslateLook().egg(0xeb990c, 0xc97c00).build(),
             BeeSpec.of("redstone", CELESTIAL).deepslateLook().egg(0x470e0a, 0x7a1710).build(),
             BeeSpec.of("lapis", CELESTIAL).model("lapis").deepslateLook().egg(0x7e7e7d, 0x666970).build(),
             BeeSpec.of("diamond", CELESTIAL).deepslateLook().combChance(1.0F / 4).egg(0x4ad0d0, 0x7a7a7a).build(),
@@ -70,7 +71,7 @@ public final class BeeSpecs {
             BeeSpec.of("ancient_debris", CELESTIAL).model("ancient_debris").home(NETHER).fireImmune()
                     .combChance(1.0F / 6).egg(0x624844, 0x252022).build(),
             // Royal queen: no gem (summoned by her ritual), one per world
-            BeeSpec.of("royal_queen", NONE).model("royal_queen").traits(ROYAL_QUEEN).health(20).scale(1.25F).egg(0xf5ae2b, 0x541b71).build()
+            BeeSpec.of("royal_queen", NONE).model("royal_queen").universal().traits(ROYAL_QUEEN).health(20).scale(1.25F).egg(0xf5ae2b, 0x541b71).build()
     );
 
     private static final Map<String, BeeSpec> BY_ID = new LinkedHashMap<>();

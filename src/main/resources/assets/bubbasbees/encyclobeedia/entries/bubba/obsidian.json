@@ -8,11 +8,11 @@
       "type": "entity",
       "entity": "bubbasbees:obsidian_bee",
       "name": "Obsidian Bee",
-      "text": "Bubba Star. Overworld, by day."
+      "text": "Bubba Star. Overworld, by day; Nether and End, all the time."
     },
     {
       "type": "text",
-      "text": "$(l)Flowers:$() Obsidian, Crying Obsidian$(br2)$(l)Home biome:$() none$(br2)$(l)Brings home$() (busy hive):$(li)Obsidian Honeycomb: every trip, 210 per hive-hour$(br2)$(l)Blast-proof:$() Explosions don't hurt it."
+      "text": "$(l)Flowers:$() Obsidian, Crying Obsidian$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Any dimension$(/l)$(br2)$(l)Home biome:$() none$(br2)$(l)Brings home$() (busy hive):$(li)Obsidian Honeycomb: every trip, 210 per hive-hour$(br2)$(l)Blast-proof:$() Explosions don't hurt it."
     },
     {
       "type": "crafting",

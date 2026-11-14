@@ -8,15 +8,15 @@
       "type": "entity",
       "entity": "bubbasbees:royal_guard_bee",
       "name": "Royal Guard Bee",
-      "text": "Bubba Star. Overworld, by day."
+      "text": "Bubba Star. Overworld, by day; Nether and End, all the time."
     },
     {
       "type": "text",
-      "text": "Makes plain vanilla honeycomb. Its gem needs a full set of iron armour (damaged armour is fine). Counts toward the Royal Summoning.$(br2)$(l)Flowers:$() any flower$(br2)$(l)Home biome:$() none$(br2)$(l)Brings home$() (busy hive):$(li)Honeycomb: every trip, 210 per hive-hour"
+      "text": "Makes plain vanilla honeycomb. Its gem needs a full set of iron armour (damaged armour is fine). Counts toward the Royal Summoning.$(br2)$(l)Flowers:$() any flower$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Any dimension$(/l)$(br2)$(l)Home biome:$() none"
     },
     {
       "type": "text",
-      "text": "$(l)Royal guard:$() Waxes nearby copper, protects bees and players, survives stinging, and mugs anyone who hits it or a bee nearby (one sting of 1.5 hearts every 2.5 seconds while it mugs). Attacks dark bees on sight."
+      "text": "$(l)Brings home$() (busy hive):$(li)Honeycomb: every trip, 210 per hive-hour$(br2)$(l)Royal guard:$() Waxes nearby copper, protects bees and players, survives stinging, and mugs anyone who hits it or a bee nearby (one sting of 1.5 hearts every 2.5 seconds while it mugs). Attacks dark bees on sight."
     },
     {
       "type": "crafting",

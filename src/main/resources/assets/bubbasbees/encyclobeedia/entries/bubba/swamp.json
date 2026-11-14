@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "$(l)Flowers:$() Mud, Lily Pad, Mangrove Leaves$(br2)$(l)Home biome:$() Swamp, Mangrove Swamp$(br2)$(l)Brings home$() (busy hive):$(li)Swamp Honeycomb: every trip, 210 per hive-hour"
+      "text": "$(l)Flowers:$() Mud, Lily Pad, Mangrove Leaves$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() Swamp, Mangrove Swamp$(br2)$(l)Brings home$() (busy hive):$(li)Swamp Honeycomb: every trip, 210 per hive-hour"
     },
     {
       "type": "crafting",

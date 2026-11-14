@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "$(l)Flowers:$() Acacia Leaves, Acacia Log, Coarse Dirt$(br2)$(l)Home biome:$() Savanna, Savanna Plateau, Windswept Savanna$(br2)$(l)Brings home$() (busy hive):$(li)Savanna Honeycomb: every trip, 210 per hive-hour$(br2)$(l)Herder:$() Animals within 8 blocks of its hive grow up and lose their breeding cooldown 25% faster."
+      "text": "$(l)Flowers:$() Acacia Leaves, Acacia Log, Coarse Dirt$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() Savanna, Savanna Plateau, Windswept Savanna$(br2)$(l)Brings home$() (busy hive):$(li)Savanna Honeycomb: every trip, 210 per hive-hour$(br2)$(l)Herder:$() Animals within 8 blocks of its hive grow up and lose their breeding cooldown 25% faster."
     },
     {
       "type": "crafting",

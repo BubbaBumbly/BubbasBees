@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "$(l)Flowers:$() Netherrack, Basalt, Blackstone$(br2)$(l)Home biome:$() Nether Wastes, Basalt Deltas$(br2)$(l)Brings home$() (busy hive):$(li)Corrupt Stone Honeycomb: every trip, 210 per hive-hour$(br2)$(l)Fire-immune:$() Fire and lava don't hurt it."
+      "text": "$(l)Flowers:$() Netherrack, Basalt, Blackstone$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Nether$(/l)$(br2)$(l)Home biome:$() Nether Wastes, Basalt Deltas$(br2)$(l)Brings home$() (busy hive):$(li)Corrupt Stone Honeycomb: every trip, 210 per hive-hour$(br2)$(l)Fire-immune:$() Fire and lava don't hurt it."
     },
     {
       "type": "crafting",

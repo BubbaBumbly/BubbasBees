@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "$(l)Flowers:$() Azalea, Flowering Azalea, Moss Block, Spore Blossom, Cave Vines, Cave Vines Plant$(br2)$(l)Home biome:$() Lush Caves$(br2)$(l)Brings home$() (busy hive):$(li)Lush Caves Honeycomb: every trip, 210 per hive-hour"
+      "text": "$(l)Flowers:$() Azalea, Flowering Azalea, Moss Block, Spore Blossom, Cave Vines, Cave Vines Plant$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() Lush Caves$(br2)$(l)Brings home$() (busy hive):$(li)Lush Caves Honeycomb: every trip, 210 per hive-hour"
     },
     {
       "type": "crafting",

@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "$(l)Flowers:$() Mycelium, Red Mushroom, Brown Mushroom, Red Mushroom Block, Brown Mushroom Block, Mushroom Stem$(br2)$(l)Home biome:$() Mushroom Fields$(br2)$(l)Brings home$() (busy hive):$(li)Mushroom Fields Honeycomb: every trip, 210 per hive-hour"
+      "text": "$(l)Flowers:$() Mycelium, Red Mushroom, Brown Mushroom, Red Mushroom Block, Brown Mushroom Block, Mushroom Stem$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() Mushroom Fields$(br2)$(l)Brings home$() (busy hive):$(li)Mushroom Fields Honeycomb: every trip, 210 per hive-hour"
     },
     {
       "type": "crafting",

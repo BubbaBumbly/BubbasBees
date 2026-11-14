@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "Seed recipes for all five coral colours: blocks, fans and plants.$(br2)$(l)Flowers:$() any coral block, fan or coral, live or dead (all five colours)$(br2)$(l)Home biome:$() Warm Ocean$(br2)$(l)Brings home$() (busy hive):$(li)Coral Honeycomb: every trip, 210 per hive-hour"
+      "text": "Seed recipes for all five coral colours: blocks, fans and plants.$(br2)$(l)Flowers:$() any coral block, fan or coral, live or dead (all five colours)$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() Warm Ocean$(br2)$(l)Brings home$() (busy hive):$(li)Coral Honeycomb: every trip, 210 per hive-hour"
     },
     {
       "type": "text",

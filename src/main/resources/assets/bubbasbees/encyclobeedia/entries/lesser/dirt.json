@@ -12,7 +12,11 @@
     },
     {
       "type": "text",
-      "text": "Its comb alone makes dirt. Mixed with other combs it makes podzol (taiga), coarse dirt (savanna), grass blocks (meadow), rooted dirt (lush caves) and soul soil (soul).$(br2)$(l)Flowers:$() Dirt, Coarse Dirt, Podzol, Rooted Dirt, Grass Block$(br2)$(l)Home biome:$() none$(br2)$(l)Brings home$() (busy hive):$(li)Dirt Honeycomb: every trip, 210 per hive-hour"
+      "text": "Its comb alone makes dirt. Mixed with other combs it makes podzol (taiga), coarse dirt (savanna), grass blocks (meadow), rooted dirt (lush caves) and soul soil (soul).$(br2)$(l)Flowers:$() Dirt, Coarse Dirt, Podzol, Rooted Dirt, Grass Block$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() none"
+    },
+    {
+      "type": "text",
+      "text": "$(l)Brings home$() (busy hive):$(li)Dirt Honeycomb: every trip, 210 per hive-hour"
     },
     {
       "type": "crafting",
@@ -32,6 +36,13 @@
     {
       "type": "crafting",
       "recipe": "bubbasbees:combs/dirt/rooted_dirt"
+    },
+    {
+      "type": "image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_dirt.png"
+      ],
+      "border": false
     }
   ]
 }

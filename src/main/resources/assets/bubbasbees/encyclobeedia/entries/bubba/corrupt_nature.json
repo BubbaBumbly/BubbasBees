@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "$(l)Flowers:$() Crimson Fungus, Warped Fungus, Crimson Nylium, Warped Nylium, Nether Wart, Nether Wart Block, Warped Wart Block, Weeping Vines, Weeping Vines Plant, Twisting Vines, Twisting Vines Plant, Crimson Stem, Warped Stem$(br2)$(l)Home biome:$() Crimson Forest, Warped Forest"
+      "text": "$(l)Flowers:$() Crimson Fungus, Warped Fungus, Crimson Nylium, Warped Nylium, Nether Wart, Nether Wart Block, Warped Wart Block, Weeping Vines, Weeping Vines Plant, Twisting Vines, Twisting Vines Plant, Crimson Stem, Warped Stem$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Nether$(/l)$(br2)$(l)Home biome:$() Crimson Forest, Warped Forest"
     },
     {
       "type": "text",

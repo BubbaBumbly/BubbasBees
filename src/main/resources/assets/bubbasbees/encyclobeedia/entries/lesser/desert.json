@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "$(l)Flowers:$() Sand$(br2)$(l)Home biome:$() Desert$(br2)$(l)Brings home$() (busy hive):$(li)Desert Honeycomb: the other trips, 200 per hive-hour$(li)Bone Honeycomb: rare, 1 in 20, 10.5 per hive-hour"
+      "text": "$(l)Flowers:$() Sand$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() Desert$(br2)$(l)Brings home$() (busy hive):$(li)Desert Honeycomb: the other trips, 200 per hive-hour$(li)Bone Honeycomb: rare, 1 in 20, 10.5 per hive-hour"
     },
     {
       "type": "crafting",

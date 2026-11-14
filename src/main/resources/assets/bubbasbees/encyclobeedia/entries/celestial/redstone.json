@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "$(l)Flowers:$() Redstone Ore, Deepslate Redstone Ore, Block of Redstone$(br2)$(l)Home biome:$() none$(br2)$(l)Brings home$() (busy hive):$(li)Redstone Honeycomb: every trip, 210 per hive-hour$(br2)Ore rates: $(l:ores/drop_rates)Ore Drop Rates$(/l)."
+      "text": "$(l)Flowers:$() Redstone Ore, Deepslate Redstone Ore, Block of Redstone$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() none$(br2)$(l)Brings home$() (busy hive):$(li)Redstone Honeycomb: every trip, 210 per hive-hour$(br2)Ore rates: $(l:ores/drop_rates)Ore Drop Rates$(/l)."
     },
     {
       "type": "crafting",

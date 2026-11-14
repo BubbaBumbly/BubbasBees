@@ -8,11 +8,11 @@
       "type": "entity",
       "entity": "bubbasbees:magma_bee",
       "name": "Magma Bee",
-      "text": "Bubba Star. Nether, all the time."
+      "text": "Bubba Star. Nether, all the time; Overworld, by day."
     },
     {
       "type": "text",
-      "text": "Its hive can sit on magma: fire-immune bees path through fire and lava safely.$(br2)$(l)Flowers:$() Magma Block$(br2)$(l)Home biome:$() Basalt Deltas, Nether Wastes$(br2)$(l)Brings home$() (busy hive):$(li)Magma Honeycomb: every trip, 210 per hive-hour"
+      "text": "Its hive can sit on magma: fire-immune bees path through fire and lava safely.$(br2)$(l)Flowers:$() Magma Block$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld and Nether$(/l)$(br2)$(l)Home biome:$() Basalt Deltas, Nether Wastes$(br2)$(l)Brings home$() (busy hive):$(li)Magma Honeycomb: every trip, 210 per hive-hour"
     },
     {
       "type": "text",

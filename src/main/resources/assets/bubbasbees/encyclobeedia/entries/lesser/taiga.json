@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "Sweet berry bushes don't hurt it (or any mod bee).$(br2)$(l)Flowers:$() Spruce Leaves, Spruce Log, Sweet Berry Bush$(br2)$(l)Home biome:$() Taiga, Old Growth Pine Taiga, Old Growth Spruce Taiga, Snowy Taiga$(br2)$(l)Brings home$() (busy hive):$(li)Taiga Honeycomb: every trip, 210 per hive-hour"
+      "text": "Sweet berry bushes don't hurt it (or any mod bee).$(br2)$(l)Flowers:$() Spruce Leaves, Spruce Log, Sweet Berry Bush$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() Taiga, Old Growth Pine Taiga, Old Growth Spruce Taiga, Snowy Taiga$(br2)$(l)Brings home$() (busy hive):$(li)Taiga Honeycomb: every trip, 210 per hive-hour"
     },
     {
       "type": "crafting",

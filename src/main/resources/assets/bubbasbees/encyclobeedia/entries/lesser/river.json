@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "Each trip it brings home a river comb (clay) or a gravel comb (gravel and flint), half and half.$(br2)$(l)Flowers:$() Clay, Gravel$(br2)$(l)Home biome:$() River$(br2)$(l)Brings home$() (busy hive):$(li)River Honeycomb: half the trips, 105 per hive-hour$(li)Gravel Honeycomb: half the trips, 105 per hive-hour"
+      "text": "Each trip it brings home a river comb (clay) or a gravel comb (gravel and flint), half and half.$(br2)$(l)Flowers:$() Clay, Gravel$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() River$(br2)$(l)Brings home$() (busy hive):$(li)River Honeycomb: half the trips, 105 per hive-hour$(li)Gravel Honeycomb: half the trips, 105 per hive-hour"
     },
     {
       "type": "text",

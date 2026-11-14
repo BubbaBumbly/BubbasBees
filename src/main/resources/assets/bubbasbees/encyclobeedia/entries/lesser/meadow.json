@@ -12,7 +12,11 @@
     },
     {
       "type": "text",
-      "text": "Meadow + nature combs around one flower makes more of that flower (every vanilla flower). Meadow + dirt makes grass blocks, the only way to craft them.$(br2)$(l)Flowers:$() any flower$(br2)$(l)Home biome:$() Meadow, Flower Forest$(br2)$(l)Brings home$() (busy hive):$(li)Meadow Honeycomb: every trip, 210 per hive-hour"
+      "text": "Meadow + nature combs around one flower makes more of that flower (every vanilla flower). Meadow + dirt makes grass blocks, the only way to craft them.$(br2)$(l)Flowers:$() any flower$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() Meadow, Flower Forest"
+    },
+    {
+      "type": "text",
+      "text": "$(l)Brings home$() (busy hive):$(li)Meadow Honeycomb: every trip, 210 per hive-hour"
     },
     {
       "type": "crafting",
@@ -62,6 +66,13 @@
     {
       "type": "crafting",
       "recipe": "bubbasbees:combs/meadow/wither_rose"
+    },
+    {
+      "type": "image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_meadow.png"
+      ],
+      "border": false
     }
   ]
 }

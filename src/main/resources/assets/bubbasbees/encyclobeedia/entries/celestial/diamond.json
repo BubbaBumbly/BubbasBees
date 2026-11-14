@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "Its comb roll is 1 in 4: most trips bring home nothing.$(br2)$(l)Flowers:$() Diamond Ore, Deepslate Diamond Ore, Block of Diamond$(br2)$(l)Home biome:$() none$(br2)$(l)Brings home$() (busy hive):$(li)Diamond Honeycomb: 1 in 4, 52.6 per hive-hour$(br2)Ore rates: $(l:ores/drop_rates)Ore Drop Rates$(/l)."
+      "text": "Its comb roll is 1 in 4: most trips bring home nothing.$(br2)$(l)Flowers:$() Diamond Ore, Deepslate Diamond Ore, Block of Diamond$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() none$(br2)$(l)Brings home$() (busy hive):$(li)Diamond Honeycomb: 1 in 4, 52.6 per hive-hour$(br2)Ore rates: $(l:ores/drop_rates)Ore Drop Rates$(/l)."
     },
     {
       "type": "crafting",

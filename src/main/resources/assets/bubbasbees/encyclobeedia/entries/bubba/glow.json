@@ -8,11 +8,11 @@
       "type": "entity",
       "entity": "bubbasbees:glow_bee",
       "name": "Glow Bee",
-      "text": "Bubba Star. Overworld, by day."
+      "text": "Bubba Star. Overworld, by day; Nether, all the time."
     },
     {
       "type": "text",
-      "text": "$(l)Flowers:$() Glowstone, Glow Lichen, Shroomlight$(br2)$(l)Home biome:$() none$(br2)$(l)Brings home$() (busy hive):$(li)Glow Honeycomb: every trip, 210 per hive-hour$(br2)$(l)Glow:$() Glows, and lights up dark spots it flies through."
+      "text": "$(l)Flowers:$() Glowstone, Glow Lichen, Shroomlight$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld and Nether$(/l)$(br2)$(l)Home biome:$() none$(br2)$(l)Brings home$() (busy hive):$(li)Glow Honeycomb: every trip, 210 per hive-hour$(br2)$(l)Glow:$() Glows, and lights up dark spots it flies through."
     },
     {
       "type": "crafting",

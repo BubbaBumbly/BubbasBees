@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "Its gem costs a sponge, once.$(br2)$(l)Flowers:$() Prismarine, Prismarine Bricks, Dark Prismarine, Sea Lantern$(br2)$(l)Home biome:$() Deep Ocean, Deep Cold Ocean, Deep Lukewarm Ocean, Deep Frozen Ocean$(br2)$(l)Brings home$() (busy hive):$(li)Prismarine Honeycomb: every trip, 210 per hive-hour"
+      "text": "Its gem costs a sponge, once.$(br2)$(l)Flowers:$() Prismarine, Prismarine Bricks, Dark Prismarine, Sea Lantern$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() Deep Ocean, Deep Cold Ocean, Deep Lukewarm Ocean, Deep Frozen Ocean$(br2)$(l)Brings home$() (busy hive):$(li)Prismarine Honeycomb: every trip, 210 per hive-hour"
     },
     {
       "type": "text",
