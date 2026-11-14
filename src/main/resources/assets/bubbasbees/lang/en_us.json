@@ -99,7 +99,7 @@
   "item.bubbasbees.bee_jar.filled": "Filled Bee Jar",
   "item.bubbasbees.bee_jar.filled_custom": "%s Jar",
   "item.bubbasbees.bee_jar.pollinated": "Has Pollinated: %s",
-  "item.bubbasbees.bee_jar.baby": "Baby: grows up in %s (paused in the jar)",
+  "item.bubbasbees.bee_jar.baby": "Baby: grows up in %s",
   "item.bubbasbees.bee_jar.yes": "Yes",
   "item.bubbasbees.bee_jar.no": "No",
   "gui.bubbasbees.hive_info.summary": "Honey %s/%s   Bees %s/%s",
