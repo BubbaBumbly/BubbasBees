@@ -420,6 +420,9 @@ BLOCK_NAMES = {"stone_pedestal": "Stone Pedestal", "deepslate_pedestal": "Deepsl
                "stardust": "Stardust", "partial_lava_cauldron": "Lava Cauldron"}
 
 
+BLOCK_DISPLAY = {"gui": {"rotation": [30, 225, 0], "translation": [0, 0, 0], "scale": [0.625, 0.625, 0.625]}, "ground": {"rotation": [0, 0, 0], "translation": [0, 3, 0], "scale": [0.25, 0.25, 0.25]}, "fixed": {"rotation": [0, 0, 0], "translation": [0, 0, 0], "scale": [0.5, 0.5, 0.5]}, "thirdperson_righthand": {"rotation": [75, 45, 0], "translation": [0, 2.5, 0], "scale": [0.375, 0.375, 0.375]}, "firstperson_righthand": {"rotation": [0, 45, 0], "translation": [0, 0, 0], "scale": [0.4, 0.4, 0.4]}, "firstperson_lefthand": {"rotation": [0, 225, 0], "translation": [0, 0, 0], "scale": [0.4, 0.4, 0.4]}}  # vanilla block/block transforms
+
+
 def box(frm, to, tex, faces=("north", "east", "south", "west", "up", "down")):
     return {"from": frm, "to": to, "faces": {f: {"texture": tex} for f in faces}}
 
@@ -443,7 +446,8 @@ def step3_blocks():
                     "result": {"item": "bubbasbees:" + pid, "count": 2}})
     for pid in list(PEDESTALS) + ["celestial_altar"]:
         write_json(os.path.join(bs, pid + ".json"), {"variants": {"": {"model": "bubbasbees:block/" + pid}}})
-        write_json(os.path.join(im, pid + ".json"), {"parent": "bubbasbees:block/" + pid})
+        # 3D item from the block shape (user 2026-11-14, replaces the flat P1/P2 icons); our shapes have no display block
+        write_json(os.path.join(im, pid + ".json"), {"parent": "bubbasbees:block/" + pid, "display": BLOCK_DISPLAY})
         write_json(os.path.join(loot, pid + ".json"), drop("bubbasbees:" + pid))
     write_json(os.path.join(DATA, "recipes", "blocks", "celestial_altar.json"),
                shaped(["v:crying_obsidian", "v:diamond", "v:crying_obsidian", "v:diamond", "x:quartz_pedestal",
