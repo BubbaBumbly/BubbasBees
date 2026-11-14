@@ -12,11 +12,11 @@
     },
     {
       "type": "text",
-      "text": "Ocean bees can't dive, so they use flowers they can reach from above: sea pickles on land, kelp at the surface. Rarely brings home a nautilus comb.$(br2)$(l)Flowers:$() Sea Pickle, Kelp, Kelp Plant, Seagrass, Tall Seagrass$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() Beach, Snowy Beach, every ocean"
+      "text": "Ocean bees can't dive, so they use flowers they can reach from above: sea pickles on land or in shallow water, and kelp or seagrass that reaches the surface. Rarely brings home a nautilus comb.$(br2)$(l)Flowers:$() Sea Pickle, Kelp, Kelp Plant, Seagrass, Tall Seagrass$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() Beach, Snowy Beach, every ocean"
     },
     {
       "type": "text",
-      "text": "$(l)Brings home$() (busy hive):$(li)Sea Honeycomb: the other trips, 200 per hive-hour$(li)Nautilus Honeycomb: rare, 1 in 20, 10.5 per hive-hour$(br2)$(l)Water-safe:$() Works in the rain and takes no damage from water."
+      "text": "$(l)Brings home$() (busy hive):$(li)Sea Honeycomb: the other trips, 200 per hive-hour$(li)Nautilus Honeycomb: rare, 1 in 20, 10.5 per hive-hour$(br2)$(l)Water-safe:$() Works in the rain, takes no damage from water and can work flowers at the water's surface."
     },
     {
       "type": "crafting",

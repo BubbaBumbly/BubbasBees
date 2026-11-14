@@ -16,7 +16,7 @@
     },
     {
       "type": "text",
-      "text": "$(l)Water-safe:$() Works in the rain and takes no damage from water."
+      "text": "$(l)Water-safe:$() Works in the rain, takes no damage from water and can work flowers at the water's surface."
     },
     {
       "type": "crafting",

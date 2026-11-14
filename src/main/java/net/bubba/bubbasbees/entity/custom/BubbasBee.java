@@ -30,6 +30,8 @@ import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.tags.FluidTags;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -120,7 +122,47 @@ public class BubbasBee extends Bee implements IAnimatable {
 
     /** Nocturnal bees only use flowers under open sky. */
     public boolean canUseFlowerAt(BlockPos flower) {
+        // A flower holding water (waterlogged, or kelp/seagrass) is for water-safe bees only; the pollinate goal
+        // already needs air above it, so they hover over the water surface, never in it
+        FluidState fluid = this.level.getFluidState(flower);
+        if (!fluid.isEmpty() && !(fluid.is(FluidTags.WATER) && has(BeeSpec.Trait.WATER_SAFE))) return false;
         return !has(BeeSpec.Trait.NOCTURNAL) || BeeSpec.openSky(this.level, flower.above());
+    }
+
+    /** Takes no damage from water. */
+    public boolean isWaterProof() {
+        return has(BeeSpec.Trait.WATER_SAFE) || has(BeeSpec.Trait.NO_WATER_DAMAGE);
+    }
+
+    /// Getting out of water
+    // Vanilla starts drowning a bee after 20 ticks in water (then 1 damage every half second) and its pathfinder
+    // never swims, so a bee knocked into a lake stayed there. Bees that can drown now rise instead: a minimum
+    // upward speed while in water, and a sideways push toward the hive while something overhead (ice, a cave
+    // roof) stops the rise. Only reads the in-water flag vanilla already keeps, so it costs nothing out of water
+    private static final double WATER_ESCAPE_RISE = 0.2D;
+    private static final double WATER_ESCAPE_SIDEWAYS = 0.1D;
+
+    @Override
+    protected void customServerAiStep() {
+        if (this.isInWaterOrBubble() && !isWaterProof()) escapeWater();
+        super.customServerAiStep();
+    }
+
+    private void escapeWater() {
+        Vec3 motion = this.getDeltaMovement();
+        double x = motion.x;
+        double z = motion.z;
+        if (this.verticalCollision && !this.isOnGround()) {
+            BlockPos hive = this.getHivePos();
+            Vec3 way = hive != null ? Vec3.atCenterOf(hive).subtract(this.position()) : this.getLookAngle();
+            way = new Vec3(way.x, 0.0D, way.z);
+            if (way.lengthSqr() > 1.0E-4D) {
+                way = way.normalize().scale(WATER_ESCAPE_SIDEWAYS);
+                x = way.x;
+                z = way.z;
+            }
+        }
+        this.setDeltaMovement(x, Math.max(motion.y, WATER_ESCAPE_RISE), z);
     }
 
     /// Traits that change damage

@@ -125,13 +125,8 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
     }
 
     private Predicate<BlockState> createPredicate() {
-        return (state) -> {
-            if (state.hasProperty(BlockStateProperties.WATERLOGGED)
-                    && state.getValue(BlockStateProperties.WATERLOGGED)) {
-                return false;
-            }
-            return bubbasBee.isFlowerState(state);
-        };
+        // Flowers holding water are filtered per bee in BubbasBee.canUseFlowerAt (water-safe bees may use them)
+        return bubbasBee::isFlowerState;
     }
 
     @Override
@@ -274,19 +269,30 @@ public class ModBeePollinateGoal extends Bee.BeePollinateGoal {
         return !bubbasBee.level.getBlockState(pos).getCollisionShape(bubbasBee.level, pos).isEmpty();
     }
 
+    // A water-safe bee's flower at the water surface (sea pickle, kelp or seagrass top): the bee works it from the
+    // air above, so it is treated like a solid flower and the hover sits over the block top, clear of the water
+    private boolean isSurfaceFlower(BlockPos pos) {
+        return !bubbasBee.level.getFluidState(pos).isEmpty();
+    }
+
+    private boolean worksFromAbove(BlockPos pos) {
+        return isSolidFlower(pos) || isSurfaceFlower(pos);
+    }
+
     private Vec3 hoverTarget(BlockPos flower) {
         var shape = bubbasBee.level.getBlockState(flower).getShape(bubbasBee.level, flower);
-        double top = shape.isEmpty() ? 1.0D : shape.max(Direction.Axis.Y);
+        double top = shape.isEmpty() || isSurfaceFlower(flower) ? 1.0D : shape.max(Direction.Axis.Y);
         return Vec3.atBottomCenterOf(flower).add(0.0D, top + HOVER_CLEARANCE - WANTED_POS_LIFT, 0.0D);
     }
 
     private double flowerTopY(BlockPos flower) {
-        return isSolidFlower(flower) ? flower.getY() + 1.0D : flower.getY();
+        return worksFromAbove(flower) ? flower.getY() + 1.0D : flower.getY();
     }
 
-    // Path nodes for solid flowers must end in the air block above; a node inside the block is unreachable
+    // Path nodes for solid and surface flowers must end in the air block above; a node inside the block (or the
+    // water, which bees never path through) is unreachable
     private void navigateToPos(BlockPos pos) {
-        double y = isSolidFlower(pos) ? pos.getY() + 1.5D : pos.getY() + 0.5D;
+        double y = worksFromAbove(pos) ? pos.getY() + 1.5D : pos.getY() + 0.5D;
         double speed = bubbasBee.isBusy() ? BUSY_PATH_SPEED : CALM_PATH_SPEED;
         bubbasBee.getNavigation().moveTo((double)pos.getX() + 0.5D, y, (double)pos.getZ() + 0.5D, speed);
     }
