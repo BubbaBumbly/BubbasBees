@@ -4,7 +4,7 @@
   python3 tools/gen_advancements.py
 
 Writes:
-  data/bubbasbees/advancements/*.json                       the 11 advancements (tab background: honeycomb block)
+  data/bubbasbees/advancements/*.json                       the advancements (tab background: honeycomb block)
   data/bubbasbees/tags/items/conversion_gems.json, ore_combs.json
   data/bubbasbees/tags/blocks/advanced_beehives.json        vanilla-wood hives (from the plain/reinforced item tags)
   compat/<mod>/data/bubbasbees/tags/blocks/advanced_beehives.json   each wood mod's hives
@@ -104,13 +104,16 @@ adv('first_gem', 'lesser_star', f'{NS}:stone_conversion_gem', 'A Gem of a Bee', 
 adv('busy_hive', 'first_gem', f'{NS}:bubba_star', 'Busy Bees', 'Switch a hive between calm and busy with any Bubba Star',
     {'switch': {'trigger': 'minecraft:item_used_on_block',
                 'conditions': {'location': {'block': {'tag': f'{NS}:advanced_beehives'}}, 'item': {'items': [f'{NS}:lesser_bubba_star', f'{NS}:bubba_star', f'{NS}:celestial_bubba_star']}}}})
-adv('celestial_ritual', 'busy_hive', f'{NS}:celestial_bubba_star', 'Written in the Stars', 'Win the Celestial Ritual',
+# The altar is crafted, not placed (user 2026-11-14); both rituals hang under it.
+adv('celestial_altar', 'busy_hive', f'{NS}:celestial_altar', 'Setting the Stage', 'Craft a Celestial Altar',
+    {'altar': has(f'{NS}:celestial_altar')})
+adv('celestial_ritual', 'celestial_altar', f'{NS}:celestial_bubba_star', 'Written in the Stars', 'Win the Celestial Ritual',
     {'star': has(f'{NS}:celestial_bubba_star')}, frame='goal')
 adv('ore_comb', 'celestial_ritual', f'{NS}:iron_honeycomb', 'Honey, I Struck Ore', 'Get your first ore comb',
     {'comb': has(tag=f'{NS}:ore_combs')})
 adv('diamond_comb', 'ore_comb', f'{NS}:diamond_honeycomb', 'Diamonds From the Sky', 'Get a diamond comb',
     {'comb': has(f'{NS}:diamond_honeycomb')}, frame='goal')
-adv('royal_queen', 'first_gem', f'{NS}:royal_jelly', 'Long Live the Queen', 'Summon the Royal Queen',
+adv('royal_queen', 'celestial_altar', f'{NS}:royal_jelly', 'Long Live the Queen', 'Summon the Royal Queen',
     {'queen': {'trigger': 'minecraft:summoned_entity', 'conditions': {'entity': {'type': f'{NS}:royal_queen_bee'}}}},
     frame='challenge')
 adv('collector', 'first_gem', f'{NS}:starlight_conversion_gem', 'Collector', 'Turn a vanilla bee into every kind of bee',

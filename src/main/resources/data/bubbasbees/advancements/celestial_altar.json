@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "bubbasbees:celestial_altar"
+    },
+    "title": {
+      "translate": "advancements.bubbasbees.celestial_altar.title"
+    },
+    "description": {
+      "translate": "advancements.bubbasbees.celestial_altar.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "altar": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bubbasbees:celestial_altar"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "bubbasbees:busy_hive"
+}
