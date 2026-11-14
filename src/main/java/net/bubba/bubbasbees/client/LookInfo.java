@@ -111,6 +111,12 @@ public final class LookInfo {
         return List.of();
     }
 
+    /** Ticks as real minutes:seconds, rounded up (a baby bee takes 24000 ticks = 20:00). */
+    public static String growTime(int ticks) {
+        int s = (ticks + 19) / 20;
+        return String.format("%d:%02d", s / 60, s % 60);
+    }
+
     @NotNull
     private static List<Component> entityLines(Entity entity) {
         List<Component> lines = new ArrayList<>();
@@ -121,7 +127,11 @@ public final class LookInfo {
             lines.add(Component.translatable(bee.isAngry() ? "hud.bubbasbees.bee.angry"
                     : bee.isBusyShown() ? "hud.bubbasbees.bee.busy" : "hud.bubbasbees.bee.calm"));
             if (bee.hasNectar()) lines.add(Component.translatable("hud.bubbasbees.bee.pollen"));
-            if (bee.isBaby()) lines.add(Component.translatable("hud.bubbasbees.bee.baby"));
+            if (bee.isBaby()) {
+                int grow = bee.getGrowTicksShown();
+                lines.add(grow > 0 ? Component.translatable("hud.bubbasbees.bee.baby_grows", growTime(grow))
+                        : Component.translatable("hud.bubbasbees.bee.baby"));
+            }
             BlockPos home = bee.getHomeShown();
             lines.add(home != null ? Component.translatable("hud.bubbasbees.bee.home", home.getX(), home.getY(), home.getZ())
                     : Component.translatable("hud.bubbasbees.bee.no_home"));

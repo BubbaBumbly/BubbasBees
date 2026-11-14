@@ -73,6 +73,9 @@ public class BubbasBee extends Bee implements IAnimatable {
             SynchedEntityData.defineId(BubbasBee.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<java.util.Optional<BlockPos>> HOME_SHOWN =
             SynchedEntityData.defineId(BubbasBee.class, EntityDataSerializers.OPTIONAL_BLOCK_POS);
+    // Ticks until a baby grows up, for the HUD timer (the client only knows baby yes/no); refreshed every second
+    private static final EntityDataAccessor<Integer> GROW_TICKS_SHOWN =
+            SynchedEntityData.defineId(BubbasBee.class, EntityDataSerializers.INT);
 
     /** The dev-only base bee (diamond look, no spec, makes nothing). */
     public BubbasBee(EntityType<? extends Bee> bubbasBeeEntityType, Level level) {
@@ -167,6 +170,11 @@ public class BubbasBee extends Bee implements IAnimatable {
         return this.entityData.get(HOME_SHOWN).orElse(null);
     }
 
+    /** Client-safe ticks until this baby grows up, for the look-at HUD; 0 if not known yet or not a baby. */
+    public int getGrowTicksShown() {
+        return this.entityData.get(GROW_TICKS_SHOWN);
+    }
+
     /// Royal guard
     public boolean isRoyalGuard() {
         return has(BeeSpec.Trait.ROYAL_GUARD);
@@ -243,6 +251,7 @@ public class BubbasBee extends Bee implements IAnimatable {
         if (this.level.isClientSide || !this.isAlive()) return;
         if ((this.tickCount + this.getId()) % MODE_CHECK_INTERVAL == 0) syncHudInfo();
         int phase = this.tickCount + this.getId();
+        if (phase % 20 == 0) this.entityData.set(GROW_TICKS_SHOWN, this.isBaby() ? -this.getAge() : 0);
         if (has(BeeSpec.Trait.GLOW) && phase % 4 == 0) BeeTraits.placeLight(this);
         if (has(BeeSpec.Trait.LAVA_FILLER) && phase % 10 == 0) {
             BlockPos cauldron = BeeTraits.cauldronBelow(this);
@@ -268,6 +277,7 @@ public class BubbasBee extends Bee implements IAnimatable {
         this.entityData.define(DEEPSLATE, false);
         this.entityData.define(BUSY_SHOWN, false);
         this.entityData.define(HOME_SHOWN, java.util.Optional.empty());
+        this.entityData.define(GROW_TICKS_SHOWN, 0);
     }
 
     public boolean isDeepslate() {

@@ -179,6 +179,13 @@ public class BeeJarItem extends Item {
                 tooltip.add(Component.translatable("item.bubbasbees.bee_jar.pollinated",
                         Component.translatable("item.bubbasbees.bee_jar." + (hasNectar ? "yes" : "no")))
                         .withStyle(ChatFormatting.GOLD));
+                // A baby's age is kept in the jar and does not run there (user, 2026-11-14: jars must show babies)
+                int age = beeData.getInt("Age");
+                if (age < 0) {
+                    int s = (-age + 19) / 20;
+                    tooltip.add(Component.translatable("item.bubbasbees.bee_jar.baby", String.format("%d:%02d", s / 60, s % 60))
+                            .withStyle(ChatFormatting.GOLD));
+                }
             }
         }
     }
