@@ -97,6 +97,8 @@ public final class GuideVisualizer {
         for (GuideMultiblock.Cell c : multiblock.cells) {
             if (done.contains(c)) continue;
             BlockPos pos = centre.offset(c.offset());
+            // Off-screen cells are skipped: a line box behind the camera projects as stray red dots on screen.
+            if (!event.getFrustum().isVisible(new AABB(pos))) continue;
             BlockState there = mc.level.getBlockState(pos);
             pose.pushPose();
             pose.translate(pos.getX() - cam.x, pos.getY() - cam.y, pos.getZ() - cam.z);
