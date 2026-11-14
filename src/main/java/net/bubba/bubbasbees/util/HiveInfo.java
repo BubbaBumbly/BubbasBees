@@ -52,8 +52,14 @@ public final class HiveInfo {
         return block instanceof AdvancedBeehiveBlock ? ADVANCED_MAX_OCCUPANTS : VANILLA_MAX_OCCUPANTS;
     }
 
+    /** Advanced hives count combs, 0-8; vanilla hives show their honey level, 0-5. */
     public static int honeyLevel(BlockState state) {
+        if (state.hasProperty(AdvancedBeehiveBlock.COMBS)) return state.getValue(AdvancedBeehiveBlock.COMBS);
         return state.hasProperty(BeehiveBlock.HONEY_LEVEL) ? state.getValue(BeehiveBlock.HONEY_LEVEL) : 0;
+    }
+
+    public static int maxHoney(Block block) {
+        return block instanceof AdvancedBeehiveBlock ? 8 : MAX_HONEY;
     }
 
     /** Occupants of a client-side hive block entity, or an empty list. */
@@ -78,8 +84,12 @@ public final class HiveInfo {
         return occupants;
     }
 
-    /** Honey level copied into a hive item's BlockStateTag, or 0 if absent. */
+    /** A hive item's honey: an advanced hive's saved comb count, else the honey level in its BlockStateTag, else 0. */
     public static int honeyLevel(ItemStack stack) {
+        if (stack.getItem() instanceof BlockItem item && item.getBlock() instanceof AdvancedBeehiveBlock) {
+            CompoundTag blockEntityTag = stack.getTagElement("BlockEntityTag");
+            return blockEntityTag == null ? 0 : Math.min(8, blockEntityTag.getList("ModBeehiveCombList", Tag.TAG_COMPOUND).size());
+        }
         CompoundTag stateTag = stack.getTagElement("BlockStateTag");
         if (stateTag == null || !stateTag.contains("honey_level")) return 0;
         try {
@@ -144,13 +154,13 @@ public final class HiveInfo {
         return String.format("%d:%02d", seconds / 60L, seconds % 60L);
     }
 
-    public static Component headerText(Component hiveName, int honey, int beeCount, int maxBees) {
-        return Component.translatable("gui.bubbasbees.hive_info.header", hiveName, honey, MAX_HONEY, beeCount, maxBees);
+    public static Component headerText(Component hiveName, int honey, int maxHoney, int beeCount, int maxBees) {
+        return Component.translatable("gui.bubbasbees.hive_info.header", hiveName, honey, maxHoney, beeCount, maxBees);
     }
 
     /** Item tooltip line: honey and bee count together. */
-    public static Component summaryText(int honey, int beeCount, int maxBees) {
-        return Component.translatable("gui.bubbasbees.hive_info.summary", honey, MAX_HONEY, beeCount, maxBees);
+    public static Component summaryText(int honey, int maxHoney, int beeCount, int maxBees) {
+        return Component.translatable("gui.bubbasbees.hive_info.summary", honey, maxHoney, beeCount, maxBees);
     }
 
     /** How many bees of one type a hive item holds, e.g. "x2". */

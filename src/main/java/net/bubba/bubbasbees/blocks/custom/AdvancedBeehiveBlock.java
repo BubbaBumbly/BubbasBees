@@ -34,6 +34,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
@@ -49,11 +50,25 @@ import java.util.List;
 public class AdvancedBeehiveBlock extends BeehiveBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    /** Combs inside, 0-8 (user 2026-11-14, fix list item 48): what the panel shows, what the side window fills one cell
+     *  per comb for, and the comparator output. Vanilla's HONEY_LEVEL stays alongside as the "full" flag (5 = 8 combs)
+     *  that vanilla code and other mods check; see {@link #vanillaLevel}. */
+    public static final IntegerProperty COMBS = IntegerProperty.create("combs", 0, 8);
+
+    /** Vanilla honey level for a comb count: 0 only when empty (so a reset to 0 means "harvested"), 5 only when full. */
+    public static int vanillaLevel(int combs) {
+        return combs <= 0 ? 0 : combs >= 8 ? 5 : Math.min(4, (combs + 1) / 2);
+    }
+
+    @Override
+    public int getAnalogOutputSignal(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos) {
+        return state.getValue(COMBS);
+    }
 
     public AdvancedBeehiveBlock(BlockBehaviour.Properties properties){
         super(properties);
         this.registerDefaultState(this.
-                stateDefinition.any().setValue(HONEY_LEVEL, 0).setValue(FACING, Direction.NORTH));
+                stateDefinition.any().setValue(HONEY_LEVEL, 0).setValue(COMBS, 0).setValue(FACING, Direction.NORTH));
     }
 
     @Override
@@ -196,7 +211,7 @@ public class AdvancedBeehiveBlock extends BeehiveBlock {
         }
     }
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> blockStateBuilder) {
-        blockStateBuilder.add(new Property[]{HONEY_LEVEL, FACING});
+        blockStateBuilder.add(new Property[]{HONEY_LEVEL, COMBS, FACING});
     }
     @Nullable
     @Override

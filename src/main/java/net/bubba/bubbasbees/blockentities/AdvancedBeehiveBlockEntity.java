@@ -72,6 +72,8 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     private static final int HERDER_MEMORY_TICKS = 2400;
     private static final String HERDED_TAG = "BubbasHerdedAt";
     private long lastHerderSeen = Long.MIN_VALUE / 2;
+    /** False until the first server tick after loading or placing: that tick only brings the block state in line. */
+    private boolean combsSynced;
     public static final int STAY_TICKS = 600;
     public static final int BUSY_STAY_TICKS_WITH_NECTAR = 1200;
     // Vanilla's MIN_OCCUPATION_TICKS_NECTAR
@@ -105,7 +107,8 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
                 hive.ticksSmoked = -1;
             }
         }
-        tickOccupants(hive, state, hive.getBees());
+        hive.syncCombState(state);
+        tickOccupants(hive, hive.getBlockState(), hive.getBees());
         if ((level.getGameTime() + pos.asLong()) % HERDER_INTERVAL == 0 && hive.isHerding()) hive.herd();
         ((HiveOccupantView) hive).bubbasBees$syncOccupantsIfChanged();
         DebugPackets.sendHiveInfo(level, pos, state, hive);
@@ -215,12 +218,40 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
         }
     }
 
+    /** The block state follows the comb list: COMBS = the count, HONEY_LEVEL = AdvancedBeehiveBlock.vanillaLevel. */
     private static void recalculateHoneyLevel(AdvancedBeehiveBlockEntity hive, BlockState state) {
-        float combsInHive = hive.honeycombList.size();
-        int honeyLevel = Mth.clamp(Mth.floor(0.625 * combsInHive), 0, 5);
-        if (hive.level != null) {
-            hive.level.setBlockAndUpdate(hive.worldPosition, hive.getBlockState().setValue(BeehiveBlock.HONEY_LEVEL, honeyLevel));
+        if (hive.level == null) return;
+        int combs = Math.min(MAX_COMBS, hive.honeycombList.size());
+        BlockState now = hive.getBlockState();
+        if (!now.hasProperty(AdvancedBeehiveBlock.COMBS)) return;
+        if (now.getValue(AdvancedBeehiveBlock.COMBS) != combs || now.getValue(BeehiveBlock.HONEY_LEVEL) != AdvancedBeehiveBlock.vanillaLevel(combs)) {
+            hive.level.setBlockAndUpdate(hive.worldPosition, now.setValue(AdvancedBeehiveBlock.COMBS, combs)
+                    .setValue(BeehiveBlock.HONEY_LEVEL, AdvancedBeehiveBlock.vanillaLevel(combs)));
         }
+    }
+
+    /**
+     * Keeps the block state and the comb list in step every tick. Code outside this class (vanilla bottling, another
+     * mod's shears or dispenser) only resets vanilla's honey level to 0, which now only happens when the hive was
+     * harvested, so the combs go too. The first tick after loading or placing only syncs: older saves showed 1 comb
+     * as level 0, and a vanilla beehive crafted into this one (HiveConversionRecipe) arrives with a honey level but
+     * no combs, so its honey becomes the honeycombs shearing it would have given (3 when full).
+     */
+    private void syncCombState(BlockState state) {
+        if (!state.hasProperty(AdvancedBeehiveBlock.COMBS)) return;
+        int vanilla = state.getValue(BeehiveBlock.HONEY_LEVEL);
+        if (!combsSynced) {
+            combsSynced = true;
+            if (honeycombList.isEmpty() && vanilla > 0 && state.getValue(AdvancedBeehiveBlock.COMBS) == 0) {
+                int combs = Math.round(vanilla * 3 / 5.0F);
+                for (int i = 0; i < combs; i++) honeycombList.add(new ItemStack(Items.HONEYCOMB));
+                setChanged();
+            }
+        } else if (vanilla == 0 && !honeycombList.isEmpty()) {
+            honeycombList.clear();
+            setChanged();
+        }
+        recalculateHoneyLevel(this, state);
     }
     /// Various releasing bee methods
     // Release one bee after enough ticks in hive
@@ -266,9 +297,7 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
                                 hive.honeycombList.size() >= MAX_COMBS);
                         if (!comb.isEmpty() && hive.honeycombList.size() < MAX_COMBS) hive.honeycombList.add(comb);
                     }
-                    if (getHoneyLevel(state) < 5) {
-                        recalculateHoneyLevel(hive,state);
-                    }
+                    recalculateHoneyLevel(hive, state);
                 }
                 hive.level.playSound(null, hive.worldPosition.getX(), hive.worldPosition.getY(), hive.worldPosition.getZ(), SoundEvents.BEEHIVE_EXIT, SoundSource.BLOCKS, 1.0F, 1.0F);
                 hive.level.gameEvent(GameEvent.BLOCK_CHANGE, blockpos, GameEvent.Context.of(entity, hive.level.getBlockState(blockpos)));
@@ -389,7 +418,9 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     public void emptyHoney() {
         honeycombList.clear();
         if (this.level != null) {
-            this.level.setBlockAndUpdate(this.worldPosition, this.getBlockState().setValue(BeehiveBlock.HONEY_LEVEL, 0));
+            BlockState now = this.getBlockState().setValue(BeehiveBlock.HONEY_LEVEL, 0);
+            if (now.hasProperty(AdvancedBeehiveBlock.COMBS)) now = now.setValue(AdvancedBeehiveBlock.COMBS, 0);
+            this.level.setBlockAndUpdate(this.worldPosition, now);
         }
         setChanged();
     }

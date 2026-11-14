@@ -63,7 +63,7 @@ public class HiveInfoOverlay implements IGuiOverlay {
         Component smokeLine = smoke > 0L ? HiveInfo.smokeText(smoke) : null;
         Component modeLine = HiveInfo.modeText(blockEntity);
         Component header = HiveInfo.headerText(state.getBlock().getName(), HiveInfo.honeyLevel(state),
-                bees.size(), HiveInfo.maxOccupants(state.getBlock()));
+                HiveInfo.maxHoney(state.getBlock()), bees.size(), HiveInfo.maxOccupants(state.getBlock()));
 
         int nameWidth = 0;
         int timerWidth = 0;

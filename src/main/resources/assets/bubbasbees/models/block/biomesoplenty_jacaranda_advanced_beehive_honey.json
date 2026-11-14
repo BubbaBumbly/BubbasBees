@@ -2,15 +2,15 @@
   "parent": "minecraft:block/block",
   "loader": "forge:composite",
   "textures": {
-    "particle": "bubbasbees:block/biomesoplenty_jacaranda_advanced_beehive_side_5"
+    "particle": "bubbasbees:block/biomesoplenty_jacaranda_advanced_beehive_side_8"
   },
   "children": {
     "hive": {
       "render_type": "minecraft:solid",
       "textures": {
-        "particle": "bubbasbees:block/biomesoplenty_jacaranda_advanced_beehive_side_5",
+        "particle": "bubbasbees:block/biomesoplenty_jacaranda_advanced_beehive_side_8",
         "front": "bubbasbees:block/biomesoplenty_jacaranda_advanced_beehive_front_honey",
-        "side": "bubbasbees:block/biomesoplenty_jacaranda_advanced_beehive_side_5",
+        "side": "bubbasbees:block/biomesoplenty_jacaranda_advanced_beehive_side_8",
         "end": "bubbasbees:block/biomesoplenty_jacaranda_advanced_beehive_end",
         "inner": "bubbasbees:block/biomesoplenty_jacaranda_advanced_beehive_inner",
         "glass": "bubbasbees:block/advanced_beehive_glass"
@@ -470,9 +470,9 @@
     "glass": {
       "render_type": "minecraft:translucent",
       "textures": {
-        "particle": "bubbasbees:block/biomesoplenty_jacaranda_advanced_beehive_side_5",
+        "particle": "bubbasbees:block/biomesoplenty_jacaranda_advanced_beehive_side_8",
         "front": "bubbasbees:block/biomesoplenty_jacaranda_advanced_beehive_front_honey",
-        "side": "bubbasbees:block/biomesoplenty_jacaranda_advanced_beehive_side_5",
+        "side": "bubbasbees:block/biomesoplenty_jacaranda_advanced_beehive_side_8",
         "end": "bubbasbees:block/biomesoplenty_jacaranda_advanced_beehive_end",
         "inner": "bubbasbees:block/biomesoplenty_jacaranda_advanced_beehive_inner",
         "glass": "bubbasbees:block/advanced_beehive_glass"

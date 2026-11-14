@@ -29,7 +29,7 @@ public class HiveTooltipHandler {
         List<Either<FormattedText, TooltipComponent>> elements = event.getTooltipElements();
         int insertAt = Math.min(1, elements.size());
 
-        elements.add(insertAt++, Either.left(HiveInfo.summaryText(HiveInfo.honeyLevel(stack), bees.size(), max)));
+        elements.add(insertAt++, Either.left(HiveInfo.summaryText(HiveInfo.honeyLevel(stack), HiveInfo.maxHoney(((BlockItem) stack.getItem()).getBlock()), bees.size(), max)));
         if (!bees.isEmpty()) {
             elements.add(insertAt, Either.right(new BeeListTooltip(bees)));
         }
