@@ -437,6 +437,8 @@ def step3_blocks():
     fin = os.path.join(ART_WORK, "pedestals", "final")
     for model in ("pedestal.json", "celestial_altar.json"):   # final shapes (PB column, AE altar)
         write_json(os.path.join(bm, model), json.load(open(os.path.join(fin, model))))
+    for f in ("celestial_altar_inlay.png", "celestial_altar_inlay.png.mcmeta"):   # pulsing inlay, rounds 3-4 (2026-11-14)
+        shutil.copyfile(os.path.join(fin, f), os.path.join(ASSETS, "textures", "block", f))
     for pid, (top, col, base, acc, (slab, mid, bottom)) in PEDESTALS.items():
         write_json(os.path.join(bm, pid + ".json"), {"parent": "bubbasbees:block/pedestal",
                                                      "textures": {"top": top, "column": col, "base": base, "acc": acc}})
@@ -450,8 +452,9 @@ def step3_blocks():
         write_json(os.path.join(im, pid + ".json"), {"parent": "bubbasbees:block/" + pid, "display": BLOCK_DISPLAY})
         write_json(os.path.join(loot, pid + ".json"), drop("bubbasbees:" + pid))
     write_json(os.path.join(DATA, "recipes", "blocks", "celestial_altar.json"),
-               shaped(["v:crying_obsidian", "v:diamond", "v:crying_obsidian", "v:diamond", "x:quartz_pedestal",
-                       "v:diamond", "v:crying_obsidian", "v:diamond", "v:crying_obsidian"], "bubbasbees:celestial_altar"))
+               # two side diamonds are gold blocks (user, 2026-11-14)
+               shaped(["v:crying_obsidian", "v:diamond", "v:crying_obsidian", "v:gold_block", "x:quartz_pedestal",
+                       "v:gold_block", "v:crying_obsidian", "v:diamond", "v:crying_obsidian"], "bubbasbees:celestial_altar"))
     # comb chute: a block under the hive since 2026-11-02 (user); shears in the recipe
     write_json(os.path.join(DATA, "recipes", "blocks", "comb_chute.json"),
                shaped(["v:iron_ingot", "v:shears", "v:iron_ingot", "v:honeycomb", "v:hopper", "v:honeycomb",
