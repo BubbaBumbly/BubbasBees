@@ -120,7 +120,7 @@ public class BubbasBee extends Bee implements IAnimatable {
 
     /** Nocturnal bees only use flowers under open sky. */
     public boolean canUseFlowerAt(BlockPos flower) {
-        return !has(BeeSpec.Trait.NOCTURNAL) || this.level.canSeeSky(flower.above());
+        return !has(BeeSpec.Trait.NOCTURNAL) || BeeSpec.openSky(this.level, flower.above());
     }
 
     /// Traits that change damage

@@ -73,6 +73,19 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
         return level.getBiome(pos).is(homeBiomeTag());
     }
 
+    /** Open sky above pos, as sky light sees it: nothing above that blocks light (glass is fine, leaves are not).
+     *  The End has no sky light, so there the blocks above are checked directly, up to the highest block. */
+    public static boolean openSky(Level level, BlockPos pos) {
+        if (!level.dimension().equals(Level.END)) return level.canSeeSky(pos);
+        int top = level.getHeight(Heightmap.Types.WORLD_SURFACE, pos.getX(), pos.getZ());
+        BlockPos.MutableBlockPos p = pos.mutable();
+        for (int y = pos.getY(); y < top; y++) {
+            p.setY(y);
+            if (level.getBlockState(p).getLightBlock(level, p) > 0) return false;
+        }
+        return true;
+    }
+
     /**
      * Whether weather and time let this bee work at pos: vanilla bees stop at night and in rain. Water-safe bees work
      * in rain, snowproof bees while it snows there, nocturnal bees only at night (and, with checkSky, only from a
@@ -85,11 +98,9 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
     /** As above; ritual = the bee's hive is inside a running ritual circle, so day bees work at night too. */
     public boolean canWorkAt(Level level, BlockPos pos, boolean checkSky, boolean ritual) {
         if (has(Trait.NOCTURNAL)) {
-            if (level.dimension().equals(Level.END)) {
-                // The End has fixed time (never "night") and no sky light, so starlight bees there work all the time
-                // and the open-sky check uses the heightmap (fix list item 43: the End is a starlight home)
-                if (checkSky && pos.getY() < level.getHeight(Heightmap.Types.MOTION_BLOCKING, pos.getX(), pos.getZ())) return false;
-            } else if (!level.isNight() || (checkSky && !level.canSeeSky(pos))) return false;
+            // The End has fixed time (never "night"): starlight bees there work all the time (fix list item 43)
+            if (!level.dimension().equals(Level.END) && !level.isNight()) return false;
+            if (checkSky && !openSky(level, pos)) return false;
         } else if (level.isNight() && !ritual) {
             return false;
         }
