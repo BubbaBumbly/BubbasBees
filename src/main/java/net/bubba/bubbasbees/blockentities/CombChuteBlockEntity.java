@@ -128,9 +128,11 @@ public class CombChuteBlockEntity extends BlockEntity {
         if (!(hiveEntity instanceof BeehiveBlockEntity)) return;
         if (state.getValue(CombChuteBlock.HONEY)) {
             ItemStack bottle = items.getStackInSlot(BOTTLE_SLOT);
-            ItemStack honey = new ItemStack(Items.HONEY_BOTTLE);
+            // An Advanced Beehive's honey fills two bottles; a vanilla beehive, or a chute down to its last bottle, one
+            int count = Math.min(bottle.getCount(), hiveEntity instanceof AdvancedBeehiveBlockEntity ? 2 : 1);
+            ItemStack honey = new ItemStack(Items.HONEY_BOTTLE, count);
             if (bottle.isEmpty() || !fits(List.of(honey))) return;
-            items.extractItem(BOTTLE_SLOT, 1, false);
+            items.extractItem(BOTTLE_SLOT, count, false);
             store(honey);
             if (hiveEntity instanceof AdvancedBeehiveBlockEntity advanced) advanced.emptyHoney();
             else hiveBlock.resetHoneyLevel(level, hiveState, hivePos);
