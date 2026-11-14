@@ -523,7 +523,8 @@ def step3_art(work):
     fin = os.path.join(work, "stardust", "final")
     items, blocks = os.path.join(ASSETS, "textures", "item"), os.path.join(ASSETS, "textures", "block")
     os.makedirs(blocks, exist_ok=True)
-    shutil.copyfile(os.path.join(fin, "stardust.png"), os.path.join(items, "stardust.png"))
+    for f in ("stardust.png", "stardust.png.mcmeta"):   # icon shimmer V1, 64 frames x 4 ticks (user 2026-11-14, item 46)
+        shutil.copyfile(os.path.join(fin, f), os.path.join(items, f))
     shutil.copyfile(os.path.join(fin, "stardust_dot.png"), os.path.join(blocks, "stardust_dot.png"))
     shutil.copyfile(os.path.join(fin, "stardust_line.png"), os.path.join(blocks, "stardust_line.png"))
     # pile colours from pile_pass4.py: tops LP/PU/BM + dimmed star, sides PU/PD/BM/BD + dimmed star
