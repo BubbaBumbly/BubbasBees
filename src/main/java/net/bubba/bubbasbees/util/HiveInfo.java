@@ -70,6 +70,23 @@ public final class HiveInfo {
         return List.of();
     }
 
+    /** Combs in a client-side advanced hive, grouped by item in first-seen order (count = how many), or an empty list. */
+    public static List<ItemStack> combs(@Nullable BlockEntity blockEntity) {
+        if (!(blockEntity instanceof HiveOccupantView view)) return List.of();
+        List<ItemStack> grouped = new ArrayList<>();
+        outer:
+        for (ItemStack comb : view.bubbasBees$getClientCombs()) {
+            for (ItemStack group : grouped) {
+                if (group.is(comb.getItem())) {
+                    group.grow(1);
+                    continue outer;
+                }
+            }
+            grouped.add(new ItemStack(comb.getItem()));
+        }
+        return grouped;
+    }
+
     /** Occupants stored in a picked-up hive item's BlockEntityTag (no release timers). */
     public static List<HiveOccupant> occupants(ItemStack stack) {
         List<HiveOccupant> occupants = new ArrayList<>();

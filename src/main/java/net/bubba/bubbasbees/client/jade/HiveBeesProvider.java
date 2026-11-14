@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.bubba.bubbasbees.blocks.custom.AdvancedBeehiveBlock;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.ITooltip;
@@ -20,7 +21,8 @@ import snownee.jade.api.ui.IElementHelper;
 
 import java.util.List;
 
-/** Calm/busy mode and smoke countdown, then one Jade tooltip line per stored bee (face icon, name, release countdown), like HiveInfoOverlay. */
+/** Calm/busy mode and smoke countdown, then one Jade tooltip line per stored bee (face icon, name, release countdown), like
+ *  HiveInfoOverlay; while sneaking (or Jade's details key), one line per comb type in an advanced hive. */
 public enum HiveBeesProvider implements IBlockComponentProvider {
     INSTANCE;
 
@@ -48,6 +50,15 @@ public enum HiveBeesProvider implements IBlockComponentProvider {
             tooltip.append(helper.spacer(HiveInfoOverlay.TIMER_GAP, 0));
             tooltip.append(helper.text(HiveInfo.timerText(bee, gameTime).copy().withStyle(ChatFormatting.GRAY))
                     .align(IElement.Align.RIGHT));
+        }
+        if (accessor.showDetails() || HiveInfoOverlay.showCombs(Minecraft.getInstance())) {
+            for (ItemStack comb : HiveInfo.combs(accessor.getBlockEntity())) {
+                tooltip.add(helper.item(new ItemStack(comb.getItem()), 0.5F));
+                tooltip.append(helper.text(comb.getHoverName()));
+                tooltip.append(helper.spacer(HiveInfoOverlay.TIMER_GAP, 0));
+                tooltip.append(helper.text(HiveInfo.countText(comb.getCount()).copy().withStyle(ChatFormatting.GRAY))
+                        .align(IElement.Align.RIGHT));
+            }
         }
     }
 

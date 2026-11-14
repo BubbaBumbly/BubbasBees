@@ -11,6 +11,7 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -23,6 +24,7 @@ import java.util.List;
 
 /**
  * Compact top-of-screen panel: hive name, honey, calm/busy mode, smoke countdown, and one row per stored bee with a release countdown.
+ * While the player sneaks, an advanced hive also lists its combs (icon, name, count).
  * Hidden while Jade is installed: Jade draws its own panel in the same spot and gets the bee rows from jade.HiveBeesProvider.
  */
 public class HiveInfoOverlay implements IGuiOverlay {
@@ -32,6 +34,7 @@ public class HiveInfoOverlay implements IGuiOverlay {
     public static final int GAP = 3;
     private static final int PAD = 3;
     private static final int TOP = 4;
+    private static final int COMB_GAP = 2;
     public static final int TIMER_GAP = 8;
     private static final int BACKGROUND = 0x90000000;
     private static final int TEXT = 0xFFFFFF;
@@ -62,6 +65,7 @@ public class HiveInfoOverlay implements IGuiOverlay {
         long smoke = HiveInfo.smokeRemaining(blockEntity, gameTime);
         Component smokeLine = smoke > 0L ? HiveInfo.smokeText(smoke) : null;
         Component modeLine = HiveInfo.modeText(blockEntity);
+        List<ItemStack> combs = showCombs(minecraft) ? HiveInfo.combs(blockEntity) : List.of();
         Component header = HiveInfo.headerText(state.getBlock().getName(), HiveInfo.honeyLevel(state),
                 HiveInfo.maxHoney(state.getBlock()), bees.size(), HiveInfo.maxOccupants(state.getBlock()));
 
@@ -72,12 +76,20 @@ public class HiveInfoOverlay implements IGuiOverlay {
             timerWidth = Math.max(timerWidth, font.width(HiveInfo.timerText(bee, gameTime)));
         }
         int rowWidth = bees.isEmpty() ? 0 : ICON + GAP + nameWidth + TIMER_GAP + timerWidth;
+        int combNameWidth = 0;
+        int combCountWidth = 0;
+        for (ItemStack comb : combs) {
+            combNameWidth = Math.max(combNameWidth, font.width(comb.getHoverName()));
+            combCountWidth = Math.max(combCountWidth, font.width(HiveInfo.countText(comb.getCount())));
+        }
+        if (!combs.isEmpty()) rowWidth = Math.max(rowWidth, ICON + GAP + combNameWidth + TIMER_GAP + combCountWidth);
         int smokeWidth = smokeLine == null ? 0 : font.width(smokeLine);
         int modeWidth = modeLine == null ? 0 : font.width(modeLine);
         int width = Math.max(Math.max(font.width(header), Math.max(smokeWidth, modeWidth)), rowWidth) + PAD * 2;
         int smokeHeight = smokeLine == null ? 0 : font.lineHeight + 1;
         int modeHeight = modeLine == null ? 0 : font.lineHeight + 1;
-        int height = PAD + font.lineHeight + 1 + modeHeight + smokeHeight + bees.size() * ROW + PAD;
+        int combsHeight = combs.isEmpty() ? 0 : COMB_GAP + combs.size() * ROW;
+        int height = PAD + font.lineHeight + 1 + modeHeight + smokeHeight + bees.size() * ROW + combsHeight + PAD;
         int left = (screenWidth - width) / 2;
         int right = left + width - PAD;
         int y = TOP;
@@ -101,6 +113,31 @@ public class HiveInfoOverlay implements IGuiOverlay {
             font.draw(poseStack, timer, right - font.width(timer), y + 1, TIMER_COLOR);
             y += ROW;
         }
+        if (!combs.isEmpty()) y += COMB_GAP;
+        for (ItemStack comb : combs) {
+            drawItemIcon(minecraft, comb, left + PAD, y);
+            font.draw(poseStack, comb.getHoverName(), left + PAD + ICON + GAP, y + 1, TEXT);
+            Component count = HiveInfo.countText(comb.getCount());
+            font.draw(poseStack, count, right - font.width(count), y + 1, TIMER_COLOR);
+            y += ROW;
+        }
+    }
+
+    /** Combs show while the player sneaks (the sneak key, Shift by default). */
+    public static boolean showCombs(Minecraft minecraft) {
+        return minecraft.player != null && minecraft.player.isShiftKeyDown();
+    }
+
+    /** An item drawn at half size, so it fits the 9-pixel icon column of the bee rows. */
+    private static void drawItemIcon(Minecraft minecraft, ItemStack stack, int x, int y) {
+        PoseStack modelView = RenderSystem.getModelViewStack();
+        modelView.pushPose();
+        modelView.translate(x, y, 0);
+        modelView.scale(0.5F, 0.5F, 1.0F);
+        RenderSystem.applyModelViewMatrix();
+        minecraft.getItemRenderer().renderGuiItem(new ItemStack(stack.getItem()), 0, 0);
+        modelView.popPose();
+        RenderSystem.applyModelViewMatrix();
     }
 
     static void drawBeeRow(PoseStack poseStack, Font font, ResourceLocation bee, int x, int y) {

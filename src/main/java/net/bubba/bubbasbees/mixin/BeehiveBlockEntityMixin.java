@@ -12,7 +12,10 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,7 +32,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Syncs the stored bees (type + release time), the smoke timer and the work mode to the client for the hive info HUD. */
+/** Syncs the stored bees (type + release time), the smoke timer, the work mode and the advanced hive's combs to the client for the hive info HUD. */
 @Mixin(BeehiveBlockEntity.class)
 public abstract class BeehiveBlockEntityMixin extends BlockEntity implements HiveOccupantView {
 
@@ -38,6 +41,7 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
     @Unique private final List<HiveOccupant> bubbasBees$clientOccupants = new ArrayList<>();
     @Unique private long bubbasBees$clientSmokeEnd = NOT_SMOKED;
     @Unique private boolean bubbasBees$clientBusy = false;
+    @Unique private final List<ItemStack> bubbasBees$clientCombs = new ArrayList<>();
     @Unique private String bubbasBees$lastSyncedSignature = null;
 
     protected BeehiveBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -78,12 +82,26 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
         return (Object) this instanceof AdvancedBeehiveBlockEntity hive && hive.isBusy();
     }
 
+    // Item ids of an advanced hive's combs, in storage order; none for other hives
     @Unique
-    private static String bubbasBees$signature(List<HiveOccupant> occupants, long smokeEnd, boolean busy) {
+    private List<String> bubbasBees$serverCombs() {
+        if (!((Object) this instanceof AdvancedBeehiveBlockEntity hive)) return List.of();
+        List<String> ids = new ArrayList<>();
+        for (ItemStack comb : hive.getHoneycombList()) {
+            ResourceLocation id = ForgeRegistries.ITEMS.getKey(comb.getItem());
+            if (id != null) ids.add(id.toString());
+        }
+        return ids;
+    }
+
+    @Unique
+    private static String bubbasBees$signature(List<HiveOccupant> occupants, long smokeEnd, boolean busy, List<String> combs) {
         StringBuilder builder = new StringBuilder("smoke@").append(smokeEnd).append(";busy@").append(busy).append(';');
         for (HiveOccupant occupant : occupants) {
             builder.append(occupant.id()).append('@').append(occupant.dueGameTime()).append(';');
         }
+        builder.append("combs");
+        for (String comb : combs) builder.append(',').append(comb);
         return builder.toString();
     }
 
@@ -103,10 +121,16 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
     }
 
     @Override
+    public List<ItemStack> bubbasBees$getClientCombs() {
+        return this.bubbasBees$clientCombs;
+    }
+
+    @Override
     public void bubbasBees$syncOccupantsIfChanged() {
         Level level = this.level;
         if (level == null || level.isClientSide) return;
-        String signature = bubbasBees$signature(bubbasBees$serverOccupants(), bubbasBees$serverSmokeEnd(), bubbasBees$serverBusy());
+        String signature = bubbasBees$signature(bubbasBees$serverOccupants(), bubbasBees$serverSmokeEnd(), bubbasBees$serverBusy(),
+                bubbasBees$serverCombs());
         if (!signature.equals(this.bubbasBees$lastSyncedSignature)) {
             this.bubbasBees$lastSyncedSignature = signature;
             BlockState state = this.getBlockState();
@@ -120,7 +144,7 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
         ((HiveOccupantView) hive).bubbasBees$syncOccupantsIfChanged();
     }
 
-    // Merged overrides of BlockEntity: only ids, release times, the smoke end and the mode travel to the client, never full bee NBT
+    // Merged overrides of BlockEntity: only ids, release times, the smoke end, the mode and comb item ids travel to the client, never full bee NBT
     @Override
     public CompoundTag getUpdateTag() {
         CompoundTag tag = new CompoundTag();
@@ -134,6 +158,9 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
         tag.put(OCCUPANTS_TAG, list);
         tag.putLong(SMOKE_END_TAG, bubbasBees$serverSmokeEnd());
         tag.putBoolean(BUSY_TAG, bubbasBees$serverBusy());
+        ListTag combs = new ListTag();
+        for (String comb : bubbasBees$serverCombs()) combs.add(StringTag.valueOf(comb));
+        tag.put(COMBS_TAG, combs);
         return tag;
     }
 
@@ -160,6 +187,13 @@ public abstract class BeehiveBlockEntityMixin extends BlockEntity implements Hiv
             CompoundTag entry = list.getCompound(i);
             ResourceLocation id = ResourceLocation.tryParse(entry.getString(ID_TAG));
             if (id != null) this.bubbasBees$clientOccupants.add(new HiveOccupant(id, entry.getLong(DUE_TAG)));
+        }
+        this.bubbasBees$clientCombs.clear();
+        ListTag combs = tag.getList(COMBS_TAG, Tag.TAG_STRING);
+        for (int i = 0; i < combs.size(); i++) {
+            ResourceLocation id = ResourceLocation.tryParse(combs.getString(i));
+            var item = id == null ? null : ForgeRegistries.ITEMS.getValue(id);
+            if (item != null) this.bubbasBees$clientCombs.add(new ItemStack(item));
         }
     }
 }
