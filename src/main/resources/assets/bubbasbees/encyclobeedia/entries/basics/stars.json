@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "Every conversion gem is crafted around a star, and the star comes back: it is a reusable catalyst. Better bees need better stars.$(br2)$(l)Lesser Bubba Star bees:$()$(br)$(l:lesser/stone)Stone Bee$(/l), $(l:lesser/dirt)Dirt Bee$(/l), $(l:lesser/nature)Nature Bee$(/l), $(l:lesser/forest)Forest Bee$(/l), $(l:lesser/desert)Desert Bee$(/l), $(l:lesser/river)River Bee$(/l), $(l:lesser/meadow)Meadow Bee$(/l), $(l:lesser/jungle)Jungle Bee$(/l), $(l:lesser/taiga)Taiga Bee$(/l), $(l:lesser/savanna)Savanna Bee$(/l)."
+      "text": "Every conversion gem is crafted around a star, and the star comes back: it is a reusable catalyst. Better bees need better stars, and a better star works in any weaker star's recipe.$(br2)$(l)Lesser Bubba Star bees:$()$(br)$(l:lesser/stone)Stone Bee$(/l), $(l:lesser/dirt)Dirt Bee$(/l), $(l:lesser/nature)Nature Bee$(/l), $(l:lesser/forest)Forest Bee$(/l), $(l:lesser/desert)Desert Bee$(/l), $(l:lesser/river)River Bee$(/l), $(l:lesser/meadow)Meadow Bee$(/l), $(l:lesser/jungle)Jungle Bee$(/l), $(l:lesser/taiga)Taiga Bee$(/l), $(l:lesser/savanna)Savanna Bee$(/l)."
     },
     {
       "type": "crafting",

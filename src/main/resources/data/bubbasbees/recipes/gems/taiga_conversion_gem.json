@@ -19,7 +19,7 @@
       "item": "minecraft:spruce_sapling"
     },
     "E": {
-      "item": "bubbasbees:lesser_bubba_star"
+      "tag": "bubbasbees:lesser_star_or_better"
     }
   },
   "result": {

@@ -16,7 +16,7 @@
       "item": "minecraft:brain_coral_block"
     },
     "D": {
-      "item": "bubbasbees:bubba_star"
+      "tag": "bubbasbees:bubba_star_or_better"
     },
     "E": {
       "item": "minecraft:bubble_coral_block"

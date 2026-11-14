@@ -16,7 +16,7 @@
       "item": "minecraft:iron_chestplate"
     },
     "D": {
-      "item": "bubbasbees:bubba_star"
+      "tag": "bubbasbees:bubba_star_or_better"
     },
     "E": {
       "item": "minecraft:iron_leggings"

@@ -357,7 +357,7 @@
   "jei.bubbasbees.hive.reinforced": "Resists explosions like obsidian.",
   "jei.bubbasbees.comb_chute": "Place it under a hive. When the hive is full it harvests it in one go, as if sheared, without angering the bees, and pushes the items down like a hopper.",
   "jei.bubbasbees.comb_chute.modes": "Comb mode takes the combs. Honey mode fills one glass bottle per harvest instead (the combs are lost). Right-click with bottles to load it (it holds 64); hoppers can feed it from the sides. Right-click with an empty hand to switch modes.",
-  "jei.bubbasbees.star": "Every conversion gem is crafted around a star, and the star comes back: it is a reusable catalyst. Better bees need better stars.",
+  "jei.bubbasbees.star": "Every conversion gem is crafted around a star, and the star comes back: it is a reusable catalyst. Better bees need better stars. A better star also works in any recipe that asks for a weaker one.",
   "jei.bubbasbees.lesser_bubba_star": "Used up when crafting a Bubba Star. Use it on a hive to switch its bees between calm and busy (it isn't used up).",
   "jei.bubbasbees.bubba_star": "Use it on a hive to switch its bees between calm and busy (it isn't used up). On a Celestial Altar it starts the Celestial Ritual.",
   "jei.bubbasbees.celestial_bubba_star": "Not crafted: a Bubba Star becomes celestial in the Celestial Ritual, one night under open sky (see the Encyclobeedia). Every ore bee's gem needs it. Use it on a hive to switch its bees between calm and busy (it isn't used up).",

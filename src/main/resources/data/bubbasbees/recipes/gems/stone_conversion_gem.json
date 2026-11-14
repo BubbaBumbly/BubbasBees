@@ -19,7 +19,7 @@
       "item": "minecraft:calcite"
     },
     "E": {
-      "item": "bubbasbees:lesser_bubba_star"
+      "tag": "bubbasbees:lesser_star_or_better"
     },
     "F": {
       "item": "minecraft:diorite"

@@ -13,7 +13,7 @@
       "item": "minecraft:blackstone"
     },
     "C": {
-      "item": "bubbasbees:bubba_star"
+      "tag": "bubbasbees:bubba_star_or_better"
     },
     "D": {
       "item": "minecraft:smooth_basalt"

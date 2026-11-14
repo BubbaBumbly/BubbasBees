@@ -16,7 +16,7 @@
       "item": "minecraft:brown_mushroom_block"
     },
     "D": {
-      "item": "bubbasbees:bubba_star"
+      "tag": "bubbasbees:bubba_star_or_better"
     }
   },
   "result": {

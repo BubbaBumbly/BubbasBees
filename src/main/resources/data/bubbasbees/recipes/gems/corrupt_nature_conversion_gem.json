@@ -19,7 +19,7 @@
       "item": "minecraft:crimson_fungus"
     },
     "E": {
-      "item": "bubbasbees:bubba_star"
+      "tag": "bubbasbees:bubba_star_or_better"
     },
     "F": {
       "item": "minecraft:warped_fungus"

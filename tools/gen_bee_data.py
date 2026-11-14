@@ -122,6 +122,11 @@ FAMILIES = {
 
 STARS = {"s:lesser": "bubbasbees:lesser_bubba_star", "s:bubba": "bubbasbees:bubba_star",
          "s:ritual": "bubbasbees:celestial_bubba_star"}
+# A better star also works where a weaker one is asked for (user, 2026-11-13): gem recipes take an item tag.
+# Weakest first, so recipe viewers show the star the recipe is named for. The Celestial tier has no tag (nothing
+# is better), and the Bubba Star recipe keeps the exact Lesser star, because it uses the star up.
+STAR_TAGS = {"s:lesser": ("lesser_star_or_better", ["s:lesser", "s:bubba", "s:ritual"]),
+             "s:bubba": ("bubba_star_or_better", ["s:bubba", "s:ritual"])}
 GEM_STAR_FIX = {"ender": "s:bubba"}                # ender moved to the Bubba Star tier (2026-11-02)
 
 
@@ -140,8 +145,8 @@ def item_id(tok, bee=None):
     raise ValueError(tok)
 
 
-def shaped(grid, result, count=1, rtype="minecraft:crafting_shaped"):
-    keys, pattern = {}, []
+def shaped(grid, result, count=1, rtype="minecraft:crafting_shaped", any_star=True):
+    keys, pattern, ings = {}, [], {}
     letters = iter("ABCDEFGHIJ")
     for row in range(3):
         line = ""
@@ -152,9 +157,13 @@ def shaped(grid, result, count=1, rtype="minecraft:crafting_shaped"):
             iid = item_id(tok)
             if iid not in keys:
                 keys[iid] = next(letters)
+                if any_star and tok in STAR_TAGS:
+                    ings[iid] = {"tag": "bubbasbees:" + STAR_TAGS[tok][0]}
+                else:
+                    ings[iid] = {"item": iid}
             line += keys[iid]
         pattern.append(line)
-    out = {"type": rtype, "pattern": pattern, "key": {k: {"item": i} for i, k in keys.items()},
+    out = {"type": rtype, "pattern": pattern, "key": {k: ings[i] for i, k in keys.items()},
            "result": {"item": result}}
     if count != 1:
         out["result"]["count"] = count
@@ -212,16 +221,18 @@ def recipes(snapshot, known):
     made.append(("stars/bubba_star", shaped(
         ["v:echo_shard", "v:nether_star", "v:ghast_tear", "v:goat_horn", "s:lesser", "v:phantom_membrane",
          "v:end_rod", "v:heart_of_the_sea", "v:spore_blossom"], "bubbasbees:bubba_star",
-        rtype="bubbasbees:consuming_shaped")))
+        rtype="bubbasbees:consuming_shaped", any_star=False)))
     bad = set()
     for name, obj in made:
         for k in obj["key"].values():
-            if k["item"].startswith("minecraft:") and k["item"] not in known:
+            if k.get("item", "").startswith("minecraft:") and k["item"] not in known:
                 bad.add((name, k["item"]))
         res = obj["result"]["item"]
         if res.startswith("minecraft:") and res not in known:
             bad.add((name, res))
         write_json(os.path.join(root, name + ".json"), obj)
+    for name, stars in STAR_TAGS.values():
+        write_json(os.path.join(DATA, "tags", "items", name + ".json"), {"replace": False, "values": [STARS[t] for t in stars]})
     if bad:
         sys.exit("Unknown vanilla items in " + MC_VERSION + ": " + str(sorted(bad)))
     return made

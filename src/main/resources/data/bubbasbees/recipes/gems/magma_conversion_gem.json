@@ -13,7 +13,7 @@
       "item": "minecraft:lava_bucket"
     },
     "C": {
-      "item": "bubbasbees:bubba_star"
+      "tag": "bubbasbees:bubba_star_or_better"
     }
   },
   "result": {
