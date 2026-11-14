@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "An Advanced Beehive is full at $(l)8 combs$() (honey level 8). Shears give the combs, a glass bottle gives a honey bottle.$(br2)Use a $(l:tools/smokers)smoker$(/l) on the hive first so the bees stay calm, or put a $(l:tools/chute)comb chute$(/l) on it to harvest it for you."
+      "text": "An Advanced Beehive is full at $(l)8 combs$() (honey level 8). Shears give the combs, a glass bottle gives a honey bottle.$(br2)Look at a hive and $(l)sneak$() to see which combs are inside.$(br2)Use a $(l:tools/smokers)smoker$(/l) on the hive first so the bees stay calm, or put a $(l:tools/chute)comb chute$(/l) on it to harvest it for you."
     },
     {
       "type": "text",

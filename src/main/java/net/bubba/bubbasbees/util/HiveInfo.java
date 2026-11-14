@@ -156,6 +156,11 @@ public final class HiveInfo {
                 ? "gui.bubbasbees.hive_info.busy" : "gui.bubbasbees.hive_info.calm");
     }
 
+    /** Grey hint under a hive that holds combs, shown while the player isn't sneaking. */
+    public static Component combsHintText() {
+        return Component.translatable("gui.bubbasbees.hive_info.combs_hint");
+    }
+
     /** "Smoked m:ss" for the hive HUD and Jade. */
     public static Component smokeText(long remainingTicks) {
         return Component.translatable("gui.bubbasbees.hive_info.smoked", clock(remainingTicks));

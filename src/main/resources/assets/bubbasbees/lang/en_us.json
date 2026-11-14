@@ -106,6 +106,7 @@
   "gui.bubbasbees.hive_info.header": "%s  Honey %s/%s  Bees %s/%s",
   "gui.bubbasbees.hive_info.ready": "ready",
   "gui.bubbasbees.hive_info.count": "x%s",
+  "gui.bubbasbees.hive_info.combs_hint": "Sneak to see the combs",
   "gui.bubbasbees.hive_info.smoked": "Smoked %s",
   "gui.bubbasbees.hive_info.calm": "Calm bees",
   "gui.bubbasbees.hive_info.busy": "Busy bees",

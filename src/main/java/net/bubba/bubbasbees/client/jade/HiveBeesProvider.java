@@ -51,8 +51,11 @@ public enum HiveBeesProvider implements IBlockComponentProvider {
             tooltip.append(helper.text(HiveInfo.timerText(bee, gameTime).copy().withStyle(ChatFormatting.GRAY))
                     .align(IElement.Align.RIGHT));
         }
-        if (accessor.showDetails() || HiveInfoOverlay.showCombs(Minecraft.getInstance())) {
-            for (ItemStack comb : HiveInfo.combs(accessor.getBlockEntity())) {
+        List<ItemStack> combs = HiveInfo.combs(accessor.getBlockEntity());
+        if (!accessor.showDetails() && !HiveInfoOverlay.showCombs(Minecraft.getInstance())) {
+            if (!combs.isEmpty()) tooltip.add(helper.text(HiveInfo.combsHintText().copy().withStyle(ChatFormatting.GRAY)));
+        } else {
+            for (ItemStack comb : combs) {
                 tooltip.add(helper.item(new ItemStack(comb.getItem()), 0.5F));
                 tooltip.append(helper.text(comb.getHoverName()));
                 tooltip.append(helper.spacer(HiveInfoOverlay.TIMER_GAP, 0));
