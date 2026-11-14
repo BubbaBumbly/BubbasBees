@@ -147,7 +147,7 @@ public final class RitualManager {
     private static @Nullable Component startProblem(ServerLevel level, BlockPos altar, Ritual.Kind kind, List<BlockPos> candles) {
         if (kind == Ritual.Kind.NIGHT) {
             if (!level.isNight()) return Component.translatable("ritual.bubbasbees.problem.night");
-            if (!level.canSeeSky(altar.above())) return Component.translatable("ritual.bubbasbees.problem.sky");
+            if (!net.bubba.bubbasbees.bees.BeeSpec.openSky(level, altar.above())) return Component.translatable("ritual.bubbasbees.problem.sky");
             Component structure = RitualStructure.checkNight(level, altar, candles);
             if (structure != null) return structure;
             for (BlockPos candle : candles) {

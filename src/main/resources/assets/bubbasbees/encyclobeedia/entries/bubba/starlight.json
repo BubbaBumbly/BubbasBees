@@ -16,7 +16,7 @@
     },
     {
       "type": "text",
-      "text": "$(l)Nocturnal:$() Works only at night, and only when its hive and flowers have open sky above."
+      "text": "$(l)Nocturnal:$() Works only at night, and only when its hive and flowers have open sky above. Leaves, glass and plants don't count as a roof."
     },
     {
       "type": "crafting",

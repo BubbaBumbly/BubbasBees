@@ -11,6 +11,11 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -73,17 +78,34 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
         return level.getBiome(pos).is(homeBiomeTag());
     }
 
-    /** Open sky above pos, as sky light sees it: nothing above that blocks light (glass is fine, leaves are not).
-     *  The End has no sky light, so there the blocks above are checked directly, up to the highest block. */
+    /**
+     * Open sky above pos (user 2026-11-14): no roof anywhere above it, in any dimension. A roof is a block with
+     * collision that also blocks the view, so leaves, glass, panes, plants, torches, vines and thin snow are not roofs,
+     * while stone, slabs and stairs are. FramedBlocks (the user's composite/octant fork): framed blocks never block
+     * the view themselves, so their camos decide, through the fork's {@code propagates_skylight} state flag (true when
+     * every camo lets sky light through, e.g. octants holding only glass).
+     */
     public static boolean openSky(Level level, BlockPos pos) {
-        if (!level.dimension().equals(Level.END)) return level.canSeeSky(pos);
         int top = level.getHeight(Heightmap.Types.WORLD_SURFACE, pos.getX(), pos.getZ());
         BlockPos.MutableBlockPos p = pos.mutable();
         for (int y = pos.getY(); y < top; y++) {
             p.setY(y);
-            if (level.getBlockState(p).getLightBlock(level, p) > 0) return false;
+            if (isRoof(level, p, level.getBlockState(p))) return false;
         }
         return true;
+    }
+
+    private static boolean isRoof(Level level, BlockPos pos, BlockState state) {
+        if (state.isAir() || state.is(BlockTags.LEAVES)) return false;
+        if ("framedblocks".equals(ForgeRegistries.BLOCKS.getKey(state.getBlock()).getNamespace())) {
+            for (Property<?> property : state.getProperties()) {
+                if (property instanceof BooleanProperty flag && property.getName().equals("propagates_skylight")) {
+                    return !state.getValue(flag);
+                }
+            }
+            return true;   // a framed block without the fork's flag: count it as solid
+        }
+        return state.canOcclude() && !state.getCollisionShape(level, pos).isEmpty();
     }
 
     /**
