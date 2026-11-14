@@ -105,6 +105,12 @@ public abstract class BeeMixin extends Animal {
         BlockPos oldHive = this.getHivePos();
         newbie.moveTo(this.getX(), this.getY(), this.getZ(),
                 this.random.nextFloat() * 180.0F, this.random.nextFloat()* 180.F);
+        // A baby stays a baby with the same time left, and a name tag carries over (user 2026-11-14, item 42)
+        newbie.setAge(this.getAge());
+        if (this.hasCustomName()) {
+            newbie.setCustomName(this.getCustomName());
+            newbie.setCustomNameVisible(this.isCustomNameVisible());
+        }
         if (oldHive != null) {
             ((BeeEntityAccessor)newbie).setHivePos(oldHive);
         }
