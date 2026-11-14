@@ -2870,15 +2870,15 @@
   "starlight": {
    "pick": "1",
    "grid": [
-    "v:glowstone",
+    "v:end_rod",
     "v:phantom_membrane",
-    "v:glowstone",
+    "v:end_rod",
     "v:phantom_membrane",
     "s:bubba",
     "v:phantom_membrane",
-    "v:glowstone",
+    "v:end_rod",
     "v:phantom_membrane",
-    "v:glowstone"
+    "v:end_rod"
    ]
   },
   "stone": {
