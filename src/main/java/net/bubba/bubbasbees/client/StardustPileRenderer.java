@@ -21,6 +21,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.EndRodBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +38,8 @@ import java.util.Map;
  * The stardust pile-up against an end rod (art pick T1 at 9 px, BubbasBeesArt/work/stardust/final/README.md, height
  * maps from pile_pass4.py). Dust can arrive at a rod from 1-4 sides; the per-side height maps merge with max, and the
  * first arriving dust (order W, N, E, S) draws the whole merged pile so no cube is drawn twice. Nothing goes inside
- * the rod (px 7-8) and columns over the rod's base (px 6-9) start on top of it (y 1).
+ * the rod (px 7-8) and, on a rod standing up, columns over its base (px 6-9) start on top of it (y 1); a hanging
+ * rod's base is at the top, so there they start on the ground.
  */
 public class StardustPileRenderer implements BlockEntityRenderer<StardustBlockEntity> {
     /** 4 twinkle versions (art pick V4): version 0 has no suffix, then _1.._3. A dust block picks one by position. */
@@ -53,7 +55,7 @@ public class StardustPileRenderer implements BlockEntityRenderer<StardustBlockEn
     }
     private static final Direction[] ORDER = {Direction.WEST, Direction.NORTH, Direction.EAST, Direction.SOUTH};
     private static final double H = 9.0;
-    /** Merged pile per set of arriving sides (bit i = ORDER[i]): boxes {x, y0, z, height} in rod-block pixels. */
+    /** Merged pile per set of arriving sides (bit i = ORDER[i]; bit 4 = the rod's base is at the bottom): boxes {x, y0, z, height} in rod-block pixels. */
     private static final Map<Integer, List<int[]>> PILES = new HashMap<>();
 
     public StardustPileRenderer(BlockEntityRendererProvider.Context context) {
@@ -103,10 +105,14 @@ public class StardustPileRenderer implements BlockEntityRenderer<StardustBlockEn
                 }
             }
             if (!dust.getBlockPos().equals(owner)) continue;
+            // only a rod standing up has its 1 px base plate at the bottom; a hanging rod's is at the top, so the
+            // columns there start on the ground (they used to float 1 px up, showing their open bottoms)
+            BlockState rodState = level.getBlockState(rod);
+            boolean base = !rodState.hasProperty(EndRodBlock.FACING) || rodState.getValue(EndRodBlock.FACING) == Direction.UP;
             pose.pushPose();
             pose.translate(rod.getX() - dust.getBlockPos().getX(), 0, rod.getZ() - dust.getBlockPos().getZ());
             List<float[]> boxes = new ArrayList<>();
-            for (int[] c : pile(mask)) {
+            for (int[] c : pile(mask, base)) {
                 float y0 = c[1], top = c[1] + c[3];
                 int bx = Math.floorDiv(c[0], 16), bz = Math.floorDiv(c[2], 16);
                 if (bx != 0 || bz != 0) {   // over a neighbouring dust block: sit on its flat dust
@@ -213,8 +219,8 @@ public class StardustPileRenderer implements BlockEntityRenderer<StardustBlockEn
         out.vertex(m, dx, dy, dz).color(255, 255, 255, 255).uv(u1, v0).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(n, nx, ny, nz).endVertex();
     }
 
-    private static List<int[]> pile(int mask) {
-        return PILES.computeIfAbsent(mask, k -> {
+    private static List<int[]> pile(int mask, boolean base) {
+        return PILES.computeIfAbsent(mask | (base ? 16 : 0), k -> {
             Map<Long, Integer> merged = new HashMap<>();
             for (int i = 0; i < 4; i++) {
                 if ((k & (1 << i)) == 0) continue;
@@ -227,7 +233,7 @@ public class StardustPileRenderer implements BlockEntityRenderer<StardustBlockEn
             List<int[]> boxes = new ArrayList<>();
             for (Map.Entry<Long, Integer> e : merged.entrySet()) {
                 int x = (int) (e.getKey() >> 32), z = e.getKey().intValue();
-                boolean onBase = x >= 6 && x <= 9 && z >= 6 && z <= 9;
+                boolean onBase = base && x >= 6 && x <= 9 && z >= 6 && z <= 9;
                 int y0 = onBase ? 1 : 0;
                 int h = e.getValue() - y0;
                 if (h > 0) boxes.add(new int[]{x, y0, z, h});
