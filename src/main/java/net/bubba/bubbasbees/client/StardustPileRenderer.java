@@ -21,7 +21,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.EndRodBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,8 +37,8 @@ import java.util.Map;
  * The stardust pile-up against an end rod (art pick T1 at 9 px, BubbasBeesArt/work/stardust/final/README.md, height
  * maps from pile_pass4.py). Dust can arrive at a rod from 1-4 sides; the per-side height maps merge with max, and the
  * first arriving dust (order W, N, E, S) draws the whole merged pile so no cube is drawn twice. Nothing goes inside
- * the rod (px 7-8) and, on a rod standing up, columns over its base (px 6-9) start on top of it (y 1); a hanging
- * rod's base is at the top, so there they start on the ground.
+ * the rod (px 7-8); columns over its base (px 6-9) start on the ground (some resource packs drop the base) and are
+ * padded out a hair so they don't z-fight the vanilla base.
  */
 public class StardustPileRenderer implements BlockEntityRenderer<StardustBlockEntity> {
     /** 4 twinkle versions (art pick V4): version 0 has no suffix, then _1.._3. A dust block picks one by position. */
@@ -55,8 +54,10 @@ public class StardustPileRenderer implements BlockEntityRenderer<StardustBlockEn
     }
     private static final Direction[] ORDER = {Direction.WEST, Direction.NORTH, Direction.EAST, Direction.SOUTH};
     private static final double H = 9.0;
-    /** Merged pile per set of arriving sides (bit i = ORDER[i]; bit 4 = the rod's base is at the bottom): boxes {x, y0, z, height} in rod-block pixels. */
+    /** Merged pile per set of arriving sides (bit i = ORDER[i]): boxes {x, y0, z, height, padded} in rod-block pixels. */
     private static final Map<Integer, List<int[]>> PILES = new HashMap<>();
+    /** Outward pad (block units) for columns over the rod's base, so their sides sit just outside the base's sides. */
+    private static final float BASE_PAD = 0.002F;
 
     public StardustPileRenderer(BlockEntityRendererProvider.Context context) {
     }
@@ -105,21 +106,17 @@ public class StardustPileRenderer implements BlockEntityRenderer<StardustBlockEn
                 }
             }
             if (!dust.getBlockPos().equals(owner)) continue;
-            // only a rod standing up has its 1 px base plate at the bottom; a hanging rod's is at the top, so the
-            // columns there start on the ground (they used to float 1 px up, showing their open bottoms)
-            BlockState rodState = level.getBlockState(rod);
-            boolean base = !rodState.hasProperty(EndRodBlock.FACING) || rodState.getValue(EndRodBlock.FACING) == Direction.UP;
             pose.pushPose();
             pose.translate(rod.getX() - dust.getBlockPos().getX(), 0, rod.getZ() - dust.getBlockPos().getZ());
             List<float[]> boxes = new ArrayList<>();
-            for (int[] c : pile(mask, base)) {
+            for (int[] c : pile(mask)) {
                 float y0 = c[1], top = c[1] + c[3];
                 int bx = Math.floorDiv(c[0], 16), bz = Math.floorDiv(c[2], 16);
                 if (bx != 0 || bz != 0) {   // over a neighbouring dust block: sit on its flat dust
                     BlockState under = level.getBlockState(rod.offset(bx, 0, bz));
                     if (under.getBlock() instanceof StardustBlock) y0 = Math.max(y0, flatHeight(under, Math.floorMod(c[0], 16), Math.floorMod(c[2], 16)));
                 }
-                if (top > y0 + 1e-3F) boxes.add(new float[]{c[0], y0, c[2], top - y0});
+                if (top > y0 + 1e-3F) boxes.add(new float[]{c[0], y0, c[2], top - y0, c[4] * BASE_PAD});
             }
             drawBoxes(boxes, pose, out, light, variant(dust.getBlockPos()));
             pose.popPose();
@@ -131,7 +128,7 @@ public class StardustPileRenderer implements BlockEntityRenderer<StardustBlockEn
         return Math.floorMod((int) Mth.getSeed(pos.getX(), 0, pos.getZ()) >>> 7, VARIANTS);
     }
 
-    /** Boxes {x, y0, z, h} in block px (fractions allowed); top uv = the world pixel, side uv = its height band. */
+    /** Boxes {x, y0, z, h[, pad]} in block px (fractions allowed), pad in blocks; top uv = the world pixel, side uv = its height band. */
     private static void drawBoxes(List<float[]> boxes, PoseStack pose, VertexConsumer out, int light, int variant) {
         var atlas = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS);
         TextureAtlasSprite top = atlas.apply(TOP[variant]);
@@ -139,8 +136,9 @@ public class StardustPileRenderer implements BlockEntityRenderer<StardustBlockEn
         Matrix4f m = pose.last().pose();
         Matrix3f n = pose.last().normal();
         for (float[] b : boxes) {
-            float x0 = b[0] / 16f, y0 = b[1] / 16f, z0 = b[2] / 16f;
-            float x1 = x0 + 1 / 16f, y1 = (b[1] + b[3]) / 16f, z1 = z0 + 1 / 16f;
+            float pad = b.length > 4 ? b[4] : 0F;
+            float x0 = b[0] / 16f - pad, y0 = b[1] / 16f, z0 = b[2] / 16f - pad;
+            float x1 = (b[0] + 1) / 16f + pad, y1 = (b[1] + b[3]) / 16f, z1 = (b[2] + 1) / 16f + pad;
             int tu = Math.floorMod((int) b[0], 16), tv = Math.floorMod((int) b[2], 16);
             float u0 = top.getU(tu), u1 = top.getU(tu + 1), v0 = top.getV(tv), v1 = top.getV(tv + 1);
             quad(out, m, n, light, 0, 1, 0, x0, y1, z0, x0, y1, z1, x1, y1, z1, x1, y1, z0, u0, v0, u1, v1);
@@ -219,8 +217,8 @@ public class StardustPileRenderer implements BlockEntityRenderer<StardustBlockEn
         out.vertex(m, dx, dy, dz).color(255, 255, 255, 255).uv(u1, v0).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(n, nx, ny, nz).endVertex();
     }
 
-    private static List<int[]> pile(int mask, boolean base) {
-        return PILES.computeIfAbsent(mask | (base ? 16 : 0), k -> {
+    private static List<int[]> pile(int mask) {
+        return PILES.computeIfAbsent(mask, k -> {
             Map<Long, Integer> merged = new HashMap<>();
             for (int i = 0; i < 4; i++) {
                 if ((k & (1 << i)) == 0) continue;
@@ -233,10 +231,13 @@ public class StardustPileRenderer implements BlockEntityRenderer<StardustBlockEn
             List<int[]> boxes = new ArrayList<>();
             for (Map.Entry<Long, Integer> e : merged.entrySet()) {
                 int x = (int) (e.getKey() >> 32), z = e.getKey().intValue();
-                boolean onBase = base && x >= 6 && x <= 9 && z >= 6 && z <= 9;
-                int y0 = onBase ? 1 : 0;
-                int h = e.getValue() - y0;
-                if (h > 0) boxes.add(new int[]{x, y0, z, h});
+                boolean onBase = x >= 6 && x <= 9 && z >= 6 && z <= 9;
+                int h = e.getValue();
+                // over the rod's base: 1 px only would be the base's own top, so skip it; taller columns go down
+                // to the ground (resource packs may draw the rod without a base, which left a hollow gap under
+                // them), padded out a hair so their sides don't flicker against a vanilla base's sides
+                if (onBase && h <= 1) continue;
+                if (h > 0) boxes.add(new int[]{x, 0, z, h, onBase ? 1 : 0});
             }
             return boxes;
         });
