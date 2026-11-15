@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,12 +25,14 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalBlockEntity
         ItemStack item = pedestal.getItem();
         if (item.isEmpty() || pedestal.getLevel() == null) return;
         double top = pedestal.getBlockState().getBlock() instanceof PedestalBlock block ? block.topHeight() : 1.0;
-        float time = pedestal.getLevel().getGameTime() + partialTick;
-        float bob = Mth.sin(time / 12.0F) * 0.06F;
-        float degreesPerTick = pedestal.isRitualActive() ? 9.0F : 1.5F;
+        // Double, not float: in an old world the game time is millions of ticks and a float can no longer
+        // hold the partial tick, so the item turned and bobbed in once-per-tick steps.
+        double time = pedestal.getLevel().getGameTime() + (double) partialTick;
+        float bob = (float) Math.sin(time / 12.0) * 0.06F;
+        double degreesPerTick = pedestal.isRitualActive() ? 9.0 : 1.5;
         pose.pushPose();
         pose.translate(0.5, top + 0.3 + bob, 0.5);
-        pose.mulPose(Vector3f.YP.rotationDegrees((time * degreesPerTick) % 360.0F));
+        pose.mulPose(Vector3f.YP.rotationDegrees((float) ((time * degreesPerTick) % 360.0)));
         pose.scale(0.6F, 0.6F, 0.6F);
         Minecraft.getInstance().getItemRenderer().renderStatic(item, ItemTransforms.TransformType.FIXED, light,
                 OverlayTexture.NO_OVERLAY, pose, buffers, (int) pedestal.getBlockPos().asLong());
