@@ -24,8 +24,7 @@ import java.util.List;
 
 /**
  * Compact top-of-screen panel: hive name, honey, calm/busy mode, smoke countdown, and one row per stored bee with a release countdown.
- * While the player sneaks, an advanced hive also lists its combs (icon, name, count); otherwise a hive with combs ends
- * with a grey "Sneak to see the combs" hint.
+ * While the player sneaks, an advanced hive also lists its combs (icon, name, count).
  * Hidden while Jade is installed: Jade draws its own panel in the same spot and gets the bee rows from jade.HiveBeesProvider.
  */
 public class HiveInfoOverlay implements IGuiOverlay {
@@ -66,9 +65,7 @@ public class HiveInfoOverlay implements IGuiOverlay {
         long smoke = HiveInfo.smokeRemaining(blockEntity, gameTime);
         Component smokeLine = smoke > 0L ? HiveInfo.smokeText(smoke) : null;
         Component modeLine = HiveInfo.modeText(blockEntity);
-        boolean sneaking = showCombs(minecraft);
-        List<ItemStack> combs = sneaking ? HiveInfo.combs(blockEntity) : List.of();
-        Component hintLine = !sneaking && !HiveInfo.combs(blockEntity).isEmpty() ? HiveInfo.combsHintText() : null;
+        List<ItemStack> combs = showCombs(minecraft) ? HiveInfo.combs(blockEntity) : List.of();
         Component header = HiveInfo.headerText(state.getBlock().getName(), HiveInfo.honeyLevel(state),
                 HiveInfo.maxHoney(state.getBlock()), bees.size(), HiveInfo.maxOccupants(state.getBlock()));
 
@@ -88,13 +85,11 @@ public class HiveInfoOverlay implements IGuiOverlay {
         if (!combs.isEmpty()) rowWidth = Math.max(rowWidth, ICON + GAP + combNameWidth + TIMER_GAP + combCountWidth);
         int smokeWidth = smokeLine == null ? 0 : font.width(smokeLine);
         int modeWidth = modeLine == null ? 0 : font.width(modeLine);
-        int hintWidth = hintLine == null ? 0 : font.width(hintLine);
-        int width = Math.max(Math.max(font.width(header), Math.max(Math.max(smokeWidth, modeWidth), hintWidth)), rowWidth) + PAD * 2;
+        int width = Math.max(Math.max(font.width(header), Math.max(smokeWidth, modeWidth)), rowWidth) + PAD * 2;
         int smokeHeight = smokeLine == null ? 0 : font.lineHeight + 1;
         int modeHeight = modeLine == null ? 0 : font.lineHeight + 1;
         int combsHeight = combs.isEmpty() ? 0 : COMB_GAP + combs.size() * ROW;
-        int hintHeight = hintLine == null ? 0 : COMB_GAP + font.lineHeight + 1;
-        int height = PAD + font.lineHeight + 1 + modeHeight + smokeHeight + bees.size() * ROW + combsHeight + hintHeight + PAD;
+        int height = PAD + font.lineHeight + 1 + modeHeight + smokeHeight + bees.size() * ROW + combsHeight + PAD;
         int left = (screenWidth - width) / 2;
         int right = left + width - PAD;
         int y = TOP;
@@ -125,9 +120,6 @@ public class HiveInfoOverlay implements IGuiOverlay {
             Component count = HiveInfo.countText(comb.getCount());
             font.draw(poseStack, count, right - font.width(count), y + 1, TIMER_COLOR);
             y += ROW;
-        }
-        if (hintLine != null) {
-            GuiComponent.drawCenteredString(poseStack, font, hintLine, screenWidth / 2, y + COMB_GAP, TIMER_COLOR);
         }
     }
 
