@@ -21,8 +21,9 @@ and I am very thankful that their code is available for my eyes, my learning and
 - **Advanced Beehives** in every wood, calm or busy hives, and the **Comb Chute** to harvest a hive for you.
 - The **Encyclobeedia**, an in-game guide book (craft a book with a honeycomb): every bee, recipe and drop rate,
   plus 3D previews of the ritual layouts that you can show as a ghost in the world while you build.
-- A **hive panel** when you look at a hive: honey, mode, smoke time and every bee inside with its release timer
-  (if you use [Jade](https://modrinth.com/mod/jade), the same info shows in Jade's panel instead).
+- A **hive panel** when you look at a hive: honey (one step per comb, up to 8), mode, smoke time and every bee
+  inside with its release timer; hold sneak to see which combs are inside (if you use
+  [Jade](https://modrinth.com/mod/jade), the same info shows in Jade's panel instead).
 - **JEI support**: with [JEI](https://modrinth.com/mod/jei) installed, every item has a "how to get / what it does"
   page, and every comb shows which bee brings it home and how often.
 
