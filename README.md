@@ -65,6 +65,10 @@ contains documentation for every bee, recipe and drop rate, the mechanics and ev
 experience more enjoyable. There are some really cool and niche features to 
 explore, some of which you may never find unless you take a peek! 
 
+#### Support
+If you enjoy the mod and want to support its development, you can buy me a coffee on
+[Ko-fi](https://ko-fi.com/bubbabumbly). Never expected, always appreciated!
+
 #### Adjusting this Mod
 If you feel the urge to contribute to this mod or adjust it for your own use, please feel free to look at the code and 
 make changes or use a supplemental mod like [CraftTweaker](https://github.com/CraftTweaker/CraftTweaker) to adjust the
