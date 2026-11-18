@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:spore_blossom"
+    },
+    "B": {
+      "item": "minecraft:glow_berries"
+    },
+    "C": {
+      "tag": "bubbasbees:bubba_star_or_better"
+    }
+  },
+  "result": {
+    "id": "bubbasbees:lush_caves_conversion_gem"
+  }
+}

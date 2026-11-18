@@ -1,0 +1,26 @@
+{
+  "type": "bubbasbees:hive_conversion",
+  "group": "bubbasbees:advanced_beehive",
+  "pattern": [
+    "#$#",
+    "PHP",
+    "#$#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:honeycomb"
+    },
+    "$": {
+      "item": "minecraft:honey_block"
+    },
+    "H": {
+      "item": "minecraft:beehive"
+    },
+    "P": {
+      "item": "minecraft:jungle_planks"
+    }
+  },
+  "result": {
+    "id": "bubbasbees:jungle_advanced_beehive"
+  }
+}

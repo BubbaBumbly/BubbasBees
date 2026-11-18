@@ -1,0 +1,28 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.bubba.bubbasbees.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "BeeEnterHiveGoalMixin",
+    "BeeEntityAccessor",
+    "BeehiveBeeDataAccessor",
+    "BeehiveEntityAccessor",
+    "BeeMixin",
+    "BeehiveBlockEntityMixin",
+    "BeePollinateGoalAccessor",
+    "ItemCraftingRemainderAccessor",
+    "PinkPistonBaseMixin",
+    "PinkPistonHeadMixin",
+    "PinkPistonMovingMixin",
+    "PistonStructureResolverMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "client.BossHealthOverlayMixin",
+    "client.ItemStackTooltipMixin",
+    "client.PinkPistonRendererMixin"
+  ]
+}

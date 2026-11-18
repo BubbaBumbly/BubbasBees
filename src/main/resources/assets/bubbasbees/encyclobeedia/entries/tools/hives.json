@@ -1,0 +1,26 @@
+{
+  "name": "Advanced Beehive",
+  "icon": "bubbasbees:advanced_beehive",
+  "category": "bubbasbees:tools",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "text",
+      "text": "The mod's hive holds $(l)5 bees$() and $(l)8 combs$(). Every vanilla wood has its own; craft one with that wood's planks, or craft a hive with planks to change its wood. Vanilla bees can live in it and make plain honeycomb."
+    },
+    {
+      "type": "text",
+      "text": "$(l)Honey level$() counts the combs inside, 0 to 8. The honeycomb window on the hive's side fills one cell per comb, bottom to top, and the front drips honey when it's full.$(br2)$(l)Comparator:$() placed against a hive, it gives a signal of 0 to 8, one per comb, so redstone can tell when a hive is full."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:advanced_beehive"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:reinforced_advanced_beehive",
+      "text": "Resists explosions like obsidian.",
+      "title": "Reinforced Hive"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "sources": [
+    { "type": "single", "resource": "bubbasbees:block/stardust_pile_top" },
+    { "type": "single", "resource": "bubbasbees:block/stardust_pile_top_1" },
+    { "type": "single", "resource": "bubbasbees:block/stardust_pile_top_2" },
+    { "type": "single", "resource": "bubbasbees:block/stardust_pile_top_3" },
+    { "type": "single", "resource": "bubbasbees:block/stardust_pile_side" },
+    { "type": "single", "resource": "bubbasbees:block/stardust_pile_side_1" },
+    { "type": "single", "resource": "bubbasbees:block/stardust_pile_side_2" },
+    { "type": "single", "resource": "bubbasbees:block/stardust_pile_side_3" }
+  ]
+}

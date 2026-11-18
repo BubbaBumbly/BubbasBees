@@ -1,0 +1,11 @@
+{
+  "parent": "bubbasbees:block/advanced_beehive",
+  "textures": {
+    "particle": "bubbasbees:block/birch_advanced_beehive_side_1",
+    "front": "bubbasbees:block/birch_advanced_beehive_front",
+    "side": "bubbasbees:block/birch_advanced_beehive_side_1",
+    "end": "bubbasbees:block/birch_advanced_beehive_end",
+    "inner": "bubbasbees:block/birch_advanced_beehive_inner",
+    "glass": "bubbasbees:block/advanced_beehive_glass"
+  }
+}

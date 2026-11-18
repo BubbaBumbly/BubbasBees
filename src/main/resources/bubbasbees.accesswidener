@@ -1,0 +1,23 @@
+accessWidener	v2	named
+
+accessible method net/minecraft/world/entity/animal/Bee isFlowerValid (Lnet/minecraft/core/BlockPos;)Z
+accessible field net/minecraft/world/entity/animal/Bee hivePos Lnet/minecraft/core/BlockPos;
+accessible field net/minecraft/world/entity/animal/Bee savedFlowerPos Lnet/minecraft/core/BlockPos;
+accessible class net/minecraft/world/entity/animal/Bee$BeeGoToHiveGoal
+accessible class net/minecraft/world/entity/animal/Bee$BeeEnterHiveGoal
+accessible method net/minecraft/world/entity/animal/Bee$BeeEnterHiveGoal canBeeUse ()Z
+accessible method net/minecraft/world/entity/animal/Bee$BeeEnterHiveGoal <init> (Lnet/minecraft/world/entity/animal/Bee;)V
+accessible class net/minecraft/world/level/block/entity/BeehiveBlockEntity$BeeData
+accessible class net/minecraft/world/entity/animal/Bee$BeePollinateGoal
+accessible method net/minecraft/world/entity/animal/Bee$BeePollinateGoal <init> (Lnet/minecraft/world/entity/animal/Bee;)V
+accessible field net/minecraft/world/entity/animal/Bee$BeePollinateGoal VALID_POLLINATION_BLOCKS Ljava/util/function/Predicate;
+mutable field net/minecraft/world/entity/animal/Bee$BeePollinateGoal VALID_POLLINATION_BLOCKS Ljava/util/function/Predicate;
+accessible method net/minecraft/world/entity/animal/Bee$BeePollinateGoal setWantedPos ()V
+extendable method net/minecraft/world/entity/animal/Bee$BeePollinateGoal setWantedPos ()V
+accessible field net/minecraft/world/entity/animal/Bee$BeePollinateGoal hoverPos Lnet/minecraft/world/phys/Vec3;
+accessible method net/minecraft/world/entity/animal/Bee$BeePollinateGoal hasPollinatedLongEnough ()Z
+extendable method net/minecraft/world/entity/animal/Bee$BeePollinateGoal hasPollinatedLongEnough ()Z
+accessible method net/minecraft/world/entity/animal/Bee$BeePollinateGoal isPollinating ()Z
+accessible method net/minecraft/world/entity/animal/Bee$BeePollinateGoal findNearbyFlower ()Ljava/util/Optional;
+extendable method net/minecraft/world/entity/animal/Bee$BeePollinateGoal findNearbyFlower ()Ljava/util/Optional;
+accessible field net/minecraft/world/entity/Mob navigation Lnet/minecraft/world/entity/ai/navigation/PathNavigation;

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:grass_block"
+    },
+    "B": {
+      "item": "minecraft:moss_block"
+    },
+    "C": {
+      "tag": "bubbasbees:lesser_star_or_better"
+    }
+  },
+  "result": {
+    "id": "bubbasbees:nature_conversion_gem"
+  }
+}

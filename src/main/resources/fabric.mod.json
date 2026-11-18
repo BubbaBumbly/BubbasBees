@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "bubbasbees",
+  "version": "${mod_version}",
+  "name": "Bubba's Bees",
+  "description": "Adds Bees, Duh. 40 bees that farm the blocks of the world: stone, plants, Nether, End and every ore. Balanced for vanilla+.",
+  "authors": ["Bubba Bumbly"],
+  "contact": {
+    "homepage": "https://bubbabumbly.github.io/BubbasBees/",
+    "sources": "https://github.com/BubbaBumbly/BubbasBees",
+    "issues": "https://github.com/BubbaBumbly/BubbasBees/issues"
+  },
+  "license": "Code: GNU GPLv3. Art (textures, bee models, animations): All Rights Reserved. See LICENSE_bubbasbees and LICENSE-ASSETS_bubbasbees in the jar.",
+  "icon": "logo.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["net.bubba.bubbasbees.BubbasBees"],
+    "client": ["net.bubba.bubbasbees.client.BubbasBeesClient"],
+    "jade": ["net.bubba.bubbasbees.client.jade.BubbasBeesJadePlugin"],
+    "jei_mod_plugin": ["net.bubba.bubbasbees.client.jei.BubbasBeesJeiPlugin"]
+  },
+  "mixins": ["bubbasbees.mixins.json"],
+  "accessWidener": "bubbasbees.accesswidener",
+  "depends": {
+    "fabricloader": ">=0.17",
+    "minecraft": "1.21.1",
+    "java": ">=21",
+    "fabric-api": "*",
+    "geckolib": ">=4.9.2"
+  },
+  "suggests": {
+    "jade": "*",
+    "jei": "*"
+  }
+}

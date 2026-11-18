@@ -1,0 +1,182 @@
+package net.bubba.bubbasbees.util;
+
+import net.bubba.bubbasbees.BubbasBees;
+import net.bubba.bubbasbees.blockentities.AdvancedBeehiveBlockEntity;
+import net.bubba.bubbasbees.blockentities.HiveOccupant;
+import net.bubba.bubbasbees.blockentities.HiveOccupantView;
+import net.bubba.bubbasbees.blocks.custom.AdvancedBeehiveBlock;
+import net.bubba.bubbasbees.registries.ModDataComponents;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.BlockItemStateProperties;
+import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.BeehiveBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/** Shared, side-neutral helpers for reading what a hive holds (from a block entity or an item). */
+public final class HiveInfo {
+    public static final int VANILLA_MAX_OCCUPANTS = 3;
+    public static final int ADVANCED_MAX_OCCUPANTS = 5;
+    public static final int MAX_HONEY = 5;
+    private static final long SMOKE_WARNING_TICKS = 100L;
+    // Face of the 7x7x10 bee body in the 64x64 entity texture (box UV north face)
+    public static final int FACE_U = 10;
+    public static final int FACE_V = 10;
+    public static final int FACE_SIZE = 7;
+    // Face of the mod bees' cloak shell (box UV 0,25), drawn over the body face: the nature bee's moss lives there
+    public static final int CLOAK_FACE_V = 35;
+    public static final int TEXTURE_SIZE = 64;
+    private static final ResourceLocation VANILLA_BEE_TEXTURE = ResourceLocation.withDefaultNamespace("textures/entity/bee/bee.png");
+
+    private HiveInfo() {}
+
+    public static boolean isHive(BlockState state) {
+        return state.is(BlockTags.BEEHIVES);
+    }
+
+    public static boolean isHiveItem(ItemStack stack) {
+        return stack.getItem() instanceof BlockItem blockItem && isHive(blockItem.getBlock().defaultBlockState());
+    }
+
+    public static int maxOccupants(Block block) {
+        return block instanceof AdvancedBeehiveBlock ? ADVANCED_MAX_OCCUPANTS : VANILLA_MAX_OCCUPANTS;
+    }
+
+    /** Advanced hives count combs, 0-8; vanilla hives show their honey level, 0-5. */
+    public static int honeyLevel(BlockState state) {
+        if (state.hasProperty(AdvancedBeehiveBlock.COMBS)) return state.getValue(AdvancedBeehiveBlock.COMBS);
+        return state.hasProperty(BeehiveBlock.HONEY_LEVEL) ? state.getValue(BeehiveBlock.HONEY_LEVEL) : 0;
+    }
+
+    public static int maxHoney(Block block) {
+        return block instanceof AdvancedBeehiveBlock ? 8 : MAX_HONEY;
+    }
+
+    /** Occupants of a client-side hive block entity, or an empty list. */
+    public static List<HiveOccupant> occupants(@Nullable BlockEntity blockEntity) {
+        if (blockEntity instanceof HiveOccupantView view) {
+            return view.bubbasBees$getClientOccupants();
+        }
+        return List.of();
+    }
+
+    /** Combs in a client-side advanced hive, grouped by item in first-seen order (count = how many), or an empty list. */
+    public static List<ItemStack> combs(@Nullable BlockEntity blockEntity) {
+        if (!(blockEntity instanceof HiveOccupantView view)) return List.of();
+        List<ItemStack> grouped = new ArrayList<>();
+        outer:
+        for (ItemStack comb : view.bubbasBees$getClientCombs()) {
+            for (ItemStack group : grouped) {
+                if (group.is(comb.getItem())) {
+                    group.grow(1);
+                    continue outer;
+                }
+            }
+            grouped.add(new ItemStack(comb.getItem()));
+        }
+        return grouped;
+    }
+
+    /** Occupants stored in a picked-up hive item's bees component (no release timers). */
+    public static List<HiveOccupant> occupants(ItemStack stack) {
+        List<HiveOccupant> occupants = new ArrayList<>();
+        for (BeehiveBlockEntity.Occupant occupant : stack.getOrDefault(DataComponents.BEES, List.<BeehiveBlockEntity.Occupant>of())) {
+            ResourceLocation id = ResourceLocation.tryParse(occupant.entityData().copyTag().getString("id"));
+            if (id != null) occupants.add(new HiveOccupant(id));
+        }
+        return occupants;
+    }
+
+    /** A hive item's honey: an advanced hive's saved comb count, else the honey level in its block state component, else 0. */
+    public static int honeyLevel(ItemStack stack) {
+        // DEVIATION (1.21): the comb list rides on a data component, not a BlockEntityTag compound
+        if (stack.getItem() instanceof BlockItem item && item.getBlock() instanceof AdvancedBeehiveBlock) {
+            List<ItemStack> combs = stack.get(ModDataComponents.BEEHIVE_COMBS.get());
+            return combs == null ? 0 : Math.min(8, combs.size());
+        }
+        BlockItemStateProperties properties = stack.get(DataComponents.BLOCK_STATE);
+        if (properties == null) return 0;
+        Integer level = properties.get(BeehiveBlock.HONEY_LEVEL);
+        return level == null ? 0 : level;
+    }
+
+    public static Component beeName(ResourceLocation entityId) {
+        return EntityType.byString(entityId.toString())
+                .map(EntityType::getDescription)
+                .orElse(Component.literal(entityId.toString()));
+    }
+
+    /** Entity texture whose face region is drawn as the bee icon, or null when unknown. */
+    @Nullable
+    public static ResourceLocation iconTexture(ResourceLocation entityId) {
+        if (entityId.getNamespace().equals("minecraft") && entityId.getPath().equals("bee")) {
+            return VANILLA_BEE_TEXTURE;
+        }
+        if (!entityId.getNamespace().equals(BubbasBees.MOD_ID)) return null;
+        String path = entityId.getPath();
+        String texture = path.equals("bubbas_bee") ? "diamond_bee" : path;
+        return ResourceLocation.fromNamespaceAndPath(BubbasBees.MOD_ID, "textures/entity/" + texture + ".png");
+    }
+
+    /** Countdown text for a stored bee: m:ss until release, or "ready" when due but held in by night or rain. */
+    public static Component timerText(HiveOccupant occupant, long gameTime) {
+        long remaining = occupant.remainingTicks(gameTime);
+        if (remaining <= 0L) return Component.translatable("gui.bubbasbees.hive_info.ready");
+        return Component.literal(clock(remaining));
+    }
+
+    /** Ticks left on a hive's smoke as synced to the client, 0 when it isn't smoked. */
+    public static long smokeRemaining(@Nullable BlockEntity blockEntity, long gameTime) {
+        if (!(blockEntity instanceof HiveOccupantView view)) return 0L;
+        long end = view.bubbasBees$getClientSmokeEnd();
+        return end == HiveOccupantView.NOT_SMOKED ? 0L : Math.max(0L, end - gameTime);
+    }
+
+    /** "Calm bees" / "Busy bees" for an advanced hive as synced to the client, or null for any other hive. */
+    @Nullable
+    public static Component modeText(@Nullable BlockEntity blockEntity) {
+        if (!(blockEntity instanceof AdvancedBeehiveBlockEntity) || !(blockEntity instanceof HiveOccupantView view)) return null;
+        return Component.translatable(view.bubbasBees$isClientBusy()
+                ? "gui.bubbasbees.hive_info.busy" : "gui.bubbasbees.hive_info.calm");
+    }
+
+    /** "Smoked m:ss" for the hive HUD and Jade. */
+    public static Component smokeText(long remainingTicks) {
+        return Component.translatable("gui.bubbasbees.hive_info.smoked", clock(remainingTicks));
+    }
+
+    /** Smoke about to wear off: the HUD and Jade switch the line to a warning colour. */
+    public static boolean smokeEnding(long remainingTicks) {
+        return remainingTicks <= SMOKE_WARNING_TICKS;
+    }
+
+    private static String clock(long ticks) {
+        long seconds = (ticks + 19L) / 20L;
+        return String.format("%d:%02d", seconds / 60L, seconds % 60L);
+    }
+
+    public static Component headerText(Component hiveName, int honey, int maxHoney, int beeCount, int maxBees) {
+        return Component.translatable("gui.bubbasbees.hive_info.header", hiveName, honey, maxHoney, beeCount, maxBees);
+    }
+
+    /** Item tooltip line: honey and bee count together. */
+    public static Component summaryText(int honey, int maxHoney, int beeCount, int maxBees) {
+        return Component.translatable("gui.bubbasbees.hive_info.summary", honey, maxHoney, beeCount, maxBees);
+    }
+
+    /** How many bees of one type a hive item holds, e.g. "x2". */
+    public static Component countText(int count) {
+        return Component.translatable("gui.bubbasbees.hive_info.count", count);
+    }
+}

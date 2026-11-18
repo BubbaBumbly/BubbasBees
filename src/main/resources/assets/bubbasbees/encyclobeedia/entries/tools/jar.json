@@ -1,0 +1,16 @@
+{
+  "name": "Bee Jar",
+  "icon": "bubbasbees:bee_jar",
+  "category": "bubbasbees:tools",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Use an empty jar on any bee to catch it, and the full jar on a block to let it out. The jar keeps the bee, pollen and all. The royal queen fits too."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:bee_jar"
+    }
+  ]
+}
