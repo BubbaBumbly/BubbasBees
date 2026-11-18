@@ -17,8 +17,7 @@ import java.util.Map;
 /**
  * Faint glow on part of a bee's texture (ore spots, eyes, magma cracks...): if "<texture>_glow.png" exists next to
  * the texture in use (normal, angry or deepslate), the model is drawn again with it at full brightness. The masks keep
- * only the glowing pixels, at 35% alpha (the "faint" strength, user 2026-11-08), so the bee glows a little in the dark.
- * Masks: BubbasBeesArt/work/glow/final.
+ * only the glowing pixels, at 35% alpha (the "faint" strength), so the bee glows a little in the dark.
  */
 public class GlowLayer<T extends LivingEntity & IAnimatable> extends GeoLayerRenderer<T> {
     private static final Map<ResourceLocation, ResourceLocation> GLOW = new HashMap<>();

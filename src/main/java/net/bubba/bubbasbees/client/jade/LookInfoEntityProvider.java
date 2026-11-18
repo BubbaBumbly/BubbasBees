@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Jade tooltip provider for the mod's bees (and vanilla bees). It reuses {@link LookInfo#lines} so Jade shows the
  * same lines as the in-world HUD. On a baby Bubba's bee, Jade's own "Growing time: Ns" line would repeat our
- * "Baby: grows up in m:ss" line, so our first line takes over its slot (fix list item 53).
+ * "Baby: grows up in m:ss" line, so our first line takes over its slot.
  */
 public enum LookInfoEntityProvider implements IEntityComponentProvider {
     INSTANCE;

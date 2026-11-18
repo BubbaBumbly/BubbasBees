@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Writes Bubba's Bees' advancements (user 2026-11-08) and the tags they use, from the mod's own data.
+"""Writes Bubba's Bees' advancements and the tags they use, from the mod's own data.
 
   python3 tools/gen_advancements.py
 
@@ -104,7 +104,7 @@ adv('first_gem', 'lesser_star', f'{NS}:stone_conversion_gem', 'A Gem of a Bee', 
 adv('busy_hive', 'first_gem', f'{NS}:bubba_star', 'Busy Bees', 'Switch a hive between calm and busy with any Bubba Star',
     {'switch': {'trigger': 'minecraft:item_used_on_block',
                 'conditions': {'location': {'block': {'tag': f'{NS}:advanced_beehives'}}, 'item': {'items': [f'{NS}:lesser_bubba_star', f'{NS}:bubba_star', f'{NS}:celestial_bubba_star']}}}})
-# The altar is crafted, not placed (user 2026-11-14); both rituals hang under it.
+# The altar is crafted, not placed; both rituals hang under it.
 adv('celestial_altar', 'busy_hive', f'{NS}:celestial_altar', 'Setting the Stage', 'Craft a Celestial Altar',
     {'altar': has(f'{NS}:celestial_altar')})
 adv('celestial_ritual', 'celestial_altar', f'{NS}:celestial_bubba_star', 'Written in the Stars', 'Win the Celestial Ritual',

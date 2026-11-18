@@ -15,7 +15,7 @@ import java.util.UUID;
 
 /**
  * Where the royal queen is (one per world), so hives can check her distance once when a bee enters instead of
- * searching for her (finish-spec.md "no-lag build rule"). Kept in the Overworld's data storage.
+ * searching for her. Kept in the Overworld's data storage.
  * Position = her hive while she is inside one; unknown (null) while she sits in a bee jar.
  */
 public class QueenData extends SavedData {

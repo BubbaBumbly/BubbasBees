@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "Its comb alone makes dirt. Mixed with other combs it makes podzol (taiga), coarse dirt (savanna), grass blocks (meadow), rooted dirt (lush caves) and soul soil (soul).$(br2)$(l)Flowers:$() Dirt, Coarse Dirt, Podzol, Rooted Dirt, Grass Block$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() none"
+      "text": "Its comb alone makes dirt. Mixed with other combs it makes podzol (taiga), coarse dirt (savanna), grass blocks (meadow) and rooted dirt (lush caves). Soul combs around a dirt block make soul soil.$(br2)$(l)Flowers:$() Dirt, Coarse Dirt, Podzol, Rooted Dirt, Grass Block$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() none"
     },
     {
       "type": "text",

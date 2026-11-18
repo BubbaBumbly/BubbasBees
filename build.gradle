@@ -20,7 +20,7 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-// Release version: <mod>+<game>-<loader> (decision 2026-11-07). Also in mods.toml.
+// Release version: <mod>+<game>-<loader>. Also in mods.toml.
 version = '2.0.0'
 ext.releaseTag = "${version}+1.19.2-forge"
 group = 'com.bubba.bubbasbees'
@@ -146,18 +146,18 @@ jar {
 
     archiveName = "BubbasBees-${releaseTag}-nogecko.${extension}"
 
-    // GPLv3 text ships inside the jar (license-audit-2026-11-05.md)
+    // GPLv3 text ships inside the jar
     from('LICENSE') { rename { 'LICENSE_bubbasbees' } }
     from('LICENSE-ASSETS') { rename { 'LICENSE-ASSETS_bubbasbees' } }
 
     manifest {
         attributes([
                 "Specification-Title"     : "bubbasbees",
-                "Specification-Vendor"    : "examplemodsareus",
+                "Specification-Vendor"    : "Bubba Bumbly",
                 "Specification-Version"   : project.version,
-                "Implementation-Title"    : project.name,
+                "Implementation-Title"    : "bubbasbees",
                 "Implementation-Version"  : project.jar.archiveVersion,
-                "Implementation-Vendor"   : "examplemodsareus",
+                "Implementation-Vendor"   : "Bubba Bumbly",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }

@@ -1,3 +1,7 @@
+<p align="center"><img src="src/main/resources/logo.png" width="128" alt="Bubba's Bees logo"></p>
+
+# Bubba's Bees
+
 Thanks for checking out my mod!
 
 ### What is this project?
@@ -7,7 +11,7 @@ intended to be balanced for vanilla / vanilla+ Minecraft playthroughs and its it
 craft for this reason. 
 
 #### Who is responsible for this project?
-I am Bubba Bumbly, a solo developer interested in Minecraft mod development. Secondarily responsible would be my 
+I am Bubba Bumbly, a solo developer interested in Minecraft mod development. Second are my 
 inspirations for this project, without which this mod would certainly not exist. Those mods are 
 [Productive Bees](https://github.com/JDKDigital/productive-bees) and 
 [Resourceful Bees](https://github.com/Team-Resourceful/ResourcefulBees). I learned from their code to create my own,
@@ -18,7 +22,8 @@ and I am very thankful that their code is available for my eyes, my learning and
   and every ore. Each bee brings home its own honeycomb, and the combs craft into blocks.
 - **Three Bubba Stars** to unlock better bees, and two rituals: the **Celestial Ritual** (one night under open sky) and
   the **Royal Summoning**, which calls the Royal Queen.
-- **Advanced Beehives** in every wood, calm or busy hives, and the **Comb Chute** to harvest a hive for you.
+- **Advanced Beehives** in every classic vanilla wood (and Biomes O' Plenty, Quark, Windswept and Phantasm woods
+  when those mods are installed), calm or busy hives, and the **Comb Chute** to harvest a hive for you.
 - The **Encyclobeedia**, an in-game guide book (craft a book with a honeycomb): every bee, recipe and drop rate,
   plus 3D previews of the ritual layouts that you can show as a ghost in the world while you build.
 - A **hive panel** when you look at a hive: honey (one step per comb, up to 8), mode, smoke time and every bee
@@ -29,6 +34,15 @@ and I am very thankful that their code is available for my eyes, my learning and
 
 ### Requirements
 - Minecraft **1.19.2** with **Forge**. GeckoLib is bundled in the jar, so nothing else is needed.
+
+Bubba's Bees 2.0.0 comes in four versions. The source for each one lives on its own branch of this repository:
+
+| Version | Source |
+|---|---|
+| Minecraft 1.19.2, Forge | **this branch** |
+| Minecraft 1.20.1, Forge | [`1.20.1-forge`](../../tree/1.20.1-forge) |
+| Minecraft 1.21.1, NeoForge | [`1.21.1-neoforge`](../../tree/1.21.1-neoforge) |
+| Minecraft 1.21.1, Fabric (needs Fabric API) | [`1.21.1-fabric`](../../tree/1.21.1-fabric) |
 
 ### License
 The **code** of Bubba's Bees is licensed under the [GNU General Public License v3](LICENSE). The **art** (the
@@ -44,8 +58,7 @@ The jar bundles [GeckoLib](https://github.com/bernie-g/geckolib) and
 
 ### Usage of this Mod
 Please consider downloading and trying the mod for yourself, especially if you are a vanilla / vanilla+ player who 
-enjoys a challenge. You can download it from [Modrinth](MODRINTH-URL-TBD), [CurseForge](CURSEFORGE-URL-TBD) or the
-[releases on this GitHub page](../../releases). If you find a bug, please open an [issue](../../issues).
+enjoys a challenge. You can download it from [Modrinth](https://modrinth.com/mod/bubbas-bees). If you find a bug, please open an [issue](../../issues).
 
 #### The Guide
 If you're playing my mod, I suggest you check out [The Guide](https://bubbabumbly.github.io/BubbasBees/) (or the Encyclobeedia in game), which
@@ -56,6 +69,10 @@ explore, some of which you may never find unless you take a peek!
 #### Adjusting this Mod
 If you feel the urge to contribute to this mod or adjust it for your own use, please feel free to look at the code and 
 make changes or use a supplemental mod like [CraftTweaker](https://github.com/CraftTweaker/CraftTweaker) to adjust the
-mod for your needs. I ask that you please credit myself and the two mods listed under those responsible for this 
+mod for your needs. I ask that you please credit me and the two mods listed under those responsible for this 
 project. In the event that I receive requests for it, I would be willing to put together an adjustable config file 
 and/or some advanced documentation on how to change features.
+
+#### Building from source
+You need JDK 17. Run `./gradlew build` (on Windows, `gradlew.bat build`). The mod jar is
+`build/libs/BubbasBees-2.0.0+1.19.2-forge.jar`; use that one, not the `-nogecko` jar, which leaves out the bundled libraries.

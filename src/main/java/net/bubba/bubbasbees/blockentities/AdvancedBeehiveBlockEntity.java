@@ -60,7 +60,7 @@ public class AdvancedBeehiveBlockEntity extends BeehiveBlockEntity {
     protected boolean busy = false;
     public static final String BUSY_TAG = "BubbasBusy";
     public static final int MAX_COMBS = 8;
-    /** Dev-only balance measurement: -Dbubbasbees.measure=true logs every trip's comb roll (step 6). */
+    /** Dev-only balance measurement: -Dbubbasbees.measure=true logs every trip's comb roll. */
     private static final boolean MEASURE = Boolean.getBoolean("bubbasbees.measure");
     /** Stored-bee flag: this stay is 20% shorter (queen within 16 blocks, or the bee's home biome). */
     public static final String BOOST_TAG = "BubbasBoost";

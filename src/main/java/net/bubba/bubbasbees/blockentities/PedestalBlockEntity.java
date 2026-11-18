@@ -17,7 +17,7 @@ public class PedestalBlockEntity extends BlockEntity {
     private static final String ITEM_TAG = "Item";
     private static final String RITUAL_TAG = "RitualActive";
     private ItemStack item = ItemStack.EMPTY;
-    /** Set by a running ritual (Phase 2 step 5): the altar spins its item faster. */
+    /** Set by a running ritual: the altar spins its item faster. */
     private boolean ritualActive = false;
 
     public PedestalBlockEntity(BlockPos pos, BlockState state) {

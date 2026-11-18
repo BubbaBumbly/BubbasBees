@@ -62,8 +62,8 @@ public enum HiveBeesProvider implements IBlockComponentProvider {
         }
     }
 
-    /** Jade's own beehive line reads vanilla's 0-5 honey level; on an advanced hive it shows the comb count, 0-8, instead
-     *  (fix list item 48). Jade doesn't tag that line, so it is found by its text key and swapped in place. */
+    /** Jade's own beehive line reads vanilla's 0-5 honey level; on an advanced hive it shows the comb count, 0-8, instead.
+     *  Jade doesn't tag that line, so it is found by its text key and swapped in place. */
     private static void showCombs(ITooltip tooltip, IElementHelper helper, int combs) {
         Component line = Component.translatable("jade.beehive.honey", Component.translatable("jade.fraction", combs, 8)
                 .withStyle(combs >= 8 ? ChatFormatting.GREEN : ChatFormatting.WHITE));

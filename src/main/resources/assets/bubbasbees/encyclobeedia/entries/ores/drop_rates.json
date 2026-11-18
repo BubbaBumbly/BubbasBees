@@ -6,7 +6,11 @@
   "pages": [
     {
       "type": "text",
-      "text": "$(l)Every ore, every rate.$() Ore combs craft only ore blocks: 8 ore combs around 1 ore block (used up) make 2, so each craft gains one block. The seed picks the variant. Mine them with Fortune for more.$(br2)Rates are per hive-hour: one hour of work for a full busy hive of 5 bees, at home. See $(l:basics/rates)Reading the Rates$(/l)."
+      "text": "$(l)Every ore, every rate.$() Ore combs craft only ore blocks: 8 ore combs around 1 ore block (used up) make 2 to 5: coal 5; copper, iron, gold, redstone and quartz 3; the rest 2. The seed picks the variant. Mine them with Fortune for more."
+    },
+    {
+      "type": "text",
+      "text": "Rates are per hive-hour: one hour of work for a full busy hive of 5 bees, at home. See $(l:basics/rates)Reading the Rates$(/l)."
     },
     {
       "type": "text",
@@ -47,13 +51,6 @@
     {
       "type": "text",
       "text": "$(l)Ancient Debris Bee$()$(br)Comb drop rate: $(l)1 in 6$() (16.7%)$(br)35.0 combs per hive-hour, making:$(li)$(l)Ancient Debris$(): 4.38$(br2)Mined: 4.38 ancient debris (no Fortune bonus).$(br)Home: Nether."
-    },
-    {
-      "type": "image",
-      "images": [
-        "bubbasbees:textures/gui/book/diamond_honeycomb.png"
-      ],
-      "border": false
     }
   ],
   "priority": true

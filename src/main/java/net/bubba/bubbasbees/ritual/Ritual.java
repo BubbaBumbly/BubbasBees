@@ -42,7 +42,7 @@ public class Ritual {
 
     /**
      * Other kinds of bee (vanilla bees are a kind) could each be asked for this many pollinations: Kind.NIGHT.types
-     * says how many kinds. It is 0 now (user, 2026-11-11): starlight is the only kind the night ritual asks for.
+     * says how many kinds. It is 0 now: starlight is the only kind the night ritual asks for.
      */
     static final int TYPE_POLLINATIONS = 10;
     static final String STARLIGHT = "starlight", VANILLA = "vanilla";

@@ -59,7 +59,7 @@ public class BubbasBee extends Bee implements IAnimatable {
     private static final float LAVA_FILL_CHANCE = 0.25F;
     // Royal guard: keeps stinging (it survives it) until the anger it got from a mugging runs out
     private int mugUntilTick;
-    // A mugging stings once every 2.5 s (user, 2026-11-11; once a second was lethal); threats get the normal rate
+    // A mugging stings once every 2.5 s (once a second was lethal); threats get the normal rate
     private static final int MUG_STING_INTERVAL = 50;
     /** A royal guard's sting: 1.5 hearts (other bees keep vanilla's 1 heart). */
     private static final double GUARD_STING_DAMAGE = 3.0D;

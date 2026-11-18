@@ -14,8 +14,8 @@ import static net.bubba.bubbasbees.bees.BeeSpec.Tier.*;
 import static net.bubba.bubbasbees.bees.BeeSpec.Trait.*;
 
 /**
- * The bee roster. Order = creative tab order. Numbers: finish-spec.md "Balance numbers" (busy mode).
- * 41 bees in 1.19.2 (cherry grove joins from 1.20); traits per the bee cards.
+ * The bee roster. Order = creative tab order. Numbers are the balance values for busy mode.
+ * 40 bees.
  */
 public final class BeeSpecs {
     private BeeSpecs() {}

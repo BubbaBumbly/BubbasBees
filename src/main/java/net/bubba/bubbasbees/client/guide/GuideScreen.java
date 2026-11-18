@@ -20,7 +20,7 @@ import java.util.Deque;
 import java.util.List;
 
 /**
- * The Encyclobeedia: a two-page book on the user's GUI sheet (textures/gui/encyclobeedia.png, 512 x 256: book 272 x 180
+ * The Encyclobeedia: a two-page book on one GUI sheet (textures/gui/encyclobeedia.png, 512 x 256: book 272 x 180
  * at 0,0, page arrows 272,0, back arrow 308,0, eye 308,31, banner 0,180, separator 140,180, frame 405,149).
  * Landing (title + welcome | categories), category (description | entries), entry (two pages per spread).
  */
@@ -167,7 +167,7 @@ public class GuideScreen extends Screen {
     private void renderLanding(PoseStack pose, int lx, int rx, int ty, int mx, int my) {
         GuideBook book = GuideBook.get();
         RenderSystem.setShaderTexture(0, TEXTURE);
-        // the banner's body cut short + its notched tail (sheet 126..138), so it ends before the spine (user 2026-11-07)
+        // the banner's body cut short + its notched tail (sheet 126..138), so it ends before the spine
         GuiComponent.blit(pose, lx - 8, ty - 2, 0, 180, 113, 31, 512, 256);
         GuiComponent.blit(pose, lx - 8 + 113, ty - 2, 126, 180, 12, 31, 512, 256);
         font.draw(pose, GuideText.styled(book.name, true), lx + 2, ty + 3, 0xFFE9A8);

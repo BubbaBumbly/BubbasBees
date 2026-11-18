@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Runs the two rituals at the Celestial Altar (finish-spec.md "Rituals").
+ * Runs the two rituals at the Celestial Altar.
  * Start: night ritual = Bubba Star on the altar, structure complete, every candle lit, at night under open sky (the
  * last of these to happen starts it); queen ritual = golden helmet on the altar in daytime with the structure complete
  * and no living queen. Pollinations count when a bee finishes a flower inside the circle, its hive is inside the

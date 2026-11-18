@@ -50,7 +50,7 @@ import java.util.List;
 public class AdvancedBeehiveBlock extends BeehiveBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-    /** Combs inside, 0-8 (user 2026-11-14, fix list item 48): what the panel shows, what the side window fills one cell
+    /** Combs inside, 0-8: what the panel shows, what the side window fills one cell
      *  per comb for, and the comparator output. Vanilla's HONEY_LEVEL stays alongside as the "full" flag (5 = 8 combs)
      *  that vanilla code and other mods check; see {@link #vanillaLevel}. */
     public static final IntegerProperty COMBS = IntegerProperty.create("combs", 0, 8);

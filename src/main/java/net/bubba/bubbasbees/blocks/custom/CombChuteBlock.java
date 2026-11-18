@@ -41,9 +41,9 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * Comb chute (user design, 2026-11-02): a funnel block on a hive. When the hive is full (honey level 5) it takes
+ * Comb chute: a funnel block on a hive. When the hive is full (honey level 5) it takes
  * everything in one go, as if sheared but without angering the bees, and pushes the items out of its spout into
- * whatever is there, like a hopper. Since 2026-11-14 (user, fix list item 44) it goes on any face of the hive:
+ * whatever is there, like a hopper. It goes on any face of the hive:
  * FACING is the way the spout points, the hive is on the opposite side. Comb mode takes the combs; honey mode fills a glass bottle from its bottle
  * slot instead (the combs are lost, as when bottling by hand). Empty-hand right-click switches mode; right-click with
  * glass bottles loads them (hoppers and pipes can feed bottles in from the sides too).
@@ -51,7 +51,7 @@ import java.util.Map;
 public class CombChuteBlock extends BaseEntityBlock {
     public static final BooleanProperty HONEY = BooleanProperty.create("honey");
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
-    /** W1 model boxes, spout down: {depth from the hive side, from, to; square cross-section, from, to} (all centred). */
+    /** Model boxes, spout down: {depth from the hive side, from, to; square cross-section, from, to} (all centred). */
     private static final int[][] BOXES = {{0, 5, 0, 16}, {5, 8, 2, 14}, {8, 10, 3, 13}, {10, 12, 4, 12}, {12, 16, 6, 10}};
     private static final Map<Direction, VoxelShape> SHAPES = new EnumMap<>(Direction.class);
     static {

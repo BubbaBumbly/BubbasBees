@@ -6,8 +6,8 @@ import java.util.List;
 
 /**
  * The woods advanced beehives come in. Each wood has a plain hive and a reinforced one; a modded
- * wood's hives only exist when that mod is installed. Ids match the generated assets and data
- * (BubbasBeesArt/work/hive/export_mod.py): oak is the default hive, "advanced_beehive".
+ * wood's hives only exist when that mod is installed. Ids match the generated assets and data:
+ * oak is the default hive, "advanced_beehive".
  */
 public record HiveWood(String id, String modid) {
 

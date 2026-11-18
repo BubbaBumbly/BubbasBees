@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Generates the bee roster's data and art files from one table (Phase 2 step 2).
+"""Generates the bee roster's data and art files from one table.
 
-  python3 tools/gen_bee_data.py [--art <BubbasBeesArt/work>]
+  python3 tools/gen_bee_data.py [--art <art work dir>]
 
 Writes (overwriting only what it owns):
   data/bubbasbees/recipes/{combs,gems,stars}/...   every comb, gem and star recipe (from tools/recipe_snapshot.json,
@@ -33,8 +33,8 @@ VANILLA_JAR = os.path.expanduser("~/.gradle/caches/forge_gradle/minecraft_repo/v
 MC_VERSION = "1.19.2"
 
 # ---------------------------------------------------------------------------------------------------------------
-# Roster: id -> (display name, flowers, art). Flowers from the bee cards in finish-spec.md ("#tag" = block tag).
-# art: "existing" = already in the mod; otherwise "<dir>/<key>" under BubbasBeesArt/work/drafts
+# Roster: id -> (display name, flowers, art). Flowers are each bee's flower blocks ("#tag" = block tag).
+# art: "existing" = already in the mod; otherwise "<dir>/<key>" in the art source folder
 # (a "+deepslate" suffix = <key>_stone / <key>_deepslate variants).
 # ---------------------------------------------------------------------------------------------------------------
 COPPER_BLOCKS = ["copper_block", "exposed_copper", "weathered_copper", "oxidized_copper", "waxed_copper_block",
@@ -100,11 +100,11 @@ ROSTER = {
 SKIP_BEES = {"cherry_grove"}                       # 1.20+ only
 COMB_NAMES = {"royal_queen": "Royal Honeycomb", "budding_amethyst": "Budding Amethyst Honeycomb"}
 
-# Balance pass (finish-spec.md "Balance numbers", 2026-11-02): (bee, label) -> count
+# Balance values: (bee, label) -> count
 COUNTS = {("dirt", "dirt"): 32, ("desert", "bone blocks (bone comb)"): 8, ("sea", "nautilus shell (nautilus comb)"): 4,
           ("soul", "ghast tear (sad comb)"): 5, ("starlight", "stardust"): 8, ("royal_queen", "royal jelly"): 8}
 SKIP_RECIPES = {("desert", "suspicious sand (1.20+)")}
-# Ore recipes, 8 combs + 1 ore -> n (final balance, user 2026-11-07): coal net 4, iron/gold net 2,
+# Ore recipes, 8 combs + 1 ore -> n (final balance): coal net 4, iron/gold net 2,
 # copper/redstone/quartz net 2; lapis, emerald, diamond and ancient debris stay at 2 (net 1)
 ORE_COUNTS = {"coal": 5, "iron": 3, "gold": 3, "copper": 3, "redstone": 3, "quartz": 3}
 
@@ -122,12 +122,12 @@ FAMILIES = {
 
 STARS = {"s:lesser": "bubbasbees:lesser_bubba_star", "s:bubba": "bubbasbees:bubba_star",
          "s:ritual": "bubbasbees:celestial_bubba_star"}
-# A better star also works where a weaker one is asked for (user, 2026-11-13): gem recipes take an item tag.
+# A better star also works where a weaker one is asked for: gem recipes take an item tag.
 # Weakest first, so recipe viewers show the star the recipe is named for. The Celestial tier has no tag (nothing
 # is better), and the Bubba Star recipe keeps the exact Lesser star, because it uses the star up.
 STAR_TAGS = {"s:lesser": ("lesser_star_or_better", ["s:lesser", "s:bubba", "s:ritual"]),
              "s:bubba": ("bubba_star_or_better", ["s:bubba", "s:ritual"])}
-GEM_STAR_FIX = {"ender": "s:bubba"}                # ender moved to the Bubba Star tier (2026-11-02)
+GEM_STAR_FIX = {"ender": "s:bubba"}                # ender moved to the Bubba Star tier
 
 
 def item_id(tok, bee=None):
@@ -322,7 +322,7 @@ def art(work, combs, ids):
             shutil.copyfile(angry if os.path.exists(angry) else tex, os.path.join(ent, name + "_angry.png"))
         shutil.copyfile(model, os.path.join(geo, bee + ".geo.json"))
         copied.append(bee)
-    # Starlight's angry eyes overlay (the calm overlay is committed by hand: never copy starsky/out's retired E2)
+    # Starlight's angry eyes overlay (the calm overlay is committed by hand: never copy the retired overlay)
     overlay = os.path.join(work, "angry", "new_final", "starlight_bee_overlay_angry.png")
     if os.path.exists(overlay):
         shutil.copyfile(overlay, os.path.join(ent, "starlight_bee_overlay_angry.png"))
@@ -401,9 +401,9 @@ def placeholder_items(items):
                 tint(im, col).save(dst)
 
 
-# ------------------------------------------------------------------ step 3 blocks
-PEDESTALS = {  # id: (top, column, base, acc) textures (final art: BubbasBeesArt/work/pedestals/final, shape PB),
-    # recipe column (top slab, middle, bottom block). The honeycomb pedestal was removed (user, 2026-11-02).
+# ------------------------------------------------------------------ blocks
+PEDESTALS = {  # id: (top, column, base, acc) textures (final art, one shared shape),
+    # recipe column (top slab, middle, bottom block). There is no honeycomb pedestal.
     "stone_pedestal": ("minecraft:block/smooth_stone", "minecraft:block/stone_bricks", "minecraft:block/stone",
                        "minecraft:block/chiseled_stone_bricks", ("stone_slab", "stone_brick_wall", "stone")),
     "deepslate_pedestal": ("minecraft:block/polished_deepslate", "minecraft:block/deepslate_bricks", "minecraft:block/deepslate",
@@ -435,9 +435,9 @@ def step3_blocks():
                                                                 "conditions": [{"condition": "minecraft:survives_explosion"}]}]}
     # pedestals: one shared shape, textures per material
     fin = os.path.join(ART_WORK, "pedestals", "final")
-    for model in ("pedestal.json", "celestial_altar.json"):   # final shapes (PB column, AE altar)
+    for model in ("pedestal.json", "celestial_altar.json"):   # final shapes (column, altar)
         write_json(os.path.join(bm, model), json.load(open(os.path.join(fin, model))))
-    for f in ("celestial_altar_inlay.png", "celestial_altar_inlay.png.mcmeta"):   # pulsing inlay, rounds 3-4 (2026-11-14)
+    for f in ("celestial_altar_inlay.png", "celestial_altar_inlay.png.mcmeta"):   # pulsing inlay
         shutil.copyfile(os.path.join(fin, f), os.path.join(ASSETS, "textures", "block", f))
     for pid, (top, col, base, acc, (slab, mid, bottom)) in PEDESTALS.items():
         write_json(os.path.join(bm, pid + ".json"), {"parent": "bubbasbees:block/pedestal",
@@ -448,26 +448,26 @@ def step3_blocks():
                     "result": {"item": "bubbasbees:" + pid, "count": 2}})
     for pid in list(PEDESTALS) + ["celestial_altar"]:
         write_json(os.path.join(bs, pid + ".json"), {"variants": {"": {"model": "bubbasbees:block/" + pid}}})
-        # 3D item from the block shape (user 2026-11-14, replaces the flat P1/P2 icons); our shapes have no display block
+        # 3D item from the block shape (replaces the flat icons); our shapes have no display block
         write_json(os.path.join(im, pid + ".json"), {"parent": "bubbasbees:block/" + pid, "display": BLOCK_DISPLAY})
         write_json(os.path.join(loot, pid + ".json"), drop("bubbasbees:" + pid))
     write_json(os.path.join(DATA, "recipes", "blocks", "celestial_altar.json"),
-               # two side diamonds are gold blocks (user, 2026-11-14)
+               # two side diamonds are gold blocks
                shaped(["v:crying_obsidian", "v:diamond", "v:crying_obsidian", "v:gold_block", "x:quartz_pedestal",
                        "v:gold_block", "v:crying_obsidian", "v:diamond", "v:crying_obsidian"], "bubbasbees:celestial_altar"))
-    # comb chute: a block under the hive since 2026-11-02 (user); shears in the recipe
+    # comb chute: a block under the hive; shears in the recipe
     write_json(os.path.join(DATA, "recipes", "blocks", "comb_chute.json"),
                shaped(["v:iron_ingot", "v:shears", "v:iron_ingot", "v:honeycomb", "v:hopper", "v:honeycomb",
                        "v:iron_ingot", "v:honeycomb", "v:iron_ingot"], "bubbasbees:comb_chute"))
-    # block models: final art W1 (BubbasBeesArt/work/comb_chute/block/final), copied in step3_art
-    # on any face of the hive since 2026-11-14 (user, fix list item 44): facing = the spout; the model's spout points down
+    # block models: final art, copied in step3_art
+    # on any face of the hive: facing = the spout; the model's spout points down
     chute_rot = {"down": {}, "up": {"x": 180}, "south": {"x": 90}, "north": {"x": 90, "y": 180},
                  "west": {"x": 90, "y": 90}, "east": {"x": 90, "y": 270}}
     write_json(os.path.join(bs, "comb_chute.json"), {"variants": {
         f"facing={f},honey={h}": {"model": "bubbasbees:block/comb_chute" + ("_honey" if h == "true" else ""), **r}
         for f, r in chute_rot.items() for h in ("false", "true")}})
     write_json(os.path.join(loot, "comb_chute.json"), drop("bubbasbees:comb_chute"))
-    # stardust: redstone-style dot + arms (art final: BubbasBeesArt/work/stardust/final), pile drawn by a renderer
+    # stardust: redstone-style dot + arms (final art), pile drawn by a renderer
     write_json(os.path.join(bm, "stardust_dot.json"), {"render_type": "minecraft:cutout", "ambientocclusion": False,
         "textures": {"particle": "bubbasbees:block/stardust_dot", "dot": "bubbasbees:block/stardust_dot"},
         "elements": [{"from": [0, 0.25, 0], "to": [16, 0.25, 16], "shade": False,
@@ -523,11 +523,11 @@ def step3_art(work):
     fin = os.path.join(work, "stardust", "final")
     items, blocks = os.path.join(ASSETS, "textures", "item"), os.path.join(ASSETS, "textures", "block")
     os.makedirs(blocks, exist_ok=True)
-    for f in ("stardust.png", "stardust.png.mcmeta"):   # icon shimmer V1, 64 frames x 4 ticks (user 2026-11-14, item 46)
+    for f in ("stardust.png", "stardust.png.mcmeta"):   # icon shimmer, 64 frames x 4 ticks
         shutil.copyfile(os.path.join(fin, f), os.path.join(items, f))
     shutil.copyfile(os.path.join(fin, "stardust_dot.png"), os.path.join(blocks, "stardust_dot.png"))
     shutil.copyfile(os.path.join(fin, "stardust_line.png"), os.path.join(blocks, "stardust_line.png"))
-    # pile colours from pile_pass4.py: tops LP/PU/BM + dimmed star, sides PU/PD/BM/BD + dimmed star
+    # pile colours: tops LP/PU/BM + dimmed star, sides PU/PD/BM/BD + dimmed star
     LP, PU, PD, BM, BD = (113, 99, 170), (90, 74, 156), (62, 50, 116), (30, 50, 124), (21, 42, 104)
     STAR, STAR2 = (206, 208, 228), (190, 192, 218)
     rnd = random.Random(5)
@@ -538,9 +538,9 @@ def step3_art(work):
             for x in range(16):
                 im.putpixel((x, y), rnd.choices(cols, wts)[0] + (255,))
         im.save(os.path.join(blocks, name + ".png"))
-    # comb chute icon: final art (BubbasBeesArt/work/comb_chute/final)
+    # comb chute icon: final art
     shutil.copyfile(os.path.join(work, "comb_chute", "final", "comb_chute.png"), os.path.join(items, "comb_chute.png"))
-    # comb chute block: final art W1 (user pick 2026-11-02): 8 textures + 2 models
+    # comb chute block: final art: 8 textures + 2 models
     cfin = os.path.join(work, "comb_chute", "block", "final")
     for f in sorted(os.listdir(os.path.join(cfin, "textures", "block"))):
         shutil.copyfile(os.path.join(cfin, "textures", "block", f), os.path.join(blocks, f))
@@ -548,8 +548,8 @@ def step3_art(work):
         shutil.copyfile(os.path.join(cfin, "models", "block", f), os.path.join(ASSETS, "models", "block", f))
 
 
-# ------------------------------------------------------------------ step 4: traits, queen, jelly, pink piston
-HOME_BIOMES = {  # bee: biomes where its hive stays 20% shorter (bee cards in finish-spec.md)
+# ------------------------------------------------------------------ traits, queen, jelly, pink piston
+HOME_BIOMES = {  # bee: biomes where its hive stays 20% shorter
     "forest": ["forest", "birch_forest", "old_growth_birch_forest", "dark_forest"],
     "desert": ["desert"],
     "river": ["river"],
@@ -584,7 +584,7 @@ def step4_data():
                    {"replace": False, "values": [b if b.startswith("#") else "minecraft:" + b for b in biomes]})
     drop = lambda item: {"type": "minecraft:block", "pools": [{"rolls": 1, "entries": [{"type": "minecraft:item", "name": item}],
                                                                 "conditions": [{"condition": "minecraft:survives_explosion"}]}]}
-    # royal jelly block: slime-block layout (inner core px 3-13 + translucent outer shell), final art B1
+    # royal jelly block: slime-block layout (inner core px 3-13 + translucent outer shell), final art
     faces = lambda uv, tex, cull: {f: dict({"uv": uv, "texture": tex}, **({"cullface": f} if cull else {}))
                                    for f in ("down", "up", "north", "south", "west", "east")}
     write_json(os.path.join(bm, "royal_jelly_block.json"), {"parent": "block/block", "render_type": "minecraft:translucent",
@@ -605,7 +605,7 @@ def step4_data():
     write_json(os.path.join(rec, "royal_jelly_block.json"), shaped(["x:royal_jelly"] * 9, "bubbasbees:royal_jelly_block"))
     write_json(os.path.join(rec, "royal_jelly_from_block.json"), {"type": "minecraft:crafting_shapeless",
         "ingredients": [{"item": "bubbasbees:royal_jelly_block"}], "result": {"item": "bubbasbees:royal_jelly", "count": 9}})
-    # pink sticky piston: vanilla sticky piston models with the pink face (final art V1); its own head block
+    # pink sticky piston: vanilla sticky piston models with the pink face (final art); its own head block
     with zipfile.ZipFile(VANILLA_JAR) as jar:
         sticky = json.loads(jar.read("assets/minecraft/blockstates/sticky_piston.json"))
         head = json.loads(jar.read("assets/minecraft/blockstates/piston_head.json"))
@@ -651,7 +651,7 @@ def step4_data():
     write_json(path, lang)
 
 
-# ------------------------------------------------------------------ step 5: rituals
+# ------------------------------------------------------------------ rituals
 def step5_data():
     """Ritual boss bar, chat and structure-hint text (RitualManager / RitualStructure)."""
     path = os.path.join(ASSETS, "lang", "en_us.json")
@@ -745,9 +745,9 @@ def step4_art(work):
         shutil.copyfile(os.path.join(fin, name + ".png"), os.path.join(blocks, name + ".png"))
     # Conversion gems with final art (family batches; the rest keep their tinted placeholders)
     # gems/final = ore family, gems/biome_final = biome family (desert's sprout gem replaces the old sandy one,
-    # which the user keeps as the crystalline template; it is still sandy_conversion_gem.png in the main repo)
-    on_hold = ()   # gem names still under review by the user, if any (prefixes)
-    # gems/batchA_final, batchB_final = the remaining families (recolours of the user's sandy, nature and stone gems)
+    # which is kept as the crystalline template; it is still sandy_conversion_gem.png in the main repo)
+    on_hold = ()   # gem names still under review, if any (prefixes)
+    # gems/batchA_final, batchB_final = the remaining families (recolours of the sandy, nature and stone gems)
     for family in ("final", "biome_final", "batchA_final", "batchB_final"):
         gems = os.path.join(work, "gems", family)
         if not os.path.isdir(gems):
@@ -756,10 +756,10 @@ def step4_art(work):
             if name.startswith(on_hold):
                 continue
             if name.split("_conversion_gem")[0] not in ROSTER:
-                continue    # gem of a bee no longer in the roster (concrete, deleted 2026-11-04)
+                continue    # gem of a bee no longer in the roster (concrete)
             if name.endswith("_conversion_gem.png") or name.endswith("_conversion_gem.png.mcmeta"):
                 shutil.copyfile(os.path.join(gems, name), os.path.join(items, name))
-    # Celestial Bubba Star: final G3 (starlight recolour of the Bubba Star animation, 14 frames; glint from isFoil)
+    # Celestial Bubba Star: final art (starlight recolour of the Bubba Star animation, 14 frames; glint from isFoil)
     star = os.path.join(work, "star", "celestial", "final")
     for name in ("celestial_bubba_star.png", "celestial_bubba_star.png.mcmeta"):
         shutil.copyfile(os.path.join(star, name), os.path.join(items, name))

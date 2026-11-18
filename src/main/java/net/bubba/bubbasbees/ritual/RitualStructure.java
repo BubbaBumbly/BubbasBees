@@ -18,10 +18,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * The two ritual structures around the Celestial Altar (finish-spec.md "Rituals"), all on the altar's own layer.
+ * The two ritual structures around the Celestial Altar, all on the altar's own layer.
  * Positions are offsets from the altar; x = east, z = south.
  *
- * Night (radius 8, user 2026-11-02): one exact ring, the 8-neighbour outer edge of a radius-8.5 disc (64 cells). Its
+ * Night (radius 8): one exact ring, the 8-neighbour outer edge of a radius-8.5 disc (64 cells). Its
  * N/E/S/W cells (8 out) are end rods, its 4 diagonal cells (+-6, +-6) are pedestals holding echo shards, the other 56
  * are stardust. Candles: 4 within 2 of the altar, 2 within 2 of each corner pedestal (inside the ring).
  * Queen (radius 6): the altar on a 3x3 of honeycomb blocks with gold block corners; 8 potted flowers on the radius-6

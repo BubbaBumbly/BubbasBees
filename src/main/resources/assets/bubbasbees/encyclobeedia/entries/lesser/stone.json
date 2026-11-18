@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "Seed recipes: 8 stone combs around one block of a stone type makes 32 of it. Works for stone, deepslate, tuff, andesite, diorite, granite and calcite; dripstone makes 16.$(br2)$(l)Flowers:$() Stone, Deepslate, Tuff, Andesite, Diorite, Granite, Calcite, Dripstone Block$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() none"
+      "text": "Seed recipes: 8 stone combs around one block of a stone type make 32 of it. Works for stone, deepslate, tuff, andesite, diorite, granite and calcite; dripstone makes 16.$(br2)$(l)Flowers:$() Stone, Deepslate, Tuff, Andesite, Diorite, Granite, Calcite, Dripstone Block$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld$(/l)$(br2)$(l)Home biome:$() none"
     },
     {
       "type": "text",

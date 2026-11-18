@@ -1,4 +1,3 @@
-/// Prep Release V1
 pluginManagement {
     repositories {
         gradlePluginPortal()

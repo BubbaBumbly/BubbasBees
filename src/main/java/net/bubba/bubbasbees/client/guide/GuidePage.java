@@ -214,7 +214,7 @@ public abstract class GuidePage {
                 int i = (int) (System.currentTimeMillis() / 2000 % images.size());
                 RenderSystem.setShaderTexture(0, new ResourceLocation(images.get(i).getAsString()));
                 RenderSystem.enableBlend();
-                // gen_book.py draws the art inside the top-left 200 x 200 of a 256 canvas
+                // the art is drawn inside the top-left 200 x 200 of a 256 canvas
                 GuiComponent.blit(pose, x + 8, y + top, 100, 100, 0, 0, 200, 200, 256, 256);
                 RenderSystem.disableBlend();
             }

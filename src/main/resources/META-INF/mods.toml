@@ -1,6 +1,6 @@
 modLoader="javafml"
 loaderVersion="[41,)"
-license="Code: GNU GPLv3. Art (textures, bee models, animations): All Rights Reserved. See LICENSE and LICENSE-ASSETS."
+license="Code: GNU GPLv3. Art (textures, bee models, animations): All Rights Reserved. See LICENSE_bubbasbees and LICENSE-ASSETS_bubbasbees in the jar."
 issueTrackerURL="https://github.com/BubbaBumbly/BubbasBees/issues"
 
 [[mods]]
@@ -18,5 +18,19 @@ description='''Adds Bees, Duh. 40 bees that farm the blocks of the world: stone,
     modId="minecraft"
     mandatory=true
     versionRange="[1.19.2,1.19.3)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.bubbasbees]]
+    modId="forge"
+    mandatory=true
+    versionRange="[43,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.bubbasbees]]
+    modId="geckolib3"
+    mandatory=true
+    versionRange="[3.1.40,)"
     ordering="NONE"
     side="BOTH"

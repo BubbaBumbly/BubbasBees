@@ -12,7 +12,7 @@ import net.minecraft.world.item.crafting.ShapedRecipe;
 
 /**
  * A shaped recipe that uses up its catalysts: no crafting remainders. The Lesser Bubba Star is a reusable catalyst
- * in gem recipes but is consumed when crafted into the Bubba Star (finish-spec.md "Star recipes").
+ * in gem recipes but is consumed when crafted into the Bubba Star.
  */
 public class ConsumingShapedRecipe extends ShapedRecipe {
 

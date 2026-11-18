@@ -16,7 +16,7 @@ import net.minecraftforge.registries.MissingMappingsEvent;
 public class ModEvents {
     @Mod.EventBusSubscriber(modid = BubbasBees.MOD_ID)
     public static class ForgeEvents {
-        /** Ids renamed in Phase 2: the sandy bee became the desert bee. Old worlds keep their bees and items. */
+        /** Ids renamed in 2.0: the sandy bee became the desert bee. Old worlds keep their bees and items. */
         @SubscribeEvent
         public static void remapRenamedIds(MissingMappingsEvent event) {
             for (MissingMappingsEvent.Mapping<EntityType<?>> mapping

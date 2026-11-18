@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 
 /**
- * The starlight bee's "window into the night sky" (user pick 2026-11-04, of three tested looks): the star pass draws
+ * The starlight bee's "window into the night sky" (one of three tested looks): the star pass draws
  * the bee's body with SKY, stars fixed to the screen (shaders/core/starlight_screen), so they slide across the bee as
  * it flies; StarlightOverlayLayer then draws the eyes, antennae, legs, stinger and wings on top from starlight_bee_overlay.png,
  * so its transparent pixels are the window. While an Oculus/Iris shader pack is in use (custom core shaders don't

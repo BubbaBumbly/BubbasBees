@@ -30,7 +30,7 @@ import java.util.List;
  * Everything that makes one mod bee different from another, as data. The entity, comb, gem and spawn egg of every
  * bee are registered from these (see BeeSpecs), so a new bee is one entry there plus its art and data files.
  *
- * Comb roll on every pollination trip (finish-spec.md "Balance numbers"): each rare comb rolls first (1 in N), then
+ * Comb roll on every pollination trip: each rare comb rolls first (1 in N), then
  * the bee's own comb at combChance, picked by weight when the bee has several; a failed roll gives nothing.
  */
 public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb> combs, List<RareComb> rareCombs,
@@ -38,7 +38,7 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
                       String model, Set<Trait> traits, double maxHealth, float scale,
                       int eggBase, int eggSpots) {
 
-    /** Optional abilities (finish-spec.md bee cards). Fire immunity is its own flag (entity type property). */
+    /** Optional abilities. Fire immunity is its own flag (entity type property). */
     public enum Trait {
         /** Works in rain and takes no damage from water. */
         WATER_SAFE,
@@ -79,9 +79,9 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
     }
 
     /**
-     * Open sky above pos (user 2026-11-14): no roof anywhere above it, in any dimension. A roof is a block with
+     * Open sky above pos: no roof anywhere above it, in any dimension. A roof is a block with
      * collision that also blocks the view, so leaves, glass, panes, plants, torches, vines and thin snow are not roofs,
-     * while stone, slabs and stairs are. FramedBlocks (the user's composite/octant fork): framed blocks never block
+     * while stone, slabs and stairs are. FramedBlocks (the composite/octant fork): framed blocks never block
      * the view themselves, so their camos decide, through the fork's {@code propagates_skylight} state flag (true when
      * every camo lets sky light through, e.g. octants holding only glass).
      */
@@ -120,7 +120,7 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
     /** As above; ritual = the bee's hive is inside a running ritual circle, so day bees work at night too. */
     public boolean canWorkAt(Level level, BlockPos pos, boolean checkSky, boolean ritual) {
         if (has(Trait.NOCTURNAL)) {
-            // The End has fixed time (never "night"): starlight bees there work all the time (fix list item 43)
+            // The End has fixed time (never "night"): starlight bees there work all the time
             if (!level.dimension().equals(Level.END) && !level.isNight()) return false;
             if (checkSky && !openSky(level, pos)) return false;
         } else if (level.isNight() && !ritual) {
@@ -161,7 +161,7 @@ public record BeeSpec(String id, Tier tier, float combChance, List<WeightedComb>
     }
 
     /** Spends twice as long in a hive outside its home dimensions (the dimension rule). A bee with no home set is an
-     *  Overworld bee; a universal bee is at home everywhere, modded dimensions too (user 2026-11-14, fix list item 43). */
+     *  Overworld bee; a universal bee is at home everywhere, modded dimensions too. */
     public boolean isAwayFromHome(Level level) {
         if (universal) return false;
         return homes.isEmpty() ? !level.dimension().equals(Level.OVERWORLD) : !homes.contains(level.dimension());

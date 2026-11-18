@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
  * it down, right-click again to take it back. The Celestial Altar is the fancy one: the centre of both rituals.
  */
 public class PedestalBlock extends BaseEntityBlock {
-    // Final shapes (BubbasBeesArt/work/pedestals/final): PB column and AE altar
+    // Final shapes: column and altar
     private static final VoxelShape PEDESTAL = Shapes.or(Block.box(2, 0, 2, 14, 2, 14), Block.box(3, 2, 3, 13, 3, 13),
             Block.box(5, 3, 5, 11, 11, 11), Block.box(3, 11, 3, 13, 12, 13), Block.box(2, 12, 2, 14, 14, 14));
     private static final VoxelShape ALTAR = Shapes.or(Block.box(0, 0, 0, 16, 4, 16), Block.box(2, 4, 2, 14, 13, 14),

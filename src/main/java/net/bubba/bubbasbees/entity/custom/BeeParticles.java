@@ -7,9 +7,9 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 
 /**
- * Minimal ambient particles for some bees (user 2026-11-08, "P1 very rare"): about one every 4 seconds per bee,
+ * Minimal ambient particles for some bees (very rare): about one every 4 seconds per bee,
  * client side only. Ender portal specks, magma small flame, soul, deep dark sculk soul, frost
- * snowflakes (corrupt nature: none, user 2026-11-08), starlight end-rod sparkle at night, queen wax sparkle, water bees bubbles while in water, mushroom
+ * snowflakes (corrupt nature: none), starlight end-rod sparkle at night, queen wax sparkle, water bees bubbles while in water, mushroom
  * spores.
  */
 public final class BeeParticles {

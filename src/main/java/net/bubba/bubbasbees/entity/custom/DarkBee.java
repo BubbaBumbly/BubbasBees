@@ -35,9 +35,9 @@ import software.bernie.geckolib3.util.GeckoLibUtil;
 import java.util.EnumSet;
 
 /**
- * Night-ritual pest (finish-spec.md "Dark bee"): flies to a lit candle, snuffs it and vanishes in a puff. One hit
+ * Night-ritual pest: flies to a lit candle, snuffs it and vanishes in a puff. One hit
  * kills it; royal guards attack it on sight. Not a real bee (no hive, no comb), never saved with the world.
- * The ritual (step 5) picks its candle with setCandle; on its own it goes for the nearest lit candle.
+ * The ritual picks its candle with setCandle; on its own it goes for the nearest lit candle.
  */
 public class DarkBee extends PathfinderMob implements FlyingAnimal, IAnimatable {
     private static final int SEARCH_RADIUS = 12;
@@ -111,7 +111,7 @@ public class DarkBee extends PathfinderMob implements FlyingAnimal, IAnimatable 
             if (this.tickCount % 2 == 0) {
                 this.level.addParticle(TRAIL, this.getX(), this.getY() + 0.3D, this.getZ(), 0.0D, 0.0D, 0.0D);
             }
-            if (this.random.nextInt(net.bubba.bubbasbees.entity.custom.BeeParticles.CHANCE) == 0) {   // rare smoke puff (user 2026-11-08)
+            if (this.random.nextInt(net.bubba.bubbasbees.entity.custom.BeeParticles.CHANCE) == 0) {   // rare smoke puff
                 this.level.addParticle(net.minecraft.core.particles.ParticleTypes.SMOKE, this.getX(), this.getY() + 0.3D,
                         this.getZ(), 0.0D, 0.02D, 0.0D);
             }

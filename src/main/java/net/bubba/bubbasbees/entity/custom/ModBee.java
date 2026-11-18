@@ -23,7 +23,7 @@ public class ModBee extends BubbasBee {
         }
         if (spec.fireImmune()) {
             // Vanilla bees treat any cell next to fire, lava or magma as impassable (DANGER_FIRE -1): a magma bee on
-            // its magma flower, or a Nether bee beside lava, could never path home and dropped its hive (step 6 run).
+            // its magma flower, or a Nether bee beside lava, could never path home and dropped its hive.
             this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 0.0F);
             this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0.0F);
         }

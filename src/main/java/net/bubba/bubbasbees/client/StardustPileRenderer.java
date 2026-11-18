@@ -30,18 +30,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The stardust pile-ups (art: BubbasBeesArt/work/stardust/final3d/README.md). Against a pedestal or the Celestial Altar:
- * pick K3, 0.5 px steps up to 3 px at the pedestal's base (the altar's comes 2 px further out, it fills its block); each
+ * The stardust pile-ups. Against a pedestal or the Celestial Altar, the pile rises in
+ * 0.5 px steps up to 3 px at the pedestal's base (the altar's comes 2 px further out, it fills its block); each
  * dust block draws its own. Columns over flat dust start on top of it, so no faces are shared with the block model.
  *
- * The stardust pile-up against an end rod (art pick T1 at 9 px, BubbasBeesArt/work/stardust/final/README.md, height
- * maps from pile_pass4.py). Dust can arrive at a rod from 1-4 sides; the per-side height maps merge with max, and the
+ * The stardust pile-up against an end rod (9 px tall, from generated height
+ * maps). Dust can arrive at a rod from 1-4 sides; the per-side height maps merge with max, and the
  * first arriving dust (order W, N, E, S) draws the whole merged pile so no cube is drawn twice. Nothing goes inside
  * the rod (px 7-8); columns over its base (px 6-9) start on the ground (some resource packs drop the base) and are
  * padded out a hair so they don't z-fight the vanilla base.
  */
 public class StardustPileRenderer implements BlockEntityRenderer<StardustBlockEntity> {
-    /** 4 twinkle versions (art pick V4): version 0 has no suffix, then _1.._3. A dust block picks one by position. */
+    /** 4 twinkle versions: version 0 has no suffix, then _1.._3. A dust block picks one by position. */
     public static final int VARIANTS = 4;
     public static final ResourceLocation[] TOP = new ResourceLocation[VARIANTS];
     public static final ResourceLocation[] SIDE = new ResourceLocation[VARIANTS];

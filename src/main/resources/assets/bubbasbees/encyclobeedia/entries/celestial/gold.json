@@ -12,7 +12,7 @@
     },
     {
       "type": "text",
-      "text": "Gold combs also make gilded blackstone (with blackstone as the seed).$(br2)$(l)Flowers:$() Gold Ore, Deepslate Gold Ore, Nether Gold Ore, Block of Raw Gold, Block of Gold$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld and Nether$(/l)$(br2)$(l)Home biome:$() none"
+      "text": "Gold combs around four blackstone also make gilded blackstone.$(br2)$(l)Flowers:$() Gold Ore, Deepslate Gold Ore, Nether Gold Ore, Block of Raw Gold, Block of Gold$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld and Nether$(/l)$(br2)$(l)Home biome:$() none"
     },
     {
       "type": "text",

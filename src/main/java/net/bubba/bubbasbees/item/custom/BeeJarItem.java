@@ -53,7 +53,7 @@ public class BeeJarItem extends Item {
         // 2 + the bee's place in the roster; tools/gen_bee_data.py writes bee_jar.json's overrides in the same order
         ResourceLocation id = ResourceLocation.tryParse(entityTypeStr);
         if (id != null && id.equals(new ResourceLocation(BubbasBees.MOD_ID, "sandy_bee"))) {
-            id = new ResourceLocation(BubbasBees.MOD_ID, "desert_bee");   // the desert bee's id before 2026-11
+            id = new ResourceLocation(BubbasBees.MOD_ID, "desert_bee");   // the desert bee's id before the rename
         }
         BeeSpec spec = BeeSpecs.byEntity(id);
         if (spec == null) return 1.0F;
@@ -179,7 +179,7 @@ public class BeeJarItem extends Item {
                 tooltip.add(Component.translatable("item.bubbasbees.bee_jar.pollinated",
                         Component.translatable("item.bubbasbees.bee_jar." + (hasNectar ? "yes" : "no")))
                         .withStyle(ChatFormatting.GOLD));
-                // A baby's age is kept in the jar and does not run there (user, 2026-11-14: jars must show babies)
+                // A baby's age is kept in the jar and does not run there (jars must show babies)
                 int age = beeData.getInt("Age");
                 if (age < 0) {
                     int s = (-age + 19) / 20;
