@@ -1,0 +1,37 @@
+{
+  "name": "Gold Bee",
+  "icon": "bubbasbees:gold_honeycomb",
+  "category": "bubbasbees:celestial",
+  "sortnum": 32,
+  "pages": [
+    {
+      "type": "entity",
+      "entity": "bubbasbees:gold_bee",
+      "name": "Gold Bee",
+      "text": "Celestial Bubba Star. Overworld, by day; Nether, all the time."
+    },
+    {
+      "type": "text",
+      "text": "Gold combs around four blackstone also make gilded blackstone.$(br2)$(l)Flowers:$() Gold Ore, Deepslate Gold Ore, Nether Gold Ore, Block of Raw Gold, Block of Gold$(br2)$(l)Home dimension:$() $(l:basics/dimensions)Overworld and Nether$(/l)$(br2)$(l)Home biome:$() none"
+    },
+    {
+      "type": "text",
+      "text": "$(l)Brings home$() (busy hive):$(li)Gold Honeycomb: every trip, 210 per hive-hour$(br2)Ore rates: $(l:ores/drop_rates)Ore Drop Rates$(/l)."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:gems/gold_conversion_gem",
+      "text": "Use it on a vanilla bee."
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/gold/deepslate_gold_ore",
+      "recipe2": "bubbasbees:combs/gold/gilded_blackstone"
+    },
+    {
+      "type": "crafting",
+      "recipe": "bubbasbees:combs/gold/gold_ore",
+      "recipe2": "bubbasbees:combs/gold/nether_gold_ore"
+    }
+  ]
+}

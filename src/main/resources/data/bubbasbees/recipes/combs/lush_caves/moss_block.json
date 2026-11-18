@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:nature_honeycomb"
+    },
+    "B": {
+      "item": "bubbasbees:lush_caves_honeycomb"
+    },
+    "C": {
+      "item": "minecraft:moss_block"
+    }
+  },
+  "result": {
+    "item": "minecraft:moss_block",
+    "count": 8
+  }
+}

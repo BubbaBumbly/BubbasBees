@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:nature_honeycomb"
+    },
+    "B": {
+      "item": "bubbasbees:sea_honeycomb"
+    },
+    "C": {
+      "item": "minecraft:seagrass"
+    }
+  },
+  "result": {
+    "item": "minecraft:seagrass",
+    "count": 8
+  }
+}

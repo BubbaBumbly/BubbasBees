@@ -1,0 +1,177 @@
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'org.spongepowered.mixin' version '0.7.+'
+}
+
+// Release version: <mod>+<game>-<loader>. Also in mods.toml.
+version = '2.0.0'
+ext.releaseTag = "${version}+1.20.1-forge"
+group = 'com.bubba.bubbasbees'
+base.archivesName = 'bubbasbees'
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
+
+minecraft {
+    mappings channel: 'official', version: mc_version
+
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
+    copyIdeResources = true
+
+    runs {
+        configureEach {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                bubbasbees {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        client {
+            property 'forge.enabledGameTestNamespaces', 'bubbasbees'
+        }
+
+        server {
+            property 'forge.enabledGameTestNamespaces', 'bubbasbees'
+            args '--nogui'
+        }
+
+        gameTestServer {
+            property 'forge.enabledGameTestNamespaces', 'bubbasbees'
+        }
+
+        data {
+            workingDirectory project.file('run-data')
+            args '--mod', 'bubbasbees', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+mixin {
+    add sourceSets.main, 'bubbasbees.mixins.refmap.json'
+    config 'bubbasbees.mixins.json'
+}
+
+repositories {
+    maven {
+        name = 'GeckoLib'
+        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+        content {
+            includeGroupByRegex 'software\\.bernie.*'
+        }
+    }
+    maven {
+        name = 'Modrinth'
+        url 'https://api.modrinth.com/maven'
+        content { includeGroup 'maven.modrinth' }
+    }
+    maven {
+        name = 'JEI'
+        url 'https://maven.blamejared.com/'
+        content { includeGroup 'mezz.jei' }
+    }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
+
+    // GeckoLib is compiled against and bundled into the release jar with a version range.
+    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${mc_version}:${geckolib_version}")
+    jarJar("software.bernie.geckolib:geckolib-forge-${mc_version}:${geckolib_version}") {
+        jarJar.ranged(it, "[${geckolib_version},)")
+    }
+
+    // Jade (Forge 1.20.1, 11.x), compile only: the hive panel merges into Jade's tooltip when Jade is installed
+    compileOnly fg.deobf("maven.modrinth:jade:${jade_version}")
+    // JEI (1.20.1, 15.x) API, compile only: info pages and the mixed-planks hive recipe when JEI is installed
+    compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
+
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    // MixinExtras: annotations at compile time and bundled into the release jar at runtime.
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixinextras_version}"))
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:${mixinextras_version}")) {
+        jarJar.ranged(it, "[${mixinextras_version},)")
+    }
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [
+            mod_version: mod_version,
+            mc_version : mc_version
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml']) {
+        expand replaceProperties
+    }
+}
+
+def jarManifest = [
+        "Specification-Title"     : "bubbasbees",
+        "Specification-Vendor"    : "Bubba Bumbly",
+        "Specification-Version"   : project.version,
+        "Implementation-Title"    : "bubbasbees",
+        "Implementation-Version"  : mod_version,
+        "Implementation-Vendor"   : "Bubba Bumbly",
+        "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+]
+
+// The -nogecko jar is the plain mod jar.
+tasks.named('jar', Jar).configure {
+    archiveFileName = "BubbasBees-${releaseTag}-nogecko.jar"
+
+    // GPLv3 text ships inside the jar
+    from('LICENSE') { rename { 'LICENSE_bubbasbees' } }
+    from('LICENSE-ASSETS') { rename { 'LICENSE-ASSETS_bubbasbees' } }
+
+    manifest {
+        attributes(jarManifest)
+    }
+
+    finalizedBy 'reobfJar'
+}
+
+// The full release jar: the mod plus the bundled GeckoLib and MixinExtras jars under META-INF/jarjar.
+tasks.named('jarJar', Jar).configure {
+    archiveFileName = "BubbasBees-${releaseTag}.jar"
+
+    from('LICENSE') { rename { 'LICENSE_bubbasbees' } }
+    from('LICENSE-ASSETS') { rename { 'LICENSE-ASSETS_bubbasbees' } }
+
+    finalizedBy 'reobfJarJar'
+}
+
+tasks.named('assemble').configure {
+    dependsOn 'jarJar'
+}
+
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            artifact jar
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.projectDir}/mcmodsrepo"
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+

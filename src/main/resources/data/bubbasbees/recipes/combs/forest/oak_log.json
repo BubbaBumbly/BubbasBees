@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:nature_honeycomb"
+    },
+    "B": {
+      "item": "bubbasbees:forest_honeycomb"
+    },
+    "C": {
+      "item": "minecraft:oak_log"
+    }
+  },
+  "result": {
+    "item": "minecraft:oak_log",
+    "count": 8
+  }
+}

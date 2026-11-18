@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:obsidian_honeycomb"
+    },
+    "B": {
+      "item": "bubbasbees:sad_honeycomb"
+    },
+    "C": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "minecraft:crying_obsidian",
+    "count": 4
+  }
+}

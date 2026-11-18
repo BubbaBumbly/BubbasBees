@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "item": "bubbasbees:bee_jar"
+    },
+    "title": {
+      "translate": "advancements.bubbasbees.bee_jar.title"
+    },
+    "description": {
+      "translate": "advancements.bubbasbees.bee_jar.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "jar": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "items": [
+            "bubbasbees:bee_jar"
+          ]
+        }
+      }
+    }
+  },
+  "parent": "bubbasbees:place_hive"
+}

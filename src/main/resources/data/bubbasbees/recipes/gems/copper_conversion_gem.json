@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABC",
+    "BDB",
+    "CBA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:copper_ore"
+    },
+    "B": {
+      "item": "minecraft:copper_block"
+    },
+    "C": {
+      "item": "minecraft:deepslate_copper_ore"
+    },
+    "D": {
+      "item": "bubbasbees:celestial_bubba_star"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:copper_conversion_gem"
+  }
+}

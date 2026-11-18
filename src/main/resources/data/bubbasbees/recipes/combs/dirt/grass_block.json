@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:meadow_honeycomb"
+    },
+    "B": {
+      "item": "bubbasbees:dirt_honeycomb"
+    },
+    "C": {
+      "item": "minecraft:grass_block"
+    }
+  },
+  "result": {
+    "item": "minecraft:grass_block",
+    "count": 16
+  }
+}

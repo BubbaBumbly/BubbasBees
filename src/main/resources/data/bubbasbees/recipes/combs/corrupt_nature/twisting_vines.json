@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:corrupt_nature_honeycomb"
+    },
+    "B": {
+      "item": "minecraft:twisting_vines"
+    }
+  },
+  "result": {
+    "item": "minecraft:twisting_vines",
+    "count": 16
+  }
+}

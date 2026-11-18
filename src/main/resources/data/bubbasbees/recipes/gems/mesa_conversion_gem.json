@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:terracotta"
+    },
+    "B": {
+      "item": "minecraft:red_sand"
+    },
+    "C": {
+      "tag": "bubbasbees:bubba_star_or_better"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:mesa_conversion_gem"
+  }
+}

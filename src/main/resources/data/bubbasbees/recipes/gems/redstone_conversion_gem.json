@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABC",
+    "BDB",
+    "CBA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:redstone_ore"
+    },
+    "B": {
+      "item": "minecraft:redstone_block"
+    },
+    "C": {
+      "item": "minecraft:deepslate_redstone_ore"
+    },
+    "D": {
+      "item": "bubbasbees:celestial_bubba_star"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:redstone_conversion_gem"
+  }
+}

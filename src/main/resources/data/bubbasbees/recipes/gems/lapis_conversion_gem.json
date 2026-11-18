@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABC",
+    "BDB",
+    "CBA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:lapis_ore"
+    },
+    "B": {
+      "item": "minecraft:lapis_block"
+    },
+    "C": {
+      "item": "minecraft:deepslate_lapis_ore"
+    },
+    "D": {
+      "item": "bubbasbees:celestial_bubba_star"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:lapis_conversion_gem"
+  }
+}

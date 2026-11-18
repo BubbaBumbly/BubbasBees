@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:swamp_honeycomb"
+    },
+    "B": {
+      "item": "bubbasbees:royal_queen_honeycomb"
+    },
+    "C": {
+      "item": "minecraft:slime_ball"
+    }
+  },
+  "result": {
+    "item": "minecraft:slime_ball",
+    "count": 8
+  }
+}

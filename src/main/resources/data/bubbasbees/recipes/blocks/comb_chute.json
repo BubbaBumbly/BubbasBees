@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "ACA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:iron_ingot"
+    },
+    "B": {
+      "item": "minecraft:shears"
+    },
+    "C": {
+      "item": "minecraft:honeycomb"
+    },
+    "D": {
+      "item": "minecraft:hopper"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:comb_chute"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:nautilus_honeycomb"
+    },
+    "B": {
+      "item": "minecraft:nautilus_shell"
+    }
+  },
+  "result": {
+    "item": "minecraft:nautilus_shell",
+    "count": 4
+  }
+}

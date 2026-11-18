@@ -1,0 +1,40 @@
+{
+  "type": "bubbasbees:consuming_shaped",
+  "pattern": [
+    "ABC",
+    "DEF",
+    "GHI"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:echo_shard"
+    },
+    "B": {
+      "item": "minecraft:nether_star"
+    },
+    "C": {
+      "item": "minecraft:ghast_tear"
+    },
+    "D": {
+      "item": "minecraft:goat_horn"
+    },
+    "E": {
+      "item": "bubbasbees:lesser_bubba_star"
+    },
+    "F": {
+      "item": "minecraft:phantom_membrane"
+    },
+    "G": {
+      "item": "minecraft:end_rod"
+    },
+    "H": {
+      "item": "minecraft:heart_of_the_sea"
+    },
+    "I": {
+      "item": "minecraft:spore_blossom"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:bubba_star"
+  }
+}

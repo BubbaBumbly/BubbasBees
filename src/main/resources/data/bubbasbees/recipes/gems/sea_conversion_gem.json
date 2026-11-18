@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:dried_kelp_block"
+    },
+    "B": {
+      "item": "minecraft:sea_pickle"
+    },
+    "C": {
+      "tag": "bubbasbees:bubba_star_or_better"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:sea_conversion_gem"
+  }
+}

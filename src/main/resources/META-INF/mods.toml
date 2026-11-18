@@ -1,0 +1,36 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="Code: GNU GPLv3. Art (textures, bee models, animations): All Rights Reserved. See LICENSE_bubbasbees and LICENSE-ASSETS_bubbasbees in the jar."
+issueTrackerURL="https://github.com/BubbaBumbly/BubbasBees/issues"
+
+[[mods]]
+modId="bubbasbees"
+version="${mod_version}"
+displayName="Bubba's Bees"
+credits="Includes code adapted from Resourceful Bees by Team Resourceful (LGPLv3) and from Productive Bees by JDKDigital (GPLv3 versions). Bundles GeckoLib and MixinExtras (MIT)."
+displayURL="https://bubbabumbly.github.io/BubbasBees/"
+authors="Bubba Bumbly"
+logoFile="logo.png"
+logoBlur=false
+description='''Adds Bees, Duh. 40 bees that farm the blocks of the world: stone, plants, Nether, End and every ore. Balanced for vanilla+.'''
+
+[[dependencies.bubbasbees]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.20.2)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.bubbasbees]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47.1,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.bubbasbees]]
+    modId="geckolib"
+    mandatory=true
+    versionRange="[4.8.4,)"
+    ordering="AFTER"
+    side="BOTH"

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "ACA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:meadow_honeycomb"
+    },
+    "B": {
+      "item": "bubbasbees:sad_honeycomb"
+    },
+    "C": {
+      "item": "bubbasbees:soul_honeycomb"
+    },
+    "D": {
+      "item": "minecraft:wither_rose"
+    }
+  },
+  "result": {
+    "item": "minecraft:wither_rose",
+    "count": 4
+  }
+}

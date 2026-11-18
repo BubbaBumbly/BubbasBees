@@ -1,0 +1,31 @@
+{
+  "display": {
+    "icon": {
+      "item": "bubbasbees:stone_conversion_gem"
+    },
+    "title": {
+      "translate": "advancements.bubbasbees.first_gem.title"
+    },
+    "description": {
+      "translate": "advancements.bubbasbees.first_gem.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "gem": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "item": {
+          "tag": "bubbasbees:conversion_gems"
+        },
+        "entity": {
+          "type": "minecraft:bee"
+        }
+      }
+    }
+  },
+  "parent": "bubbasbees:lesser_star"
+}

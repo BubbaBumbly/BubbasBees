@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S",
+    "M",
+    "B"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:polished_deepslate_slab"
+    },
+    "M": {
+      "item": "minecraft:polished_deepslate_wall"
+    },
+    "B": {
+      "item": "minecraft:deepslate"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:deepslate_pedestal",
+    "count": 2
+  }
+}

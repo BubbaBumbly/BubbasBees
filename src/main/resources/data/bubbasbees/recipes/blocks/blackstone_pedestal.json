@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S",
+    "M",
+    "B"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:blackstone_slab"
+    },
+    "M": {
+      "item": "minecraft:blackstone_wall"
+    },
+    "B": {
+      "item": "minecraft:polished_blackstone"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:blackstone_pedestal",
+    "count": 2
+  }
+}

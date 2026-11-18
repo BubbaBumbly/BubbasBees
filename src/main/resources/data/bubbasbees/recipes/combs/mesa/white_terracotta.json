@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:mesa_honeycomb"
+    },
+    "B": {
+      "item": "minecraft:white_terracotta"
+    }
+  },
+  "result": {
+    "item": "minecraft:white_terracotta",
+    "count": 16
+  }
+}

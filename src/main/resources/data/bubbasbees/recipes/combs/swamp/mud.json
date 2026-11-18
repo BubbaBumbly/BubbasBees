@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:swamp_honeycomb"
+    },
+    "B": {
+      "item": "minecraft:mud"
+    }
+  },
+  "result": {
+    "item": "minecraft:mud",
+    "count": 16
+  }
+}

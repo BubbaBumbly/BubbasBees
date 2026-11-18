@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:clay"
+    },
+    "B": {
+      "item": "minecraft:water_bucket"
+    },
+    "C": {
+      "tag": "bubbasbees:lesser_star_or_better"
+    }
+  },
+  "result": {
+    "item": "bubbasbees:river_conversion_gem"
+  }
+}

@@ -1,0 +1,42 @@
+package net.bubba.bubbasbees.client;
+
+// DEVIATION: 1.20.1 ItemRenderer.renderStatic also takes the level and uses ItemDisplayContext, not TransformType.
+import com.mojang.blaze3d.vertex.PoseStack;
+import org.joml.Quaternionf;
+import net.bubba.bubbasbees.blockentities.PedestalBlockEntity;
+import net.bubba.bubbasbees.blocks.custom.PedestalBlock;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
+
+/** Floats the pedestal's item above it, bobbing gently and turning slowly (faster on an altar during a ritual). */
+public class PedestalRenderer implements BlockEntityRenderer<PedestalBlockEntity> {
+
+    public PedestalRenderer(BlockEntityRendererProvider.Context context) {
+    }
+
+    @Override
+    public void render(@NotNull PedestalBlockEntity pedestal, float partialTick, @NotNull PoseStack pose,
+                       @NotNull MultiBufferSource buffers, int light, int overlay) {
+        ItemStack item = pedestal.getItem();
+        if (item.isEmpty() || pedestal.getLevel() == null) return;
+        double top = pedestal.getBlockState().getBlock() instanceof PedestalBlock block ? block.topHeight() : 1.0;
+        // Double, not float: in an old world the game time is millions of ticks and a float can no longer
+        // hold the partial tick, so the item turned and bobbed in once-per-tick steps.
+        double time = pedestal.getLevel().getGameTime() + (double) partialTick;
+        float bob = (float) Math.sin(time / 12.0) * 0.06F;
+        double degreesPerTick = pedestal.isRitualActive() ? 9.0 : 1.5;
+        pose.pushPose();
+        pose.translate(0.5, top + 0.3 + bob, 0.5);
+        pose.mulPose(new Quaternionf().rotateY((float) Math.toRadians((time * degreesPerTick) % 360.0)));
+        pose.scale(0.6F, 0.6F, 0.6F);
+        Minecraft.getInstance().getItemRenderer().renderStatic(item, ItemDisplayContext.FIXED, light,
+                OverlayTexture.NO_OVERLAY, pose, buffers, pedestal.getLevel(), (int) pedestal.getBlockPos().asLong());
+        pose.popPose();
+    }
+}

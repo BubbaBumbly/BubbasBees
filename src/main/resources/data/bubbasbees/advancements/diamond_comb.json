@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "bubbasbees:diamond_honeycomb"
+    },
+    "title": {
+      "translate": "advancements.bubbasbees.diamond_comb.title"
+    },
+    "description": {
+      "translate": "advancements.bubbasbees.diamond_comb.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "comb": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bubbasbees:diamond_honeycomb"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "bubbasbees:ore_comb"
+}

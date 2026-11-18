@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "bubbasbees:encyclobeedia"
+    },
+    "title": {
+      "translate": "advancements.bubbasbees.encyclobeedia.title"
+    },
+    "description": {
+      "translate": "advancements.bubbasbees.encyclobeedia.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "book": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bubbasbees:encyclobeedia"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "bubbasbees:root"
+}

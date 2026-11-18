@@ -1,0 +1,59 @@
+{
+  "display": {
+    "icon": {
+      "item": "bubbasbees:encyclobeedia"
+    },
+    "title": {
+      "translate": "advancements.bubbasbees.root.title"
+    },
+    "description": {
+      "translate": "advancements.bubbasbees.root.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "minecraft:textures/block/honeycomb_block.png"
+  },
+  "criteria": {
+    "book": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bubbasbees:encyclobeedia"
+            ]
+          }
+        ]
+      }
+    },
+    "plain": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "bubbasbees:plain_hives"
+          }
+        ]
+      }
+    },
+    "reinforced": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "bubbasbees:reinforced_hives"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "book",
+      "plain",
+      "reinforced"
+    ]
+  ]
+}

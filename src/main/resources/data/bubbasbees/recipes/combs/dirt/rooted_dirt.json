@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:lush_caves_honeycomb"
+    },
+    "B": {
+      "item": "bubbasbees:dirt_honeycomb"
+    },
+    "C": {
+      "item": "minecraft:rooted_dirt"
+    }
+  },
+  "result": {
+    "item": "minecraft:rooted_dirt",
+    "count": 16
+  }
+}

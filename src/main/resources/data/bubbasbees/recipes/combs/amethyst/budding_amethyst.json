@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "bubbasbees:budding_amethyst_honeycomb"
+    },
+    "B": {
+      "item": "minecraft:amethyst_block"
+    }
+  },
+  "result": {
+    "item": "minecraft:budding_amethyst"
+  }
+}
