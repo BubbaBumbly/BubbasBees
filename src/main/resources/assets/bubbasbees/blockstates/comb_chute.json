@@ -1,0 +1,56 @@
+{
+  "variants": {
+    "facing=down,honey=false": {
+      "model": "bubbasbees:block/comb_chute"
+    },
+    "facing=down,honey=true": {
+      "model": "bubbasbees:block/comb_chute_honey"
+    },
+    "facing=up,honey=false": {
+      "model": "bubbasbees:block/comb_chute",
+      "x": 180
+    },
+    "facing=up,honey=true": {
+      "model": "bubbasbees:block/comb_chute_honey",
+      "x": 180
+    },
+    "facing=south,honey=false": {
+      "model": "bubbasbees:block/comb_chute",
+      "x": 90
+    },
+    "facing=south,honey=true": {
+      "model": "bubbasbees:block/comb_chute_honey",
+      "x": 90
+    },
+    "facing=north,honey=false": {
+      "model": "bubbasbees:block/comb_chute",
+      "x": 90,
+      "y": 180
+    },
+    "facing=north,honey=true": {
+      "model": "bubbasbees:block/comb_chute_honey",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west,honey=false": {
+      "model": "bubbasbees:block/comb_chute",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,honey=true": {
+      "model": "bubbasbees:block/comb_chute_honey",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,honey=false": {
+      "model": "bubbasbees:block/comb_chute",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,honey=true": {
+      "model": "bubbasbees:block/comb_chute_honey",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

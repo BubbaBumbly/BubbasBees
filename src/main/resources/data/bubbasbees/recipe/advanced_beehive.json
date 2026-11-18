@@ -1,0 +1,32 @@
+{
+  "type": "bubbasbees:hive_conversion",
+  "group": "bubbasbees:advanced_beehive",
+  "pattern": [
+    "#$#",
+    "PHP",
+    "#$#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:honeycomb"
+    },
+    "$": {
+      "item": "minecraft:honey_block"
+    },
+    "H": {
+      "item": "minecraft:beehive"
+    },
+    "P": {
+      "type": "neoforge:difference",
+      "base": {
+        "tag": "minecraft:planks"
+      },
+      "subtracted": {
+        "tag": "bubbasbees:hive_planks"
+      }
+    }
+  },
+  "result": {
+    "id": "bubbasbees:advanced_beehive"
+  }
+}

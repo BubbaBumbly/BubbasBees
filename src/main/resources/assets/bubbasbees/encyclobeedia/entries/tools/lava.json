@@ -1,0 +1,19 @@
+{
+  "name": "Lava Cauldron",
+  "icon": "minecraft:cauldron",
+  "category": "bubbasbees:tools",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "text",
+      "text": "$(l:bubba/magma)Magma Bee$(/l)s flying over a cauldron fill it a quarter at a time (25% per pass). At four quarters it becomes a lava cauldron. Other mods can pump the lava (250 mB a quarter)."
+    },
+    {
+      "type": "image",
+      "images": [
+        "bubbasbees:textures/gui/book/bee_jar_filled_magma.png"
+      ],
+      "border": false
+    }
+  ]
+}

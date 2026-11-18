@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:coarse_dirt"
+    },
+    "B": {
+      "item": "minecraft:acacia_sapling"
+    },
+    "C": {
+      "tag": "bubbasbees:lesser_star_or_better"
+    }
+  },
+  "result": {
+    "id": "bubbasbees:savanna_conversion_gem"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Ores and Drop Rates",
+  "description": "Every ore block every ore bee makes, with its comb drop rate.",
+  "icon": "bubbasbees:diamond_honeycomb",
+  "sortnum": 1
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:crying_obsidian"
+    },
+    "B": {
+      "item": "minecraft:obsidian"
+    },
+    "C": {
+      "tag": "bubbasbees:bubba_star_or_better"
+    }
+  },
+  "result": {
+    "id": "bubbasbees:obsidian_conversion_gem"
+  }
+}

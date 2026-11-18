@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:spruce_leaves",
+    "minecraft:spruce_log",
+    "minecraft:sweet_berry_bush"
+  ]
+}

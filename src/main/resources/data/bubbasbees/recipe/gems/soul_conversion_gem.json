@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:soul_soil"
+    },
+    "B": {
+      "item": "minecraft:soul_lantern"
+    },
+    "C": {
+      "item": "minecraft:ghast_tear"
+    },
+    "D": {
+      "tag": "bubbasbees:bubba_star_or_better"
+    }
+  },
+  "result": {
+    "id": "bubbasbees:soul_conversion_gem"
+  }
+}

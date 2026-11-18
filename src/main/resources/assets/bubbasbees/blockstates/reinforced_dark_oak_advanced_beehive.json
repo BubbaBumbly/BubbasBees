@@ -1,0 +1,139 @@
+{
+  "variants": {
+    "combs=0,facing=east": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 90
+    },
+    "combs=1,facing=east": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 90
+    },
+    "combs=2,facing=east": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 90
+    },
+    "combs=3,facing=east": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 90
+    },
+    "combs=4,facing=east": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 90
+    },
+    "combs=5,facing=east": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 90
+    },
+    "combs=6,facing=east": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 90
+    },
+    "combs=7,facing=east": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 90
+    },
+    "combs=8,facing=east": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive_honey",
+      "y": 90
+    },
+    "combs=0,facing=north": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive"
+    },
+    "combs=1,facing=north": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive"
+    },
+    "combs=2,facing=north": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive"
+    },
+    "combs=3,facing=north": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive"
+    },
+    "combs=4,facing=north": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive"
+    },
+    "combs=5,facing=north": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive"
+    },
+    "combs=6,facing=north": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive"
+    },
+    "combs=7,facing=north": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive"
+    },
+    "combs=8,facing=north": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive_honey"
+    },
+    "combs=0,facing=south": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 180
+    },
+    "combs=1,facing=south": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 180
+    },
+    "combs=2,facing=south": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 180
+    },
+    "combs=3,facing=south": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 180
+    },
+    "combs=4,facing=south": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 180
+    },
+    "combs=5,facing=south": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 180
+    },
+    "combs=6,facing=south": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 180
+    },
+    "combs=7,facing=south": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 180
+    },
+    "combs=8,facing=south": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive_honey",
+      "y": 180
+    },
+    "combs=0,facing=west": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 270
+    },
+    "combs=1,facing=west": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 270
+    },
+    "combs=2,facing=west": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 270
+    },
+    "combs=3,facing=west": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 270
+    },
+    "combs=4,facing=west": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 270
+    },
+    "combs=5,facing=west": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 270
+    },
+    "combs=6,facing=west": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 270
+    },
+    "combs=7,facing=west": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive",
+      "y": 270
+    },
+    "combs=8,facing=west": {
+      "model": "bubbasbees:block/reinforced_dark_oak_advanced_beehive_honey",
+      "y": 270
+    }
+  }
+}

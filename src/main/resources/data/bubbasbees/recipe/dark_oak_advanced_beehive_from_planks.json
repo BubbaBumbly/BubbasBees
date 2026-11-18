@@ -1,0 +1,24 @@
+{
+  "type": "bubbasbees:hive_conversion",
+  "group": "bubbasbees:advanced_beehive",
+  "pattern": [
+    "PHP"
+  ],
+  "key": {
+    "P": {
+      "item": "minecraft:dark_oak_planks"
+    },
+    "H": {
+      "type": "neoforge:difference",
+      "base": {
+        "tag": "bubbasbees:plain_hives"
+      },
+      "subtracted": {
+        "item": "bubbasbees:dark_oak_advanced_beehive"
+      }
+    }
+  },
+  "result": {
+    "id": "bubbasbees:dark_oak_advanced_beehive"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:melon"
+    },
+    "B": {
+      "item": "minecraft:bamboo"
+    },
+    "C": {
+      "item": "minecraft:jungle_sapling"
+    },
+    "D": {
+      "tag": "bubbasbees:lesser_star_or_better"
+    }
+  },
+  "result": {
+    "id": "bubbasbees:jungle_conversion_gem"
+  }
+}

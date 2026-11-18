@@ -1,0 +1,42 @@
+{
+  "__comment": "Stardust arm toward east (rotated for other sides): 4 wide, from the dot's edge to the block edge.",
+  "render_type": "minecraft:cutout",
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "bubbasbees:block/stardust_pile_top",
+    "top": "bubbasbees:block/stardust_pile_top",
+    "side": "bubbasbees:block/stardust_pile_side"
+  },
+  "elements": [
+    {
+      "from": [
+        11,
+        0,
+        6
+      ],
+      "to": [
+        16,
+        0.5,
+        10
+      ],
+      "shade": false,
+      "faces": {
+        "up": {
+          "texture": "#top"
+        },
+        "north": {
+          "texture": "#side"
+        },
+        "south": {
+          "texture": "#side"
+        },
+        "east": {
+          "texture": "#side"
+        },
+        "west": {
+          "texture": "#side"
+        }
+      }
+    }
+  ]
+}

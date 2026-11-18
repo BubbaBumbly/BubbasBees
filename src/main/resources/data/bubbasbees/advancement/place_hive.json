@@ -1,0 +1,52 @@
+{
+  "display": {
+    "icon": {
+      "id": "bubbasbees:advanced_beehive"
+    },
+    "title": {
+      "translate": "advancements.bubbasbees.place_hive.title"
+    },
+    "description": {
+      "translate": "advancements.bubbasbees.place_hive.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "plain": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": "#bubbasbees:plain_hives"
+            }
+          }
+        ]
+      }
+    },
+    "reinforced": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": "#bubbasbees:reinforced_hives"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "parent": "bubbasbees:root",
+  "requirements": [
+    [
+      "plain",
+      "reinforced"
+    ]
+  ]
+}

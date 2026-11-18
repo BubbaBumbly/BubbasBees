@@ -1,0 +1,159 @@
+package net.bubba.bubbasbees.client;
+
+import net.bubba.bubbasbees.BubbasBees;
+import net.bubba.bubbasbees.blockentities.CombChuteBlockEntity;
+import net.bubba.bubbasbees.blockentities.PedestalBlockEntity;
+import net.bubba.bubbasbees.blocks.custom.*;
+import net.bubba.bubbasbees.entity.custom.BubbasBee;
+import net.bubba.bubbasbees.entity.custom.DarkBee;
+import net.bubba.bubbasbees.registries.ModBlocks;
+import net.bubba.bubbasbees.util.HiveInfo;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Look-at HUD lines for the mod's non-hive blocks and bees (including vanilla bees and dark bees).
+ * Client-only: it reads {@link Minecraft#level} and {@link Minecraft#hitResult}.
+ */
+public final class LookInfo {
+    private LookInfo() {}
+
+    @NotNull
+    public static List<Component> lines(Minecraft minecraft, HitResult hit) {
+        if (hit == null || hit.getType() == HitResult.Type.MISS || minecraft.level == null) return List.of();
+        if (hit instanceof BlockHitResult blockHit) return blockLines(minecraft.level, blockHit.getBlockPos());
+        if (hit instanceof EntityHitResult entityHit) return entityLines(entityHit.getEntity());
+        return List.of();
+    }
+
+    @NotNull
+    private static List<Component> blockLines(Level level, BlockPos pos) {
+        BlockState state = level.getBlockState(pos);
+        Block block = state.getBlock();
+        if (!isOurBlock(block) || HiveInfo.isHive(state)) return List.of();
+
+        List<Component> lines = new ArrayList<>();
+        lines.add(block.getName());
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+
+        if (block instanceof CombChuteBlock) {
+            boolean honey = state.getValue(CombChuteBlock.HONEY);
+            boolean noBottles = blockEntity instanceof CombChuteBlockEntity chuteEntity && chuteEntity.bottleCount() == 0;
+            lines.add(Component.translatable(!honey ? "hud.bubbasbees.comb_chute.comb_mode"
+                    : noBottles ? "hud.bubbasbees.comb_chute.honey_mode_empty" : "hud.bubbasbees.comb_chute.honey_mode"));
+            if (blockEntity instanceof CombChuteBlockEntity chute) {
+                lines.add(Component.translatable("hud.bubbasbees.comb_chute.bottles", chute.bottleCount()));
+                for (ItemStack stack : chute.outputStacks()) {
+                    lines.add(Component.translatable("hud.bubbasbees.comb_chute.output_item",
+                            stack.getHoverName(), stack.getCount()));
+                }
+            }
+            return lines;
+        }
+
+        if (block instanceof PedestalBlock) {
+            if (blockEntity instanceof PedestalBlockEntity pedestal && !pedestal.getItem().isEmpty()) {
+                lines.add(Component.translatable("hud.bubbasbees.pedestal.holding", pedestal.getItem().getHoverName()));
+            } else {
+                lines.add(Component.translatable("hud.bubbasbees.pedestal.empty"));
+            }
+            if (block == ModBlocks.CELESTIAL_ALTAR.get() && blockEntity instanceof PedestalBlockEntity altar) {
+                lines.add(Component.translatable(!altar.isRitualActive() ? "hud.bubbasbees.altar.idle"
+                        : altar.getItem().is(Items.GOLDEN_HELMET) ? "hud.bubbasbees.altar.queen" : "hud.bubbasbees.altar.night"));
+            }
+            return lines;
+        }
+
+        if (block instanceof PartialLavaCauldronBlock) {
+            int mb = state.getValue(PartialLavaCauldronBlock.LEVEL) * PartialLavaCauldronBlock.MB_PER_LEVEL;
+            lines.add(Component.translatable("hud.bubbasbees.lava_cauldron", mb));
+            return lines;
+        }
+
+        if (block instanceof StardustBlock) {
+            lines.add(Component.translatable("hud.bubbasbees.stardust"));
+            return lines;
+        }
+
+        if (block instanceof RoyalJellyBlock) {
+            lines.add(Component.translatable("hud.bubbasbees.royal_jelly_block"));
+            return lines;
+        }
+
+        if (block instanceof PinkPistonHeadBlock) {
+            lines.add(Component.translatable("hud.bubbasbees.pink_piston_head"));
+            return lines;
+        }
+
+        if (block == ModBlocks.PINK_STICKY_PISTON.get()) {
+            lines.add(Component.translatable("hud.bubbasbees.pink_sticky_piston"));
+            return lines;
+        }
+
+        return List.of();
+    }
+
+    /** Ticks as real minutes:seconds, rounded up (a baby bee takes 24000 ticks = 20:00). */
+    public static String growTime(int ticks) {
+        int s = (ticks + 19) / 20;
+        return String.format("%d:%02d", s / 60, s % 60);
+    }
+
+    @NotNull
+    private static List<Component> entityLines(Entity entity) {
+        List<Component> lines = new ArrayList<>();
+
+        if (entity instanceof BubbasBee bee) {
+            lines.add(entity.getName());
+            // One state line: an angry bee is neither calm nor busy
+            lines.add(Component.translatable(bee.isAngry() ? "hud.bubbasbees.bee.angry"
+                    : bee.isBusyShown() ? "hud.bubbasbees.bee.busy" : "hud.bubbasbees.bee.calm"));
+            if (bee.hasNectar()) lines.add(Component.translatable("hud.bubbasbees.bee.pollen"));
+            if (bee.isBaby()) {
+                int grow = bee.getGrowTicksShown();
+                lines.add(grow > 0 ? Component.translatable("hud.bubbasbees.bee.baby_grows", growTime(grow))
+                        : Component.translatable("hud.bubbasbees.bee.baby"));
+            }
+            BlockPos home = bee.getHomeShown();
+            lines.add(home != null ? Component.translatable("hud.bubbasbees.bee.home", home.getX(), home.getY(), home.getZ())
+                    : Component.translatable("hud.bubbasbees.bee.no_home"));
+            return lines;
+        }
+
+        if (entity instanceof Bee bee) {
+            lines.add(entity.getName());
+            if (bee.isAngry()) lines.add(Component.translatable("hud.bubbasbees.bee.angry"));
+            if (bee.hasNectar()) lines.add(Component.translatable("hud.bubbasbees.bee.pollen"));
+            return lines;
+        }
+
+        if (entity instanceof DarkBee) {
+            lines.add(entity.getName());
+            return lines;
+        }
+
+        return List.of();
+    }
+
+    private static boolean isOurBlock(Block block) {
+        ResourceLocation key = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(block);
+        return key != null && BubbasBees.MOD_ID.equals(key.getNamespace());
+    }
+}
