@@ -58,7 +58,7 @@ The release jar bundles [GeckoLib](https://github.com/bernie-g/geckolib) (MIT), 
 
 ### Usage of this Mod
 Please consider downloading and trying the mod for yourself, especially if you are a vanilla / vanilla+ player who 
-enjoys a challenge. You can download it from [Modrinth](https://modrinth.com/mod/bubbas-bees). If you find a bug, please open an [issue](../../issues).
+enjoys a challenge. You can download it from [Modrinth](https://modrinth.com/mod/bubbas-bees) or [CurseForge](https://www.curseforge.com/minecraft/mc-mods/bubbas-bees). If you find a bug, please open an [issue](../../issues).
 
 #### The Guide
 If you're playing my mod, I suggest you check out [The Guide](https://bubbabumbly.github.io/BubbasBees/) (or the Encyclobeedia in game), which
